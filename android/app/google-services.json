@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "33770877504",
+    "project_id": "velyvelo-bd96b",
+    "storage_bucket": "velyvelo-bd96b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33770877504:android:e0ef8521aa6dc9f1bfe5a5",
+        "android_client_info": {
+          "package_name": "com.grafenit.velyvelo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33770877504-ei50ns672r124tdfo82jdeso57il1d57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDYQ8zb2XV2Uao2YCD9FjR7VDiZ_ICJeM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33770877504-ei50ns672r124tdfo82jdeso57il1d57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "33770877504-adhq93rg0s3i29vc27dih60vqqik2d80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.grafenit.velyvelo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
