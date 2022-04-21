@@ -31,3 +31,16 @@ Future fetchAllIncidentsService(String urlServer,
     throw Exception("No data currently available s");
   }
 }
+
+Future fetchReparationByPkService(
+    String urlServer, String incidentPk, String userToken) async {
+  var response = await http.post(Uri.parse("$urlServer/api/reparationInfos/"),
+      body: {"incident_pk": incidentPk},
+      headers: {"Authorization": "Token $userToken"});
+
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception("Error getting reparation infos with pk");
+  }
+}

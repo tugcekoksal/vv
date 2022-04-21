@@ -16,6 +16,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 //NEW VERSION
 import 'package:new_version/new_version.dart';
+import 'package:flutter/services.dart';
 
 //FOR HTTP CALLS ANDROID
 class MyHttpOverrides extends HttpOverrides {
@@ -54,6 +55,10 @@ void main() async {
   );
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   runApp(MyApp());
 }

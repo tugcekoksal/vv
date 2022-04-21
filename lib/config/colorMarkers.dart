@@ -5,27 +5,31 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 Color getColorBasedOnMarkersStatus(String markersStatus) {
   var colorStatus;
-  switch(markersStatus) { 
-    case "Utilisés": { 
+  switch (markersStatus) {
+    case "Utilisé":
+      {
         colorStatus = GlobalStyles.purple;
-    } 
-    break; 
-    
-    case "Rangés": { 
-        colorStatus = GlobalStyles.green;
-    } 
-    break;
-        
-    case "Volés": { 
-        colorStatus = GlobalStyles.orange;
-    }
-    break; 
+      }
+      break;
 
-    default: {
-      colorStatus = GlobalStyles.backgroundDarkGrey;
-    }
-    break;
-  } 
+    case "Rangé":
+      {
+        colorStatus = GlobalStyles.green;
+      }
+      break;
+
+    case "Volé":
+      {
+        colorStatus = GlobalStyles.orange;
+      }
+      break;
+
+    default:
+      {
+        colorStatus = GlobalStyles.backgroundDarkGrey;
+      }
+      break;
+  }
 
   return colorStatus;
 }

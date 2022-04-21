@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/map/filter_list_model.dart';
 import 'package:velyvelo/models/map/map_model.dart';
 
-Future fetchAllBikesService(
-    String urlServer, List filtersList, String status, String userToken) async {
+Future fetchAllBikesService(String urlServer, List filtersList, List statusList,
+    String userToken) async {
   var request = http.Request("GET", Uri.parse("$urlServer/api/map/"));
   var headers = {
     "Authorization": 'Token $userToken',
@@ -16,11 +16,9 @@ Future fetchAllBikesService(
   FilterListModel filterList = new FilterListModel(
       filters: new Filters(
           groupes: filtersList.map((filter) => filter.toString()).toList(),
-          statusUsing: status));
+          statusUsing: statusList.map((status) => status.toString()).toList()));
   request.body = json.encode(filterList.toJson());
   request.headers.addAll(headers);
-  print(request.body);
-  print(request.headers);
   http.StreamedResponse response = await request.send();
   String responseStr = await response.stream.bytesToString();
   if (response.statusCode == 200) {

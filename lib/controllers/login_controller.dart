@@ -76,23 +76,18 @@ class LoginController extends GetxController {
   void loginUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     error.value = "";
-    print("HELLLLLOOOOO");
     try {
       isLoading(true);
       // Call the login function
-      print("COUCOUCOUCUO");
       var token = await HttpService.loginUser(login.value, password.value);
-      print("CACACACA");
       userToken = token;
       userName = userName = prefs.getString("username")!;
-      print("MAIIS NANANNA");
       await prefs.setString('token', userToken);
       isLoading(false);
       isLogin(true);
       fetchTypeUser();
     } catch (e) {
       print(e);
-      print("HAHAHAHAHAHA");
       error.value = "Identifiants ou mot de passe incorrects";
     }
   }
@@ -148,7 +143,6 @@ class LoginController extends GetxController {
       var bikeID = await HttpService.fetchBikeIDUser(userToken);
       if (bikeID != null) {
         userBikeID.value = bikeID[0].veloPk;
-        print(userBikeID);
 
         // Get the bike of the user
         Get.find<BikeController>().fetchUserBike(userBikeID.value);

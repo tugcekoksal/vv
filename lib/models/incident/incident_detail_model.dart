@@ -3,8 +3,11 @@
 //     final incidentDetailModel = incidentDetailModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:io';
 
 // Helpers
+import 'package:flutter/material.dart';
 import 'package:velyvelo/helpers/utf8_convert.dart';
 
 // IncidentDetailModel incidentDetailModelFromJson(String str) => IncidentDetailModel.fromJson(json.decode(utf8convert(str)));
@@ -85,4 +88,51 @@ class IncidentDetailModel {
             ? null
             : List<String>.from(json["status"].map((x) => x)),
       );
+}
+
+class IdAndName {
+  int id;
+  String name;
+
+  IdAndName({required this.id, required this.name});
+
+  factory IdAndName.fromJson(Map<String, dynamic> json) =>
+      IdAndName(id: json["id"] ?? 0, name: json["name"] ?? "error");
+}
+
+List<IdAndName> jsonListToIdAndNameList(jsonList) {
+  List<IdAndName> resList = [];
+  for (var obj in jsonList) {
+    resList.add(IdAndName.fromJson(obj));
+  }
+  return resList;
+}
+
+class Reparation {
+  String statusBike;
+  bool isBikeFunctional;
+  int incidentPk;
+  List<File> reparationPhotosList;
+  List<IdAndName> typeInterventionList;
+  List<IdAndName> typeReparationList;
+  String valueTypeIntervention;
+  String valueTypeReparation;
+  List<IdAndName> piecesList;
+  List<IdAndName> selectedPieces;
+  IdAndName selectedPieceDropDown;
+  TextEditingController commentary;
+
+  Reparation(
+      {required this.statusBike,
+      required this.isBikeFunctional,
+      required this.incidentPk,
+      required this.reparationPhotosList,
+      required this.typeInterventionList,
+      required this.typeReparationList,
+      required this.valueTypeIntervention,
+      required this.valueTypeReparation,
+      required this.piecesList,
+      required this.selectedPieces,
+      required this.selectedPieceDropDown,
+      required this.commentary});
 }

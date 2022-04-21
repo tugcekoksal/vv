@@ -2,10 +2,10 @@ import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/login/login_model.dart';
 
 Future loginUserService(String urlServer, String login, String password) async {
-  print("MAIIISISIAIAISIASIAISA");
+  print({"username": login, "password": password});
+  print(Uri.parse("$urlServer/api-token-auth/"));
   var request = await http.post(Uri.parse("$urlServer/api-token-auth/"),
       body: {"username": login, "password": password});
-  print("ALALALALALALAL");
   print(request.body);
   print(request.headers);
   if (request.statusCode == 200) {

@@ -25,7 +25,10 @@ import 'package:flutter/cupertino.dart';
 
 class MyBikeView extends StatefulWidget {
   final bool isFromScan;
-  MyBikeView({Key? key, required this.isFromScan}) : super(key: key);
+  final int veloPk;
+
+  MyBikeView({Key? key, required this.isFromScan, this.veloPk = 0})
+      : super(key: key);
 
   @override
   _MyBikeViewState createState() => _MyBikeViewState();
@@ -38,6 +41,12 @@ class _MyBikeViewState extends State<MyBikeView> {
   void initState() {
     super.initState();
     bikeIsRobbed = bikeController.userBike.value.isStolen;
+    if (!widget.isFromScan) {
+      setState(() {
+        bikeController.fetchUserBike(widget.veloPk);
+        print(bikeController.userBike);
+      });
+    }
   }
 
   void showConfirmStolenBikeDialog() {
@@ -90,6 +99,40 @@ class _MyBikeViewState extends State<MyBikeView> {
       SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 30,
+            ),
+            Obx(() {
+              return Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 0.0, vertical: 15.0),
+                  child: Stack(alignment: Alignment.center, children: [
+                    Text(bikeController.userBike.value.bikeName,
+                        style: TextStyle(
+                            color: GlobalStyles.greyText,
+                            fontSize: 19.0,
+                            fontWeight: FontWeight.w700)),
+                    Positioned(
+                        left: 25.0,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            size: 20.0,
+                          ),
+                        ))
+                  ]));
+            }),
+            const SizedBox(
+              height: 20,
+            ),
             !this.widget.isFromScan
                 ? SizedBox()
                 : Container(

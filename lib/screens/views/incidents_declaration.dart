@@ -16,6 +16,7 @@ import 'package:velyvelo/components/BuildDisabledDropDown.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 class IncidentDeclaration extends StatefulWidget {
   final String? client;
@@ -90,33 +91,7 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 0.0, vertical: 15.0),
-                    child: Stack(alignment: Alignment.center, children: [
-                      Text("Déclaration d'incident(s)",
-                          style: TextStyle(
-                              color: GlobalStyles.greyText,
-                              fontSize: 19.0,
-                              fontWeight: FontWeight.w700)),
-                      Positioned(
-                          left: 25.0,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              incidentDeclarationController.deleteAllForms();
-                            },
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 20.0,
-                            ),
-                          ))
-                    ])),
+                ReturnContainer(text: "Déclaration d'incidents"),
                 SizedBox(height: 15.0),
                 Container(
                   width: double.infinity,

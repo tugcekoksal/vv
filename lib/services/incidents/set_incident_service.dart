@@ -90,19 +90,13 @@ Future setIncidentService(
     request.fields.addAll({"files": json.encode([])});
   }
   request.headers.addAll(headers);
-  print("ICI");
-  print(incident.veloPk);
-  print(request.fields);
-  print(request.headers);
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
     print(await response.stream.bytesToString());
     return 'Vos incidents ont été ajouté avec succès.';
   } else {
-    print(response.reasonPhrase);
     print(response);
-    print(response.statusCode);
   }
   // var headers = {
   //   'Authorization': 'Token 206e7f9a38ef1e4b64592acfff1229de154bd798',

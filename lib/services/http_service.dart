@@ -1,4 +1,7 @@
 // Services
+import 'dart:io';
+
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/services/bikes/bike_id_user_service.dart';
 import 'package:velyvelo/services/bikes/bike_user_service.dart';
@@ -23,13 +26,12 @@ import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
 
 class HttpService {
-  static String urlServer = "https://dms.velyvelo.com";
+  // static String urlServer = "https://dms.velyvelo.com";
+  static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
-    print("MAIS ANANANANA");
     String? userDeviceToken = await FirebaseMessaging.instance.getToken();
-    print("COUCOUCUCU");
     var request =
         http.MultipartRequest('POST', Uri.parse("$urlServer/api/assignUID/"));
     request.fields.addAll({
@@ -73,6 +75,11 @@ class HttpService {
     return fetchAllIncidentsService(urlServer, incidentsToFetch, userToken);
   }
 
+  // Fetch informations about a specific reparation
+  static Future fetchReparationByPk(String incidentPk, String userToken) {
+    return fetchReparationByPkService(urlServer, incidentPk, userToken);
+  }
+
   // Fetch an incident by id
   static Future fetchIncidentById(int id, String userToken) async {
     return fetchIncidentByIdService(urlServer, id, userToken);
@@ -80,8 +87,8 @@ class HttpService {
 
   // Fetch All bikes
   static Future fetchAllBikes(
-      List filtersList, String status, String userToken) async {
-    return fetchAllBikesService(urlServer, filtersList, status, userToken);
+      List filtersList, List statusList, String userToken) async {
+    return fetchAllBikesService(urlServer, filtersList, statusList, userToken);
   }
 
   // Fetch map's filters
@@ -121,9 +128,14 @@ class HttpService {
   }
 
   // Set a bike status in detail page
-  static Future sendCurrentDetailBikeStatus(int incidentPk, bool isFunctional,
-      String statusName, String userToken) async {
-    return sendCurrentDetailBikeStatusService(
-        urlServer, incidentPk, isFunctional, statusName, userToken);
+  static Future sendCurrentDetailBikeStatus(
+      Reparation reparation, String userToken) async {
+    return sendCurrentDetailBikeStatusService(urlServer, reparation, userToken);
+  }
+
+  static Future fetchPieceFromType(
+      int interventionType, int reparationType, String userToken) async {
+    return fetchPieceFromTypeService(
+        urlServer, interventionType, reparationType, userToken);
   }
 }

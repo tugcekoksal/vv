@@ -19,9 +19,6 @@ Future fetchBikeLabelsByGroupService(
 
   request.headers.addAll(headers);
 
-  print(request.body);
-  print(request.headers);
-
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {

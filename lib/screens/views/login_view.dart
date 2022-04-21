@@ -152,6 +152,7 @@ class _BuildInputLoginState extends State<BuildInputLogin> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autocorrect: false,
       obscureText: widget.isPassword ? _isObscure : false,
       autofocus: false,
       onChanged: (e) => widget.onChanged(e),

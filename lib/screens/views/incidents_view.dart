@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/BuildIncidentOverview.dart';
 import 'package:velyvelo/components/BuildLoadingBox.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
-import 'package:velyvelo/screens/views/incidents_detail.dart';
+import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -26,7 +26,7 @@ class IncidentsView extends StatelessWidget {
 
   showIncidentDetailPage(data) async {
     int incidentID = int.parse(data.incidentPk);
-    incidentController.currentBikeId.value = incidentID;
+    incidentController.currentIncidentId.value = incidentID;
     await incidentController.fetchIncidentById(incidentID);
 
     Get.to(() => IncidentDetail(incident: data));

@@ -1,9 +1,15 @@
 // Vendor
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:velyvelo/config/urlToFile.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/helpers/utf8_convert.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -28,7 +34,7 @@ class IncidentController extends GetxController {
   var isLoadingDetailIncident = true.obs;
 
   var incidentList = <Incident>[].obs;
-  var incidentDetail;
+  // var incidentDetail;
 
   var nbOfNewIncidents = 0.obs;
   var nbOfProgressIncidents = 0.obs;
@@ -57,15 +63,128 @@ class IncidentController extends GetxController {
 
   var error = ''.obs;
 
-  var currentStatusBike = ''.obs;
-  var isBikeFunctional = false.obs;
-  var currentBikeId = 0.obs;
+  var currentIncidentId = 0.obs;
+
+  var currentReparation = Reparation(
+          statusBike: "",
+          isBikeFunctional: true,
+          incidentPk: 0,
+          reparationPhotosList: [],
+          typeInterventionList: [],
+          typeReparationList: [],
+          valueTypeIntervention: "",
+          valueTypeReparation: "",
+          piecesList: [],
+          selectedPieces: [],
+          selectedPieceDropDown: IdAndName(id: 0, name: ""),
+          commentary: TextEditingController())
+      .obs;
 
   @override
   void onInit() {
     userToken = Get.find<LoginController>().userToken;
     fetchAllIncidents(incidentsToFetch.value);
     super.onInit();
+  }
+
+  void setReparationsPhotosValue(File imageTemporary) {
+    currentReparation.update((reparation) {
+      reparation!.reparationPhotosList.add(imageTemporary);
+    });
+  }
+
+  void removePieceFromList(index) {
+    currentReparation.update((reparation) {
+      reparation!.selectedPieces.removeAt(index);
+    });
+  }
+
+  Future<void> fetchReparation(incidentPk) async {
+    print("FETCH");
+    var infosReparation =
+        await HttpService.fetchReparationByPk(incidentPk, userToken);
+    infosReparation = jsonDecode(infosReparation);
+
+    List<File> listPhotoFile = [];
+    for (var photo in infosReparation["photos"]) {
+      var photoFile = await urlToFile(HttpService.urlServer + photo);
+      listPhotoFile.add(photoFile);
+    }
+
+    print(infosReparation["commentary"]);
+    currentReparation.value = Reparation(
+        statusBike: infosReparation["status_bike"],
+        isBikeFunctional: infosReparation["is_bike_functional"],
+        incidentPk: currentIncidentId.value,
+        reparationPhotosList: listPhotoFile,
+        typeInterventionList:
+            jsonListToIdAndNameList(infosReparation["list_type_intervention"]),
+        typeReparationList:
+            jsonListToIdAndNameList(infosReparation["list_type_reparation"]),
+        valueTypeIntervention: "",
+        valueTypeReparation: "",
+        piecesList: [],
+        selectedPieces: jsonListToIdAndNameList(infosReparation["pieces"]),
+        selectedPieceDropDown: IdAndName(id: 0, name: ""),
+        commentary: TextEditingController(
+            text: infosReparation["commentary"])); // changer ici
+    print(currentReparation.value.selectedPieces[0].name);
+  }
+
+  IdAndName getFirstWhereNameEqual(String name, List<IdAndName> list) {
+    return list.firstWhere((elem) => utf8convert(elem.name) == name,
+        orElse: (() => IdAndName(id: -1, name: "")));
+  }
+
+  Future<void> fetchPieceFromType() async {
+    // get selected intervention type
+    var interventionType = getFirstWhereNameEqual(
+        currentReparation.value.valueTypeIntervention,
+        currentReparation.value.typeInterventionList);
+    // get selected reparation type
+    var reparationType = getFirstWhereNameEqual(
+        currentReparation.value.valueTypeReparation,
+        currentReparation.value.typeReparationList);
+
+    // ask the server for the relatives pieces from those filters
+    var response = await HttpService.fetchPieceFromType(
+        interventionType.id, reparationType.id, userToken);
+    response = jsonDecode(response);
+    var listPieces = jsonListToIdAndNameList(response["pieces"]);
+
+    // update the list of availables pieces widget for selection
+    currentReparation.update((reparation) {
+      reparation!.piecesList = listPieces;
+    });
+  }
+
+  setTypeIntervention(value) {
+    currentReparation.update((reparation) {
+      reparation!.valueTypeIntervention = value;
+    });
+    fetchPieceFromType();
+  }
+
+  setTypeReparation(value) {
+    currentReparation.update((reparation) {
+      reparation!.valueTypeReparation = value;
+    });
+    fetchPieceFromType();
+  }
+
+  setPiece(value) {
+    var piece = currentReparation.value.piecesList.firstWhere(
+        (piece) => utf8convert(piece.name) == value,
+        orElse: (() => IdAndName(id: -1, name: "")));
+    currentReparation.value.selectedPieceDropDown = piece;
+  }
+
+  addPiece() {
+    if (currentReparation.value.selectedPieceDropDown.id != 0) {
+      currentReparation.update((reparation) {
+        reparation!.selectedPieces.insert(0, reparation.selectedPieceDropDown);
+      });
+    }
   }
 
   Future<void> fetchAllIncidents(incidentsToFetch) async {
@@ -83,7 +202,6 @@ class IncidentController extends GetxController {
         isLoading(false);
       } else if (incidents.incidents.length == 0) {
         isLoading(false);
-        print("There's no incidents to show");
         noIncidentsToShow(true);
       }
     } catch (e) {
@@ -100,9 +218,8 @@ class IncidentController extends GetxController {
       var incidentByID = await HttpService.fetchIncidentById(id, userToken);
       if (incidentByID != null) {
         incidentDetailValue.value = incidentByID;
-        isBikeFunctional.value = incidentByID.isFunctional;
-        currentStatusBike.value = incidentByID.actualStatus;
-        print(incidentByID);
+        currentReparation.value.isBikeFunctional = incidentByID.isFunctional;
+        currentReparation.value.statusBike = incidentByID.actualStatus;
       }
       isLoadingDetailIncident(false);
     } catch (e) {
@@ -143,36 +260,29 @@ class IncidentController extends GetxController {
       incidentFilters.add(filter);
     }
 
-    print(incidentFilters);
-
     refreshIncidentsList();
   }
 
   setCurrentDetailBikeStatus(value) async {
-    isBikeFunctional.value = value;
-
-    try {
-      await HttpService.sendCurrentDetailBikeStatus(currentBikeId.value,
-          isBikeFunctional.value, currentStatusBike.value, userToken);
-    } catch (e) {
-      print("error send state $e");
-    }
-    print(isBikeFunctional.value);
+    currentReparation.update((reparation) {
+      reparation!.isBikeFunctional = value;
+    });
+    print(currentReparation.value.isBikeFunctional);
   }
 
   setBikeStatus(value) async {
-    currentStatusBike.value = value;
+    currentReparation.update((reparation) {
+      reparation!.statusBike = value;
+    });
+    print(currentReparation.value.statusBike);
+  }
+
+  sendReparationUpdate() async {
     try {
-      await HttpService.sendCurrentDetailBikeStatus(currentBikeId.value,
-          isBikeFunctional.value, currentStatusBike.value, userToken);
+      await HttpService.sendCurrentDetailBikeStatus(
+          currentReparation.value, userToken);
     } catch (e) {
       print("error send state1 $e");
     }
-    print(currentStatusBike.value);
-  }
-
-  destroy() {
-    currentStatusBike.value = "";
-    currentBikeId.value = 0;
   }
 }

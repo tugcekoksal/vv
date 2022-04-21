@@ -31,18 +31,35 @@ class MapBikesController extends GetxController {
   var oldSelectedFiltersList = [];
 
   var availableStatus = ["Rangés", "Utilisés", "Volés"].obs;
-  var selectedStatus = "Utilisés".obs;
-  var oldSelectedStatus = "Utilisés";
+  var selectedStatusList = ["Rangés", "Utilisés", "Volés"].obs;
+  var oldSelectedStatusList = ["Rangés", "Utilisés", "Volés"];
 
   var isFiltersChanged = false.obs;
-  var isStatusChanged = false.obs;
 
   var error = ''.obs;
+
+  var isMapView = true;
+
+  var searchText = "".obs;
 
   @override
   void onInit() {
     fetchFilters();
     super.onInit();
+  }
+
+  void changeMapView() {
+    isMapView = !isMapView;
+  }
+
+  void bikesBySearch() {
+    String? theSearch = searchText.value.capitalize;
+    if (searchText.value != "") {
+      bikeWithPositionList.value = bikeList
+          .where((element) => element.name.capitalize!.contains(theSearch!))
+          .toList();
+      bikeWithPositionList.refresh();
+    }
   }
 
   void fetchAllBikes() async {
@@ -51,11 +68,10 @@ class MapBikesController extends GetxController {
       isLoading(true);
       didNotFoundBikesWithPosition(false);
       var bikes = await HttpService.fetchAllBikes(
-          selectedFiltersList, selectedStatus.value, userToken);
+          selectedFiltersList, selectedStatusList, userToken);
       if (bikes != null) {
         bikeList = bikes;
-        bikeWithPositionList.value =
-            bikeList.where((bike) => bike.pos!.message == null).toList();
+        bikeWithPositionList.value = bikeList.toList();
         bikeWithPositionList.refresh();
 
         // Check if there's no bikes in the response
@@ -79,7 +95,6 @@ class MapBikesController extends GetxController {
     try {
       isLoadingFilters(true);
       var filters = await HttpService.fetchMapfilters(userToken);
-      print(filters);
       if (filters != null) {
         availableFiltersList.value = filters.groups;
         availableStatus.value = filters.status;
@@ -102,6 +117,13 @@ class MapBikesController extends GetxController {
     return bikePopup.name;
   }
 
+  MapModel getBikeFromMarker(marker) {
+    MapModel theBike = bikeWithPositionList.firstWhere((bike) =>
+        bike.pos.latitude == marker.point.latitude &&
+        bike.pos.longitude == marker.point.longitude);
+    return theBike;
+  }
+
   String buildPopUpContentLastEmission(marker) {
     MapModel bikePopup = bikeWithPositionList.firstWhere((bike) =>
         bike.pos.latitude == marker.point.latitude &&
@@ -110,10 +132,6 @@ class MapBikesController extends GetxController {
     int? timeStamp = bikePopup.pos?.timestamp;
     DateTime date = new DateTime.fromMillisecondsSinceEpoch(
         timeStamp != null ? timeStamp * 1000 : 0);
-    print("cocoucuc");
-    print(bikePopup.name);
-    print(timeStamp);
-    print(date);
     String result = timeStamp != null
         ? DateFormat('dd-MM-yyyy – kk:mm').format(date)
         : "Pas d'informations";
@@ -145,36 +163,28 @@ class MapBikesController extends GetxController {
     }
 
     // Know if filters has changed since last request
-    if (listEquals(oldSelectedFiltersList, selectedFiltersList) == false) {
-      isFiltersChanged(true);
-    } else {
-      isFiltersChanged(false);
-    }
+    isFiltersChanged(true);
   }
 
   void setStatus(value, label) {
-    if (value) {
-      selectedStatus.value = label;
+    if (!value) {
+      selectedStatusList.remove(label);
     } else {
-      selectedStatus.value = "";
+      selectedStatusList.add(label);
     }
 
     // Know if status has changed since last request
-    if (oldSelectedStatus != selectedStatus.value) {
-      isStatusChanged(true);
-    } else {
-      isStatusChanged(false);
-    }
+    isFiltersChanged(true);
   }
 
   void onChangeFilters() {
-    if (isFiltersChanged.value || isStatusChanged.value) {
+    if (isFiltersChanged.value) {
       fetchAllBikes();
-      print("filters has changed");
       oldSelectedFiltersList = List.from(selectedFiltersList);
-      oldSelectedStatus = selectedStatus.value;
+      oldSelectedStatusList = List.from(selectedStatusList);
     } else {
       print("filters are the same");
     }
+    isFiltersChanged(false);
   }
 }

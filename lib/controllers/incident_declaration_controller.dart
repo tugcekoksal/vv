@@ -240,9 +240,7 @@ class IncidentDeclarationController extends GetxController {
 
   // Add a new form of incident declaration
   addForm() {
-    print("addForm");
     incidentMoreFormsList.add(index);
-    print(incidentMoreFormsList);
     incidentTypeList.add("");
     incidentCommentList.add("");
     incidentPhotosList.add([]);
@@ -281,8 +279,6 @@ class IncidentDeclarationController extends GetxController {
 
       // Fetch new groups
       fetchGroupLabelsByClient();
-
-      print(informations);
     }
   }
 
@@ -301,8 +297,6 @@ class IncidentDeclarationController extends GetxController {
 
       // Fetch new bikes labels
       fetchBikeLabelsByGroup();
-
-      print(informations);
     }
   }
 
@@ -316,8 +310,6 @@ class IncidentDeclarationController extends GetxController {
 
       // Reset balues
       informations["Batterie"] = "";
-
-      print(informations);
     }
   }
 
