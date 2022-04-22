@@ -61,10 +61,8 @@ class BikeController extends GetxController {
 
   Future setBikeToNewRobbedStatus(bool isRobbed, int veloPk) async {
     try {
-      // isLoading(true);
       var bikeRobbed =
           await HttpService.setBikeRobbed(veloPk, isRobbed, userToken);
-      // isLoading(false);
       if (bikeRobbed != null) {
         print(bikeRobbed);
       }

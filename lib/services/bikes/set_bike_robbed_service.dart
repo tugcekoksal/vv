@@ -12,7 +12,6 @@ Future setBikeRobbedService(
       headers: {"Authorization": "Token $userToken"});
 
   if (response.statusCode == 200) {
-    print(response.body);
     print("Bike robbed status has been set to: $robbed");
   } else {
     throw Exception("Problem with bike robbed value");

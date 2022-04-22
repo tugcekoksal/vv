@@ -11,8 +11,6 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/screens/views/incidents_view.dart';
 import 'package:velyvelo/screens/views/login_view.dart';
 import 'package:velyvelo/screens/views/my_bikes/my_bikes_view.dart';
-import 'package:velyvelo/screens/views/my_bike_view.dart';
-import 'package:velyvelo/screens/views/ScanView.dart';
 import 'package:velyvelo/screens/views/incidents_declaration.dart';
 
 //Controllers
@@ -26,9 +24,8 @@ class HomeScreen extends StatelessWidget {
       Get.put(NavigationController());
   final LoginController loginController = Get.put(LoginController());
 
-  PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
 
-  // unused ??
   final List<String> tabTitleUser = ["Mes incidents", "Mes vélos", "Mon vélo"];
   final List<String> tabTitleClient = ["Mes incidents", "Mes vélos", "Scanner"];
 
@@ -123,21 +120,6 @@ class HomeScreen extends StatelessWidget {
             }),
             const SizedBox(width: 15.0)
           ],
-          // actions: [
-          //   Obx(() {
-          //     return loginController.isLogin.value
-          //         ? GestureDetector(
-          //             onTap: () => loginController.logoutUser(),
-          //             child: Icon(
-          //               Icons.logout,
-          //               color: GlobalStyles.greyTitle,
-          //               size: 30.0,
-          //             ),
-          //           )
-          //         : SizedBox();
-          //   }),
-          //   const SizedBox(width: 15.0)
-          // ],
         ),
         body: Obx(() {
           if (loginController.isLogin.value) {
@@ -148,11 +130,6 @@ class HomeScreen extends StatelessWidget {
               children: <Widget>[
                 IncidentsView(),
                 MyBikesView(),
-                // loginController.isLogin.value && !loginController.isUser.value
-                //     ? ScanView()
-                //     : MyBikeView(
-                //         isFromScan: false,
-                //       )
               ],
             );
           } else {
@@ -213,17 +190,6 @@ class HomeScreen extends StatelessWidget {
                         child: Icon(Icons.map_outlined),
                       ),
                       label: "Mes vélos"),
-                  // BottomNavigationBarItem(
-                  //     icon: Padding(
-                  //         padding: EdgeInsets.symmetric(vertical: 8.0),
-                  //         child: loginController.isClient.value ||
-                  //                 !loginController.isUser.value
-                  //             ? Icon(CupertinoIcons.viewfinder)
-                  //             : Icon(Icons.pedal_bike)),
-                  //     label: loginController.isClient.value ||
-                  //             !loginController.isUser.value
-                  //         ? "Scanner"
-                  //         : "Mon vélo")
                 ]);
           } else {
             return SizedBox();

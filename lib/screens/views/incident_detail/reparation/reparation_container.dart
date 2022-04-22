@@ -1,4 +1,3 @@
-// Vendor
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -95,7 +94,23 @@ class ReparationContainer extends StatelessWidget {
                 Center(
                   child: GestureDetector(
                     onTap: () async {
-                      incidentController.sendReparationUpdate();
+                      var snackBar = SnackBar(
+                        content:
+                            Text('Votre demande est en cours de traitement...'),
+                        backgroundColor: GlobalStyles.blue,
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                      await incidentController.sendReparationUpdate();
+
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      snackBar = SnackBar(
+                        content:
+                            Text('Vos informations ont bien été sauvegardées.'),
+                        backgroundColor: Color(0xff46b594),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     },
                     child: Container(
                       decoration: BoxDecoration(

@@ -44,7 +44,6 @@ class _MyBikeViewState extends State<MyBikeView> {
     if (!widget.isFromScan) {
       setState(() {
         bikeController.fetchUserBike(widget.veloPk);
-        print(bikeController.userBike);
       });
     }
   }

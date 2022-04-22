@@ -365,15 +365,8 @@ class IncidentDeclarationController extends GetxController {
   Future<void> sendIncident(int? veloPkFromScan) async {
     isFormUncompleted.value = "";
     success.value = "";
-    // Check if informations are complete
-    // for (String key in informations.keys) {
-    //   if (informations[key] == "") {
-    //     // print("informations are not complete");
-    //     isFormUncompleted.value = "Un champ d'information n'est pas spécifié.";
-    //     return;
-    //   }
-    // }
 
+    // Check if informations are complete
     if (incidentTypeList.contains("")) {
       indexWhereFormIsNotCompleted.value =
           incidentTypeList.indexWhere((element) => element == "").toString();
@@ -382,18 +375,6 @@ class IncidentDeclarationController extends GetxController {
     } else {
       indexWhereFormIsNotCompleted.value = "";
     }
-    // if (incidentCommentList.contains("")) {
-    //   // print("Un commentaire n'a pas été spécifié.");
-    //   isFormUncompleted.value = "Un champ n'est pas spécifié.";
-    //   return;
-    // }
-    // for (var i = 0; incidentPhotosList.length > i; i++) {
-    //   if (incidentPhotosList[i].isEmpty) {
-    //     // print("Au moins une photo doit être ajouté.");
-    //     isFormUncompleted.value = "Un champ n'est pas spécifié.";
-    //     return;
-    //   }
-    // }
 
     List<int> incidentFormAllList = List.from(incidentMoreFormsList);
     // Add an index form to add the first form that is not optional

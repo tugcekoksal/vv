@@ -10,7 +10,6 @@ import 'package:velyvelo/components/BuildQRCodeScanner.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
-import 'package:velyvelo/screens/home_screen.dart';
 
 class ScanView extends StatelessWidget {
   ScanView({Key? key}) : super(key: key);

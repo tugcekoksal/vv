@@ -19,19 +19,6 @@ class BikeScanController extends GetxController {
     super.onInit();
   }
 
-  // void fetchIncidentById(int id) async {
-  //   try {
-  //     isLoading(true);
-  //     var bike = await HttpService.fetchBikeById(id, userToken);
-  //     if (bike != null) {
-  //       bikeById.value = bike;
-  //       print(bikeById.value);
-  //     }
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
-
   toggleIsBikeIncidentsOpen() {
     isBikeIncidentsOpen.value = !isBikeIncidentsOpen.value;
   }

@@ -7,13 +7,7 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
-import 'package:velyvelo/helpers/utf8_convert.dart';
-import 'package:velyvelo/screens/views/incident_detail/reparation/photos_modif.dart';
-import 'package:velyvelo/screens/views/incident_detail/reparation/pick_image.dart';
 import 'package:velyvelo/screens/views/incident_detail/reparation/status_velo_dropdown.dart';
-
-// Components
-import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
 
 class StatutVeloModif extends StatelessWidget {
   final IncidentController incidentController;

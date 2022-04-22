@@ -8,11 +8,9 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 // Components
 import 'package:velyvelo/components/BuildPopUpFilters.dart';
 import 'package:velyvelo/components/BuildPopUpSearch.dart';
-import 'package:velyvelo/components/BuildQRCodeScanner.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
-import 'package:velyvelo/controllers/navigation_controller.dart';
 import 'package:velyvelo/screens/views/scanView.dart';
 
 class SwitchButton extends StatelessWidget {
@@ -41,8 +39,8 @@ class SwitchButton extends StatelessWidget {
 }
 
 class TopSwitch extends StatelessWidget {
-  bool mapActive = true;
-  bool listActive = false;
+  final bool mapActive = true;
+  final bool listActive = false;
 
   final MapBikesController mapBikesController;
   final Function changeMapView;
@@ -82,7 +80,7 @@ class TopButton extends StatelessWidget {
   final MapBikesController mapBikesController;
   final IconData iconButton;
 
-  Function actionFunction;
+  final Function actionFunction;
 
   TopButton(
       {Key? key,
@@ -127,13 +125,9 @@ class TopButton extends StatelessWidget {
 class TopOptions extends StatelessWidget {
   final MapBikesController mapBikesController;
   final Function changeMapView;
-  final Function refresh;
 
   TopOptions(
-      {Key? key,
-      required this.mapBikesController,
-      required this.changeMapView,
-      required this.refresh})
+      {Key? key, required this.mapBikesController, required this.changeMapView})
       : super(key: key);
 
   // Method to instantiate the filter's page

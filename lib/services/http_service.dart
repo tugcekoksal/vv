@@ -1,8 +1,13 @@
-// Services
-import 'dart:io';
+// Vendor
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:http/http.dart' as http;
 
+// Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
+import 'package:velyvelo/models/incident/incident_to_send_model.dart';
+
+// Services
 import 'package:velyvelo/services/bikes/bike_id_user_service.dart';
 import 'package:velyvelo/services/bikes/bike_user_service.dart';
 import 'package:velyvelo/services/bikes/get_all_bikes_service.dart';
@@ -18,16 +23,10 @@ import 'package:velyvelo/services/labels/get_incident_labels_service.dart';
 import 'package:velyvelo/services/login/login_user_service.dart';
 import 'package:velyvelo/services/login/type_user_service.dart';
 import 'package:velyvelo/services/map/get_map_filters_service.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
-import 'package:http/http.dart' as http;
-
-// Models
-import 'package:velyvelo/models/incident/incident_to_send_model.dart';
 
 class HttpService {
-  // static String urlServer = "https://dms.velyvelo.com";
-  static String urlServer = "http://localhost:8000";
+  static String urlServer = "https://dms.velyvelo.com";
+  // static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {

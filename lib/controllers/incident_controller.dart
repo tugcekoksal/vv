@@ -126,8 +126,7 @@ class IncidentController extends GetxController {
         piecesList: [],
         selectedPieces: jsonListToIdAndNameList(infosReparation["pieces"]),
         selectedPieceDropDown: IdAndName(id: 0, name: ""),
-        commentary: TextEditingController(
-            text: infosReparation["commentary"])); // changer ici
+        commentary: TextEditingController(text: infosReparation["commentary"]));
     print(currentReparation.value.selectedPieces[0].name);
   }
 

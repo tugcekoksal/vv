@@ -63,12 +63,9 @@ class StatusVeloDropDown extends StatelessWidget {
               decoration: !isSelected
                   ? null
                   : BoxDecoration(
-                      // border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(5),
-                      // color: Colors.white,
                       color: GlobalStyles.backgroundLightGrey),
               child: ListTile(
-                // selected: isSelected,
                 title: Text(item,
                     style: TextStyle(color: GlobalStyles.greyTextInput)),
               ),

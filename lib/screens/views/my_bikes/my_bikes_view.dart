@@ -33,13 +33,6 @@ class _MyBikesViewState extends State<MyBikesView> {
     });
   }
 
-  // a enlever
-  void refresh() {
-    setState(() {
-      mapBikeController.refresh();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -50,7 +43,6 @@ class _MyBikesViewState extends State<MyBikesView> {
       TopOptions(
         mapBikesController: mapBikeController,
         changeMapView: changeMapView,
-        refresh: refresh,
       ),
       Positioned(
           bottom: 0,

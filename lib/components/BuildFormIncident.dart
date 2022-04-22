@@ -237,7 +237,6 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                     return Obx(() {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
-                        // child: Image.memory(base64.decode(incidentDeclarationController.incidentPhotosList[indexIncident][index]),
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -255,7 +254,6 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                                     .incidentPhotosList[widget.indexIncident]
                                 [index],
                             fit: BoxFit.fitWidth,
-                            // height: 50
                           ),
                         ),
                       );

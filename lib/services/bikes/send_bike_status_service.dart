@@ -1,5 +1,4 @@
 // Vendor
-import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
@@ -61,7 +60,6 @@ Future fetchPieceFromTypeService(String urlServer, int interventionType,
     "reparation_type_id": jsonEncode(reparationType),
     "intervention_type_id": jsonEncode(interventionType)
   };
-  print(body);
   var response = await http.post(Uri.parse("$urlServer/api/piecesInfos/"),
       body: body, headers: {"Authorization": "Token $userToken"});
   return response.body;

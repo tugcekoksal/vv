@@ -54,16 +54,12 @@ class LoginController extends GetxController {
   }
 
   void tokenAndNameAuth() async {
-    print("AYE OUN PROBLEM");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("token") != null) {
       userToken = prefs.getString("token")!;
       fetchTypeUser();
       isLogin(true);
       await HttpService.addDeviceToken(userToken);
-      print("ici if");
-    } else {
-      print("log mais pas de token");
     }
     if (prefs.getString("username") != null) {
       userName = prefs.getString("username")!;

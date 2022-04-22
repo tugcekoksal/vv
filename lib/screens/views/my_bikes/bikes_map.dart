@@ -5,17 +5,12 @@ import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as latLng;
 
-// Helpers
-import 'package:velyvelo/config/colorMarkers.dart';
-
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/config/markersPaths.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
-import 'package:velyvelo/models/map/map_model.dart';
-import 'package:velyvelo/screens/views/my_bike_view.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
 // Access Token
@@ -77,7 +72,6 @@ class BikesMap extends StatelessWidget {
               padding: EdgeInsets.all(50),
             ),
             markers: mapBikeController.bikeWithPositionList.map((bike) {
-              print(bike.mapStatus);
               return Marker(
                   width: 50.0,
                   height: 50.0,
