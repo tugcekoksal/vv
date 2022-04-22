@@ -3,7 +3,6 @@
 //     final incidentDetailModel = incidentDetailModelFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 // Helpers

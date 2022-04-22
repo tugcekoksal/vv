@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
-import 'package:velyvelo/config/colorStatusTypology.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';

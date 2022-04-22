@@ -76,8 +76,10 @@ Future setIncidentService(
   request
     ..fields["velo_pk"] = incident.veloPk
     ..fields["type"] = incident.type
-    ..fields["commentary"] = incident.commentary;
+    ..fields["commentary"] = incident.commentary
+    ..fields["is_self_attributed"] = jsonEncode(incident.isSelfAttributed);
 
+  print(request);
   // Check if at least on photo has been taken
   if (incident.files.length != 0) {
     // Loop threw all incident photos and add it to the request

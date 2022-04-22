@@ -59,6 +59,8 @@ class IncidentDeclarationController extends GetxController {
   var indexWhereFormIsNotCompleted = "".obs;
   var success = "".obs;
 
+  var technicianSelfAttributeIncident = true.obs;
+
   @override
   void onInit() {
     userToken = Get.find<LoginController>().userToken;
@@ -416,7 +418,8 @@ class IncidentDeclarationController extends GetxController {
           veloPk: veloPk.toString(),
           type: incidentTypeList[index],
           commentary: incidentCommentList[index],
-          files: incidentPhotosList[index]);
+          files: incidentPhotosList[index],
+          isSelfAttributed: technicianSelfAttributeIncident.value);
       incidentsToSend.add(incident);
     });
 

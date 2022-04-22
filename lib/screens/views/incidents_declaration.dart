@@ -240,6 +240,26 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                 fontWeight: FontWeight.w500)),
                       ),
                       SizedBox(height: 20.0),
+                      if (loginController.isTech.value)
+                        Obx(() {
+                          return Row(
+                            children: [
+                              Checkbox(
+                                  value: incidentDeclarationController
+                                      .technicianSelfAttributeIncident.value,
+                                  onChanged: (value) => {
+                                        incidentDeclarationController
+                                            .technicianSelfAttributeIncident(
+                                                value),
+                                        print(incidentDeclarationController
+                                            .technicianSelfAttributeIncident
+                                            .value)
+                                      }), // ICI
+                              Text("Attribuer l'incident à mon profil")
+                            ],
+                          );
+                        }),
+                      SizedBox(height: 20.0),
                       Center(
                         child: GestureDetector(
                           onTap: () async {
@@ -278,7 +298,7 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                     fontWeight: FontWeight.w600)),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 )

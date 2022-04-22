@@ -25,6 +25,8 @@ class LoginController extends GetxController {
   var isUser = false.obs;
   var isAdminOrTech = false.obs;
   var isSuperUser = false.obs;
+  var isTech = false.obs;
+
   var userToken = "";
   String userName = "";
 
@@ -48,17 +50,24 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
+    super.onInit();
+  }
+
+  void tokenAndNameAuth() async {
+    print("AYE OUN PROBLEM");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("token") != null) {
       userToken = prefs.getString("token")!;
       fetchTypeUser();
       isLogin(true);
       await HttpService.addDeviceToken(userToken);
+      print("ici if");
+    } else {
+      print("log mais pas de token");
     }
     if (prefs.getString("username") != null) {
       userName = prefs.getString("username")!;
     }
-    super.onInit();
   }
 
   void onChangedPassword(value) {
@@ -86,6 +95,7 @@ class LoginController extends GetxController {
       isLoading(false);
       isLogin(true);
       fetchTypeUser();
+      tokenAndNameAuth();
     } catch (e) {
       print(e);
       error.value = "Identifiants ou mot de passe incorrects";
@@ -99,6 +109,7 @@ class LoginController extends GetxController {
     isUser(false);
     isSuperUser(false);
     isAdminOrTech(false);
+    isTech(false);
 
     userToken = "";
     userType = "";
@@ -130,6 +141,9 @@ class LoginController extends GetxController {
           userTypeFetched == "Technicien") {
         isAdminOrTech(true);
         userType = "AdminOrTechnician";
+        if (userTypeFetched == "Technicien") {
+          isTech(true);
+        }
       }
       isLogin(true);
     } catch (e) {
