@@ -125,9 +125,13 @@ class TopButton extends StatelessWidget {
 class TopOptions extends StatelessWidget {
   final MapBikesController mapBikesController;
   final Function changeMapView;
+  final Function changeMapStyle;
 
   TopOptions(
-      {Key? key, required this.mapBikesController, required this.changeMapView})
+      {Key? key,
+      required this.mapBikesController,
+      required this.changeMapView,
+      required this.changeMapStyle})
       : super(key: key);
 
   // Method to instantiate the filter's page
@@ -161,46 +165,41 @@ class TopOptions extends StatelessWidget {
     Get.to(Scaffold(body: ScanView()));
   }
 
-  Future<void> fetchBikes(context) async {
-    mapBikesController.fetchAllBikes();
-  }
-
   @override
   Widget build(BuildContext context) {
     return (Container(
         margin: EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(children: [
-              TopSwitch(
-                  mapBikesController: mapBikesController,
-                  changeMapView: changeMapView)
-            ]),
-            Row(
-              children: [
-                TopButton(
-                    mapBikesController: mapBikesController,
-                    iconButton: Icons.qr_code_scanner,
-                    actionFunction: showScan),
-                const SizedBox(width: 10.0),
-                TopButton(
-                    mapBikesController: mapBikesController,
-                    iconButton: Icons.filter_list_outlined,
-                    actionFunction: showFilters),
-                const SizedBox(width: 10.0),
-                TopButton(
-                    mapBikesController: mapBikesController,
-                    iconButton: Icons.search,
-                    actionFunction: showSearch),
-                const SizedBox(width: 10.0),
-                TopButton(
-                    mapBikesController: mapBikesController,
-                    iconButton: Icons.update,
-                    actionFunction: fetchBikes),
-              ],
-            ),
-          ],
-        )));
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(children: [
+                    TopSwitch(
+                        mapBikesController: mapBikesController,
+                        changeMapView: changeMapView)
+                  ]),
+                  Row(
+                    children: [
+                      TopButton(
+                          mapBikesController: mapBikesController,
+                          iconButton: Icons.qr_code_scanner,
+                          actionFunction: showScan),
+                      const SizedBox(width: 10.0),
+                      TopButton(
+                          mapBikesController: mapBikesController,
+                          iconButton: Icons.filter_list_outlined,
+                          actionFunction: showFilters),
+                      const SizedBox(width: 10.0),
+                      TopButton(
+                          mapBikesController: mapBikesController,
+                          iconButton: Icons.search,
+                          actionFunction: showSearch),
+                    ],
+                  ),
+                ],
+              ),
+            ])));
   }
 }

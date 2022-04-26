@@ -7,7 +7,7 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
-import 'package:velyvelo/models/bike/user_bike_model.dart';
+import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_in_progress.dart';
 
 // Views
 import 'package:velyvelo/screens/views/incidents_declaration.dart';
@@ -17,10 +17,10 @@ import 'package:velyvelo/controllers/bike_controller.dart';
 
 // Components
 import 'package:velyvelo/components/BuildLoadingBox.dart';
+import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_history_container.dart';
 
 // Service Url
 import 'package:velyvelo/services/http_service.dart';
-
 import 'package:flutter/cupertino.dart';
 
 class MyBikeView extends StatefulWidget {
@@ -367,116 +367,11 @@ class _MyBikeViewState extends State<MyBikeView> {
                           fontWeight: FontWeight.w600))),
             )),
             SizedBox(height: 20.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Text("Les incidents en cours",
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600)),
-              ),
-            ),
+            // Display title & list of current incidents
+            IncidentInProgress(bikeController: bikeController),
             SizedBox(height: 10.0),
-            bikeController.userBike.value.inProgressRepairs.length == 0
-                ? Center(
-                    child: Text("Aucun incident en cours"),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ListView.builder(
-                        itemCount: bikeController
-                            .userBike.value.inProgressRepairs.length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () => {},
-                            child: BuildIncidentHistoricTile(
-                              data: bikeController
-                                  .userBike.value.inProgressRepairs[index],
-                              isHistorique: false,
-                            ),
-                          );
-                        }),
-                  ),
-            SizedBox(height: 10.0),
-            Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0)),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Historique des incidents",
-                          style: TextStyle(
-                              color: GlobalStyles.purple,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w600)),
-                      GestureDetector(
-                          onTap: () =>
-                              bikeController.toggleIsBikeIncidentsOpen(),
-                          child: Obx(() {
-                            return Icon(
-                                bikeController.isBikeIncidentsOpen.value
-                                    ? Icons.arrow_drop_up
-                                    : Icons.arrow_drop_down,
-                                color: GlobalStyles.greyDropDown,
-                                size: 30);
-                          }))
-                    ],
-                  ),
-                  AnimatedSize(
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.fastOutSlowIn,
-                      child: Obx(() {
-                        return Container(
-                            height: bikeController.isBikeIncidentsOpen.value
-                                ? null
-                                : 0,
-                            child: Column(
-                              children: [
-                                bikeController.userBike.value.otherRepairs
-                                            .length ==
-                                        0
-                                    ? Text("Il y aura des éléments ici")
-                                    : Column(
-                                        children: [
-                                          SizedBox(height: 20),
-                                          ListView.builder(
-                                              shrinkWrap: true,
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              itemCount: bikeController.userBike
-                                                  .value.otherRepairs.length,
-                                              itemBuilder: (context, index) {
-                                                return GestureDetector(
-                                                    onTap: () => null,
-                                                    child:
-                                                        BuildIncidentHistoricTile(
-                                                      data: bikeController
-                                                          .userBike
-                                                          .value
-                                                          .otherRepairs[index],
-                                                      isHistorique: true,
-                                                    ));
-                                              }),
-                                        ],
-                                      )
-                              ],
-                            ));
-                      }))
-                ],
-              ),
-            ),
+            // Button & list of passed incidents
+            IncidentHistoryContainer(bikeController: bikeController),
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -539,81 +434,5 @@ class _MyBikeViewState extends State<MyBikeView> {
         ),
       ),
     ]);
-  }
-}
-
-class BuildIncidentHistoricTile extends StatelessWidget {
-  final Incident data;
-  final bool isHistorique;
-
-  const BuildIncidentHistoricTile(
-      {Key? key, required this.data, required this.isHistorique})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: this.isHistorique
-          ? const EdgeInsets.all(0.0)
-          : const EdgeInsets.all(20.0),
-      margin: const EdgeInsets.only(bottom: 8.0),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(valueIsNull(data.incidentTypeReparation),
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 7.5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(valueIsNull(data.dateCreation),
-                  style: TextStyle(
-                      color: GlobalStyles.green,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w700)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.schedule,
-                    color: GlobalStyles.purple,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    (data.interventionTime != 0
-                            ? data.interventionTime.toString()
-                            : "moins d'1") +
-                        'h',
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
-                        fontWeight: FontWeight.w700),
-                  )
-                ],
-              )
-            ],
-          ),
-          this.isHistorique
-              ? Divider(
-                  color: Colors.black,
-                )
-              : SizedBox()
-        ],
-      ),
-    );
   }
 }

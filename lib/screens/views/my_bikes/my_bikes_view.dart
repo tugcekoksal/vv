@@ -33,16 +33,25 @@ class _MyBikesViewState extends State<MyBikesView> {
     });
   }
 
+  void changeMapStyle() {
+    setState(() {
+      mapBikeController.changeMapStyle();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Stack(children: [
       mapBikeController.isMapView
-          ? BikesMap(mapBikeController: mapBikeController)
+          ? BikesMap(
+              mapBikeController: mapBikeController,
+              streetView: mapBikeController.isStreetView)
           : BikesList(mapBikeController: mapBikeController),
       TopOptions(
         mapBikesController: mapBikeController,
         changeMapView: changeMapView,
+        changeMapStyle: changeMapStyle,
       ),
       Positioned(
           bottom: 0,
@@ -105,7 +114,7 @@ class _MyBikesViewState extends State<MyBikesView> {
                 ),
               ),
             );
-          }))
+          })),
     ]);
   }
 }

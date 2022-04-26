@@ -9,6 +9,43 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 // Controllers
 import 'package:velyvelo/screens/views/incident_detail/reparation/status_velo_dropdown.dart';
 
+class StatutButton extends StatelessWidget {
+  final IncidentController incidentController;
+  final bool status;
+  final text;
+
+  const StatutButton(
+      {Key? key,
+      required this.incidentController,
+      required this.status,
+      required this.text})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      return GestureDetector(
+        onTap: () => incidentController.setCurrentDetailBikeStatus(status),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          decoration: BoxDecoration(
+              color: incidentController.currentReparation.value.isBikeFunctional
+                  ? GlobalStyles.backgroundLightGrey
+                  : Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                  color: GlobalStyles.backgroundLightGrey, width: 3.0)),
+          child: Text(text,
+              style: TextStyle(
+                  color: GlobalStyles.greyText,
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.w600)),
+        ),
+      );
+    });
+  }
+}
+
 class StatutVeloModif extends StatelessWidget {
   final IncidentController incidentController;
 
@@ -35,52 +72,16 @@ class StatutVeloModif extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Obx(() {
-              return GestureDetector(
-                onTap: () =>
-                    incidentController.setCurrentDetailBikeStatus(true),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
-                  decoration: BoxDecoration(
-                      color: incidentController
-                              .currentReparation.value.isBikeFunctional
-                          ? GlobalStyles.backgroundLightGrey
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                          color: GlobalStyles.backgroundLightGrey, width: 3.0)),
-                  child: Text("Oui",
-                      style: TextStyle(
-                          color: GlobalStyles.greyText,
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600)),
-                ),
-              );
-            }),
-            Obx(() {
-              return GestureDetector(
-                onTap: () =>
-                    incidentController.setCurrentDetailBikeStatus(false),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
-                  decoration: BoxDecoration(
-                      color: incidentController
-                              .currentReparation.value.isBikeFunctional
-                          ? Colors.white
-                          : GlobalStyles.backgroundLightGrey,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                          color: GlobalStyles.backgroundLightGrey, width: 3.0)),
-                  child: Text("Non",
-                      style: TextStyle(
-                          color: GlobalStyles.greyText,
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600)),
-                ),
-              );
-            }),
+            StatutButton(
+              incidentController: incidentController,
+              status: true,
+              text: "Oui",
+            ),
+            StatutButton(
+              incidentController: incidentController,
+              status: false,
+              text: "Non",
+            ),
           ],
         ),
         SizedBox(height: 25.0),

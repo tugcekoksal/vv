@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:velyvelo/controllers/map_controller.dart';
 import 'package:velyvelo/models/map/map_model.dart';
-import 'package:velyvelo/screens/views/my_bike_view.dart';
+import 'package:velyvelo/screens/views/bike_profile/bike_profile_view.dart';
 
 Future<void> goToBikeProfileFromMarker(
     Marker marker, MapBikesController mapBikeController) async {

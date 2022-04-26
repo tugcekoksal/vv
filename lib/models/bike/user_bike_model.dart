@@ -47,8 +47,8 @@ class UserBikeModel {
         groupeName: json["groupe_name"] == null ? null : json["groupe_name"],
         isStolen: json["vole"] == null ? false : json["vole"],
         veloPk: json["pk"] == null ? false : json["pk"],
-        inProgressRepairs:
-            List<Incident>.from(json["in_progress_repairs"].map((x) => x)),
+        inProgressRepairs: List<Incident>.from(
+            json["in_progress_repairs"].map((x) => Incident.fromJson(x))),
         otherRepairs: List<Incident>.from(
             json["other_repairs"].map((x) => Incident.fromJson(x))),
       );

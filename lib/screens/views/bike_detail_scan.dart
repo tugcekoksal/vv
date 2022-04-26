@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Views
-import 'package:velyvelo/screens/views/my_bike_view.dart';
+import 'package:velyvelo/screens/views/bike_profile/bike_profile_view.dart';
 
 class BikeDetailScan extends StatefulWidget {
   BikeDetailScan({

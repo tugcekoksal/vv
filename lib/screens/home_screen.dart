@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
 
   final PageController _pageController = PageController(initialPage: 0);
 
+  // 123e wekf here to change the last isnt usefull
   final List<String> tabTitleUser = ["Mes incidents", "Mes vélos", "Mon vélo"];
   final List<String> tabTitleClient = ["Mes incidents", "Mes vélos", "Scanner"];
 
@@ -35,165 +36,169 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: loginController.isLogin.value
-            ? GlobalStyles.backgroundLightGrey
-            : GlobalStyles.loginBackground,
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          toolbarHeight: 65.0,
-          elevation: 0,
-          centerTitle: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20.0),
-            ),
-          ),
-          title: Obx(() {
-            return Text(
-              loginController.isLogin.value
-                  ? tabTitleUser[navigationController.currentIndex.value]
-                  : "VelyVelo",
-              style: TextStyle(
-                  color: GlobalStyles.greyTitle,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w700),
-            );
-          }),
-          leading: Container(
-            margin: EdgeInsets.only(left: 15.0),
-            child: SvgPicture.asset("assets/logo.svg",
-                height: 15.0, width: 15.0, fit: BoxFit.scaleDown),
-          ),
-          actions: <Widget>[
-            Obx(() {
-              return loginController.isLogin.value
-                  ? GestureDetector(
-                      onTap: () => loginController.logoutUser(),
-                      child: PopupMenuButton(
-                        child: Icon(
-                          Icons.person,
-                          size: 30,
-                          color: GlobalStyles.greyTitle,
-                        ),
-                        onSelected: (result) {
-                          if (result == 1) loginController.logoutUser();
-                        },
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                          PopupMenuItem(
-                            value: 0,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  color: GlobalStyles.purple,
-                                  size: 20,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(loginController.userName),
-                              ],
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 1,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.logout,
-                                  color: GlobalStyles.greyTitle,
-                                  size: 20,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Se déconnecter"),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : SizedBox();
-            }),
-            const SizedBox(width: 15.0)
-          ],
-        ),
-        body: Obx(() {
-          if (loginController.isLogin.value) {
-            return PageView(
-              onPageChanged: (index) => navigationController.changePage(index),
-              controller: _pageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                IncidentsView(),
-                MyBikesView(),
-              ],
-            );
-          } else {
-            return LoginView();
-          }
-        }),
-        floatingActionButton: Obx(() {
-          return Container(
-              height: 75.0,
-              width: 75.0,
-              child: navigationController.currentIndex.value == 0 &&
-                      loginController.isLogin.value
-                  ? FloatingActionButton(
-                      backgroundColor: GlobalStyles.backgroundDarkGrey,
-                      onPressed: () => showDeclarationIncidentPage(),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 40,
-                      ))
-                  : SizedBox());
-        }),
-        bottomNavigationBar: Obx(() {
-          if (loginController.isLogin.value) {
-            return BottomNavigationBar(
-                iconSize: 35.0,
-                backgroundColor: GlobalStyles.backgroundDarkGrey,
-                selectedItemColor: Colors.white,
-                selectedIconTheme:
-                    IconThemeData(color: GlobalStyles.blue, size: 25.0),
-                selectedLabelStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
+    return new Container(
+        color: Colors.transparent,
+        child: Scaffold(
+            backgroundColor: loginController.isLogin.value
+                ? GlobalStyles.backgroundLightGrey
+                : GlobalStyles.loginBackground,
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              toolbarHeight: 65.0,
+              elevation: 0,
+              centerTitle: true,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(20.0),
                 ),
-                unselectedItemColor: GlobalStyles.greyBottomBarText,
-                unselectedIconTheme: IconThemeData(
-                    color: GlobalStyles.greyUnselectedIcon, size: 25.0),
-                unselectedLabelStyle: TextStyle(
-                    color: GlobalStyles.greyBottomBarText,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600),
-                currentIndex: navigationController.currentIndex.value,
-                onTap: (index) {
-                  navigationController.changePage(index);
-                  _pageController
-                      .jumpToPage(navigationController.currentIndex.value);
-                },
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Icon(CupertinoIcons.wrench)),
-                      label: "Incidents"),
-                  BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Icon(Icons.map_outlined),
-                      ),
-                      label: "Mes vélos"),
-                ]);
-          } else {
-            return SizedBox();
-          }
-        }));
+              ),
+              title: Obx(() {
+                return Text(
+                  loginController.isLogin.value
+                      ? tabTitleUser[navigationController.currentIndex.value]
+                      : "VelyVelo",
+                  style: TextStyle(
+                      color: GlobalStyles.greyTitle,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700),
+                );
+              }),
+              leading: Container(
+                margin: EdgeInsets.only(left: 15.0),
+                child: SvgPicture.asset("assets/logo.svg",
+                    height: 15.0, width: 15.0, fit: BoxFit.scaleDown),
+              ),
+              actions: <Widget>[
+                Obx(() {
+                  return loginController.isLogin.value
+                      ? GestureDetector(
+                          onTap: () => loginController.logoutUser(),
+                          child: PopupMenuButton(
+                            child: Icon(
+                              Icons.person,
+                              size: 30,
+                              color: GlobalStyles.greyTitle,
+                            ),
+                            onSelected: (result) {
+                              if (result == 1) loginController.logoutUser();
+                            },
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry>[
+                              PopupMenuItem(
+                                value: 0,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person,
+                                      color: GlobalStyles.purple,
+                                      size: 20,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(loginController.userName),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 1,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.logout,
+                                      color: GlobalStyles.greyTitle,
+                                      size: 20,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text("Se déconnecter"),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SizedBox();
+                }),
+                const SizedBox(width: 15.0)
+              ],
+            ),
+            body: Obx(() {
+              if (loginController.isLogin.value) {
+                return PageView(
+                  onPageChanged: (index) =>
+                      navigationController.changePage(index),
+                  controller: _pageController,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: <Widget>[
+                    IncidentsView(),
+                    MyBikesView(),
+                  ],
+                );
+              } else {
+                return LoginView();
+              }
+            }),
+            floatingActionButton: Obx(() {
+              return Container(
+                  height: 75.0,
+                  width: 75.0,
+                  child: navigationController.currentIndex.value == 0 &&
+                          loginController.isLogin.value
+                      ? FloatingActionButton(
+                          backgroundColor: GlobalStyles.backgroundDarkGrey,
+                          onPressed: () => showDeclarationIncidentPage(),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 40,
+                          ))
+                      : SizedBox());
+            }),
+            bottomNavigationBar: Obx(() {
+              if (loginController.isLogin.value) {
+                return BottomNavigationBar(
+                    iconSize: 35.0,
+                    backgroundColor: GlobalStyles.backgroundDarkGrey,
+                    selectedItemColor: Colors.white,
+                    selectedIconTheme:
+                        IconThemeData(color: GlobalStyles.blue, size: 25.0),
+                    selectedLabelStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    unselectedItemColor: GlobalStyles.greyBottomBarText,
+                    unselectedIconTheme: IconThemeData(
+                        color: GlobalStyles.greyUnselectedIcon, size: 25.0),
+                    unselectedLabelStyle: TextStyle(
+                        color: GlobalStyles.greyBottomBarText,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600),
+                    currentIndex: navigationController.currentIndex.value,
+                    onTap: (index) {
+                      navigationController.changePage(index);
+                      _pageController
+                          .jumpToPage(navigationController.currentIndex.value);
+                    },
+                    items: <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                          icon: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                              child: Icon(CupertinoIcons.wrench)),
+                          label: "Incidents"),
+                      BottomNavigationBarItem(
+                          icon: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            child: Icon(Icons.map_outlined),
+                          ),
+                          label: "Mes vélos"),
+                    ]);
+              } else {
+                return SizedBox();
+              }
+            })));
   }
 }

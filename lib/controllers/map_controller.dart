@@ -1,4 +1,5 @@
 // Vendor
+import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 
 // Controllers
@@ -6,6 +7,7 @@ import 'package:velyvelo/controllers/login_controller.dart';
 
 // Models
 import 'package:velyvelo/models/map/map_model.dart';
+import 'package:velyvelo/screens/views/my_bikes/bikes_map.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';
@@ -41,6 +43,8 @@ class MapBikesController extends GetxController {
 
   var searchText = "".obs;
 
+  var isStreetView = true;
+
   @override
   void onInit() {
     fetchFilters();
@@ -49,6 +53,10 @@ class MapBikesController extends GetxController {
 
   void changeMapView() {
     isMapView = !isMapView;
+  }
+
+  void changeMapStyle() {
+    isStreetView = !isStreetView;
   }
 
   void bikesBySearch() {

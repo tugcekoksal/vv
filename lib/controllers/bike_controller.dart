@@ -47,6 +47,7 @@ class BikeController extends GetxController {
       if (bike != null) {
         userBike.value = bike;
         isLoading(false);
+        print(userBike.value.inProgressRepairs.length);
       }
     } catch (e) {
       print(e);

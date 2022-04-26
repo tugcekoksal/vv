@@ -13,9 +13,17 @@ import 'package:velyvelo/config/markersPaths.dart';
 import 'package:velyvelo/controllers/map_controller.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
-// Access Token
+// Parameters mapbox
+const streetsIntegrationUrl =
+    "https://api.mapbox.com/styles/v1/kfenoire/cl2eu6p1a000k15lt6ynzfbns/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoia2Zlbm9pcmUiLCJhIjoiY2wyZXQ3YjI1MDFqbjNpbGp5am0xNmNuNyJ9.ozXrVxONYXi2YWozuPdQFA";
+const satteliteIntegrationUrl =
+    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoia2Zlbm9pcmUiLCJhIjoiY2wyZXQ3YjI1MDFqbjNpbGp5am0xNmNuNyJ9.ozXrVxONYXi2YWozuPdQFA";
+
 const accesToken =
-    "sk.eyJ1IjoibHVjYXNncmFmZW4iLCJhIjoiY2wwNnA2a3NnMDRndzNpbHYyNTV0NGd1ZCJ9.nfFc_JlfaGgq1Kajg6agoQ";
+    "pk.eyJ1Ijoia2Zlbm9pcmUiLCJhIjoiY2wyZXQ3YjI1MDFqbjNpbGp5am0xNmNuNyJ9.ozXrVxONYXi2YWozuPdQFA";
+
+const idSattelite = "mapbox.satellite";
+const idStreets = "mapbox.mapbox-streets-v8";
 
 class PopUpClipper extends CustomClipper<Path> {
   @override
@@ -39,19 +47,57 @@ class PopUpClipper extends CustomClipper<Path> {
   }
 }
 
-class BikesMap extends StatelessWidget {
+class BikesMap extends StatefulWidget {
   final PopupController popupController = new PopupController();
   final MapBikesController mapBikeController;
 
-  BikesMap({Key? key, required this.mapBikeController}) : super(key: key);
+  bool streetView;
+  double oldZoom = 0;
+  latLng.LatLng oldPosition = latLng.LatLng(0, 0);
+
+  BikesMap(
+      {Key? key, required this.mapBikeController, required this.streetView})
+      : super(key: key);
+
+  @override
+  State<BikesMap> createState() => _BikesMapState();
+}
+
+class _BikesMapState extends State<BikesMap> {
+  void onGeoChanged(MapPosition position, bool hasGesture) {
+    if (position.zoom != null) {
+      if ((widget.oldZoom - position.zoom!).abs() > 1) {
+        widget.oldZoom = position.zoom!;
+        widget.mapBikeController.fetchAllBikes();
+      }
+    }
+    if (position.bounds != null) {
+      if (position.bounds!.contains(widget.oldPosition) == false) {
+        widget.oldPosition = position.center!;
+        widget.mapBikeController.fetchAllBikes();
+      }
+    }
+    if (widget.streetView && position.zoom! >= 18) {
+      setState(() {
+        widget.streetView = !widget.streetView;
+      });
+    } else if (!widget.streetView && position.zoom! <= 18) {
+      setState(() {
+        widget.streetView = !widget.streetView;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       return FlutterMap(
         options: MapOptions(
+          onPositionChanged: onGeoChanged,
           center: latLng.LatLng(48.85942707304794, 2.350492773209436),
           zoom: 11.0,
+          minZoom: 1,
+          maxZoom: 21.0,
           interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
           plugins: [
             MarkerClusterPlugin(),
@@ -59,11 +105,19 @@ class BikesMap extends StatelessWidget {
         ),
         layers: [
           TileLayerOptions(
-              urlTemplate:
-                  "https://api.mapbox.com/styles/v1/aurelienhmdy/ckysvoerp6zwt14o4waw19zue/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYXVyZWxpZW5obWR5IiwiYSI6ImNreXN1emx2NzA4ZHkzMXBscThid2s5amsifQ.67nOlu5x2vJbN1q0HKLyeA",
+              opacity: 1,
+              urlTemplate: widget.streetView
+                  ? streetsIntegrationUrl
+                  : satteliteIntegrationUrl,
+              minZoom: 1,
+              maxZoom: 21,
+              updateInterval: 100,
+              keepBuffer: 5,
+              tileFadeInDuration: 100,
+              tileFadeInStart: 0.5,
+              tileFadeInStartWhenOverride: 0.5,
               additionalOptions: {
                 "accessToken": accesToken,
-                "id": "mapbox.mapbox-streets-v8"
               }),
           MarkerClusterLayerOptions(
             maxClusterRadius: 120,
@@ -71,18 +125,18 @@ class BikesMap extends StatelessWidget {
             fitBoundsOptions: FitBoundsOptions(
               padding: EdgeInsets.all(50),
             ),
-            markers: mapBikeController.bikeWithPositionList.map((bike) {
+            markers: widget.mapBikeController.bikeWithPositionList.map((bike) {
               return Marker(
-                  width: 50.0,
-                  height: 50.0,
+                  width: 35.0,
+                  height: 35.0,
                   point: latLng.LatLng(bike.pos.latitude, bike.pos.longitude),
                   builder: (ctx) => Container(
                       child: Image.asset(MarkersPaths[bike.mapStatus])));
             }).toList(),
             polygonOptions: PolygonOptions(
-                borderColor: GlobalStyles.purple,
-                color: Colors.white12,
-                borderStrokeWidth: 1),
+                borderColor: Color.fromARGB(0, 255, 255, 255),
+                color: Color.fromARGB(0, 255, 255, 255),
+                borderStrokeWidth: 0),
             builder: (context, markers) {
               return Container(
                 height: 20,
@@ -100,7 +154,7 @@ class BikesMap extends StatelessWidget {
               );
             },
             popupOptions: PopupOptions(
-                popupController: popupController,
+                popupController: widget.popupController,
                 popupBuilder: (_, marker) => ClipPath(
                       clipper: PopUpClipper(),
                       child: Container(
@@ -115,7 +169,7 @@ class BikesMap extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  mapBikeController
+                                  widget.mapBikeController
                                       .buildPopUpContentName(marker),
                                   style: TextStyle(
                                       fontSize: 18.0,
@@ -130,7 +184,7 @@ class BikesMap extends StatelessWidget {
                                         fontSize: 18.0, color: Colors.black),
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: mapBikeController
+                                          text: widget.mapBikeController
                                               .buildPopUpContentLastEmission(
                                                   marker),
                                           style: TextStyle(
@@ -141,7 +195,7 @@ class BikesMap extends StatelessWidget {
                                 SizedBox(height: 10.0),
                                 GestureDetector(
                                     onTap: () => goToBikeProfileFromMarker(
-                                        marker, mapBikeController),
+                                        marker, widget.mapBikeController),
                                     child: Container(
                                       width: double.infinity,
                                       alignment: Alignment.center,
@@ -168,7 +222,7 @@ class BikesMap extends StatelessWidget {
                               top: 0,
                               child: GestureDetector(
                                 onTap: () =>
-                                    popupController.togglePopup(marker),
+                                    widget.popupController.togglePopup(marker),
                                 child: Container(
                                     height: 20,
                                     width: 20,
