@@ -246,11 +246,11 @@ class _BikesMapState extends State<BikesMap> {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: <Color>[
-                Color.fromARGB(50, 255, 255, 255),
-                Color.fromARGB(255, 214, 214, 214),
+                Color.fromARGB(0, 255, 255, 255),
+                Color.fromARGB(255, 222, 222, 222),
+                // Color.fromARGB(255, 255, 255, 255),
               ])),
         )
-        // Container(height: 85, color: Color.fromARGB(119, 200, 200, 200)),
       ]);
     });
   }

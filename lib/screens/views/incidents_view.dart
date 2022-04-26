@@ -40,7 +40,7 @@ class IncidentsView extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: <Color>[
-              Colors.grey,
+              Color.fromARGB(255, 225, 225, 225),
               Colors.white,
             ])),
         child: Column(children: [
@@ -154,8 +154,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       margin: const EdgeInsets.only(bottom: 8.0),
       decoration: BoxDecoration(
-          color: GlobalStyles.backgroundLightGrey,
-          borderRadius: BorderRadius.circular(20.0)),
+          color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -45,7 +45,7 @@ class MapStatusVelo extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 100),
       child: Container(
-          width: 100,
+          width: 90,
           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
           decoration: BoxDecoration(
             color: colorBasedOnVeloMapStatus(text),
@@ -81,8 +81,7 @@ class VeloCard extends StatelessWidget {
         margin: const EdgeInsets.only(
             bottom: 4.0, top: 4.0, left: 20.0, right: 20.0),
         decoration: BoxDecoration(
-            color: GlobalStyles.backgroundLightGrey,
-            borderRadius: BorderRadius.circular(20.0)),
+            color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
         child: Column(
           children: [
             Row(
@@ -93,7 +92,7 @@ class VeloCard extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               children: [PurpleText(text: group)],
@@ -118,7 +117,7 @@ class BikesList extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: <Color>[
-                Colors.grey,
+                Color.fromARGB(255, 225, 225, 225),
                 Colors.white,
               ])),
           child: Padding(
