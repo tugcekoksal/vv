@@ -22,10 +22,7 @@ class SwitchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Container(
       decoration: BoxDecoration(
-          border: isActive
-              ? Border.all(color: GlobalStyles.backgroundDarkGrey)
-              : null,
-          color: isActive ? Colors.white : GlobalStyles.backgroundDarkGrey,
+          color: isActive ? GlobalStyles.blue : Colors.white,
           borderRadius: BorderRadius.circular(30)),
       width: 60,
       height: 30,
@@ -33,9 +30,7 @@ class SwitchButton extends StatelessWidget {
         child: Text(
           textButton,
           style: TextStyle(
-              color: isActive
-                  ? GlobalStyles.backgroundDarkGrey
-                  : GlobalStyles.backgroundLightGrey,
+              color: isActive ? Colors.white : GlobalStyles.backgroundDarkGrey,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -57,8 +52,15 @@ class TopSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Container(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: GlobalStyles.backgroundDarkGrey,
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 3,
+              blurRadius: 3,
+            ),
+          ],
         ),
         width: 130,
         height: 40,
@@ -106,8 +108,15 @@ class TopButton extends StatelessWidget {
           child: Container(
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: GlobalStyles.backgroundDarkGrey,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    spreadRadius: 3,
+                    blurRadius: 3,
+                  ),
+                ],
+                color: Colors.white,
               ),
               child: mapBikesController.isLoadingFilters.value
                   ? Padding(
@@ -123,7 +132,7 @@ class TopButton extends StatelessWidget {
                     )
                   : Icon(
                       iconButton,
-                      color: GlobalStyles.backgroundLightGrey,
+                      color: GlobalStyles.backgroundDarkGrey,
                       size: 30.0,
                     )));
     }));

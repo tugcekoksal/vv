@@ -9,18 +9,24 @@ import 'package:velyvelo/screens/views/bike_profile/bike_profile_view.dart';
 Future<void> goToBikeProfileFromMarker(
     Marker marker, MapBikesController mapBikeController) async {
   MapModel bike = mapBikeController.getBikeFromMarker(marker);
-  Get.to(Scaffold(
-      body: MyBikeView(
-    isFromScan: false,
-    veloPk: bike.veloPk,
-  )));
+  Get.to(
+      Scaffold(
+          body: MyBikeView(
+        isFromScan: false,
+        veloPk: bike.veloPk,
+      )),
+      transition: Transition.downToUp,
+      duration: Duration(milliseconds: 400));
 }
 
 Future<void> goToBikeProfileFromPk(
     int veloPk, MapBikesController mapBikeController) async {
-  Get.to(Scaffold(
-      body: MyBikeView(
-    isFromScan: false,
-    veloPk: veloPk,
-  )));
+  Get.to(
+      Scaffold(
+          body: MyBikeView(
+        isFromScan: false,
+        veloPk: veloPk,
+      )),
+      transition: Transition.downToUp,
+      duration: Duration(milliseconds: 400));
 }

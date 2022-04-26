@@ -37,7 +37,8 @@ class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
   showBikeDetailScanPage(id) async {
     bikeController.isViewingScanPage(true);
     await bikeController.fetchUserBike(id);
-    Get.to(() => BikeDetailScan());
+    Get.to(() => BikeDetailScan(),
+        transition: Transition.downToUp, duration: Duration(milliseconds: 400));
   }
 
   @override

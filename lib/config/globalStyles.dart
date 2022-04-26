@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // COLORS
 const backgroundDarkGrey = Color(0xff1E1E2D);
-const backgroundLightGrey = Color(0xffF2F3F8);
+const backgroundLightGrey = Color.fromARGB(255, 232, 236, 249);
 const backgroundLightGreyLoading = Color(0xffE4E5E8);
 const yellow = Color(0xffF9BB3F);
 const blue = Color(0xFF2A6EE2);

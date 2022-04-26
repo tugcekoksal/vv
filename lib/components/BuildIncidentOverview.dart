@@ -19,7 +19,7 @@ class BuildIncidentsOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -37,8 +37,8 @@ class BuildIncidentsOverview extends StatelessWidget {
                         bottom: BorderSide(
                           color: incidentController.incidentFilters
                                   .contains("Nouvelle")
-                              ? GlobalStyles.greyLine
-                              : Colors.white,
+                              ? GlobalStyles.backgroundDarkGrey
+                              : Colors.transparent,
                           width: 3.0,
                         ),
                       )),
@@ -58,8 +58,8 @@ class BuildIncidentsOverview extends StatelessWidget {
                         bottom: BorderSide(
                           color: incidentController.incidentFilters
                                   .contains("En cours")
-                              ? GlobalStyles.greyLine
-                              : Colors.white,
+                              ? GlobalStyles.backgroundDarkGrey
+                              : Colors.transparent,
                           width: 3.0,
                         ),
                       )),
@@ -79,8 +79,8 @@ class BuildIncidentsOverview extends StatelessWidget {
                         bottom: BorderSide(
                           color: incidentController.incidentFilters
                                   .contains("Terminé")
-                              ? GlobalStyles.greyLine
-                              : Colors.white,
+                              ? GlobalStyles.backgroundDarkGrey
+                              : Colors.transparent,
                           width: 3.0,
                         ),
                       )),

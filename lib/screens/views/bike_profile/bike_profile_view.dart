@@ -347,12 +347,15 @@ class _MyBikeViewState extends State<MyBikeView> {
             SizedBox(height: 20.0),
             Center(
                 child: GestureDetector(
-              onTap: () => Get.to(() => IncidentDeclaration(
-                    client: bikeController.userBike.value.clientName,
-                    velo: bikeController.userBike.value.bikeName,
-                    groupe: bikeController.userBike.value.groupeName,
-                    veloPk: bikeController.userBike.value.veloPk,
-                  )),
+              onTap: () => Get.to(
+                  () => IncidentDeclaration(
+                        client: bikeController.userBike.value.clientName,
+                        velo: bikeController.userBike.value.bikeName,
+                        groupe: bikeController.userBike.value.groupeName,
+                        veloPk: bikeController.userBike.value.veloPk,
+                      ),
+                  transition: Transition.downToUp,
+                  duration: Duration(milliseconds: 400)),
               child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),

@@ -112,14 +112,7 @@ class BikesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: <Color>[
-                Color.fromARGB(255, 225, 225, 225),
-                Colors.white,
-              ])),
+          color: GlobalStyles.backgroundLightGrey,
           child: Padding(
               padding: EdgeInsets.only(top: 150),
               child: ListView.builder(

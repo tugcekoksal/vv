@@ -35,14 +35,7 @@ class IncidentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: <Color>[
-              Color.fromARGB(255, 225, 225, 225),
-              Colors.white,
-            ])),
+        color: GlobalStyles.backgroundLightGrey,
         child: Column(children: [
           SizedBox(height: 65.0),
           BuildIncidentsOverview(
@@ -106,34 +99,30 @@ class IncidentsView extends StatelessWidget {
               );
             } else {
               return Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: SmartRefresher(
-                        enablePullDown: true,
-                        enablePullUp: true,
-                        controller: incidentController.refreshController,
-                        onRefresh: () {
-                          // Refresh incidents
-                          incidentController.refreshIncidentsList();
-                          incidentController.refreshController
-                              .refreshCompleted();
-                        },
-                        onLoading: () {
-                          // Add new incidents in the list with newest_id and count
-                          incidentController.fetchNewIncidents();
-                          incidentController.refreshController.loadComplete();
-                        },
-                        child: ListView.builder(
-                            itemCount: incidentController.incidentList.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                  onTap: () => showIncidentDetailPage(
-                                      incidentController.incidentList[index]),
-                                  child: BuildIncidentHistoricTile(
-                                      data: incidentController
-                                          .incidentList[index]));
-                            }),
-                      )));
+                  child: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                controller: incidentController.refreshController,
+                onRefresh: () {
+                  // Refresh incidents
+                  incidentController.refreshIncidentsList();
+                  incidentController.refreshController.refreshCompleted();
+                },
+                onLoading: () {
+                  // Add new incidents in the list with newest_id and count
+                  incidentController.fetchNewIncidents();
+                  incidentController.refreshController.loadComplete();
+                },
+                child: ListView.builder(
+                    itemCount: incidentController.incidentList.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () => showIncidentDetailPage(
+                              incidentController.incidentList[index]),
+                          child: BuildIncidentHistoricTile(
+                              data: incidentController.incidentList[index]));
+                    }),
+              ));
             }
           })
         ]));
@@ -152,7 +141,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
-      margin: const EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
       child: Column(

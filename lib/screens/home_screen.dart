@@ -31,7 +31,8 @@ class HomeScreen extends StatelessWidget {
   final List<String> tabTitleClient = ["Mes incidents", "Mes vélos", "Scanner"];
 
   showDeclarationIncidentPage() {
-    Get.to(() => IncidentDeclaration());
+    Get.to(() => IncidentDeclaration(),
+        transition: Transition.downToUp, duration: Duration(milliseconds: 400));
   }
 
   @override
