@@ -48,11 +48,13 @@ class _MyBikesViewState extends State<MyBikesView> {
               mapBikeController: mapBikeController,
               streetView: mapBikeController.isStreetView)
           : BikesList(mapBikeController: mapBikeController),
-      TopOptions(
-        mapBikesController: mapBikeController,
-        changeMapView: changeMapView,
-        changeMapStyle: changeMapStyle,
-      ),
+      Padding(
+          padding: EdgeInsets.only(top: 80),
+          child: TopOptions(
+            mapBikesController: mapBikeController,
+            changeMapView: changeMapView,
+            changeMapStyle: changeMapStyle,
+          )),
       Positioned(
           bottom: 0,
           child: Obx(() {

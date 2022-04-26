@@ -91,151 +91,167 @@ class _BikesMapState extends State<BikesMap> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return FlutterMap(
-        options: MapOptions(
-          onPositionChanged: onGeoChanged,
-          center: latLng.LatLng(48.85942707304794, 2.350492773209436),
-          zoom: 11.0,
-          minZoom: 1,
-          maxZoom: 21.0,
-          interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-          plugins: [
-            MarkerClusterPlugin(),
+      return Stack(children: [
+        FlutterMap(
+          options: MapOptions(
+            onPositionChanged: onGeoChanged,
+            center: latLng.LatLng(48.85942707304794, 2.350492773209436),
+            zoom: 11.0,
+            minZoom: 1,
+            maxZoom: 21.0,
+            interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+            plugins: [
+              MarkerClusterPlugin(),
+            ],
+          ),
+          layers: [
+            TileLayerOptions(
+                opacity: 1,
+                urlTemplate: widget.streetView
+                    ? streetsIntegrationUrl
+                    : satteliteIntegrationUrl,
+                minZoom: 1,
+                maxZoom: 21,
+                updateInterval: 100,
+                keepBuffer: 5,
+                tileFadeInDuration: 100,
+                tileFadeInStart: 0.5,
+                tileFadeInStartWhenOverride: 0.5,
+                additionalOptions: {
+                  "accessToken": accesToken,
+                }),
+            MarkerClusterLayerOptions(
+              maxClusterRadius: 120,
+              size: Size(40, 40),
+              fitBoundsOptions: FitBoundsOptions(
+                padding: EdgeInsets.all(50),
+              ),
+              markers:
+                  widget.mapBikeController.bikeWithPositionList.map((bike) {
+                return Marker(
+                    width: 35.0,
+                    height: 35.0,
+                    point: latLng.LatLng(bike.pos.latitude, bike.pos.longitude),
+                    builder: (ctx) => Container(
+                        child: Image.asset(MarkersPaths[bike.mapStatus])));
+              }).toList(),
+              polygonOptions: PolygonOptions(
+                  borderColor: Color.fromARGB(0, 255, 255, 255),
+                  color: Color.fromARGB(0, 255, 255, 255),
+                  borderStrokeWidth: 0),
+              builder: (context, markers) {
+                return Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border:
+                          Border.all(color: GlobalStyles.purple, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0)),
+                  alignment: Alignment.center,
+                  child: Text(markers.length.toString(),
+                      style: TextStyle(
+                          color: GlobalStyles.purple,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.0)),
+                );
+              },
+              popupOptions: PopupOptions(
+                  popupController: widget.popupController,
+                  popupBuilder: (_, marker) => ClipPath(
+                        clipper: PopUpClipper(),
+                        child: Container(
+                          width: 300,
+                          height: 170,
+                          padding: EdgeInsets.all(15.0),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: Stack(
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    widget.mapBikeController
+                                        .buildPopUpContentName(marker),
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: GlobalStyles.greyAddPhotos),
+                                  ),
+                                  RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      text: 'Dernière émission le \n',
+                                      style: TextStyle(
+                                          fontSize: 18.0, color: Colors.black),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: widget.mapBikeController
+                                                .buildPopUpContentLastEmission(
+                                                    marker),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  GestureDetector(
+                                      onTap: () => goToBikeProfileFromMarker(
+                                          marker, widget.mapBikeController),
+                                      child: Container(
+                                        width: double.infinity,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: GlobalStyles.blue),
+                                            borderRadius:
+                                                BorderRadius.circular(5.0)),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10.0, vertical: 7.5),
+                                        child: Text(
+                                          "Voir le profil".toUpperCase(),
+                                          style: TextStyle(
+                                              color: GlobalStyles.blue,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: GestureDetector(
+                                  onTap: () => widget.popupController
+                                      .togglePopup(marker),
+                                  child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      child: Icon(Icons.close)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+            ),
           ],
         ),
-        layers: [
-          TileLayerOptions(
-              opacity: 1,
-              urlTemplate: widget.streetView
-                  ? streetsIntegrationUrl
-                  : satteliteIntegrationUrl,
-              minZoom: 1,
-              maxZoom: 21,
-              updateInterval: 100,
-              keepBuffer: 5,
-              tileFadeInDuration: 100,
-              tileFadeInStart: 0.5,
-              tileFadeInStartWhenOverride: 0.5,
-              additionalOptions: {
-                "accessToken": accesToken,
-              }),
-          MarkerClusterLayerOptions(
-            maxClusterRadius: 120,
-            size: Size(40, 40),
-            fitBoundsOptions: FitBoundsOptions(
-              padding: EdgeInsets.all(50),
-            ),
-            markers: widget.mapBikeController.bikeWithPositionList.map((bike) {
-              return Marker(
-                  width: 35.0,
-                  height: 35.0,
-                  point: latLng.LatLng(bike.pos.latitude, bike.pos.longitude),
-                  builder: (ctx) => Container(
-                      child: Image.asset(MarkersPaths[bike.mapStatus])));
-            }).toList(),
-            polygonOptions: PolygonOptions(
-                borderColor: Color.fromARGB(0, 255, 255, 255),
-                color: Color.fromARGB(0, 255, 255, 255),
-                borderStrokeWidth: 0),
-            builder: (context, markers) {
-              return Container(
-                height: 20,
-                width: 20,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: GlobalStyles.purple, width: 2.0),
-                    borderRadius: BorderRadius.circular(20.0)),
-                alignment: Alignment.center,
-                child: Text(markers.length.toString(),
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0)),
-              );
-            },
-            popupOptions: PopupOptions(
-                popupController: widget.popupController,
-                popupBuilder: (_, marker) => ClipPath(
-                      clipper: PopUpClipper(),
-                      child: Container(
-                        width: 300,
-                        height: 170,
-                        padding: EdgeInsets.all(15.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12.0)),
-                        child: Stack(
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  widget.mapBikeController
-                                      .buildPopUpContentName(marker),
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: GlobalStyles.greyAddPhotos),
-                                ),
-                                RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    text: 'Dernière émission le \n',
-                                    style: TextStyle(
-                                        fontSize: 18.0, color: Colors.black),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: widget.mapBikeController
-                                              .buildPopUpContentLastEmission(
-                                                  marker),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10.0),
-                                GestureDetector(
-                                    onTap: () => goToBikeProfileFromMarker(
-                                        marker, widget.mapBikeController),
-                                    child: Container(
-                                      width: double.infinity,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: GlobalStyles.blue),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0)),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.0, vertical: 7.5),
-                                      child: Text(
-                                        "Voir le profil".toUpperCase(),
-                                        style: TextStyle(
-                                            color: GlobalStyles.blue,
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    )),
-                              ],
-                            ),
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: GestureDetector(
-                                onTap: () =>
-                                    widget.popupController.togglePopup(marker),
-                                child: Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: Icon(Icons.close)),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    )),
-          ),
-        ],
-      );
+        Container(
+          height: 150,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: <Color>[
+                Color.fromARGB(50, 255, 255, 255),
+                Color.fromARGB(255, 214, 214, 214),
+              ])),
+        )
+        // Container(height: 85, color: Color.fromARGB(119, 200, 200, 200)),
+      ]);
     });
   }
 }

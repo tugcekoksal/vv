@@ -34,98 +34,109 @@ class IncidentsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      BuildIncidentsOverview(
-        setFilterTab: incidentController.setStatusToDisplay,
-      ),
-      Obx(() {
-        if (incidentController.isLoading.value) {
-          return Expanded(
-              child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return BuildLoadingBox(
-                      child: Container(
-                          padding: const EdgeInsets.all(20.0),
-                          margin: const EdgeInsets.only(
-                              bottom: 8.0, left: 20.0, right: 20.0),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0)),
-                          height: 100),
-                    );
-                  }));
-        } else if (incidentController.error.value != '') {
-          return Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: Text(
-                  incidentController.error.value,
-                  style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: <Color>[
+              Colors.grey,
+              Colors.white,
+            ])),
+        child: Column(children: [
+          SizedBox(height: 65.0),
+          BuildIncidentsOverview(
+            setFilterTab: incidentController.setStatusToDisplay,
+          ),
+          Obx(() {
+            if (incidentController.isLoading.value) {
+              return Expanded(
+                  child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return BuildLoadingBox(
+                          child: Container(
+                              padding: const EdgeInsets.all(20.0),
+                              margin: const EdgeInsets.only(
+                                  bottom: 8.0, left: 20.0, right: 20.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              height: 100),
+                        );
+                      }));
+            } else if (incidentController.error.value != '') {
+              return Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Text(
+                      incidentController.error.value,
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          );
-        } else if (incidentController.noIncidentsToShow.value) {
-          return Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check_box_rounded,
-                    color: GlobalStyles.green,
-                    size: 50,
+              );
+            } else if (incidentController.noIncidentsToShow.value) {
+              return Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.check_box_rounded,
+                        color: GlobalStyles.green,
+                        size: 50,
+                      ),
+                      Text(
+                        "Aucun incidents",
+                        style: TextStyle(
+                            color: GlobalStyles.backgroundDarkGrey,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Aucun incidents",
-                    style: TextStyle(
-                        color: GlobalStyles.backgroundDarkGrey,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: SmartRefresher(
-                    enablePullDown: true,
-                    enablePullUp: true,
-                    controller: incidentController.refreshController,
-                    onRefresh: () {
-                      // Refresh incidents
-                      incidentController.refreshIncidentsList();
-                      incidentController.refreshController.refreshCompleted();
-                    },
-                    onLoading: () {
-                      // Add new incidents in the list with newest_id and count
-                      incidentController.fetchNewIncidents();
-                      incidentController.refreshController.loadComplete();
-                    },
-                    child: ListView.builder(
-                        itemCount: incidentController.incidentList.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () => showIncidentDetailPage(
-                                  incidentController.incidentList[index]),
-                              child: BuildIncidentHistoricTile(
-                                  data:
-                                      incidentController.incidentList[index]));
-                        }),
-                  )));
-        }
-      })
-    ]);
+                ),
+              );
+            } else {
+              return Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: SmartRefresher(
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        controller: incidentController.refreshController,
+                        onRefresh: () {
+                          // Refresh incidents
+                          incidentController.refreshIncidentsList();
+                          incidentController.refreshController
+                              .refreshCompleted();
+                        },
+                        onLoading: () {
+                          // Add new incidents in the list with newest_id and count
+                          incidentController.fetchNewIncidents();
+                          incidentController.refreshController.loadComplete();
+                        },
+                        child: ListView.builder(
+                            itemCount: incidentController.incidentList.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () => showIncidentDetailPage(
+                                      incidentController.incidentList[index]),
+                                  child: BuildIncidentHistoricTile(
+                                      data: incidentController
+                                          .incidentList[index]));
+                            }),
+                      )));
+            }
+          })
+        ]));
   }
 }
 
@@ -143,7 +154,8 @@ class BuildIncidentHistoricTile extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       margin: const EdgeInsets.only(bottom: 8.0),
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
+          color: GlobalStyles.backgroundLightGrey,
+          borderRadius: BorderRadius.circular(20.0)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

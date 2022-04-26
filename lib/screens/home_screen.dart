@@ -39,30 +39,33 @@ class HomeScreen extends StatelessWidget {
     return new Container(
         color: Colors.transparent,
         child: Scaffold(
+            extendBodyBehindAppBar: true,
             backgroundColor: loginController.isLogin.value
-                ? GlobalStyles.backgroundLightGrey
+                ? Colors.white
                 : GlobalStyles.loginBackground,
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
               toolbarHeight: 65.0,
               elevation: 0,
               centerTitle: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(20.0),
+                  top: Radius.circular(20.0),
                 ),
               ),
               title: Obx(() {
-                return Text(
+                return Container(
+                    child: Text(
                   loginController.isLogin.value
                       ? tabTitleUser[navigationController.currentIndex.value]
                       : "VelyVelo",
                   style: TextStyle(
-                      color: GlobalStyles.greyTitle,
+                      color: GlobalStyles.backgroundDarkGrey,
                       fontSize: 20.0,
                       fontWeight: FontWeight.w700),
-                );
+                ));
               }),
               leading: Container(
                 margin: EdgeInsets.only(left: 15.0),
@@ -78,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                             child: Icon(
                               Icons.person,
                               size: 30,
-                              color: GlobalStyles.greyTitle,
+                              color: GlobalStyles.backgroundDarkGrey,
                             ),
                             onSelected: (result) {
                               if (result == 1) loginController.logoutUser();

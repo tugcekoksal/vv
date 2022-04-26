@@ -22,7 +22,10 @@ class SwitchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Container(
       decoration: BoxDecoration(
-          color: isActive ? GlobalStyles.blue : Colors.white,
+          border: isActive
+              ? Border.all(color: GlobalStyles.backgroundDarkGrey)
+              : null,
+          color: isActive ? Colors.white : GlobalStyles.backgroundDarkGrey,
           borderRadius: BorderRadius.circular(30)),
       width: 60,
       height: 30,
@@ -30,7 +33,9 @@ class SwitchButton extends StatelessWidget {
         child: Text(
           textButton,
           style: TextStyle(
-              color: isActive ? Colors.white : GlobalStyles.backgroundDarkGrey,
+              color: isActive
+                  ? GlobalStyles.backgroundDarkGrey
+                  : GlobalStyles.backgroundLightGrey,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -52,7 +57,9 @@ class TopSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Container(
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(30)),
+          shape: BoxShape.circle,
+          color: GlobalStyles.backgroundDarkGrey,
+        ),
         width: 130,
         height: 40,
         child: Row(
@@ -99,8 +106,9 @@ class TopButton extends StatelessWidget {
           child: Container(
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.0)),
+                shape: BoxShape.circle,
+                color: GlobalStyles.backgroundDarkGrey,
+              ),
               child: mapBikesController.isLoadingFilters.value
                   ? Padding(
                       padding: const EdgeInsets.all(2.0),
@@ -115,7 +123,7 @@ class TopButton extends StatelessWidget {
                     )
                   : Icon(
                       iconButton,
-                      color: GlobalStyles.greyTitle,
+                      color: GlobalStyles.backgroundLightGrey,
                       size: 30.0,
                     )));
     }));
@@ -168,7 +176,7 @@ class TopOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (Container(
-        margin: EdgeInsets.all(10.0),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

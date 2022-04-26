@@ -79,9 +79,10 @@ class VeloCard extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.all(20.0),
         margin: const EdgeInsets.only(
-            bottom: 4.0, top: 4.0, left: 16.0, right: 16.0),
+            bottom: 4.0, top: 4.0, left: 20.0, right: 20.0),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
+            color: GlobalStyles.backgroundLightGrey,
+            borderRadius: BorderRadius.circular(20.0)),
         child: Column(
           children: [
             Row(
@@ -112,24 +113,36 @@ class BikesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-          padding: EdgeInsets.only(top: 55),
-          child: ListView.builder(
-            itemCount: mapBikeController.bikeWithPositionList.length,
-            itemBuilder: (context, index) {
-              return (GestureDetector(
-                child: VeloCard(
-                    name: mapBikeController.bikeWithPositionList[index].name,
-                    group: mapBikeController.bikeWithPositionList[index].group,
-                    mapStatus: mapBikeController
-                        .bikeWithPositionList[index].mapStatus),
-                onTap: () => {
-                  goToBikeProfileFromPk(
-                      mapBikeController.bikeWithPositionList[index].veloPk,
-                      mapBikeController)
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: <Color>[
+                Colors.grey,
+                Colors.white,
+              ])),
+          child: Padding(
+              padding: EdgeInsets.only(top: 150),
+              child: ListView.builder(
+                padding: EdgeInsets.all(0),
+                itemCount: mapBikeController.bikeWithPositionList.length,
+                itemBuilder: (context, index) {
+                  return (GestureDetector(
+                    child: VeloCard(
+                        name:
+                            mapBikeController.bikeWithPositionList[index].name,
+                        group:
+                            mapBikeController.bikeWithPositionList[index].group,
+                        mapStatus: mapBikeController
+                            .bikeWithPositionList[index].mapStatus),
+                    onTap: () => {
+                      goToBikeProfileFromPk(
+                          mapBikeController.bikeWithPositionList[index].veloPk,
+                          mapBikeController)
+                    },
+                  ));
                 },
-              ));
-            },
-          ));
+              )));
     });
   }
 }
