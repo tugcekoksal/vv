@@ -41,6 +41,7 @@ class HomeScreen extends StatelessWidget {
         color: Colors.transparent,
         child: Scaffold(
             extendBodyBehindAppBar: true,
+            extendBody: true,
             backgroundColor: loginController.isLogin.value
                 ? Colors.white
                 : GlobalStyles.loginBackground,
@@ -77,7 +78,10 @@ class HomeScreen extends StatelessWidget {
                 Obx(() {
                   return loginController.isLogin.value
                       ? GestureDetector(
-                          onTap: () => loginController.logoutUser(),
+                          onTap: () => {
+                            loginController.logoutUser(),
+                            Navigator.pop(context)
+                          },
                           child: PopupMenuButton(
                             child: Icon(
                               Icons.person,

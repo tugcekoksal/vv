@@ -203,6 +203,7 @@ class IncidentController extends GetxController {
         isLoading(false);
         noIncidentsToShow(true);
       }
+      error.value = "";
     } catch (e) {
       isLoading(false);
       print("error incident $e");

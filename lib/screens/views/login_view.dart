@@ -23,12 +23,21 @@ class LoginView extends StatelessWidget {
     return GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(alignment: Alignment.center, children: [
+          Positioned(
+            bottom: 0,
+            child: Container(
+                width: screenWidth,
+                child: Image.asset(
+                  "assets/background-login.png",
+                  fit: BoxFit.fill,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.all(40.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: screenHeight * 0.08),
+                SizedBox(height: screenHeight * 0.2),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Bienvenue !",
@@ -45,7 +54,7 @@ class LoginView extends StatelessWidget {
                           fontSize: 11.0,
                           fontWeight: FontWeight.w500)),
                 ),
-                SizedBox(height: screenHeight * 0.06),
+                SizedBox(height: screenHeight * 0.03),
                 Obx(() {
                   if (loginController.isLoading.value) {
                     return CircularProgressIndicator();
@@ -53,6 +62,7 @@ class LoginView extends StatelessWidget {
                     return SizedBox();
                   }
                 }),
+                SizedBox(height: screenHeight * 0.03),
                 BuildInputLogin(
                     placeholder: "Identifiant",
                     isPassword: false,
@@ -88,7 +98,7 @@ class LoginView extends StatelessWidget {
                                 fontWeight: FontWeight.w500))),
                   );
                 }),
-                SizedBox(height: screenHeight * 0.05),
+                SizedBox(height: screenHeight * 0.03),
                 GestureDetector(
                   onTap: () => loginController.loginUser(),
                   child: Container(
@@ -103,29 +113,19 @@ class LoginView extends StatelessWidget {
                             fontSize: 12.0,
                             fontWeight: FontWeight.w700)),
                   ),
-                )
+                ),
+                SizedBox(height: screenHeight * 0.03),
+                InkWell(
+                  onTap: () => launch('https://dms.velyvelo.com/signup_apple/'),
+                  child: Text(
+                      "Vous n'avez pas encore de compte chez nous ? Cliquez ici",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: GlobalStyles.purple,
+                          fontSize: 11.0,
+                          fontWeight: FontWeight.w500)),
+                ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-                width: screenWidth,
-                child: Image.asset(
-                  "assets/background-login.png",
-                  fit: BoxFit.fill,
-                )),
-          ),
-          Positioned(
-            bottom: screenWidth * 0.45,
-            child: InkWell(
-              onTap: () => launch('https://dms.velyvelo.com/signup_apple/'),
-              child: Text(
-                  "Vous n'avez pas encore de compte chez nous ? Cliquez ici",
-                  style: TextStyle(
-                      color: GlobalStyles.purple,
-                      fontSize: 11.0,
-                      fontWeight: FontWeight.w500)),
             ),
           ),
         ]));

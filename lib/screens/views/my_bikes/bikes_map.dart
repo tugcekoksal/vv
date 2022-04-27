@@ -97,7 +97,7 @@ class _BikesMapState extends State<BikesMap> {
             onPositionChanged: onGeoChanged,
             center: latLng.LatLng(48.85942707304794, 2.350492773209436),
             zoom: 11.0,
-            minZoom: 1,
+            minZoom: 3,
             maxZoom: 21.0,
             interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
             plugins: [
@@ -110,7 +110,7 @@ class _BikesMapState extends State<BikesMap> {
                 urlTemplate: widget.streetView
                     ? streetsIntegrationUrl
                     : satteliteIntegrationUrl,
-                minZoom: 1,
+                minZoom: 3,
                 maxZoom: 21,
                 updateInterval: 100,
                 keepBuffer: 5,

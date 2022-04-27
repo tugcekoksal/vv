@@ -25,7 +25,7 @@ class SwitchButton extends StatelessWidget {
           color: isActive ? GlobalStyles.blue : Colors.white,
           borderRadius: BorderRadius.circular(30)),
       width: 60,
-      height: 30,
+      height: 40,
       child: Center(
         child: Text(
           textButton,
@@ -63,7 +63,7 @@ class TopSwitch extends StatelessWidget {
           ],
         ),
         width: 130,
-        height: 40,
+        height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -88,14 +88,15 @@ class TopSwitch extends StatelessWidget {
 class TopButton extends StatelessWidget {
   final MapBikesController mapBikesController;
   final IconData iconButton;
-
   final Function actionFunction;
+  final String text;
 
   TopButton(
       {Key? key,
       required this.mapBikesController,
       required this.actionFunction,
-      required this.iconButton})
+      required this.iconButton,
+      required this.text})
       : super(key: key);
 
   Widget build(BuildContext context) {
@@ -130,11 +131,20 @@ class TopButton extends StatelessWidget {
                         ),
                       ),
                     )
-                  : Icon(
-                      iconButton,
-                      color: GlobalStyles.backgroundDarkGrey,
-                      size: 30.0,
-                    )));
+                  : Container(
+                      height: 40,
+                      width: 40,
+                      child: Column(children: [
+                        Icon(
+                          iconButton,
+                          color: GlobalStyles.backgroundDarkGrey,
+                          size: 30.0,
+                        ),
+                        Text(
+                          text,
+                          style: TextStyle(fontSize: 7),
+                        )
+                      ]))));
     }));
   }
 }
@@ -200,19 +210,25 @@ class TopOptions extends StatelessWidget {
                   Row(
                     children: [
                       TopButton(
-                          mapBikesController: mapBikesController,
-                          iconButton: Icons.qr_code_scanner,
-                          actionFunction: showScan),
+                        mapBikesController: mapBikesController,
+                        iconButton: Icons.qr_code_scanner,
+                        actionFunction: showScan,
+                        text: "QR Code",
+                      ),
                       const SizedBox(width: 10.0),
                       TopButton(
-                          mapBikesController: mapBikesController,
-                          iconButton: Icons.filter_list_outlined,
-                          actionFunction: showFilters),
+                        mapBikesController: mapBikesController,
+                        iconButton: Icons.filter_list_outlined,
+                        actionFunction: showFilters,
+                        text: "Filtres",
+                      ),
                       const SizedBox(width: 10.0),
                       TopButton(
-                          mapBikesController: mapBikesController,
-                          iconButton: Icons.search,
-                          actionFunction: showSearch),
+                        mapBikesController: mapBikesController,
+                        iconButton: Icons.search,
+                        actionFunction: showSearch,
+                        text: "Recherche",
+                      ),
                     ],
                   ),
                 ],

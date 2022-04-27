@@ -51,6 +51,14 @@ class LoginController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString("username") != null &&
+        prefs.getString("token") != null) {
+      isLoading(false);
+      isLogin(true);
+      tokenAndNameAuth();
+    }
   }
 
   void tokenAndNameAuth() async {

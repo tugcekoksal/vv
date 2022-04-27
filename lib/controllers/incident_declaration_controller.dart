@@ -1,5 +1,7 @@
 // Vendor
+import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 
@@ -124,6 +126,10 @@ class IncidentDeclarationController extends GetxController {
             isLabelsPresent.add(label.name);
           }
         }).toList();
+        dropdownItemGroupList
+            .insert(0, {'label': 'Pas de groupe', 'value': (-1).toString()});
+        dropdownItemGroupListNames.insert(0, "Pas de groupe");
+
         dropdownItemGroupList.refresh();
         isLoadingLabelGroup(false);
         clientLabelPicked(true);
@@ -151,6 +157,10 @@ class IncidentDeclarationController extends GetxController {
             isLabelsPresent.add(label.name);
           }
         }).toList();
+        dropdownItemGroupList
+            .insert(0, {'label': 'Pas de groupe', 'value': (-1).toString()});
+        dropdownItemGroupListNames.insert(0, "Pas de groupe");
+        print(dropdownItemGroupListNames);
         dropdownItemGroupList.refresh();
         isLoadingLabelGroup(false);
         clientLabelPicked(true);
@@ -161,6 +171,7 @@ class IncidentDeclarationController extends GetxController {
   }
 
   void fetchBikeLabelsByGroup() async {
+    print("FECTH");
     int groupPk = getGroupItem();
     try {
       isLoadingLabelBike(true);
@@ -285,6 +296,8 @@ class IncidentDeclarationController extends GetxController {
   }
 
   setGroupLabel(value) {
+    print(value);
+    print(informations["Groupe"]);
     if (value != informations["Groupe"]) {
       // Set client label value
       informations["Groupe"] = value;

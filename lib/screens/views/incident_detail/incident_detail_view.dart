@@ -44,33 +44,9 @@ class IncidentDetail extends StatelessWidget {
     init();
     return Scaffold(
         backgroundColor: GlobalStyles.backgroundLightGrey,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          toolbarHeight: 65.0,
-          elevation: 0,
-          centerTitle: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20.0),
-            ),
-          ),
-          title: Text(
-            "Mes incidents",
-            style: TextStyle(
-                color: GlobalStyles.greyTitle,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w700),
-          ),
-          leading: Container(
-            margin: EdgeInsets.only(left: 15.0),
-            child: SvgPicture.asset("assets/logo.svg",
-                height: 15.0, width: 15.0, fit: BoxFit.scaleDown),
-          ),
-        ),
         body: SingleChildScrollView(
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
                 // Button to return to the incidents historic
