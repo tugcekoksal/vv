@@ -41,6 +41,7 @@ class BikeController extends GetxController {
   }
 
   Future<void> fetchUserBike(int veloPk) async {
+    error.value = "";
     try {
       isLoading(true);
       var bike = await HttpService.fetchUserBike(veloPk, userToken);
@@ -48,6 +49,9 @@ class BikeController extends GetxController {
         userBike.value = bike;
         isLoading(false);
         print(userBike.value.inProgressRepairs.length);
+      } else {
+        error.value = "Vous n'avez pas accès aux données de ce vélo";
+        isLoading(false);
       }
     } catch (e) {
       print(e);

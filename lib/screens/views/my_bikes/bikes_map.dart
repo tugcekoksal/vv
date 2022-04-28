@@ -47,6 +47,7 @@ class PopUpClipper extends CustomClipper<Path> {
   }
 }
 
+// ignore: must_be_immutable
 class BikesMap extends StatefulWidget {
   final PopupController popupController = new PopupController();
   final MapBikesController mapBikeController;

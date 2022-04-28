@@ -26,10 +26,9 @@ Future fetchUserBikeService(
     var userBike = responseStr;
     return userBikeModelFromJson(userBike);
   } else if (response.statusCode == 400) {
-    var error = request.body;
-    print("error");
-    print(error);
+    return null;
   } else {
-    throw Exception("UserBike ${request.body}");
+    return null;
+    // throw Exception("UserBike ${request.body}");
   }
 }

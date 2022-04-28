@@ -19,7 +19,8 @@ class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   Barcode? result;
-
+  bool canScan = true;
+  bool isSnackBarActive = false;
   final BikeController bikeController = Get.put(BikeController());
 
   QRViewController? controller;
@@ -34,11 +35,28 @@ class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
     }
   }
 
+  final snackBar = SnackBar(
+      content: Text('Vous n\'avez pas accès aux données de ce vélo.'),
+      backgroundColor: Colors.red);
+
   showBikeDetailScanPage(id) async {
-    bikeController.isViewingScanPage(true);
     await bikeController.fetchUserBike(id);
-    Get.to(() => BikeDetailScan(),
-        transition: Transition.downToUp, duration: Duration(milliseconds: 400));
+
+    if (bikeController.error.value == "") {
+      bikeController.isViewingScanPage(true);
+      Get.to(() => BikeDetailScan(),
+          transition: Transition.downToUp,
+          duration: Duration(milliseconds: 400));
+    } else {
+      // ScaffoldMessenger.of(context).clearSnackBars();
+      if (!isSnackBarActive) {
+        isSnackBarActive = true;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(snackBar)
+            .closed
+            .then((value) => {isSnackBarActive = false});
+      }
+    }
   }
 
   @override
@@ -61,11 +79,17 @@ class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
+
     controller.scannedDataStream.listen((barcode) {
       setState(() {
         result = barcode;
-
-        if (result != null && !bikeController.isViewingScanPage.value) {
+        if (result != null &&
+            !bikeController.isViewingScanPage.value &&
+            canScan) {
+          canScan = false;
+          Future.delayed(const Duration(seconds: 1), () {
+            canScan = true;
+          });
           showBikeDetailScanPage(int.parse(result!.code!));
         }
       });

@@ -1,6 +1,5 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;

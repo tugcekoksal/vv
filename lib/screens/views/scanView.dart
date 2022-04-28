@@ -10,48 +10,35 @@ import 'package:velyvelo/components/BuildQRCodeScanner.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
+import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 class ScanView extends StatelessWidget {
   ScanView({Key? key}) : super(key: key);
 
   final BikeController bikeController = Get.put(BikeController());
 
+  void init() {
+    bikeController.error.value = "";
+  }
+
   @override
   Widget build(BuildContext context) {
+    init();
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.075),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                  onPressed: () => {Navigator.of(context).pop()},
-                  icon: Icon(
-                    Icons.arrow_circle_left_outlined,
-                    size: 30,
-                  )),
-              Container(
-                  child: Text(
-                "Scannez un vélo",
-                style: TextStyle(
-                    color: GlobalStyles.greyText,
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.w700),
-                textAlign: TextAlign.center,
-              )),
-              SizedBox(width: 50.0),
-            ],
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.075),
+          ReturnContainer(text: "Scannez un vélo"),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           Container(
               height: MediaQuery.of(context).size.height * 0.5,
               width: MediaQuery.of(context).size.width * 0.7,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
                   child: BuildQRCodeScanner())),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.075),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.0),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.15),

@@ -16,11 +16,12 @@ class PurpleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        style: TextStyle(
-            color: GlobalStyles.purple,
-            fontSize: 17.0,
-            fontWeight: FontWeight.w600));
+    return Flexible(
+        child: Text(text,
+            style: TextStyle(
+                color: GlobalStyles.purple,
+                fontSize: 17.0,
+                fontWeight: FontWeight.w600)));
   }
 }
 

@@ -1,5 +1,4 @@
 // Vendor
-import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 
 // Controllers
@@ -7,7 +6,6 @@ import 'package:velyvelo/controllers/login_controller.dart';
 
 // Models
 import 'package:velyvelo/models/map/map_model.dart';
-import 'package:velyvelo/screens/views/my_bikes/bikes_map.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';
