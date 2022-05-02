@@ -23,10 +23,11 @@ import 'package:velyvelo/services/labels/get_incident_labels_service.dart';
 import 'package:velyvelo/services/login/login_user_service.dart';
 import 'package:velyvelo/services/login/type_user_service.dart';
 import 'package:velyvelo/services/map/get_map_filters_service.dart';
+import 'package:velyvelo/services/hubs/fetch_all_hubs.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
-  static String urlServer = "http://192.168.10.102:8000";
+  static String urlServer = "http://192.168.10.112:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
@@ -61,6 +62,16 @@ class HttpService {
   // Fetch the user's bike
   static Future fetchUserBike(int veloPk, String userToken) async {
     return fetchUserBikeService(urlServer, veloPk, userToken);
+  }
+
+  // Fetch the hubs for map
+  static Future fetchHubs(String userToken) async {
+    return fetchHubsService(urlServer, userToken);
+  }
+
+  // Fetch one hub for map popup
+  static Future fetchOneHub(int groupPk, String userToken) async {
+    return fetchOneHubService(urlServer, groupPk, userToken);
   }
 
   // Fetch the user's type

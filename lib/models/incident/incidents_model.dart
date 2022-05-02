@@ -31,15 +31,15 @@ class IncidentsModel {
 }
 
 class Incident {
-  Incident({
-    required this.incidentTypeReparation,
-    required this.incidentStatus,
-    required this.incidentPk,
-    required this.veloGroup,
-    required this.veloName,
-    required this.dateCreation,
-    required this.interventionTime,
-  });
+  Incident(
+      {required this.incidentTypeReparation,
+      required this.incidentStatus,
+      required this.incidentPk,
+      required this.veloGroup,
+      required this.veloName,
+      required this.dateCreation,
+      required this.interventionTime,
+      required this.reparationNumber});
 
   final String? incidentTypeReparation;
   final String? incidentStatus;
@@ -48,22 +48,25 @@ class Incident {
   final String veloName;
   final String? dateCreation;
   final int interventionTime;
+  final String reparationNumber;
 
   factory Incident.fromJson(Map<String, dynamic> json) => Incident(
-        incidentTypeReparation: json["incident_type_reparation"] == null
-            ? null
-            : json["incident_type_reparation"],
-        incidentStatus:
-            json["incident_status"] == null ? null : json["incident_status"],
-        incidentPk: json["incident_pk"] == null ? null : json["incident_pk"],
-        veloGroup:
-            json["velo_group"] == null ? "Pas de groupe" : json["velo_group"],
-        veloName: json["velo_name"] == null ? "Erreur" : json["velo_name"],
-        dateCreation:
-            json["date_creation"] == null ? null : json["date_creation"],
-        interventionTime:
-            json["intervention_time"] == null ? 0 : json["intervention_time"],
-      );
+      incidentTypeReparation: json["incident_type_reparation"] == null
+          ? null
+          : json["incident_type_reparation"],
+      incidentStatus:
+          json["incident_status"] == null ? null : json["incident_status"],
+      incidentPk: json["incident_pk"] == null ? null : json["incident_pk"],
+      veloGroup:
+          json["velo_group"] == null ? "Pas de groupe" : json["velo_group"],
+      veloName: json["velo_name"] == null ? "Erreur" : json["velo_name"],
+      dateCreation:
+          json["date_creation"] == null ? null : json["date_creation"],
+      interventionTime:
+          json["intervention_time"] == null ? 0 : json["intervention_time"],
+      reparationNumber: json["numero_reparation"] == null
+          ? "Pas de nom"
+          : json["numero_reparation"]);
 
   Map<String, dynamic> toJson() => {
         "incident_type_reparation":

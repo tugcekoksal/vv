@@ -19,7 +19,7 @@ class BuildIncidentsOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -31,38 +31,26 @@ class BuildIncidentsOverview extends StatelessWidget {
             GestureDetector(
                 onTap: () => setFilterTab("Nouvelle"),
                 child: Obx(() {
-                  return Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                        bottom: BorderSide(
-                          color: incidentController.incidentFilters
-                                  .contains("Nouvelle")
-                              ? GlobalStyles.backgroundDarkGrey
-                              : Colors.transparent,
-                          width: 3.0,
-                        ),
-                      )),
+                  return Opacity(
+                      opacity: incidentController.incidentFilters
+                              .contains("Nouvelle")
+                          ? 1
+                          : 0.5,
                       child: BuildStatus(
                           numberOfTile:
                               incidentController.nbOfNewIncidents.value,
-                          title: "Nouvelle",
+                          title: "Nouveau",
                           backgroundColor: GlobalStyles.blue));
                 })),
             SizedBox(width: 25.0),
             GestureDetector(
                 onTap: () => setFilterTab("En cours"),
                 child: Obx(() {
-                  return Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                        bottom: BorderSide(
-                          color: incidentController.incidentFilters
-                                  .contains("En cours")
-                              ? GlobalStyles.backgroundDarkGrey
-                              : Colors.transparent,
-                          width: 3.0,
-                        ),
-                      )),
+                  return Opacity(
+                      opacity: incidentController.incidentFilters
+                              .contains("En cours")
+                          ? 1
+                          : 0.5,
                       child: BuildStatus(
                           numberOfTile:
                               incidentController.nbOfProgressIncidents.value,
@@ -73,17 +61,11 @@ class BuildIncidentsOverview extends StatelessWidget {
             GestureDetector(
                 onTap: () => setFilterTab("Terminé"),
                 child: Obx(() {
-                  return Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                        bottom: BorderSide(
-                          color: incidentController.incidentFilters
-                                  .contains("Terminé")
-                              ? GlobalStyles.backgroundDarkGrey
-                              : Colors.transparent,
-                          width: 3.0,
-                        ),
-                      )),
+                  return Opacity(
+                      opacity:
+                          incidentController.incidentFilters.contains("Terminé")
+                              ? 1
+                              : 0.5,
                       child: BuildStatus(
                           numberOfTile:
                               incidentController.nbOfFinishedIncidents.value,
@@ -119,7 +101,7 @@ class BuildStatus extends StatelessWidget {
               opacity: incidentController.isLoading.value ? 0 : 1,
               child: Text(numberOfTile == null ? "0" : numberOfTile.toString(),
                   style: TextStyle(
-                      color: GlobalStyles.purple,
+                      color: backgroundColor,
                       fontSize: 20.0,
                       fontWeight: FontWeight.w800)));
         }),

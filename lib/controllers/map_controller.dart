@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 
 class MapBikesController extends GetxController {
   String userToken = Get.find<LoginController>().userToken;
+
   var isLoading = false.obs;
   var isLoadingFilters = false.obs;
 

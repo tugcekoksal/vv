@@ -1,5 +1,16 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+// Global Styles like colors
+import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/controllers/hub_controller.dart';
+
+// Controllers
+import 'package:velyvelo/controllers/map_controller.dart';
+
+// Vendor
+import 'package:flutter/material.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -11,6 +22,7 @@ import 'package:velyvelo/config/markersPaths.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/screens/views/my_bikes/hub_popup.dart';
 import 'package:velyvelo/screens/views/my_bikes/pin.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
@@ -49,34 +61,33 @@ class PopUpClipper extends CustomClipper<Path> {
 }
 
 // ignore: must_be_immutable
-class BikesMap extends StatefulWidget {
+class HubMap extends StatefulWidget {
   final PopupController popupController = new PopupController();
-  final MapBikesController mapBikeController;
+  final HubController hubController;
 
   bool streetView;
   double oldZoom = 0;
   latLng.LatLng oldPosition = latLng.LatLng(0, 0);
 
-  BikesMap(
-      {Key? key, required this.mapBikeController, required this.streetView})
+  HubMap({Key? key, required this.hubController, required this.streetView})
       : super(key: key);
 
   @override
-  State<BikesMap> createState() => _BikesMapState();
+  State<HubMap> createState() => _HubMapState();
 }
 
-class _BikesMapState extends State<BikesMap> {
+class _HubMapState extends State<HubMap> {
   void onGeoChanged(MapPosition position, bool hasGesture) {
     if (position.zoom != null) {
       if ((widget.oldZoom - position.zoom!).abs() > 1) {
         widget.oldZoom = position.zoom!;
-        widget.mapBikeController.fetchAllBikes();
+        widget.hubController.fetchHubs();
       }
     }
     if (position.bounds != null) {
       if (position.bounds!.contains(widget.oldPosition) == false) {
         widget.oldPosition = position.center!;
-        widget.mapBikeController.fetchAllBikes();
+        widget.hubController.fetchHubs();
       }
     }
     if (widget.streetView && position.zoom! >= 18) {
@@ -128,14 +139,13 @@ class _BikesMapState extends State<BikesMap> {
               fitBoundsOptions: FitBoundsOptions(
                 padding: EdgeInsets.all(50),
               ),
-              markers:
-                  widget.mapBikeController.bikeWithPositionList.map((bike) {
+              markers: widget.hubController.hubs.map((hub) {
+                print(hub);
                 return Marker(
                     width: 35.0,
                     height: 35.0,
-                    point: latLng.LatLng(bike.pos.latitude, bike.pos.longitude),
-                    builder: (ctx) =>
-                        Container(child: Pin(status: bike.mapStatus)));
+                    point: latLng.LatLng(hub.latitude ?? 0, hub.longitude ?? 0),
+                    builder: (ctx) => Container(child: HubPin(hub: hub)));
               }).toList(),
               polygonOptions: PolygonOptions(
                   borderColor: Color.fromARGB(0, 255, 255, 255),
@@ -147,13 +157,12 @@ class _BikesMapState extends State<BikesMap> {
                   width: 20,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      border:
-                          Border.all(color: GlobalStyles.purple, width: 2.0),
+                      border: Border.all(color: Colors.black, width: 2.0),
                       borderRadius: BorderRadius.circular(20.0)),
                   alignment: Alignment.center,
                   child: Text(markers.length.toString(),
                       style: TextStyle(
-                          color: GlobalStyles.purple,
+                          color: Colors.black,
                           fontWeight: FontWeight.w600,
                           fontSize: 14.0)),
                 );
@@ -164,64 +173,16 @@ class _BikesMapState extends State<BikesMap> {
                         clipper: PopUpClipper(),
                         child: Container(
                           width: 300,
-                          height: 170,
+                          height: 175,
                           padding: EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Stack(
                             children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    widget.mapBikeController
-                                        .buildPopUpContentName(marker),
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: GlobalStyles.greyAddPhotos),
-                                  ),
-                                  RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      text: 'Dernière émission le \n',
-                                      style: TextStyle(
-                                          fontSize: 18.0, color: Colors.black),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text: widget.mapBikeController
-                                                .buildPopUpContentLastEmission(
-                                                    marker),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  GestureDetector(
-                                      onTap: () => goToBikeProfileFromMarker(
-                                          marker, widget.mapBikeController),
-                                      child: Container(
-                                        width: double.infinity,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: GlobalStyles.blue),
-                                            borderRadius:
-                                                BorderRadius.circular(5.0)),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 7.5),
-                                        child: Text(
-                                          "Voir le profil".toUpperCase(),
-                                          style: TextStyle(
-                                              color: GlobalStyles.blue,
-                                              fontSize: 18.0,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      )),
-                                ],
-                              ),
+                              HubPopup(
+                                  hub: widget.hubController
+                                      .getHubFromMarker(marker)),
                               Positioned(
                                 right: 0,
                                 top: 0,

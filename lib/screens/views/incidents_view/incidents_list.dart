@@ -19,10 +19,11 @@ import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
-class IncidentsView extends StatelessWidget {
-  IncidentsView({Key? key}) : super(key: key);
+class IncidentsList extends StatelessWidget {
+  final IncidentController incidentController;
 
-  final IncidentController incidentController = Get.put(IncidentController());
+  const IncidentsList({Key? key, required this.incidentController})
+      : super(key: key);
 
   showIncidentDetailPage(data) async {
     int incidentID = int.parse(data.incidentPk);
@@ -34,85 +35,42 @@ class IncidentsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: GlobalStyles.backgroundLightGrey,
-        child: Column(children: [
-          SizedBox(height: 65.0),
-          BuildIncidentsOverview(
-            setFilterTab: incidentController.setStatusToDisplay,
-          ),
-          Obx(() {
-            if (incidentController.isLoading.value) {
-              return Expanded(
-                  child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return BuildLoadingBox(
-                          child: Container(
-                              padding: const EdgeInsets.all(20.0),
-                              margin: const EdgeInsets.only(
-                                  bottom: 8.0, left: 20.0, right: 20.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              height: 100),
-                        );
-                      }));
-            } else if (incidentController.error.value != '') {
-              return Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Text(
-                      incidentController.error.value,
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              );
-            } else if (incidentController.noIncidentsToShow.value) {
-              return Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.check_box_rounded,
-                        color: GlobalStyles.green,
-                        size: 50,
-                      ),
-                      Text(
-                        "Aucun incidents",
-                        style: TextStyle(
-                            color: GlobalStyles.backgroundDarkGrey,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w700),
-                      ),
+    return Obx(() {
+      return Expanded(
+          child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              controller: incidentController.refreshController,
+              onRefresh: () {
+                // Refresh incidents
+                incidentController.refreshIncidentsList();
+                incidentController.refreshController.refreshCompleted();
+              },
+              onLoading: () {
+                // Add new incidents in the list with newest_id and count
+                incidentController.fetchNewIncidents();
+                incidentController.refreshController.loadComplete();
+              },
+              child: ShaderMask(
+                shaderCallback: (Rect rect) {
+                  return LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      GlobalStyles.backgroundLightGrey,
+                      Colors.transparent,
+                      Colors.transparent,
+                      GlobalStyles.backgroundLightGrey
                     ],
-                  ),
-                ),
-              );
-            } else {
-              return Expanded(
-                  child: SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
-                controller: incidentController.refreshController,
-                onRefresh: () {
-                  // Refresh incidents
-                  incidentController.refreshIncidentsList();
-                  incidentController.refreshController.refreshCompleted();
+                    stops: [
+                      0.0,
+                      0.08,
+                      0.92,
+                      1.0
+                    ], // 10% background, 80% transparent, 10% background
+                  ).createShader(rect);
                 },
-                onLoading: () {
-                  // Add new incidents in the list with newest_id and count
-                  incidentController.fetchNewIncidents();
-                  incidentController.refreshController.loadComplete();
-                },
+                blendMode: BlendMode.dstOut,
                 child: ListView.builder(
                     itemCount: incidentController.incidentList.length,
                     itemBuilder: (context, index) {
@@ -122,10 +80,8 @@ class IncidentsView extends StatelessWidget {
                           child: BuildIncidentHistoricTile(
                               data: incidentController.incidentList[index]));
                     }),
-              ));
-            }
-          })
-        ]));
+              )));
+    });
   }
 }
 
@@ -169,7 +125,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
                           : colorBasedOnIncidentStatus(data.incidentStatus!),
                       borderRadius: BorderRadius.circular(12.5),
                     ),
-                    child: Text(valueIsNull(data.incidentStatus),
+                    child: Text(valueIsNull(data.reparationNumber),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: Colors.white,

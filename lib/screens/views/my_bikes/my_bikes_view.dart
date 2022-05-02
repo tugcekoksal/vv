@@ -4,9 +4,18 @@ import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/controllers/hub_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/screens/home/button_account.dart';
+import 'package:velyvelo/screens/home/button_scan.dart';
+import 'package:velyvelo/screens/home/title_app_bar.dart';
+import 'package:velyvelo/screens/views/my_bikes/button_filter.dart';
+import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
+import 'package:velyvelo/screens/views/my_bikes/button_velo.dart';
+import 'package:velyvelo/screens/views/my_bikes/hub_map.dart';
+import 'package:velyvelo/screens/views/my_bikes/info_usage.dart';
 
 // Own modules
 import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
@@ -25,121 +34,144 @@ class MyBikesView extends StatefulWidget {
 }
 
 class _MyBikesViewState extends State<MyBikesView> {
-  final MapBikesController mapBikeController = Get.put(MapBikesController());
+  final MapBikesController mapBikesController = Get.put(MapBikesController());
+  final HubController hubController = Get.put(HubController());
 
   void changeMapView() {
     setState(() {
-      mapBikeController.changeMapView();
+      mapBikesController.changeMapView();
     });
   }
 
   void changeMapStyle() {
     setState(() {
-      mapBikeController.changeMapStyle();
+      mapBikesController.changeMapStyle();
     });
+  }
+
+  void init() {
+    // mapBikeController.didNotFoundBikesWithPosition.value = true;
+    // mapBikeController.isLoading.value = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    init();
     return Stack(children: [
-      mapBikeController.isMapView
-          ? BikesMap(
-              mapBikeController: mapBikeController,
-              streetView: mapBikeController.isStreetView)
-          : BikesList(mapBikeController: mapBikeController),
+      // HUB OR BIKES ?
+      Obx(() {
+        return hubController.hubView.value
+            ? HubMap(
+                hubController: hubController,
+                streetView: hubController.isStreetView,
+              )
+            :
+            // MAP OR LIST
+            mapBikesController.isMapView
+                ? BikesMap(
+                    mapBikeController: mapBikesController,
+                    streetView: mapBikesController.isStreetView)
+                : BikesList(mapBikeController: mapBikesController);
+      }),
+      // APP BAR
       Padding(
-          padding: EdgeInsets.only(top: 80),
-          child: TopOptions(
-            mapBikesController: mapBikeController,
-            changeMapView: changeMapView,
-            changeMapStyle: changeMapStyle,
-          )),
-      Positioned(
-          bottom: 0,
-          child: Obx(() {
-            return AnimatedOpacity(
-              opacity: mapBikeController.isLoading.value ? 1 : 0,
-              duration: Duration(milliseconds: 750),
-              child: Container(
-                width: screenWidth * 0.9,
-                margin: EdgeInsets.all(20.0),
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                decoration: BoxDecoration(
-                    color: GlobalStyles.backgroundDarkGrey,
-                    borderRadius: BorderRadius.circular(12.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Chargement des vélos",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.w400)),
-                    SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
+          padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          ButtonAccount(),
+                          const SizedBox(width: 5),
+                          ButtonSearch(),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),
-            );
-          })),
+                      Column(mainAxisSize: MainAxisSize.min, children: [
+                        GestureDetector(
+                          onTap: () => {
+                            mapBikesController.fetchAllBikes(),
+                            hubController.fetchHubs()
+                          },
+                          child: Obx(() {
+                            return TitleAppBar(
+                              onTransparentBackground:
+                                  mapBikesController.isMapView,
+                              title: hubController.hubView.value
+                                  ? "Mes hubs"
+                                  : "Mes vélos",
+                            );
+                          }),
+                        )
+                      ]),
+                      Row(children: [
+                        ButtonFilter(mapBikesController: mapBikesController),
+                        const SizedBox(width: 5),
+                        ButtonScan()
+                      ])
+                    ]),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
+                        ButtonTypeMapElem(
+                            hubController: hubController, isHub: false),
+                        const SizedBox(width: 5),
+                        ButtonTypeMapElem(
+                            hubController: hubController, isHub: true),
+                      ]),
+                      TopSwitch(
+                          changeMapView: changeMapView,
+                          mapBikesController: mapBikesController)
+                    ])
+              ])),
       Positioned(
-          bottom: 0,
-          child: Obx(() {
-            return AnimatedOpacity(
-              opacity:
-                  mapBikeController.didNotFoundBikesWithPosition.value ? 1 : 0,
-              duration: Duration(milliseconds: 750),
-              child: Container(
-                width: screenWidth * 0.9,
-                margin: EdgeInsets.all(20.0),
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                decoration: BoxDecoration(
-                    color: GlobalStyles.yellow,
-                    borderRadius: BorderRadius.circular(12.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Aucun vélo n'a été trouvé.",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.w500)),
-                    Icon(Icons.info_outline, color: Colors.white, size: 25.0)
-                  ],
-                ),
-              ),
-            );
-          })),
+          bottom: 75,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(() {
+                  return InfoLoading(
+                      text: "Chargement des données",
+                      isVisible: mapBikesController.isLoading.value);
+                }),
+                Obx(() {
+                  return InfoNotFound(
+                      text: "Aucuns résultats.",
+                      isVisible: mapBikesController
+                          .didNotFoundBikesWithPosition.value);
+                })
+              ],
+            ),
+            // Little pop informatives
+          ))
     ]);
   }
 }
 
-class BuildErrorMessage extends StatelessWidget {
-  const BuildErrorMessage({
-    Key? key,
-    required this.mapBikeController,
-  }) : super(key: key);
+// class BuildErrorMessage extends StatelessWidget {
+//   const BuildErrorMessage({
+//     Key? key,
+//     required this.mapBikeController,
+//   }) : super(key: key);
 
-  final MapBikesController mapBikeController;
+//   final MapBikesController mapBikeController;
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Text(
-        mapBikeController.error.value,
-        style: TextStyle(
-            color: Colors.red, fontSize: 14, fontWeight: FontWeight.w600),
-        textAlign: TextAlign.center,
-      ),
-    ));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//         child: Padding(
+//       padding: const EdgeInsets.all(50.0),
+//       child: Text(
+//         mapBikeController.error.value,
+//         style: TextStyle(
+//             color: Colors.red, fontSize: 14, fontWeight: FontWeight.w600),
+//         textAlign: TextAlign.center,
+//       ),
+//     ));
+//   }
+// }

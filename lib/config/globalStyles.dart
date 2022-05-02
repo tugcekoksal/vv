@@ -22,3 +22,4 @@ const greyLogin = Color(0xff727284);
 const greyDropDown = Color(0xff6A6A6A);
 const greyLine = Color(0xff707070);
 const greyAddPhotos = Color(0xff828493);
+const black75 = Color.fromARGB(191, 0, 0, 0);
