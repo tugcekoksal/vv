@@ -93,7 +93,7 @@ class Incident {
         incidentTypeReparation: json["incident_type_reparation"],
         incidentStatus: json["incident_status"],
         veloGroup:
-            json["velo_group"] != null ? "Aucun groupe" : json["velo_group"],
+            json["velo_group"] != null ? json["velo_group"] : "Aucun groupe",
         veloName: json["velo_name"],
         dateCreation: json["date_creation"],
         incidentPk: json["incident_pk"],
