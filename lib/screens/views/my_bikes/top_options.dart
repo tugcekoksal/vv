@@ -22,7 +22,7 @@ class SwitchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Container(
       decoration: BoxDecoration(
-          color: isActive ? GlobalStyles.blue : Colors.white,
+          color: isActive ? GlobalStyles.blue : GlobalStyles.backgroundDarkGrey,
           borderRadius: BorderRadius.circular(30)),
       width: 60,
       height: 30,
@@ -30,7 +30,7 @@ class SwitchButton extends StatelessWidget {
         child: Text(
           textButton,
           style: TextStyle(
-              color: isActive ? Colors.white : GlobalStyles.backgroundDarkGrey,
+              color: isActive ? Colors.white : GlobalStyles.backgroundLightGrey,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -52,7 +52,16 @@ class TopSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Container(
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(30)),
+          color: GlobalStyles.backgroundDarkGrey,
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 3,
+              blurRadius: 3,
+            ),
+          ],
+        ),
         width: 130,
         height: 40,
         child: Row(
@@ -76,49 +85,62 @@ class TopSwitch extends StatelessWidget {
   }
 }
 
-class TopButton extends StatelessWidget {
-  final MapBikesController mapBikesController;
+class TopButton extends StatefulWidget {
+  final bool isLoading;
   final IconData iconButton;
-
   final Function actionFunction;
 
   TopButton(
       {Key? key,
-      required this.mapBikesController,
+      required this.isLoading,
       required this.actionFunction,
       required this.iconButton})
       : super(key: key);
 
+  @override
+  State<TopButton> createState() => _TopButtonState();
+}
+
+class _TopButtonState extends State<TopButton> {
   Widget build(BuildContext context) {
-    return (Obx(() {
-      return GestureDetector(
-          onTap: () {
-            if (!mapBikesController.isLoadingFilters.value)
-              actionFunction(context);
-          },
-          child: Container(
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.0)),
-              child: mapBikesController.isLoadingFilters.value
-                  ? Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: SizedBox(
-                        height: 25,
-                        width: 25,
-                        child: CircularProgressIndicator(
-                          color: GlobalStyles.greyTitle,
-                          strokeWidth: 2,
-                        ),
+    return (GestureDetector(
+        onTap: () {
+          if (!widget.isLoading) widget.actionFunction();
+        },
+        child: Container(
+            padding: const EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 3,
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: widget.isLoading
+                ? Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: CircularProgressIndicator(
+                        color: GlobalStyles.greyTitle,
+                        strokeWidth: 2,
                       ),
-                    )
-                  : Icon(
-                      iconButton,
-                      color: GlobalStyles.greyTitle,
-                      size: 30.0,
-                    )));
-    }));
+                    ),
+                  )
+                : Container(
+                    height: 30,
+                    width: 30,
+                    child: Icon(
+                      widget.iconButton,
+                      color: GlobalStyles.backgroundDarkGrey,
+                      size: 25.0,
+                    ),
+                  ))));
   }
 }
 
@@ -135,40 +157,36 @@ class TopOptions extends StatelessWidget {
       : super(key: key);
 
   // Method to instantiate the filter's page
-  Future<void> showFilters(context) async {
-    mapBikesController.isFiltersChanged(false);
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return BuildPopUpFilters();
-        }).then((value) {
-      // Check if filters have changed and fire the fetch of bikes if true
-      mapBikesController.onChangeFilters();
-      // If fetchAllBikes() gets no bikes then show it to the user
-    });
+  Future<void> showFilters() async {
+    // mapBikesController.isFiltersChanged(false);
+    // return showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return BuildPopUpFilters();
+    //     }).then((value) {
+    //   // Check if filters have changed and fire the fetch of bikes if true
+    //   mapBikesController.onChangeFilters();
+    //   // If fetchAllBikes() gets no bikes then show it to the user
+    // });
   }
 
   // Method to instantiate the filter's page
-  Future<void> showSearch(context) async {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return BuildPopUpSearch();
-        }).then((value) {
-      // Check if filters have changed and fire the fetch of bikes if true
-      mapBikesController.bikesBySearch();
-      // If fetchAllBikes() gets no bikes then show it to the user
-    });
-  }
-
-  Future<void> showScan(context) async {
-    Get.to(Scaffold(body: ScanView()));
+  Future<void> showSearch() async {
+    // return showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return BuildPopUpSearch();
+    //     }).then((value) {
+    //   // Check if filters have changed and fire the fetch of bikes if true
+    //   mapBikesController.bikesBySearch();
+    //   // If fetchAllBikes() gets no bikes then show it to the user
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return (Container(
-        margin: EdgeInsets.all(10.0),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -183,19 +201,24 @@ class TopOptions extends StatelessWidget {
                   Row(
                     children: [
                       TopButton(
-                          mapBikesController: mapBikesController,
-                          iconButton: Icons.qr_code_scanner,
-                          actionFunction: showScan),
+                        isLoading: false,
+                        iconButton: Icons.qr_code_scanner,
+                        actionFunction: () {},
+                      ),
                       const SizedBox(width: 10.0),
-                      TopButton(
-                          mapBikesController: mapBikesController,
+                      Obx(() {
+                        return TopButton(
+                          isLoading: mapBikesController.isLoadingFilters.value,
                           iconButton: Icons.filter_list_outlined,
-                          actionFunction: showFilters),
+                          actionFunction: showFilters,
+                        );
+                      }),
                       const SizedBox(width: 10.0),
                       TopButton(
-                          mapBikesController: mapBikesController,
-                          iconButton: Icons.search,
-                          actionFunction: showSearch),
+                        isLoading: false,
+                        iconButton: Icons.search,
+                        actionFunction: showSearch,
+                      ),
                     ],
                   ),
                 ],

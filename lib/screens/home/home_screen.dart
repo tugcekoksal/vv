@@ -1,4 +1,6 @@
 // Vendor
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,9 +8,11 @@ import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/screens/home/button_account.dart';
+import 'package:velyvelo/screens/home/title_app_bar.dart';
 
 // Views
-import 'package:velyvelo/screens/views/incidents_view.dart';
+import 'package:velyvelo/screens/views/incidents_view/incidents_view.dart';
 import 'package:velyvelo/screens/views/login_view.dart';
 import 'package:velyvelo/screens/views/my_bikes/my_bikes_view.dart';
 import 'package:velyvelo/screens/views/incidents_declaration.dart';
@@ -16,6 +20,7 @@ import 'package:velyvelo/screens/views/incidents_declaration.dart';
 //Controllers
 import 'package:velyvelo/controllers/navigation_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -27,11 +32,11 @@ class HomeScreen extends StatelessWidget {
   final PageController _pageController = PageController(initialPage: 0);
 
   // 123e wekf here to change the last isnt usefull
-  final List<String> tabTitleUser = ["Mes incidents", "Mes vélos", "Mon vélo"];
-  final List<String> tabTitleClient = ["Mes incidents", "Mes vélos", "Scanner"];
+  final List<String> tabTitleClient = ["Mes incidents", "Carte", "Scanner"];
 
   showDeclarationIncidentPage() {
-    Get.to(() => IncidentDeclaration());
+    Get.to(() => IncidentDeclaration(),
+        transition: Transition.downToUp, duration: Duration(milliseconds: 400));
   }
 
   @override
@@ -40,91 +45,9 @@ class HomeScreen extends StatelessWidget {
         color: Colors.transparent,
         child: Scaffold(
             backgroundColor: loginController.isLogin.value
-                ? GlobalStyles.backgroundLightGrey
+                ? Colors.white
                 : GlobalStyles.loginBackground,
             resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              toolbarHeight: 65.0,
-              elevation: 0,
-              centerTitle: true,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(20.0),
-                ),
-              ),
-              title: Obx(() {
-                return Text(
-                  loginController.isLogin.value
-                      ? tabTitleUser[navigationController.currentIndex.value]
-                      : "VelyVelo",
-                  style: TextStyle(
-                      color: GlobalStyles.greyTitle,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w700),
-                );
-              }),
-              leading: Container(
-                margin: EdgeInsets.only(left: 15.0),
-                child: SvgPicture.asset("assets/logo.svg",
-                    height: 15.0, width: 15.0, fit: BoxFit.scaleDown),
-              ),
-              actions: <Widget>[
-                Obx(() {
-                  return loginController.isLogin.value
-                      ? GestureDetector(
-                          onTap: () => loginController.logoutUser(),
-                          child: PopupMenuButton(
-                            child: Icon(
-                              Icons.person,
-                              size: 30,
-                              color: GlobalStyles.greyTitle,
-                            ),
-                            onSelected: (result) {
-                              if (result == 1) loginController.logoutUser();
-                            },
-                            itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry>[
-                              PopupMenuItem(
-                                value: 0,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.person,
-                                      color: GlobalStyles.purple,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(loginController.userName),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.logout,
-                                      color: GlobalStyles.greyTitle,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Se déconnecter"),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : SizedBox();
-                }),
-                const SizedBox(width: 15.0)
-              ],
-            ),
             body: Obx(() {
               if (loginController.isLogin.value) {
                 return PageView(
@@ -143,8 +66,8 @@ class HomeScreen extends StatelessWidget {
             }),
             floatingActionButton: Obx(() {
               return Container(
-                  height: 75.0,
-                  width: 75.0,
+                  height: 60.0,
+                  width: 60.0,
                   child: navigationController.currentIndex.value == 0 &&
                           loginController.isLogin.value
                       ? FloatingActionButton(
@@ -153,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                           child: Icon(
                             Icons.add,
                             color: Colors.white,
-                            size: 40,
+                            size: 30,
                           ))
                       : SizedBox());
             }),
@@ -167,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                         IconThemeData(color: GlobalStyles.blue, size: 25.0),
                     selectedLabelStyle: TextStyle(
                       color: Colors.white,
-                      fontSize: 16.0,
+                      fontSize: 12.0,
                       fontWeight: FontWeight.w600,
                     ),
                     unselectedItemColor: GlobalStyles.greyBottomBarText,
@@ -175,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                         color: GlobalStyles.greyUnselectedIcon, size: 25.0),
                     unselectedLabelStyle: TextStyle(
                         color: GlobalStyles.greyBottomBarText,
-                        fontSize: 16.0,
+                        fontSize: 12.0,
                         fontWeight: FontWeight.w600),
                     currentIndex: navigationController.currentIndex.value,
                     onTap: (index) {
@@ -186,15 +109,15 @@ class HomeScreen extends StatelessWidget {
                     items: <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
                           icon: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                              padding: EdgeInsets.symmetric(vertical: 3.0),
                               child: Icon(CupertinoIcons.wrench)),
                           label: "Incidents"),
                       BottomNavigationBarItem(
                           icon: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8.0),
+                            padding: EdgeInsets.symmetric(vertical: 3.0),
                             child: Icon(Icons.map_outlined),
                           ),
-                          label: "Mes vélos"),
+                          label: "Carte"),
                     ]);
               } else {
                 return SizedBox();

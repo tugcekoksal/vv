@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
 // Components
-import 'package:velyvelo/screens/home_screen.dart';
+import 'package:velyvelo/screens/home/home_screen.dart';
 
 //FIREBASE
 import 'package:firebase_core/firebase_core.dart';
@@ -60,6 +60,14 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+  // Allow IOS Notification when application is in foreground
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  // Run the App after all is well initialized
   runApp(MyApp());
 }
 

@@ -16,11 +16,12 @@ class PurpleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        style: TextStyle(
-            color: GlobalStyles.purple,
-            fontSize: 17.0,
-            fontWeight: FontWeight.w600));
+    return Flexible(
+        child: Text(text,
+            style: TextStyle(
+                color: GlobalStyles.purple,
+                fontSize: 17.0,
+                fontWeight: FontWeight.w600)));
   }
 }
 
@@ -45,7 +46,7 @@ class MapStatusVelo extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 100),
       child: Container(
-          width: 100,
+          width: 90,
           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
           decoration: BoxDecoration(
             color: colorBasedOnVeloMapStatus(text),
@@ -79,7 +80,7 @@ class VeloCard extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.all(20.0),
         margin: const EdgeInsets.only(
-            bottom: 4.0, top: 4.0, left: 16.0, right: 16.0),
+            bottom: 4.0, top: 4.0, left: 20.0, right: 20.0),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
         child: Column(
@@ -92,7 +93,7 @@ class VeloCard extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               children: [PurpleText(text: group)],
@@ -112,24 +113,29 @@ class BikesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-          padding: EdgeInsets.only(top: 55),
-          child: ListView.builder(
-            itemCount: mapBikeController.bikeWithPositionList.length,
-            itemBuilder: (context, index) {
-              return (GestureDetector(
-                child: VeloCard(
-                    name: mapBikeController.bikeWithPositionList[index].name,
-                    group: mapBikeController.bikeWithPositionList[index].group,
-                    mapStatus: mapBikeController
-                        .bikeWithPositionList[index].mapStatus),
-                onTap: () => {
-                  goToBikeProfileFromPk(
-                      mapBikeController.bikeWithPositionList[index].veloPk,
-                      mapBikeController)
+          color: GlobalStyles.backgroundLightGrey,
+          child: Padding(
+              padding: EdgeInsets.only(top: 150),
+              child: ListView.builder(
+                padding: EdgeInsets.all(0),
+                itemCount: mapBikeController.bikeWithPositionList.length,
+                itemBuilder: (context, index) {
+                  return (GestureDetector(
+                    child: VeloCard(
+                        name:
+                            mapBikeController.bikeWithPositionList[index].name,
+                        group:
+                            mapBikeController.bikeWithPositionList[index].group,
+                        mapStatus: mapBikeController
+                            .bikeWithPositionList[index].mapStatus),
+                    onTap: () => {
+                      goToBikeProfileFromPk(
+                          mapBikeController.bikeWithPositionList[index].veloPk,
+                          mapBikeController)
+                    },
+                  ));
                 },
-              ));
-            },
-          ));
+              )));
     });
   }
 }
