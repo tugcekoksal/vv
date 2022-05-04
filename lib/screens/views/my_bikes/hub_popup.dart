@@ -34,8 +34,10 @@ class HubPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text(hub.groupName ?? "Pas de nom de groupe",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+      Flexible(
+          child: Text(hub.groupName ?? "Pas de nom de groupe",
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
       Text(
         hub.clientName ?? "Pas de nom de client",
         style: TextStyle(fontSize: 12),
@@ -51,7 +53,9 @@ class HubPopup extends StatelessWidget {
             color: GlobalStyles.greyText,
             size: 20,
           ),
-          Text(hub.adresse ?? "Pas d'adresse"),
+          Flexible(
+              child: Text(hub.adresse ?? "Pas d'adresse",
+                  overflow: TextOverflow.ellipsis)),
           Icon(
             Icons.copy,
             color: GlobalStyles.greyText,

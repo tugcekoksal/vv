@@ -14,6 +14,7 @@ import 'package:velyvelo/screens/home/title_app_bar.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_filter.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_velo.dart';
+import 'package:velyvelo/screens/views/my_bikes/hub_list.dart';
 import 'package:velyvelo/screens/views/my_bikes/hub_map.dart';
 import 'package:velyvelo/screens/views/my_bikes/info_usage.dart';
 
@@ -61,10 +62,12 @@ class _MyBikesViewState extends State<MyBikesView> {
       // HUB OR BIKES ?
       Obx(() {
         return hubController.hubView.value
-            ? HubMap(
-                hubController: hubController,
-                streetView: hubController.isStreetView,
-              )
+            ? mapBikesController.isMapView
+                ? HubMap(
+                    hubController: hubController,
+                    streetView: hubController.isStreetView,
+                  )
+                : HubsList(hubController: hubController)
             :
             // MAP OR LIST
             mapBikesController.isMapView
@@ -73,6 +76,7 @@ class _MyBikesViewState extends State<MyBikesView> {
                     streetView: mapBikesController.isStreetView)
                 : BikesList(mapBikeController: mapBikesController);
       }),
+
       // APP BAR
       Padding(
           padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
@@ -86,7 +90,13 @@ class _MyBikesViewState extends State<MyBikesView> {
                         children: [
                           ButtonAccount(),
                           const SizedBox(width: 5),
-                          ButtonSearch(),
+                          hubController.hubView.value
+                              ? ButtonSearchVelo(
+                                  mapBikesController: mapBikesController,
+                                )
+                              : ButtonSearchVelo(
+                                  mapBikesController: mapBikesController,
+                                ),
                         ],
                       ),
                       Column(mainAxisSize: MainAxisSize.min, children: [
@@ -148,7 +158,13 @@ class _MyBikesViewState extends State<MyBikesView> {
               ],
             ),
             // Little pop informatives
-          ))
+          )),
+      // Search bar
+      Obx(() {
+        return mapBikesController.displaySearch.value
+            ? SearchBarVelo()
+            : SizedBox();
+      }),
     ]);
   }
 }

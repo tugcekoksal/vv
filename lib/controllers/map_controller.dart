@@ -41,6 +41,7 @@ class MapBikesController extends GetxController {
   var isMapView = true;
 
   var searchText = "".obs;
+  var displaySearch = false.obs;
 
   var isStreetView = true;
 
@@ -65,6 +66,8 @@ class MapBikesController extends GetxController {
           .where((element) => element.name.capitalize!.contains(theSearch!))
           .toList();
       bikeWithPositionList.refresh();
+    } else {
+      bikeWithPositionList.value = bikeList;
     }
   }
 
@@ -90,6 +93,7 @@ class MapBikesController extends GetxController {
         }
       }
       isLoading(false);
+      bikesBySearch();
     } catch (e) {
       print("mapController fetchAllbikes $e");
       error.value =

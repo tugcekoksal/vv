@@ -40,7 +40,7 @@ class IncidentController extends GetxController {
   var nbOfProgressIncidents = 0.obs;
   var nbOfFinishedIncidents = 0.obs;
 
-  var incidentFilters = ["Nouvelle", "En cours", "Terminé"].obs;
+  var incidentFilters = <String>[].obs;
 
   var incidentDetailValue = IncidentDetailModel(
       groupe: "",
@@ -247,9 +247,15 @@ class IncidentController extends GetxController {
   }
 
   Future<void> refreshIncidentsList() async {
-    final RefreshIncidentModel incidentsToFetchFilter =
-        RefreshIncidentModel(statusList: incidentFilters);
+    final RefreshIncidentModel incidentsToFetchFilter;
 
+    if (incidentFilters.length == 0) {
+      incidentsToFetchFilter =
+          RefreshIncidentModel(statusList: ["Nouvelle", "En cours", "Terminé"]);
+    } else {
+      incidentsToFetchFilter =
+          RefreshIncidentModel(statusList: incidentFilters);
+    }
     await fetchAllIncidents(incidentsToFetchFilter);
   }
 

@@ -28,18 +28,14 @@ class HubModel {
   final String? adresse;
 
   factory HubModel.fromJson(Map<String, dynamic> json) => HubModel(
-        groupName: json["nom"] ?? "",
-        clientName: json["client"] ?? "",
-        reparations: json["reparations"] ?? 0,
-        users: json["users"] ?? 0,
-        bikeParked: json["Rangés"] ?? 0,
-        bikeUsed: json["Utilisés"] ?? 0,
-        bikeRobbed: json["Volés"] ?? 0,
-        adresse: json["adresse"] ??
-            ", " + json["ville"] ??
-            " " + json["code_postal"] ??
-            "",
-      );
+      groupName: json["nom"] ?? "",
+      clientName: json["client"] ?? "",
+      reparations: json["reparations"] ?? 0,
+      users: json["users"] ?? 0,
+      bikeParked: json["Rangés"] ?? 0,
+      bikeUsed: json["Utilisés"] ?? 0,
+      bikeRobbed: json["Volés"] ?? 0,
+      adresse: json["adresse"] ?? "");
 }
 
 List<HubPinModel> hubsPinModelFromJson(String str) => List<HubPinModel>.from(
