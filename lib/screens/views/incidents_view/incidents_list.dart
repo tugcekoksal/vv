@@ -1,4 +1,5 @@
 // Vendor
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -6,6 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 // Components
 import 'package:velyvelo/components/BuildIncidentOverview.dart';
 import 'package:velyvelo/components/BuildLoadingBox.dart';
+import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
 
@@ -37,50 +39,33 @@ class IncidentsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Expanded(
-          child: SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: true,
-              controller: incidentController.refreshController,
-              onRefresh: () {
-                // Refresh incidents
-                incidentController.refreshIncidentsList();
-                incidentController.refreshController.refreshCompleted();
-              },
-              onLoading: () {
-                // Add new incidents in the list with newest_id and count
-                incidentController.fetchNewIncidents();
-                incidentController.refreshController.loadComplete();
-              },
-              child: ShaderMask(
-                shaderCallback: (Rect rect) {
-                  return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      GlobalStyles.backgroundLightGrey,
-                      Colors.transparent,
-                      Colors.transparent,
-                      GlobalStyles.backgroundLightGrey
-                    ],
-                    stops: [
-                      0.0,
-                      0.08,
-                      0.92,
-                      1.0
-                    ], // 10% background, 80% transparent, 10% background
-                  ).createShader(rect);
-                },
-                blendMode: BlendMode.dstOut,
-                child: ListView.builder(
-                    itemCount: incidentController.incidentList.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () => showIncidentDetailPage(
-                              incidentController.incidentList[index]),
-                          child: BuildIncidentHistoricTile(
-                              data: incidentController.incidentList[index]));
-                    }),
-              )));
+          child: FadeListView(
+              child: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        controller: incidentController.refreshController,
+        onRefresh: () {
+          // Refresh incidents
+          print("OULALA");
+          incidentController.refreshIncidentsList();
+          incidentController.refreshController.refreshCompleted();
+        },
+        onLoading: () {
+          // Add new incidents in the list with newest_id and count
+          incidentController.fetchNewIncidents();
+          incidentController.refreshController.loadComplete();
+        },
+        child: ListView.builder(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            itemCount: incidentController.incidentList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  onTap: () => showIncidentDetailPage(
+                      incidentController.incidentList[index]),
+                  child: BuildIncidentHistoricTile(
+                      data: incidentController.incidentList[index]));
+            }),
+      )));
     });
   }
 }
@@ -114,6 +99,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
+              // Little colored hint top right corner of incident card tile
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 100),
                 child: Container(

@@ -19,7 +19,7 @@ Future fetchHubsService(String urlServer, String userToken) async {
   String responseStr = await response.stream.bytesToString();
   if (response.statusCode == 200) {
     print(responseStr);
-    return hubsPinModelFromJson(responseStr);
+    return hubsModelFromJson(responseStr);
   } else if (response.statusCode == 403) {
     print(responseStr);
     print(response.statusCode);

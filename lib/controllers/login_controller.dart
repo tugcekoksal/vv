@@ -1,4 +1,5 @@
 // Vendor
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -88,7 +89,7 @@ class LoginController extends GetxController {
   }
 
   // Login the user with login and password
-  void loginUser() async {
+  Future loginUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     error.value = "";
     try {
@@ -123,13 +124,16 @@ class LoginController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
     prefs.remove("username");
+
     Get.delete<IncidentController>();
     Get.delete<BikeController>();
     Get.delete<BikeScanController>();
     Get.delete<HubController>();
     Get.delete<MapBikesController>();
     Get.delete<IncidentDeclarationController>();
-    Get.delete<NavigationController>();
+
+    NavigationController navigationController = Get.put(NavigationController());
+    navigationController.currentIndex.value = 0;
   }
 
   void fetchTypeUser() async {

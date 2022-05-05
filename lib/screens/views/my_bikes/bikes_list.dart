@@ -1,6 +1,8 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:velyvelo/components/fade_list_view.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
@@ -68,12 +70,12 @@ class VeloCard extends StatelessWidget {
   final String group;
   final String mapStatus;
 
-  const VeloCard(
-      {Key? key,
-      required this.name,
-      required this.group,
-      required this.mapStatus})
-      : super(key: key);
+  const VeloCard({
+    Key? key,
+    required this.name,
+    required this.group,
+    required this.mapStatus,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,27 +117,49 @@ class BikesList extends StatelessWidget {
       return Container(
           color: GlobalStyles.backgroundLightGrey,
           child: Padding(
-              padding: EdgeInsets.only(top: 150),
-              child: ListView.builder(
-                padding: EdgeInsets.all(0),
-                itemCount: mapBikeController.bikeWithPositionList.length,
-                itemBuilder: (context, index) {
-                  return (GestureDetector(
-                    child: VeloCard(
-                        name:
-                            mapBikeController.bikeWithPositionList[index].name,
-                        group:
-                            mapBikeController.bikeWithPositionList[index].group,
-                        mapStatus: mapBikeController
-                            .bikeWithPositionList[index].mapStatus),
-                    onTap: () => {
-                      goToBikeProfileFromPk(
-                          mapBikeController.bikeWithPositionList[index].veloPk,
-                          mapBikeController)
-                    },
-                  ));
-                },
-              )));
+              padding: EdgeInsets.only(top: 100),
+              child: FadeListView(
+                  // Need to enable refresh here !
+                  child: SmartRefresher(
+                      enablePullDown: true,
+                      enablePullUp: true,
+                      controller: RefreshController(),
+                      // controller: incidentController.refreshController,
+                      onRefresh: () {
+                        // Refresh incidents
+                        print("OULALA");
+                        // incidentController.refreshIncidentsList();
+                        // incidentController.refreshController.refreshCompleted();
+                      },
+                      onLoading: () {
+                        // Add new incidents in the list with newest_id and count
+                        // incidentController.fetchNewIncidents();
+                        // incidentController.refreshController.loadComplete();
+                      },
+                      child: ListView.builder(
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                        itemCount:
+                            mapBikeController.bikeWithPositionList.length,
+                        itemBuilder: (context, index) {
+                          print(mapBikeController
+                              .bikeWithPositionList[index].pos?.latitude);
+                          return (GestureDetector(
+                            child: VeloCard(
+                                name: mapBikeController
+                                    .bikeWithPositionList[index].name,
+                                group: mapBikeController
+                                    .bikeWithPositionList[index].group,
+                                mapStatus: mapBikeController
+                                    .bikeWithPositionList[index].mapStatus),
+                            onTap: () => {
+                              goToBikeProfileFromPk(
+                                  mapBikeController
+                                      .bikeWithPositionList[index].veloPk,
+                                  mapBikeController)
+                            },
+                          ));
+                        },
+                      )))));
     });
   }
 }

@@ -1,6 +1,9 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/controllers/hub_controller.dart';
 
 // Controllers
@@ -34,6 +37,7 @@ class HubCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(hub.adresse);
     return Container(
         padding: const EdgeInsets.all(20.0),
         margin: const EdgeInsets.only(
@@ -60,16 +64,22 @@ class HubCard extends StatelessWidget {
                 size: 20,
               ),
               Flexible(
-                  child: Text(
-                      hub.adresse != null || hub.adresse == ""
-                          ? "Pas d'adresse"
-                          : hub.adresse!,
+                  child: Text(hub.adresse == "" ? "Pas d'adresse" : hub.adresse,
                       overflow: TextOverflow.ellipsis)),
-              Icon(
-                Icons.copy,
-                color: GlobalStyles.greyText,
-                size: 20,
-              ),
+              IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () => {
+                  Clipboard.setData(ClipboardData(text: hub.adresse)).then(
+                      (value) => ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text("Address copied to clipboard"))))
+                },
+                icon: Icon(
+                  Icons.copy,
+                  color: GlobalStyles.greyText,
+                  size: 20,
+                ),
+              )
             ],
           ),
           SizedBox(
@@ -141,34 +151,61 @@ class HubsList extends StatelessWidget {
 
   const HubsList({Key? key, required this.hubController}) : super(key: key);
 
+  void init() {
+    hubController.fetchHubs();
+    hubController.hubs.refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 100)).then((value) => {
+          init(),
+        });
     return Obx(() {
       return Container(
-        color: GlobalStyles.backgroundLightGrey,
-        child: Padding(
-          padding: EdgeInsets.only(top: 150),
-          child: ListView.builder(
-            padding: EdgeInsets.all(0),
-            itemCount: hubController.hubs.length,
-            itemBuilder: (context, index) {
-              hubController.fetchOneHub(hubController.hubs[index].id ?? -1);
-              return (GestureDetector(
-                // child: Text("oeirgh"),
-                child: HubCard(
-                  hub: hubController.hubPopUpInfos.value,
+          color: GlobalStyles.backgroundLightGrey,
+          child: Padding(
+              padding: EdgeInsets.only(top: 100),
+              child: FadeListView(
+                // Need to enable refresh here !
+                child: SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: RefreshController(),
+                  // controller: incidentController.refreshController,
+                  onRefresh: () {
+                    // Refresh incidents
+                    print("OULALA");
+                    // incidentController.refreshIncidentsList();
+                    // incidentController.refreshController.refreshCompleted();
+                  },
+                  onLoading: () {
+                    // Add new incidents in the list with newest_id and count
+                    // incidentController.fetchNewIncidents();
+                    // incidentController.refreshController.loadComplete();
+                  },
+                  child: ListView.builder(
+                    padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                    itemCount: hubController.hubs.length,
+                    itemBuilder: (context, index) {
+                      // hubController
+                      //     .fetchOneHub(hubController.hubs[index].id ?? -1);
+                      return (GestureDetector(
+                        // child: Text("oeirgh"),
+                        child: HubCard(
+                          hub: hubController.hubs[index],
+                        ),
+                        onTap: () => {
+                          // Go to nothing
+                          // goToBikeProfileFromPk(
+                          //     mapBikeController.bikeWithPositionList[index].veloPk,
+                          //     mapBikeController)
+                        },
+                      ));
+                    },
+                  ),
                 ),
-                onTap: () => {
-                  // Go to nothing
-                  // goToBikeProfileFromPk(
-                  //     mapBikeController.bikeWithPositionList[index].veloPk,
-                  //     mapBikeController)
-                },
-              ));
-            },
-          ),
-        ),
-      );
+              )));
     });
   }
 }

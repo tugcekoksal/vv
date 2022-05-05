@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/controllers/hub_controller.dart';
+import 'package:velyvelo/controllers/login_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
@@ -37,6 +38,7 @@ class MyBikesView extends StatefulWidget {
 class _MyBikesViewState extends State<MyBikesView> {
   final MapBikesController mapBikesController = Get.put(MapBikesController());
   final HubController hubController = Get.put(HubController());
+  final LoginController loginController = Get.put(LoginController());
 
   void changeMapView() {
     setState(() {
@@ -116,22 +118,28 @@ class _MyBikesViewState extends State<MyBikesView> {
                           }),
                         )
                       ]),
-                      Row(children: [
-                        ButtonFilter(mapBikesController: mapBikesController),
-                        const SizedBox(width: 5),
-                        ButtonScan()
-                      ])
+                      Obx(() {
+                        return Row(children: [
+                          hubController.hubView.value
+                              ? const SizedBox(width: 40)
+                              : ButtonFilter(
+                                  mapBikesController: mapBikesController),
+                          const SizedBox(width: 5),
+                          ButtonScan()
+                        ]);
+                      })
                     ]),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(children: [
-                        ButtonTypeMapElem(
-                            hubController: hubController, isHub: false),
-                        const SizedBox(width: 5),
-                        ButtonTypeMapElem(
-                            hubController: hubController, isHub: true),
-                      ]),
+                      if (loginController.isAdminOrTech.value)
+                        Row(children: [
+                          ButtonTypeMapElem(
+                              hubController: hubController, isHub: false),
+                          const SizedBox(width: 5),
+                          ButtonTypeMapElem(
+                              hubController: hubController, isHub: true),
+                        ]),
                       TopSwitch(
                           changeMapView: changeMapView,
                           mapBikesController: mapBikesController)
@@ -147,7 +155,8 @@ class _MyBikesViewState extends State<MyBikesView> {
                 Obx(() {
                   return InfoLoading(
                       text: "Chargement des données",
-                      isVisible: mapBikesController.isLoading.value);
+                      isVisible: mapBikesController.isLoading.value ||
+                          hubController.isLoadingHub.value);
                 }),
                 Obx(() {
                   return InfoNotFound(

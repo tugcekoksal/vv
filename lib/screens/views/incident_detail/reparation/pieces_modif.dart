@@ -110,6 +110,7 @@ class PiecesModif extends StatelessWidget {
                       isAlwaysShown: true,
                       controller: scrollController,
                       child: ListView.builder(
+                        padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemCount: incidentController
                             .currentReparation.value.selectedPieces.length,

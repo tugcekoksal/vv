@@ -9,14 +9,19 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/controllers/login_controller.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+import 'package:velyvelo/controllers/navigation_controller.dart';
 import 'package:velyvelo/screens/home/title_app_bar.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
 
   final LoginController loginController = Get.put(LoginController());
-
+  final NavigationController navigationController =
+      Get.put(NavigationController());
   @override
+  final snackBarLoading = SnackBar(
+      content: Text('Connexion en cours...'),
+      backgroundColor: GlobalStyles.blue);
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -56,13 +61,6 @@ class LoginView extends StatelessWidget {
                           fontWeight: FontWeight.w500)),
                 ),
                 SizedBox(height: screenHeight * 0.03),
-                Obx(() {
-                  if (loginController.isLoading.value) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return SizedBox();
-                  }
-                }),
                 SizedBox(height: screenHeight * 0.03),
                 BuildInputLogin(
                     placeholder: "Identifiant",
@@ -101,7 +99,11 @@ class LoginView extends StatelessWidget {
                 }),
                 SizedBox(height: screenHeight * 0.03),
                 GestureDetector(
-                  onTap: () => loginController.loginUser(),
+                  onTap: () async => {
+                    ScaffoldMessenger.of(context).showSnackBar(snackBarLoading),
+                    await loginController.loginUser(),
+                    ScaffoldMessenger.of(context).clearSnackBars(),
+                  },
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 15.0, vertical: 14.0),
@@ -130,32 +132,41 @@ class LoginView extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 30,
-            left: 10,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset(
-                  "assets/logo.png",
-                  height: 50,
-                  width: 50,
-                )),
-          ),
+              top: 0,
+              left: 0,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset(
+                      "assets/logo.png",
+                      height: 50,
+                      width: 50,
+                    )),
+              )),
           Positioned(
               width: screenWidth,
-              height: 50,
-              top: 30,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Velyvelo",
-                      style: TextStyle(
-                          color: GlobalStyles.backgroundDarkGrey,
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w700),
-                      textAlign: TextAlign.center,
-                    )
-                  ])),
+              height: 100,
+              left: 0,
+              top: 0,
+              child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Velyvelo",
+                              style: TextStyle(
+                                  color: GlobalStyles.backgroundDarkGrey,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.w700),
+                            )
+                          ])
+                    ],
+                  )))
         ]));
   }
 }

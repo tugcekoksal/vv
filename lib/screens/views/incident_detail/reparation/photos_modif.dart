@@ -62,39 +62,53 @@ class PhotosModif extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SliderShowFullmages(
-                                    mode: "File",
-                                    listImagesModel: incidentController
-                                        .currentReparation
-                                        .value
-                                        .reparationPhotosList,
-                                    current: 0)));
-                          },
-                          child: Image.file(
-                            incidentController.currentReparation.value
-                                .reparationPhotosList[index],
-                          ),
-                        ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SliderShowFullmages(
+                                      mode: "File",
+                                      listImagesModel: incidentController
+                                          .currentReparation
+                                          .value
+                                          .reparationPhotosList,
+                                      current: 0)));
+                            },
+                            child: Stack(children: [
+                              Container(
+                                  width: 100,
+                                  height: 75,
+                                  child: Image.file(
+                                    incidentController.currentReparation.value
+                                        .reparationPhotosList[index],
+                                    fit: BoxFit.cover,
+                                  )),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20.0),
+                                          bottomRight: Radius.circular(20.0)),
+                                      color:
+                                          Color.fromARGB(129, 228, 229, 232)),
+                                  child: IconButton(
+                                    padding: EdgeInsets.all(0.0),
+                                    iconSize: 20,
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () => {
+                                      incidentController.currentReparation.value
+                                          .reparationPhotosList
+                                          .removeAt(index),
+                                      incidentController.currentReparation
+                                          .refresh(),
+                                    },
+                                  ),
+                                ),
+                              )
+                            ])),
                       ),
                       const SizedBox(
                         width: 5.0,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: GlobalStyles.backgroundLightGreyLoading),
-                        child: IconButton(
-                          padding: EdgeInsets.all(0.0),
-                          iconSize: 20,
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => {
-                            incidentController
-                                .currentReparation.value.reparationPhotosList
-                                .removeAt(index)
-                          },
-                        ),
                       ),
                     ]);
                   });

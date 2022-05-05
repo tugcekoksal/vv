@@ -6,7 +6,7 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
-import 'package:velyvelo/models/bike/user_bike_model.dart';
+import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class IncidentHistoricCard extends StatelessWidget {
   final Incident data;

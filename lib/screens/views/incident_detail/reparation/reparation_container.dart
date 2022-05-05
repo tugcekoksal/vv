@@ -90,43 +90,6 @@ class ReparationContainer extends StatelessWidget {
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 25),
-                Center(
-                  child: GestureDetector(
-                    onTap: () async {
-                      var snackBar = SnackBar(
-                        content:
-                            Text('Votre demande est en cours de traitement...'),
-                        backgroundColor: GlobalStyles.blue,
-                      );
-
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                      await incidentController.sendReparationUpdate();
-
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      snackBar = SnackBar(
-                        content:
-                            Text('Vos informations ont bien été sauvegardées.'),
-                        backgroundColor: Color(0xff46b594),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: GlobalStyles.blue,
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 25.0, vertical: 12.0),
-                      child: Text("Valider",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w600)),
-                    ),
-                  ),
-                ),
               ],
             ));
       } else {

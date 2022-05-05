@@ -14,7 +14,7 @@ class RefreshIncidentModel {
     this.count,
   });
 
-  final List<String> statusList;
+  List<String> statusList;
   final int? newestId;
   final int? count;
 

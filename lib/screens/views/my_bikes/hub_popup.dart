@@ -1,5 +1,6 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
@@ -47,20 +48,29 @@ class HubPopup extends StatelessWidget {
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.location_pin,
             color: GlobalStyles.greyText,
             size: 20,
           ),
+          const SizedBox(width: 5),
           Flexible(
-              child: Text(hub.adresse ?? "Pas d'adresse",
+              child: Text(hub.adresse == "" ? "Pas d'adresse" : hub.adresse,
                   overflow: TextOverflow.ellipsis)),
-          Icon(
-            Icons.copy,
-            color: GlobalStyles.greyText,
-            size: 20,
-          ),
+          GestureDetector(
+            onTap: () => {
+              Clipboard.setData(ClipboardData(text: hub.adresse)).then(
+                  (value) => ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Address copied to clipboard"))))
+            },
+            child: Icon(
+              Icons.copy,
+              color: GlobalStyles.greyText,
+              size: 20,
+            ),
+          )
         ],
       ),
       SizedBox(

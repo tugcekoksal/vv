@@ -28,11 +28,7 @@ class HomeScreen extends StatelessWidget {
   final NavigationController navigationController =
       Get.put(NavigationController());
   final LoginController loginController = Get.put(LoginController());
-
-  final PageController _pageController = PageController(initialPage: 0);
-
-  // 123e wekf here to change the last isnt usefull
-  final List<String> tabTitleClient = ["Mes incidents", "Carte", "Scanner"];
+  final PageController _pageController = Get.put(PageController());
 
   showDeclarationIncidentPage() {
     Get.to(() => IncidentDeclaration(),
@@ -41,12 +37,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // navigationController.currentIndex.value = 0;
     return new Container(
         color: Colors.transparent,
         child: Scaffold(
-            backgroundColor: loginController.isLogin.value
-                ? Colors.white
-                : GlobalStyles.loginBackground,
+            backgroundColor: GlobalStyles.loginBackground,
             resizeToAvoidBottomInset: false,
             body: Obx(() {
               if (loginController.isLogin.value) {
@@ -82,43 +77,45 @@ class HomeScreen extends StatelessWidget {
             }),
             bottomNavigationBar: Obx(() {
               if (loginController.isLogin.value) {
-                return BottomNavigationBar(
-                    iconSize: 35.0,
-                    backgroundColor: GlobalStyles.backgroundDarkGrey,
-                    selectedItemColor: Colors.white,
-                    selectedIconTheme:
-                        IconThemeData(color: GlobalStyles.blue, size: 25.0),
-                    selectedLabelStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    unselectedItemColor: GlobalStyles.greyBottomBarText,
-                    unselectedIconTheme: IconThemeData(
-                        color: GlobalStyles.greyUnselectedIcon, size: 25.0),
-                    unselectedLabelStyle: TextStyle(
-                        color: GlobalStyles.greyBottomBarText,
+                return Obx(() {
+                  return BottomNavigationBar(
+                      iconSize: 35.0,
+                      backgroundColor: GlobalStyles.backgroundDarkGrey,
+                      selectedItemColor: Colors.white,
+                      selectedIconTheme:
+                          IconThemeData(color: GlobalStyles.blue, size: 25.0),
+                      selectedLabelStyle: TextStyle(
+                        color: Colors.white,
                         fontSize: 12.0,
-                        fontWeight: FontWeight.w600),
-                    currentIndex: navigationController.currentIndex.value,
-                    onTap: (index) {
-                      navigationController.changePage(index);
-                      _pageController
-                          .jumpToPage(navigationController.currentIndex.value);
-                    },
-                    items: <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                          icon: Padding(
+                        fontWeight: FontWeight.w600,
+                      ),
+                      unselectedItemColor: GlobalStyles.greyBottomBarText,
+                      unselectedIconTheme: IconThemeData(
+                          color: GlobalStyles.greyUnselectedIcon, size: 25.0),
+                      unselectedLabelStyle: TextStyle(
+                          color: GlobalStyles.greyBottomBarText,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w600),
+                      currentIndex: navigationController.currentIndex.value,
+                      onTap: (index) {
+                        navigationController.changePage(index);
+                        _pageController.jumpToPage(
+                            navigationController.currentIndex.value);
+                      },
+                      items: <BottomNavigationBarItem>[
+                        BottomNavigationBarItem(
+                            icon: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 3.0),
+                                child: Icon(CupertinoIcons.wrench)),
+                            label: "Incidents"),
+                        BottomNavigationBarItem(
+                            icon: Padding(
                               padding: EdgeInsets.symmetric(vertical: 3.0),
-                              child: Icon(CupertinoIcons.wrench)),
-                          label: "Incidents"),
-                      BottomNavigationBarItem(
-                          icon: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 3.0),
-                            child: Icon(Icons.map_outlined),
-                          ),
-                          label: "Carte"),
-                    ]);
+                              child: Icon(Icons.map_outlined),
+                            ),
+                            label: "Carte"),
+                      ]);
+                });
               } else {
                 return SizedBox();
               }

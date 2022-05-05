@@ -99,8 +99,7 @@ class IncidentController extends GetxController {
     });
   }
 
-  Future<void> fetchReparation(incidentPk) async {
-    print("FETCH");
+  Future<void> fetchReparation(String incidentPk) async {
     var infosReparation =
         await HttpService.fetchReparationByPk(incidentPk, userToken);
     infosReparation = jsonDecode(infosReparation);
@@ -111,7 +110,6 @@ class IncidentController extends GetxController {
       listPhotoFile.add(photoFile);
     }
 
-    print(infosReparation["commentary"]);
     currentReparation.value = Reparation(
         statusBike: infosReparation["status_bike"],
         isBikeFunctional: infosReparation["is_bike_functional"],
@@ -126,8 +124,8 @@ class IncidentController extends GetxController {
         piecesList: [],
         selectedPieces: jsonListToIdAndNameList(infosReparation["pieces"]),
         selectedPieceDropDown: IdAndName(id: 0, name: ""),
-        commentary: TextEditingController(text: infosReparation["commentary"]));
-    print(currentReparation.value.selectedPieces[0].name);
+        commentary: TextEditingController(
+            text: utf8.decode(infosReparation["commentary"])));
   }
 
   IdAndName getFirstWhereNameEqual(String name, List<IdAndName> list) {
@@ -230,9 +228,12 @@ class IncidentController extends GetxController {
   Future<void> fetchNewIncidents() async {
     final RefreshIncidentModel incidentsToFetchFilter = RefreshIncidentModel(
         statusList: incidentFilters,
-        newestId: int.parse(incidentList.first.incidentPk!),
+        newestId: int.parse(incidentList.first.incidentPk),
         count: incidentList.length);
 
+    if (incidentFilters.length == 0) {
+      incidentsToFetchFilter.statusList = ["Nouvelle", "En cours", "Terminé"];
+    }
     try {
       var incidents = await HttpService.fetchAllIncidents(
           incidentsToFetchFilter, userToken);

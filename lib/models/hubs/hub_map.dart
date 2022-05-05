@@ -4,19 +4,20 @@
 
 import 'dart:convert';
 
-HubModel hubsModelFromJson(String str) => HubModel.fromJson(json.decode(str));
+List<HubModel> hubsModelFromJson(String str) =>
+    List<HubModel>.from(json.decode(str).map((x) => HubModel.fromJson(x)));
 
 class HubModel {
-  HubModel({
-    this.groupName,
-    this.clientName,
-    this.reparations,
-    this.users,
-    this.bikeParked,
-    this.bikeUsed,
-    this.bikeRobbed,
-    this.adresse,
-  });
+  HubModel(
+      {this.groupName,
+      this.clientName,
+      this.reparations,
+      this.users,
+      this.bikeParked,
+      this.bikeUsed,
+      this.bikeRobbed,
+      required this.adresse,
+      this.pinModel});
 
   final String? groupName;
   final String? clientName;
@@ -25,21 +26,21 @@ class HubModel {
   final int? bikeParked;
   final int? bikeUsed;
   final int? bikeRobbed;
-  final String? adresse;
+  final String adresse;
+  final HubPinModel? pinModel;
 
   factory HubModel.fromJson(Map<String, dynamic> json) => HubModel(
-      groupName: json["nom"] ?? "",
-      clientName: json["client"] ?? "",
-      reparations: json["reparations"] ?? 0,
-      users: json["users"] ?? 0,
-      bikeParked: json["Rangés"] ?? 0,
-      bikeUsed: json["Utilisés"] ?? 0,
-      bikeRobbed: json["Volés"] ?? 0,
-      adresse: json["adresse"] ?? "");
+        groupName: json["infos"]["nom"] ?? "",
+        clientName: json["infos"]["client"] ?? "",
+        reparations: json["infos"]["reparations"] ?? 0,
+        users: json["infos"]["users"] ?? 0,
+        bikeParked: json["infos"]["Rangés"] ?? 0,
+        bikeUsed: json["infos"]["Utilisés"] ?? 0,
+        bikeRobbed: json["infos"]["Volés"] ?? 0,
+        adresse: json["infos"]["adresse"] ?? "",
+        pinModel: HubPinModel.fromJson(json["map"]),
+      );
 }
-
-List<HubPinModel> hubsPinModelFromJson(String str) => List<HubPinModel>.from(
-    json.decode(str).map((x) => HubPinModel.fromJson(x)));
 
 class HubPinModel {
   HubPinModel({
