@@ -105,12 +105,14 @@ class _MyBikeViewState extends State<MyBikeView> {
                 height: 30,
               ),
               Obx(() {
-                return !this.widget.isFromScan
-                    ? ReturnContainer(
-                        text: bikeController.userBike.value.bikeName)
-                    : ReturnContainerToScan(
-                        bikeController: bikeController,
-                        text: bikeController.userBike.value.bikeName);
+                return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: !this.widget.isFromScan
+                        ? ReturnContainer(
+                            text: bikeController.userBike.value.bikeName)
+                        : ReturnContainerToScan(
+                            bikeController: bikeController,
+                            text: bikeController.userBike.value.bikeName));
               }),
               const SizedBox(
                 height: 20,

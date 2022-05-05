@@ -15,7 +15,7 @@ class BuildFormsDivider extends StatelessWidget {
       color: GlobalStyles.greyText,
       height: 2,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
+      margin: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 10.0),
     );
   }
 }

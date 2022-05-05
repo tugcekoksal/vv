@@ -17,14 +17,15 @@ class HubController extends GetxController {
   var userToken;
   var hubView = false.obs;
 
-  RxList<HubPinModel> hubs = <HubPinModel>[].obs;
+  RxList<HubModel> hubs = <HubModel>[].obs;
 
+  var isLoadingHub = false.obs;
   var error = ''.obs;
 
   var isStreetView = true;
 
   var isMapView = true;
-  var hubPopUpInfos = HubModel().obs;
+  // var hubPopUpInfos = HubModel().obs;
 
   void changeMapView() {
     isMapView = !isMapView;
@@ -42,6 +43,7 @@ class HubController extends GetxController {
 
   Future<void> fetchHubs() async {
     error.value = "";
+    isLoadingHub.value = true;
     try {
       var hubsRes = await HttpService.fetchHubs(userToken);
       print(hubsRes);
@@ -52,30 +54,30 @@ class HubController extends GetxController {
       } else {
         print("Error loading hubs data.");
       }
+      isLoadingHub.value = false;
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> fetchOneHub(int groupPk) async {
-    error.value = "";
-    try {
-      var hubRes = await HttpService.fetchOneHub(groupPk, userToken);
-      if (hubRes != null) {
-        hubPopUpInfos.value = hubRes;
-      } else {
-        print("Error loading hubs data.");
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future<void> fetchOneHub(int groupPk) async {
+  //   error.value = "";
+  //   try {
+  //     var hubRes = await HttpService.fetchOneHub(groupPk, userToken);
+  //     if (hubRes != null) {
+  //       hubPopUpInfos.value = hubRes;
+  //     } else {
+  //       print("Error loading hubs data.");
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   HubModel getHubFromMarker(Marker marker) {
-    HubPinModel hubPin = hubs.firstWhere((hub) =>
-        hub.latitude == marker.point.latitude &&
-        hub.longitude == marker.point.longitude);
-    fetchOneHub(hubPin.id ?? -1);
-    return hubPopUpInfos.value;
+    HubModel hub = hubs.firstWhere((hub) =>
+        hub.pinModel?.latitude == marker.point.latitude &&
+        hub.pinModel?.longitude == marker.point.longitude);
+    return hub;
   }
 }

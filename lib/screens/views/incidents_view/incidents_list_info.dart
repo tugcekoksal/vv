@@ -29,18 +29,21 @@ class IncidentListError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 0),
-          child: Text(
-            incidentController.error.value,
-            style: TextStyle(
-                color: Colors.red, fontSize: 14, fontWeight: FontWeight.w600),
-            textAlign: TextAlign.center,
-          ),
+        child: Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 0),
+        child: GestureDetector(
+          onTap: () => {
+            incidentController.refreshIncidentsList(),
+          },
+          child: Column(children: [
+            Image.asset("assets/incident_error.png"),
+            Icon(Icons.refresh),
+            Text("Recharger")
+          ]),
         ),
       ),
-    );
+    ));
   }
 }
 

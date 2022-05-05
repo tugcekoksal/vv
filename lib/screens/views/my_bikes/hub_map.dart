@@ -22,6 +22,7 @@ import 'package:velyvelo/config/markersPaths.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/screens/views/my_bikes/hub_popup.dart';
 import 'package:velyvelo/screens/views/my_bikes/pin.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
@@ -108,8 +109,8 @@ class _HubMapState extends State<HubMap> {
         FlutterMap(
           options: MapOptions(
             onPositionChanged: onGeoChanged,
-            center: latLng.LatLng(48.85942707304794, 2.350492773209436),
-            zoom: 11.0,
+            center: latLng.LatLng(47.8, 2.350492773209436),
+            zoom: 5.1,
             minZoom: 3,
             maxZoom: 21.0,
             interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
@@ -139,13 +140,18 @@ class _HubMapState extends State<HubMap> {
               fitBoundsOptions: FitBoundsOptions(
                 padding: EdgeInsets.all(50),
               ),
-              markers: widget.hubController.hubs.map((hub) {
-                print(hub);
+              markers: widget.hubController.hubs
+                  .where((hub) => hub.adresse != "")
+                  .toList()
+                  .map((hub) {
+                print(hub.pinModel?.longitude);
                 return Marker(
                     width: 35.0,
                     height: 35.0,
-                    point: latLng.LatLng(hub.latitude ?? 0, hub.longitude ?? 0),
-                    builder: (ctx) => Container(child: HubPin(hub: hub)));
+                    point: latLng.LatLng(hub.pinModel?.latitude ?? 0,
+                        hub.pinModel?.longitude ?? 0),
+                    builder: (ctx) => Container(
+                        child: HubPin(hub: hub.pinModel ?? HubPinModel())));
               }).toList(),
               polygonOptions: PolygonOptions(
                   borderColor: Color.fromARGB(0, 255, 255, 255),

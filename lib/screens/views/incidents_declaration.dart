@@ -22,6 +22,7 @@ class IncidentDeclaration extends StatefulWidget {
   final String? groupe;
   final String? velo;
   final int? veloPk;
+  final String indexIncident = "Le champ vélo n'est pas renseigné";
 
   IncidentDeclaration(
       {Key? key, this.client, this.groupe, this.velo, this.veloPk})
@@ -62,228 +63,283 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
     return Scaffold(
       backgroundColor: GlobalStyles.backgroundLightGrey,
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ReturnContainer(text: "Déclaration d'incidents"),
-                SizedBox(height: 15.0),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Informations",
-                        style: TextStyle(
-                            color: GlobalStyles.greyText,
-                            fontSize: 19.0,
-                            fontWeight: FontWeight.w600),
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 15.0),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      SizedBox(height: 10.0),
-                      Obx(() {
-                        if (this.widget.client != null)
-                          incidentDeclarationController.informations["Client"] =
-                              this.widget.client!;
-                        if (incidentDeclarationController
-                                .isLoadingLabelClient.value &&
-                            loginController.isAdminOrTech.value) {
-                          return BuildDisabledDropDown(placeholder: "Client");
-                        } else if (loginController.isAdminOrTech.value) {
-                          return BuildDropDown(
-                              placeholder: this.widget.client != null
-                                  ? this.widget.client!
-                                  : "Client",
-                              dropdownItemList: incidentDeclarationController
-                                  .dropdownItemClientListNames,
-                              setItem:
-                                  incidentDeclarationController.setClientLabel);
-                        } else {
-                          return SizedBox();
-                        }
-                      }),
-                      SizedBox(height: 10.0),
-                      Obx(() {
-                        if (incidentDeclarationController
-                                    .clientLabelPicked.value &&
-                                !loginController.isUser.value ||
-                            this.widget.velo != null) {
-                          return BuildDropDown(
-                              placeholder: this.widget.groupe != null
-                                  ? this.widget.groupe!
-                                  : "Groupe",
-                              dropdownItemList: incidentDeclarationController
-                                  .dropdownItemGroupListNames,
-                              setItem:
-                                  incidentDeclarationController.setGroupLabel);
-                        } else if (loginController.isUser.value) {
-                          return SizedBox();
-                        } else {
-                          return BuildDisabledDropDown(placeholder: "Groupe");
-                        }
-                      }),
-                      SizedBox(height: 10.0),
-                      Obx(() {
-                        if (incidentDeclarationController
-                                .groupLabelPicked.value ||
-                            loginController.isUser.value ||
-                            this.widget.velo != null) {
-                          return BuildDropDown(
-                              placeholder: this.widget.velo != null
-                                  ? this.widget.velo!
-                                  : "Vélo",
-                              dropdownItemList: incidentDeclarationController
-                                  .dropdownItemBikeListNames,
-                              setItem:
-                                  incidentDeclarationController.setBikeLabel);
-                        } else {
-                          return BuildDisabledDropDown(placeholder: "Vélo");
-                        }
-                      }),
-                      SizedBox(height: 10.0),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 15.0),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Incident(s)",
-                        style: TextStyle(
-                            color: GlobalStyles.greyText,
-                            fontSize: 19.0,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(height: 10.0),
-                      BuildFormIncident(indexIncident: 0),
-                      Obx(() {
-                        if (incidentDeclarationController
-                                .incidentMoreFormsList.length >
-                            0) {
-                          return BuildFormsDivider();
-                        } else {
-                          return SizedBox();
-                        }
-                      }),
-                      Obx(() => ListView.separated(
-                            itemCount: incidentDeclarationController
-                                .incidentMoreFormsList.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Obx(() {
-                                return BuildFormIncident(
-                                    indexIncident: incidentDeclarationController
-                                        .incidentMoreFormsList[index]);
-                              });
-                            },
-                            separatorBuilder: (context, index) =>
-                                BuildFormsDivider(),
-                          )),
-                      SizedBox(height: 25.0),
-                      Center(
-                        child: GestureDetector(
-                          onTap: () => incidentDeclarationController.addForm(),
-                          child: Container(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  15, 15, 15, 15),
-                              decoration: BoxDecoration(
-                                  color: GlobalStyles.backgroundDarkGrey,
-                                  borderRadius: BorderRadius.circular(30.0)),
-                              child: Icon(Icons.add, color: Colors.white)),
-                        ),
-                      ),
-                      SizedBox(height: 15.0),
-                      Center(
-                        child: Text("Ajouter un autre incident à déclarer",
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Informations",
                             style: TextStyle(
-                                color: GlobalStyles.greyTextInput,
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w500)),
-                      ),
-                      SizedBox(height: 20.0),
-                      if (loginController.isTech.value)
-                        Obx(() {
-                          return Row(
-                            children: [
-                              Checkbox(
-                                  value: incidentDeclarationController
-                                      .technicianSelfAttributeIncident.value,
-                                  onChanged: (value) => {
-                                        incidentDeclarationController
-                                            .technicianSelfAttributeIncident(
-                                                value),
-                                        print(incidentDeclarationController
-                                            .technicianSelfAttributeIncident
-                                            .value)
-                                      }), // ICI
-                              Text("Attribuer l'incident à mon profil")
-                            ],
-                          );
-                        }),
-                      SizedBox(height: 20.0),
-                      Center(
-                        child: GestureDetector(
-                          onTap: () async {
-                            await incidentDeclarationController
-                                .sendIncident(this.widget.veloPk);
-                            if (incidentDeclarationController
-                                    .isFormUncompleted.value !=
-                                "") {
-                              print(
-                                  "error value ${incidentDeclarationController.isFormUncompleted.value}");
-                              showIncidentSendingFeedback(
-                                  context,
-                                  incidentDeclarationController
-                                      .isFormUncompleted.value,
-                                  GlobalStyles.orange);
-                            } else {
-                              showIncidentSendingFeedback(
-                                  context,
-                                  "Vos incidents ont été ajouté avec succès.",
-                                  GlobalStyles.green);
-                              Future.delayed(Duration(milliseconds: 200),
-                                  () => Navigator.of(context).pop());
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: GlobalStyles.blue,
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25.0, vertical: 12.0),
-                            child: Text("Valider ma déclaration",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17.0,
-                                    fontWeight: FontWeight.w600)),
+                                color: GlobalStyles.greyText,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w600),
                           ),
-                        ),
+                          SizedBox(height: 10.0),
+                          Obx(() {
+                            if (this.widget.client != null)
+                              incidentDeclarationController
+                                  .informations["Client"] = this.widget.client!;
+                            if (incidentDeclarationController
+                                    .isLoadingLabelClient.value &&
+                                loginController.isAdminOrTech.value) {
+                              return BuildDisabledDropDown(
+                                  placeholder: "Client");
+                            } else if (loginController.isAdminOrTech.value) {
+                              return BuildDropDown(
+                                  placeholder: this.widget.client != null
+                                      ? this.widget.client!
+                                      : "Client",
+                                  dropdownItemList:
+                                      incidentDeclarationController
+                                          .dropdownItemClientListNames,
+                                  setItem: incidentDeclarationController
+                                      .setClientLabel);
+                            } else {
+                              return SizedBox();
+                            }
+                          }),
+                          SizedBox(height: 10.0),
+                          Obx(() {
+                            if (incidentDeclarationController
+                                        .clientLabelPicked.value &&
+                                    !loginController.isUser.value ||
+                                this.widget.velo != null) {
+                              return BuildDropDown(
+                                  placeholder: this.widget.groupe != null
+                                      ? this.widget.groupe!
+                                      : "Groupe",
+                                  dropdownItemList:
+                                      incidentDeclarationController
+                                          .dropdownItemGroupListNames,
+                                  setItem: incidentDeclarationController
+                                      .setGroupLabel);
+                            } else if (loginController.isUser.value) {
+                              return SizedBox();
+                            } else {
+                              return BuildDisabledDropDown(
+                                  placeholder: "Groupe");
+                            }
+                          }),
+                          SizedBox(height: 10.0),
+                          Obx(() {
+                            if (incidentDeclarationController
+                                    .groupLabelPicked.value ||
+                                loginController.isUser.value ||
+                                this.widget.velo != null) {
+                              return BuildDropDown(
+                                  placeholder: this.widget.velo != null
+                                      ? this.widget.velo!
+                                      : "Vélo",
+                                  dropdownItemList:
+                                      incidentDeclarationController
+                                          .dropdownItemBikeListNames,
+                                  setItem: incidentDeclarationController
+                                      .setBikeLabel);
+                            } else {
+                              return BuildDisabledDropDown(placeholder: "Vélo");
+                            }
+                          }),
+                          SizedBox(height: 10.0),
+                          Obx(() {
+                            if (incidentDeclarationController
+                                    .veloFormNotCompleted.value !=
+                                "") {
+                              return Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                      incidentDeclarationController
+                                          .veloFormNotCompleted.value,
+                                      style: TextStyle(
+                                          color: GlobalStyles.orange,
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.w500)),
+                                ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          }),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              ],
+                    ),
+                    SizedBox(height: 15.0),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Incident(s)",
+                            style: TextStyle(
+                                color: GlobalStyles.greyText,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(height: 10.0),
+                          BuildFormIncident(indexIncident: 0),
+                          Obx(() {
+                            if (incidentDeclarationController
+                                    .incidentMoreFormsList.length >
+                                0) {
+                              return BuildFormsDivider();
+                            } else {
+                              return SizedBox();
+                            }
+                          }),
+                          Obx(() => ListView.separated(
+                                itemCount: incidentDeclarationController
+                                    .incidentMoreFormsList.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return Obx(() {
+                                    return BuildFormIncident(
+                                        indexIncident:
+                                            incidentDeclarationController
+                                                .incidentMoreFormsList[index]);
+                                  });
+                                },
+                                separatorBuilder: (context, index) =>
+                                    BuildFormsDivider(),
+                              )),
+                          const SizedBox(height: 15),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () =>
+                                  incidentDeclarationController.addForm(),
+                              child: Container(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      15, 15, 15, 15),
+                                  decoration: BoxDecoration(
+                                      color: GlobalStyles.backgroundDarkGrey,
+                                      borderRadius:
+                                          BorderRadius.circular(30.0)),
+                                  child: Icon(Icons.add, color: Colors.white)),
+                            ),
+                          ),
+                          SizedBox(height: 15.0),
+                          Center(
+                            child: Text("Ajouter un autre incident à déclarer",
+                                style: TextStyle(
+                                    color: GlobalStyles.greyTextInput,
+                                    fontSize: 13.0,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      // boxShadow: [BoxShadow(color: Colors.red)],
+                      color: GlobalStyles.backgroundLightGrey,
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(25.0),
+                          bottomLeft: Radius.circular(25.0))),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  child: ReturnContainer(text: "Déclaration d'incidents"),
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      // boxShadow: [BoxShadow(color: Colors.red)],
+                      color: GlobalStyles.backgroundLightGrey,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(25.0),
+                          topLeft: Radius.circular(25.0))),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: GestureDetector(
+                      onTap: () async {
+                        FocusScope.of(context).unfocus();
+                        await incidentDeclarationController
+                            .sendIncident(this.widget.veloPk);
+                        if (incidentDeclarationController
+                                    .isFormUncompleted.value !=
+                                "" ||
+                            !incidentDeclarationController
+                                .bikeLabelPicked.value) {
+                          print(
+                              "error value ${incidentDeclarationController.isFormUncompleted.value}");
+                          showIncidentSendingFeedback(
+                              context,
+                              "Un champ n'est pas renseigné.",
+                              GlobalStyles.orange);
+                        } else {
+                          showIncidentSendingFeedback(
+                              context,
+                              "Vos incidents ont été ajouté avec succès.",
+                              GlobalStyles.green);
+                          Future.delayed(Duration(milliseconds: 200),
+                              () => Navigator.of(context).pop());
+                        }
+                      },
+                      child: Column(children: [
+                        if (loginController.isTech.value)
+                          Obx(() {
+                            return Row(
+                              children: [
+                                Checkbox(
+                                    value: incidentDeclarationController
+                                        .technicianSelfAttributeIncident.value,
+                                    onChanged: (value) => {
+                                          incidentDeclarationController
+                                              .technicianSelfAttributeIncident(
+                                                  value),
+                                          print(incidentDeclarationController
+                                              .technicianSelfAttributeIncident
+                                              .value)
+                                        }), // ICI
+                                Text("Attribuer l'incident à mon profil")
+                              ],
+                            );
+                          }),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: GlobalStyles.blue,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25.0, vertical: 12.0),
+                          child: Text("Valider ma déclaration",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ])),
+                ),
+              ],
+            )
+          ])),
     );
   }
 }

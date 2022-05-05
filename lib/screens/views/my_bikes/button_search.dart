@@ -32,8 +32,8 @@ class ButtonSearchVelo extends StatelessWidget {
         mapBikesController.searchText.value == ""
             ? SizedBox(height: 0, width: 0)
             : Positioned(
-                left: 3,
-                bottom: 3,
+                right: 3,
+                top: 3,
                 child: Container(
                     padding: EdgeInsets.all(1),
                     decoration: BoxDecoration(

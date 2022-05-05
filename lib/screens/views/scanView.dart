@@ -29,7 +29,10 @@ class ScanView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.075),
-          ReturnContainer(text: "Scannez un vélo"),
+          Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.15),
+              child: ReturnContainer(text: "Scannez un vélo")),
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           Container(
               height: MediaQuery.of(context).size.height * 0.5,

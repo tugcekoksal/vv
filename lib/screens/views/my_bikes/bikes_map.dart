@@ -97,8 +97,8 @@ class _BikesMapState extends State<BikesMap> {
         FlutterMap(
           options: MapOptions(
             onPositionChanged: onGeoChanged,
-            center: latLng.LatLng(48.85942707304794, 2.350492773209436),
-            zoom: 11.0,
+            center: latLng.LatLng(47.8, 2.350492773209436),
+            zoom: 5.1,
             minZoom: 3,
             maxZoom: 21.0,
             interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
@@ -132,8 +132,9 @@ class _BikesMapState extends State<BikesMap> {
                   widget.mapBikeController.bikeWithPositionList.map((bike) {
                 return Marker(
                     width: 35.0,
-                    height: 35.0,
-                    point: latLng.LatLng(bike.pos.latitude, bike.pos.longitude),
+                    height: 70.0,
+                    point: latLng.LatLng(
+                        bike.pos?.latitude ?? 0, bike.pos?.longitude ?? 0),
                     builder: (ctx) =>
                         Container(child: Pin(status: bike.mapStatus)));
               }).toList(),

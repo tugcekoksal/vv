@@ -57,6 +57,7 @@ class IncidentDeclarationController extends GetxController {
 
   var isFormUncompleted = "".obs;
   var indexWhereFormIsNotCompleted = "".obs;
+  var veloFormNotCompleted = "".obs;
   var success = "".obs;
 
   var technicianSelfAttributeIncident = true.obs;
@@ -321,8 +322,10 @@ class IncidentDeclarationController extends GetxController {
       //Put battery label to disable status
       bikeLabelPicked(true);
 
-      // Reset balues
+      // Reset values
       informations["Batterie"] = "";
+
+      veloFormNotCompleted.value = "";
     }
   }
 
@@ -378,6 +381,14 @@ class IncidentDeclarationController extends GetxController {
     success.value = "";
 
     // Check if informations are complete
+    print(bikeLabelPicked);
+    print(veloFormNotCompleted.value);
+    if (!bikeLabelPicked.value) {
+      veloFormNotCompleted.value = "Le champ vélo n'est pas spécifié";
+      return;
+    } else {
+      veloFormNotCompleted.value = "";
+    }
     if (incidentTypeList.contains("")) {
       indexWhereFormIsNotCompleted.value =
           incidentTypeList.indexWhere((element) => element == "").toString();

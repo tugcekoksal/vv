@@ -7,23 +7,11 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
+import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class HeaderContainer extends StatelessWidget {
-  final String? title;
-  final String? status;
-  final String? location;
-  final String? id;
-  final String? date;
-  final int interventionTime;
-  const HeaderContainer(
-      {Key? key,
-      required this.title,
-      required this.status,
-      required this.location,
-      required this.id,
-      required this.date,
-      required this.interventionTime})
-      : super(key: key);
+  final Incident incident;
+  const HeaderContainer({Key? key, required this.incident}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,26 +26,30 @@ class HeaderContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Type reparation
               Expanded(
-                child: Text(title == null ? "No data" : title!,
+                child: Text(
+                    incident.incidentTypeReparation ??
+                        "Pas de type de réparation",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: GlobalStyles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
+              // Little top right colored box indicating the reparation number
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 100),
                 child: Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: status == null
-                          ? GlobalStyles.greyLogin
-                          : colorBasedOnIncidentStatus(status!),
+                      color: colorBasedOnIncidentStatus(
+                          incident.incidentStatus ??
+                              "Pas de status d'incident"),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Text(valueIsNull(status),
+                    child: Text(valueIsNull(incident.reparationNumber),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: Colors.white,
@@ -70,7 +62,7 @@ class HeaderContainer extends StatelessWidget {
           Row(
             children: [
               Flexible(
-                child: Text(location == null ? "Aucun groupe" : location!,
+                child: Text(incident.veloGroup,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: GlobalStyles.purple,
@@ -83,7 +75,7 @@ class HeaderContainer extends StatelessWidget {
                       fontSize: 17.0,
                       fontWeight: FontWeight.w600)),
               Flexible(
-                child: Text(valueIsNull(id),
+                child: Text(valueIsNull(incident.veloName),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: GlobalStyles.purple,
@@ -96,7 +88,7 @@ class HeaderContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(valueIsNull(date),
+              Text(valueIsNull(incident.dateCreation),
                   style: TextStyle(
                       color: GlobalStyles.green,
                       fontSize: 17.0,
@@ -112,8 +104,8 @@ class HeaderContainer extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    (interventionTime != 0
-                            ? interventionTime.toString()
+                    (incident.interventionTime != 0
+                            ? incident.interventionTime.toString()
                             : "moins d'1") +
                         'h',
                     style: TextStyle(

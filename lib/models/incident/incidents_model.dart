@@ -43,7 +43,7 @@ class Incident {
 
   final String? incidentTypeReparation;
   final String? incidentStatus;
-  final String? incidentPk;
+  final String incidentPk;
   final String veloGroup;
   final String veloName;
   final String? dateCreation;
@@ -56,7 +56,7 @@ class Incident {
           : json["incident_type_reparation"],
       incidentStatus:
           json["incident_status"] == null ? null : json["incident_status"],
-      incidentPk: json["incident_pk"] == null ? null : json["incident_pk"],
+      incidentPk: json["incident_pk"] ?? "-1",
       veloGroup:
           json["velo_group"] == null ? "Pas de groupe" : json["velo_group"],
       veloName: json["velo_name"] == null ? "Erreur" : json["velo_name"],

@@ -16,7 +16,7 @@ class ReturnStyled extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+        padding: EdgeInsets.symmetric(vertical: 30.0),
         child: Stack(
             clipBehavior: Clip.none,
             alignment: text.length > LONGTEXT

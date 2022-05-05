@@ -20,7 +20,7 @@ class MapBikesController extends GetxController {
   var isLoadingFilters = false.obs;
 
   var bikeList = <MapModel>[];
-  var bikeWithPositionList = [].obs;
+  var bikeWithPositionList = <MapModel>[].obs;
   var didNotFoundBikesWithPosition = false.obs;
 
   var hasAccesGroups = false.obs;
@@ -31,8 +31,8 @@ class MapBikesController extends GetxController {
   var oldSelectedFiltersList = [];
 
   var availableStatus = ["Rangés", "Utilisés", "Volés"].obs;
-  var selectedStatusList = ["Rangés", "Utilisés", "Volés"].obs;
-  var oldSelectedStatusList = ["Rangés", "Utilisés", "Volés"];
+  var selectedStatusList = <String>[].obs;
+  var oldSelectedStatusList = [];
 
   var isFiltersChanged = false.obs;
 
@@ -76,8 +76,11 @@ class MapBikesController extends GetxController {
     try {
       isLoading(true);
       didNotFoundBikesWithPosition(false);
+      List<String> listOfSelectedStatus = selectedStatusList.length == 0
+          ? ["Rangés", "Utilisés", "Volés"]
+          : selectedStatusList;
       var bikes = await HttpService.fetchAllBikes(
-          selectedFiltersList, selectedStatusList, userToken);
+          selectedFiltersList, listOfSelectedStatus, userToken);
       if (bikes != null) {
         bikeList = bikes;
         bikeWithPositionList.value = bikeList.toList();
@@ -122,22 +125,22 @@ class MapBikesController extends GetxController {
 
   String buildPopUpContentName(marker) {
     MapModel bikePopup = bikeWithPositionList.firstWhere((bike) =>
-        bike.pos.latitude == marker.point.latitude &&
-        bike.pos.longitude == marker.point.longitude);
+        bike.pos?.latitude == marker.point.latitude &&
+        bike.pos?.longitude == marker.point.longitude);
     return bikePopup.name;
   }
 
   MapModel getBikeFromMarker(marker) {
     MapModel theBike = bikeWithPositionList.firstWhere((bike) =>
-        bike.pos.latitude == marker.point.latitude &&
-        bike.pos.longitude == marker.point.longitude);
+        bike.pos?.latitude == marker.point.latitude &&
+        bike.pos?.longitude == marker.point.longitude);
     return theBike;
   }
 
   String buildPopUpContentLastEmission(marker) {
     MapModel bikePopup = bikeWithPositionList.firstWhere((bike) =>
-        bike.pos.latitude == marker.point.latitude &&
-        bike.pos.longitude == marker.point.longitude);
+        bike.pos?.latitude == marker.point.latitude &&
+        bike.pos?.longitude == marker.point.longitude);
 
     int? timeStamp = bikePopup.pos?.timestamp;
     DateTime date = new DateTime.fromMillisecondsSinceEpoch(
@@ -150,8 +153,8 @@ class MapBikesController extends GetxController {
 
   void setBikeToNewRobbedStatus(marker) async {
     MapModel bikePopup = bikeWithPositionList.firstWhere((bike) =>
-        bike.pos.latitude == marker.point.latitude &&
-        bike.pos.longitude == marker.point.longitude);
+        bike.pos?.latitude == marker.point.latitude &&
+        bike.pos?.longitude == marker.point.longitude);
     try {
       // isLoading(true);
       var bikeRobbed =

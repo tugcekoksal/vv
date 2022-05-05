@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:velyvelo/models/incident/incidents_model.dart';
+
 UserBikeModel userBikeModelFromJson(String str) =>
     UserBikeModel.fromJson(json.decode(str));
 
@@ -66,47 +68,49 @@ class UserBikeModel {
       };
 }
 
-Incident incidentFromJson(String str) => Incident.fromJson(json.decode(str));
+// IncidentOverview incidentFromJson(String str) =>
+//     IncidentOverview.fromJson(json.decode(str));
 
-String incidentToJson(Incident data) => json.encode(data.toJson());
+// String incidentToJson(IncidentOverview data) => json.encode(data.toJson());
 
-class Incident {
-  Incident({
-    required this.incidentTypeReparation,
-    required this.incidentStatus,
-    required this.veloGroup,
-    required this.veloName,
-    required this.dateCreation,
-    required this.incidentPk,
-    required this.interventionTime,
-  });
+// class IncidentOverview {
+//   IncidentOverview({
+//     required this.incidentTypeReparation,
+//     required this.incidentStatus,
+//     required this.veloGroup,
+//     required this.veloName,
+//     required this.dateCreation,
+//     required this.incidentPk,
+//     required this.interventionTime,
+//   });
 
-  String incidentTypeReparation;
-  String incidentStatus;
-  String veloGroup;
-  String veloName;
-  String dateCreation;
-  String incidentPk;
-  int interventionTime;
+//   String incidentTypeReparation;
+//   String incidentStatus;
+//   String veloGroup;
+//   String veloName;
+//   String dateCreation;
+//   String incidentPk;
+//   int interventionTime;
 
-  factory Incident.fromJson(Map<String, dynamic> json) => Incident(
-        incidentTypeReparation: json["incident_type_reparation"],
-        incidentStatus: json["incident_status"],
-        veloGroup:
-            json["velo_group"] != null ? "Aucun groupe" : json["velo_group"],
-        veloName: json["velo_name"],
-        dateCreation: json["date_creation"],
-        incidentPk: json["incident_pk"],
-        interventionTime: json["intervention_time"],
-      );
+//   factory IncidentOverview.fromJson(Map<String, dynamic> json) =>
+//       IncidentOverview(
+//         incidentTypeReparation: json["incident_type_reparation"],
+//         incidentStatus: json["incident_status"],
+//         veloGroup:
+//             json["velo_group"] != null ? "Aucun groupe" : json["velo_group"],
+//         veloName: json["velo_name"],
+//         dateCreation: json["date_creation"],
+//         incidentPk: json["incident_pk"],
+//         interventionTime: json["intervention_time"],
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "incident_type_reparation": incidentTypeReparation,
-        "incident_status": incidentStatus,
-        "velo_group": veloGroup,
-        "velo_name": veloName,
-        "date_creation": dateCreation,
-        "incident_pk": incidentPk,
-        "intervention_time": interventionTime,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "incident_type_reparation": incidentTypeReparation,
+//         "incident_status": incidentStatus,
+//         "velo_group": veloGroup,
+//         "velo_name": veloName,
+//         "date_creation": dateCreation,
+//         "incident_pk": incidentPk,
+//         "intervention_time": interventionTime,
+//       };
+// }
