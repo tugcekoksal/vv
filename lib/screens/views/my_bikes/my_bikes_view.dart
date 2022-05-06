@@ -53,6 +53,8 @@ class _MyBikesViewState extends State<MyBikesView> {
   }
 
   void init() {
+    hubController.fetchHubs();
+
     // mapBikeController.didNotFoundBikesWithPosition.value = true;
     // mapBikeController.isLoading.value = true;
   }
