@@ -18,7 +18,6 @@ class ButtonTypeMapElem extends StatelessWidget {
 
   changeView() {
     hubController.hubView.value = isHub;
-    print(hubController.hubView.value);
   }
 
   bool activated() {

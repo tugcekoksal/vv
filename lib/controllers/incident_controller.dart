@@ -273,14 +273,12 @@ class IncidentController extends GetxController {
     currentReparation.update((reparation) {
       reparation!.isBikeFunctional = value;
     });
-    print(currentReparation.value.isBikeFunctional);
   }
 
   setBikeStatus(value) async {
     currentReparation.update((reparation) {
       reparation!.statusBike = value;
     });
-    print(currentReparation.value.statusBike);
   }
 
   sendReparationUpdate() async {

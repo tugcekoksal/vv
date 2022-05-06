@@ -35,7 +35,6 @@ class HubCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(hub.adresse);
     return Container(
         padding: const EdgeInsets.all(20.0),
         margin: const EdgeInsets.only(

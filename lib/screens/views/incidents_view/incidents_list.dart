@@ -1,5 +1,4 @@
 // Vendor
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -44,7 +43,6 @@ class IncidentsList extends StatelessWidget {
         controller: incidentController.refreshController,
         onRefresh: () {
           // Refresh incidents
-          print("OULALA");
           incidentController.refreshIncidentsList();
           incidentController.refreshController.refreshCompleted();
         },

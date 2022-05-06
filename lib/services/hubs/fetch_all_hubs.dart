@@ -14,7 +14,6 @@ Future fetchHubsService(String urlServer, String userToken) async {
   http.StreamedResponse response = await request.send();
   String responseStr = await response.stream.bytesToString();
   if (response.statusCode == 200) {
-    print(responseStr);
     return hubsModelFromJson(responseStr);
   } else if (response.statusCode == 403) {
     print(responseStr);
@@ -34,7 +33,6 @@ Future fetchOneHubService(String urlServer, int pk, String userToken) async {
     "Content-Type": "application/json"
   };
 
-  print(pk);
   request.body = json.encode({"pk": pk});
   request.headers.addAll(headers);
 

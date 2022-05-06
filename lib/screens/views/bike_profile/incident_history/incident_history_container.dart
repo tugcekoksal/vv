@@ -47,11 +47,6 @@ class IncidentHistoryContainer extends StatelessWidget {
                                       itemCount: bikeController
                                           .userBike.value.otherRepairs.length,
                                       itemBuilder: (context, index) {
-                                        print(bikeController
-                                            .userBike
-                                            .value
-                                            .otherRepairs[index]
-                                            .incidentStatus);
                                         return GestureDetector(
                                             onTap: () => null,
                                             child: IncidentHistoricCard(

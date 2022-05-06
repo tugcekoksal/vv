@@ -159,7 +159,6 @@ class IncidentDeclarationController extends GetxController {
         dropdownItemGroupList
             .insert(0, {'label': 'Pas de groupe', 'value': (-1).toString()});
         dropdownItemGroupListNames.insert(0, "Pas de groupe");
-        print(dropdownItemGroupListNames);
         dropdownItemGroupList.refresh();
         isLoadingLabelGroup(false);
         clientLabelPicked(true);
@@ -170,7 +169,6 @@ class IncidentDeclarationController extends GetxController {
   }
 
   void fetchBikeLabelsByGroup() async {
-    print("FECTH");
     int groupPk = getGroupItem();
     int clientPk = getClientItem();
     try {
@@ -270,8 +268,6 @@ class IncidentDeclarationController extends GetxController {
     incidentPhotosList.removeLast();
     incidentMoreFormsList.removeLast();
 
-    print("IFL after $incidentMoreFormsList");
-
     index--;
   }
 
@@ -297,9 +293,6 @@ class IncidentDeclarationController extends GetxController {
   }
 
   setGroupLabel(value) {
-    print(value);
-    print(informations["Groupe"]);
-    print(informations["Client"]);
     if (value != informations["Groupe"]) {
       // Set client label value
       informations["Groupe"] = value;
@@ -384,8 +377,6 @@ class IncidentDeclarationController extends GetxController {
     success.value = "";
 
     // Check if informations are complete
-    print(bikeLabelPicked);
-    print(veloFormNotCompleted.value);
     if (!bikeLabelPicked.value) {
       veloFormNotCompleted.value = "Le champ vélo n'est pas spécifié";
       return;
@@ -435,7 +426,6 @@ class IncidentDeclarationController extends GetxController {
         var incidentSent =
             await HttpService.setIncident(incidentToSend, userToken);
         if (incidentSent != null) {
-          print("Success $incidentSent");
           success.value = incidentSent.toString();
           Get.find<IncidentController>().refreshIncidentsList();
         }

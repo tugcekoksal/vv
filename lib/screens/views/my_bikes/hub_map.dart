@@ -132,7 +132,6 @@ class _HubMapState extends State<HubMap> {
                   .where((hub) => hub.adresse != "")
                   .toList()
                   .map((hub) {
-                print(hub.pinModel?.longitude);
                 return Marker(
                     width: 35.0,
                     height: 80.0,

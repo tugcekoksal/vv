@@ -48,7 +48,6 @@ class BikeController extends GetxController {
       if (bike != null) {
         userBike.value = bike;
         isLoading(false);
-        print(userBike.value.inProgressRepairs.length);
       } else {
         error.value = "Vous n'avez pas accès aux données de ce vélo";
         isLoading(false);

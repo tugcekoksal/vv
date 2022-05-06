@@ -18,9 +18,6 @@ class LoginView extends StatelessWidget {
   final NavigationController navigationController =
       Get.put(NavigationController());
   @override
-  final snackBarLoading = SnackBar(
-      content: Text('Connexion en cours...'),
-      backgroundColor: GlobalStyles.blue);
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

@@ -148,8 +148,6 @@ class BikesList extends StatelessWidget {
                         itemCount:
                             mapBikeController.bikeWithPositionList.length,
                         itemBuilder: (context, index) {
-                          print(mapBikeController
-                              .bikeWithPositionList[index].pos?.latitude);
                           return (GestureDetector(
                             child: VeloCard(
                                 name: mapBikeController

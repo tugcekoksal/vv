@@ -189,9 +189,6 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                             incidentDeclarationController
                                                 .technicianSelfAttributeIncident(
                                                     value),
-                                            print(incidentDeclarationController
-                                                .technicianSelfAttributeIncident
-                                                .value)
                                           }), // ICI
                                   Text("Attribuer l'incident à mon profil")
                                 ],

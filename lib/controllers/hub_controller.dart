@@ -49,8 +49,6 @@ class HubController extends GetxController {
     isLoadingHub.value = true;
     try {
       var hubsRes = await HttpService.fetchHubs(userToken);
-      print(hubsRes);
-      print("OGEUWHHHHHHHHH");
       if (hubsRes != null) {
         hubs.value = hubsRes;
         storedHubs = hubsRes;
@@ -68,33 +66,16 @@ class HubController extends GetxController {
 
   void hubsBySearch() {
     String? theSearch = searchText.value.capitalize;
-    print(hubs);
     if (searchText.value != "") {
       hubs.value = storedHubs
           .where(
               (element) => element.groupName!.capitalize!.contains(theSearch!))
           .toList();
       hubs.refresh();
-      print("SEARCHED");
     } else {
       hubs.value = storedHubs;
-      print("NO SEARCH");
     }
-    print(hubs);
   }
-  // Future<void> fetchOneHub(int groupPk) async {
-  //   error.value = "";
-  //   try {
-  //     var hubRes = await HttpService.fetchOneHub(groupPk, userToken);
-  //     if (hubRes != null) {
-  //       hubPopUpInfos.value = hubRes;
-  //     } else {
-  //       print("Error loading hubs data.");
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   HubModel getHubFromMarker(Marker marker) {
     HubModel hub = hubs.firstWhere((hub) =>
