@@ -156,12 +156,12 @@ class HubsList extends StatelessWidget {
       return Container(
           color: GlobalStyles.backgroundLightGrey,
           child: Padding(
-              padding: EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(top: 100, bottom: 60),
               child: FadeListView(
                 // Need to enable refresh here !
                 child: SmartRefresher(
                   enablePullDown: true,
-                  enablePullUp: true,
+                  enablePullUp: false,
                   controller: hubController.refreshController,
                   // controller: incidentController.refreshController,
                   onRefresh: () {

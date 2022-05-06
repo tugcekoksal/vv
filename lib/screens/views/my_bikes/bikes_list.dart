@@ -125,12 +125,12 @@ class BikesList extends StatelessWidget {
       return Container(
           color: GlobalStyles.backgroundLightGrey,
           child: Padding(
-              padding: EdgeInsets.only(top: 100, bottom: 20),
+              padding: EdgeInsets.only(top: 100, bottom: 60),
               child: FadeListView(
                   // Need to enable refresh here !
                   child: SmartRefresher(
                       enablePullDown: true,
-                      enablePullUp: true,
+                      enablePullUp: false,
                       controller: mapBikeController.refreshController,
                       // controller: incidentController.refreshController,
                       onRefresh: () {
@@ -237,7 +237,7 @@ class BikesListView extends StatelessWidget {
       : super(key: key);
   void init() {
     mapBikeController.fetchAllBikes();
-    mapBikeController.bikeWithPositionList.refresh();
+    // mapBikeController.bikeWithPositionList.refresh();
   }
 
   @override
