@@ -135,7 +135,7 @@ class _HubMapState extends State<HubMap> {
                 print(hub.pinModel?.longitude);
                 return Marker(
                     width: 35.0,
-                    height: 35.0,
+                    height: 70.0,
                     point: latLng.LatLng(hub.pinModel?.latitude ?? 0,
                         hub.pinModel?.longitude ?? 0),
                     builder: (ctx) => Container(
