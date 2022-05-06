@@ -1,14 +1,13 @@
 // Vendor
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
 
 // Models
-import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/hubs/hub_map.dart';
-import 'package:velyvelo/screens/views/my_bikes/pin.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';
@@ -16,8 +15,10 @@ import 'package:velyvelo/services/http_service.dart';
 class HubController extends GetxController {
   var userToken;
   var hubView = false.obs;
+  final refreshController = RefreshController();
 
   RxList<HubModel> hubs = <HubModel>[].obs;
+  List<HubModel> storedHubs = <HubModel>[];
 
   var isLoadingHub = false.obs;
   var error = ''.obs;
@@ -26,6 +27,8 @@ class HubController extends GetxController {
 
   var isMapView = true;
   // var hubPopUpInfos = HubModel().obs;
+  RxBool displaySearch = false.obs;
+  RxString searchText = "".obs;
 
   void changeMapView() {
     isMapView = !isMapView;
@@ -50,16 +53,35 @@ class HubController extends GetxController {
       print("OGEUWHHHHHHHHH");
       if (hubsRes != null) {
         hubs.value = hubsRes;
-        print(hubs);
+        storedHubs = hubsRes;
       } else {
+        error.value = "Error loading hubs";
         print("Error loading hubs data.");
       }
       isLoadingHub.value = false;
     } catch (e) {
+      isLoadingHub.value = false;
+      error.value = "Error loading hubs";
       print(e);
     }
   }
 
+  void hubsBySearch() {
+    String? theSearch = searchText.value.capitalize;
+    print(hubs);
+    if (searchText.value != "") {
+      hubs.value = storedHubs
+          .where(
+              (element) => element.groupName!.capitalize!.contains(theSearch!))
+          .toList();
+      hubs.refresh();
+      print("SEARCHED");
+    } else {
+      hubs.value = storedHubs;
+      print("NO SEARCH");
+    }
+    print(hubs);
+  }
   // Future<void> fetchOneHub(int groupPk) async {
   //   error.value = "";
   //   try {

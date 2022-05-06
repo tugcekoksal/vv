@@ -6,13 +6,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/controllers/hub_controller.dart';
 
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
-
 // Globals styles
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/models/hubs/hub_map.dart';
-import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
+import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
+import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 
 class PurpleText extends StatelessWidget {
   final String text;
@@ -151,16 +149,8 @@ class HubsList extends StatelessWidget {
 
   const HubsList({Key? key, required this.hubController}) : super(key: key);
 
-  void init() {
-    hubController.fetchHubs();
-    hubController.hubs.refresh();
-  }
-
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 100)).then((value) => {
-          init(),
-        });
     return Obx(() {
       return Container(
           color: GlobalStyles.backgroundLightGrey,
@@ -171,18 +161,17 @@ class HubsList extends StatelessWidget {
                 child: SmartRefresher(
                   enablePullDown: true,
                   enablePullUp: true,
-                  controller: RefreshController(),
+                  controller: hubController.refreshController,
                   // controller: incidentController.refreshController,
                   onRefresh: () {
                     // Refresh incidents
-                    print("OULALA");
-                    // incidentController.refreshIncidentsList();
-                    // incidentController.refreshController.refreshCompleted();
+                    hubController.fetchHubs();
+                    hubController.refreshController.refreshCompleted();
                   },
                   onLoading: () {
                     // Add new incidents in the list with newest_id and count
                     // incidentController.fetchNewIncidents();
-                    // incidentController.refreshController.loadComplete();
+                    hubController.refreshController.loadComplete();
                   },
                   child: ListView.builder(
                     padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
@@ -206,6 +195,40 @@ class HubsList extends StatelessWidget {
                   ),
                 ),
               )));
+    });
+  }
+}
+
+class HubsListView extends StatelessWidget {
+  final HubController hubController;
+
+  const HubsListView({Key? key, required this.hubController}) : super(key: key);
+
+  void init() {
+    hubController.fetchHubs();
+    hubController.hubs.refresh();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (hubController.isLoadingHub.value) {
+        return Padding(
+            padding: EdgeInsets.only(top: 100), child: ListIsLoading());
+      } else if (hubController.error.value != "") {
+        return InfoError(
+            icon: Icons.other_houses,
+            color: GlobalStyles.orange,
+            text: "Une erreur s'est produite",
+            action: init);
+      } else if (hubController.hubs.length == 0) {
+        return InfoEmpty(
+            icon: Icons.other_houses,
+            color: GlobalStyles.greyUnselectedIcon,
+            text: "Aucun hub trouvé");
+      } else {
+        return HubsList(hubController: hubController);
+      }
     });
   }
 }

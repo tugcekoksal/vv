@@ -9,21 +9,22 @@ import 'package:velyvelo/controllers/map_controller.dart';
 
 // Globals styles
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
-class PurpleText extends StatelessWidget {
+class TitleText extends StatelessWidget {
   final String text;
+  final Color color;
 
-  const PurpleText({Key? key, required this.text}) : super(key: key);
+  const TitleText({Key? key, required this.text, required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
         child: Text(text,
             style: TextStyle(
-                color: GlobalStyles.purple,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w600)));
+                color: color, fontSize: 17.0, fontWeight: FontWeight.w600)));
   }
 }
 
@@ -90,7 +91,10 @@ class VeloCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PurpleText(text: name),
+                TitleText(
+                  text: name,
+                  color: GlobalStyles.purple,
+                ),
                 MapStatusVelo(text: mapStatus),
               ],
             ),
@@ -98,7 +102,11 @@ class VeloCard extends StatelessWidget {
               height: 10,
             ),
             Row(
-              children: [PurpleText(text: group)],
+              children: [
+                TitleText(
+                    text: group == "" ? "Pas de groupe" : group,
+                    color: GlobalStyles.greyBottomBarText)
+              ],
             )
           ],
         ));
@@ -123,18 +131,17 @@ class BikesList extends StatelessWidget {
                   child: SmartRefresher(
                       enablePullDown: true,
                       enablePullUp: true,
-                      controller: RefreshController(),
+                      controller: mapBikeController.refreshController,
                       // controller: incidentController.refreshController,
                       onRefresh: () {
                         // Refresh incidents
-                        print("OULALA");
-                        // incidentController.refreshIncidentsList();
-                        // incidentController.refreshController.refreshCompleted();
+                        mapBikeController.fetchAllBikes();
+                        mapBikeController.refreshController.refreshCompleted();
                       },
                       onLoading: () {
                         // Add new incidents in the list with newest_id and count
                         // incidentController.fetchNewIncidents();
-                        // incidentController.refreshController.loadComplete();
+                        mapBikeController.refreshController.loadComplete();
                       },
                       child: ListView.builder(
                         padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
@@ -160,6 +167,99 @@ class BikesList extends StatelessWidget {
                           ));
                         },
                       )))));
+    });
+  }
+}
+
+class InfoEmpty extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String text;
+
+  const InfoEmpty(
+      {Key? key, required this.icon, required this.color, required this.text})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          size: 100,
+          color: color,
+        ),
+        Text(
+          text,
+          style: TextStyle(color: GlobalStyles.greyUnselectedIcon),
+        )
+      ],
+    ));
+  }
+}
+
+class InfoError extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String text;
+  final Function action;
+
+  const InfoError(
+      {Key? key,
+      required this.icon,
+      required this.color,
+      required this.text,
+      required this.action})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        InfoEmpty(icon: icon, color: color, text: text),
+        const SizedBox(height: 25),
+        GestureDetector(
+            onTap: () => {action()},
+            child: Column(
+              children: [Icon(Icons.refresh), Text("Recharger")],
+            ))
+      ]),
+    );
+  }
+}
+
+class BikesListView extends StatelessWidget {
+  final MapBikesController mapBikeController;
+
+  const BikesListView({Key? key, required this.mapBikeController})
+      : super(key: key);
+  void init() {
+    mapBikeController.fetchAllBikes();
+    mapBikeController.bikeWithPositionList.refresh();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (mapBikeController.isLoading.value) {
+        return Padding(
+            padding: EdgeInsets.only(top: 100), child: ListIsLoading());
+      } else if (mapBikeController.error.value != "") {
+        return InfoError(
+            action: init,
+            icon: Icons.pedal_bike,
+            color: GlobalStyles.orange,
+            text: "Une erreur s'est produite");
+      } else if (mapBikeController.bikeWithPositionList.length == 0) {
+        return InfoEmpty(
+            icon: Icons.pedal_bike,
+            color: GlobalStyles.greyUnselectedIcon,
+            text: "Aucun vélo trouvé");
+      } else {
+        return BikesList(mapBikeController: mapBikeController);
+      }
     });
   }
 }

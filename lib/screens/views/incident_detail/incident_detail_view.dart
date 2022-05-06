@@ -50,8 +50,7 @@ class IncidentDetail extends StatelessWidget {
             child: Stack(children: [
               SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+                  padding: EdgeInsets.fromLTRB(20, 100, 20, 60),
                   child: Column(
                     children: [
                       // Button to return to the incidents historic
@@ -222,28 +221,26 @@ class IncidentDetail extends StatelessWidget {
                   ),
                 ),
               ),
+              ReturnBar(text: "Détails de l'incident"),
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        // boxShadow: [BoxShadow(color: Colors.red)],
-                        color: GlobalStyles.backgroundLightGrey,
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(25.0),
-                            bottomLeft: Radius.circular(25.0))),
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: ReturnContainer(text: "Détails de l'incident"),
-                  ),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        // boxShadow: [BoxShadow(color: Colors.red)],
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.5,
+                            blurRadius: 3,
+                            offset: Offset(3, 0),
+                          )
+                        ],
                         color: GlobalStyles.backgroundLightGrey,
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(25.0),
                             topLeft: Radius.circular(25.0))),
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    padding: const EdgeInsets.all(0),
                     child: GestureDetector(
                       onTap: () async {
                         FocusScope.of(context).requestFocus(new FocusNode());
@@ -259,24 +256,33 @@ class IncidentDetail extends StatelessWidget {
                         await incidentController.sendReparationUpdate();
 
                         ScaffoldMessenger.of(context).clearSnackBars();
-                        snackBar = SnackBar(
-                          content: Text(
-                              'Vos informations ont bien été sauvegardées.'),
-                          backgroundColor: Color(0xff46b594),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        if (incidentController.error.value == "") {
+                          snackBar = SnackBar(
+                            content: Text(
+                                'Vos informations ont bien été sauvegardées.'),
+                            backgroundColor: Color(0xff46b594),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else {
+                          snackBar = SnackBar(
+                            content: Text(
+                                'Une erreur est survenue, vérfiez votre réseau.'),
+                            backgroundColor: GlobalStyles.orange,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
-                          color: GlobalStyles.blue,
+                          color: Colors.white,
                         ),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 20.0),
-                        child: Text("Envoyer",
+                            EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
+                        child: Text("Enregistrer mes modifications",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: Colors.white,
+                                color: GlobalStyles.blue,
                                 fontSize: 17.0,
                                 fontWeight: FontWeight.w600)),
                       ),
