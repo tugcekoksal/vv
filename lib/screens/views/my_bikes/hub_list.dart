@@ -70,7 +70,8 @@ class HubCard extends StatelessWidget {
                   Clipboard.setData(ClipboardData(text: hub.adresse)).then(
                       (value) => ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content: Text("Address copied to clipboard"))))
+                              content: Text(
+                                  "Adresse copiée dans le presse-papier."))))
                 },
                 icon: Icon(
                   Icons.copy,
