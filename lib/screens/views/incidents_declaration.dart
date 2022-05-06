@@ -277,64 +277,54 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ReturnBar(text: "Déclaration d'incidents"),
-                Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 0.5,
-                            blurRadius: 3,
-                            offset: Offset(3, 0),
-                          )
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25.0),
-                            topLeft: Radius.circular(25.0))),
-                    padding: const EdgeInsets.all(0),
-                    child: Column(children: [
-                      GestureDetector(
-                        onTap: () async {
-                          FocusScope.of(context).unfocus();
-                          await incidentDeclarationController
-                              .sendIncident(this.widget.veloPk);
-                          if (incidentDeclarationController
-                                      .isFormUncompleted.value !=
-                                  "" ||
-                              !incidentDeclarationController
-                                  .bikeLabelPicked.value) {
-                            print(
-                                "error value ${incidentDeclarationController.isFormUncompleted.value}");
-                            showIncidentSendingFeedback(
-                                context,
-                                "Un champ n'est pas renseigné.",
-                                GlobalStyles.orange);
-                          } else {
-                            showIncidentSendingFeedback(
-                                context,
-                                "Vos incidents ont été ajouté avec succès.",
-                                GlobalStyles.green);
-                            Future.delayed(Duration(milliseconds: 200),
-                                () => Navigator.of(context).pop());
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: Colors.white,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 15.0),
-                          child: Text("Envoyer ma déclaration",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: GlobalStyles.blue,
-                                  fontSize: 17.0,
-                                  fontWeight: FontWeight.w600)),
-                        ),
-                      )
-                    ])),
+                GestureDetector(
+                  onTap: () async {
+                    FocusScope.of(context).unfocus();
+                    await incidentDeclarationController
+                        .sendIncident(this.widget.veloPk);
+                    if (incidentDeclarationController.isFormUncompleted.value !=
+                            "" ||
+                        !incidentDeclarationController.bikeLabelPicked.value) {
+                      print(
+                          "error value ${incidentDeclarationController.isFormUncompleted.value}");
+                      showIncidentSendingFeedback(context,
+                          "Un champ n'est pas renseigné.", GlobalStyles.orange);
+                    } else {
+                      showIncidentSendingFeedback(
+                          context,
+                          "Vos incidents ont été ajouté avec succès.",
+                          GlobalStyles.green);
+                      Future.delayed(Duration(milliseconds: 200),
+                          () => Navigator.of(context).pop());
+                    }
+                  },
+                  child: SafeArea(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 0.5,
+                              blurRadius: 3,
+                              offset: Offset(3, 0),
+                            )
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15.0),
+                              topLeft: Radius.circular(15.0))),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
+                      child: Text("Envoyer ma déclaration",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: GlobalStyles.blue,
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                )
               ],
             )
           ])),

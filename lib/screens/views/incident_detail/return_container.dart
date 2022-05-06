@@ -44,9 +44,7 @@ class ReturnStyled extends StatelessWidget {
                         color: GlobalStyles.greyText,
                       ))),
               Container(
-                  padding: text.length > LONGTEXT
-                      ? EdgeInsets.fromLTRB(60, 0, 0, 0)
-                      : EdgeInsets.all(0),
+                  padding: EdgeInsets.fromLTRB(60, 0, 0, 0),
                   child: Row(
                     children: [
                       Flexible(
@@ -98,7 +96,8 @@ class ReturnBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SafeArea(
+        child: Container(
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -112,9 +111,9 @@ class ReturnBar extends StatelessWidget {
           borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(25.0),
               bottomLeft: Radius.circular(25.0))),
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: ReturnContainer(text: text),
-    );
+    ));
   }
 }
 
@@ -142,7 +141,7 @@ class ReturnBarScan extends StatelessWidget {
           borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(25.0),
               bottomLeft: Radius.circular(25.0))),
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: ReturnContainerToScan(text: text, bikeController: bikeController),
     );
   }
