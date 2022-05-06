@@ -230,6 +230,7 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                             }
                           }),
                           Obx(() => ListView.separated(
+                                padding: EdgeInsets.zero,
                                 itemCount: incidentDeclarationController
                                     .incidentMoreFormsList.length,
                                 shrinkWrap: true,
@@ -245,7 +246,7 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                 separatorBuilder: (context, index) =>
                                     BuildFormsDivider(),
                               )),
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 30),
                           Center(
                             child: GestureDetector(
                               onTap: () =>
