@@ -5,13 +5,8 @@ import 'package:get/get.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
-// Components
-import 'package:velyvelo/components/BuildPopUpFilters.dart';
-import 'package:velyvelo/components/BuildPopUpSearch.dart';
-
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
-import 'package:velyvelo/screens/views/scanView.dart';
 
 class SwitchButton extends StatelessWidget {
   final String textButton;

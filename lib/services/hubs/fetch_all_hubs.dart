@@ -3,10 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/hubs/hub_map.dart';
 
-// Models
-import 'package:velyvelo/models/map/filter_list_model.dart';
-import 'package:velyvelo/models/map/map_model.dart';
-
 Future fetchHubsService(String urlServer, String userToken) async {
   var request = http.Request("GET", Uri.parse("$urlServer/api/mapHub/"));
   var headers = {

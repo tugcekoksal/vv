@@ -1,17 +1,8 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
-
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
-
-// Own modules
-import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
-import 'package:velyvelo/screens/views/my_bikes/bikes_map.dart';
-import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 
 // Access Token
 const accesToken =

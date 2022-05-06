@@ -7,7 +7,6 @@ import 'package:latlong2/latlong.dart' as latLng;
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
-import 'package:velyvelo/config/markersPaths.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';

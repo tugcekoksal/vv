@@ -1,31 +1,12 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
-import 'package:velyvelo/controllers/hub_controller.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
-
-// Vendor
-import 'package:flutter/material.dart';
-import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:get/get.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart' as latLng;
-
-// Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
-import 'package:velyvelo/config/markersPaths.dart';
-
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
 import 'package:velyvelo/models/hubs/hub_map.dart';
-import 'package:velyvelo/screens/views/my_bikes/pin.dart';
-import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
 class HubPopup extends StatelessWidget {
   final HubModel hub;
@@ -63,7 +44,9 @@ class HubPopup extends StatelessWidget {
             onTap: () => {
               Clipboard.setData(ClipboardData(text: hub.adresse)).then(
                   (value) => ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Address copied to clipboard"))))
+                      SnackBar(
+                          content:
+                              Text("Adresse copiée dans le presse-papier."))))
             },
             child: Icon(
               Icons.copy,

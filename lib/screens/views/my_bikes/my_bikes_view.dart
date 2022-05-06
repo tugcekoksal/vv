@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/controllers/hub_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 
@@ -69,14 +68,14 @@ class _MyBikesViewState extends State<MyBikesView> {
                     hubController: hubController,
                     streetView: hubController.isStreetView,
                   )
-                : HubsList(hubController: hubController)
+                : HubsListView(hubController: hubController)
             :
             // MAP OR LIST
             mapBikesController.isMapView
                 ? BikesMap(
                     mapBikeController: mapBikesController,
                     streetView: mapBikesController.isStreetView)
-                : BikesList(mapBikeController: mapBikesController);
+                : BikesListView(mapBikeController: mapBikesController);
       }),
 
       // APP BAR
@@ -88,24 +87,27 @@ class _MyBikesViewState extends State<MyBikesView> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          ButtonAccount(),
-                          const SizedBox(width: 5),
-                          hubController.hubView.value
-                              ? ButtonSearchVelo(
-                                  mapBikesController: mapBikesController,
-                                )
-                              : ButtonSearchVelo(
-                                  mapBikesController: mapBikesController,
-                                ),
-                        ],
-                      ),
+                      Obx(() {
+                        return Row(
+                          children: [
+                            ButtonAccount(),
+                            const SizedBox(width: 5),
+                            hubController.hubView.value
+                                ? ButtonSearchHub(
+                                    hubController: hubController,
+                                  )
+                                : ButtonSearchVelo(
+                                    mapBikesController: mapBikesController,
+                                  ),
+                          ],
+                        );
+                      }),
                       Column(mainAxisSize: MainAxisSize.min, children: [
                         GestureDetector(
                           onTap: () => {
-                            mapBikesController.fetchAllBikes(),
-                            hubController.fetchHubs()
+                            hubController.hubView.value
+                                ? hubController.fetchHubs()
+                                : mapBikesController.fetchAllBikes()
                           },
                           child: Obx(() {
                             return TitleAppBar(
@@ -170,9 +172,13 @@ class _MyBikesViewState extends State<MyBikesView> {
           )),
       // Search bar
       Obx(() {
-        return mapBikesController.displaySearch.value
-            ? SearchBarVelo()
-            : SizedBox();
+        return hubController.hubView.value
+            ? hubController.displaySearch.value
+                ? SearchBarHub()
+                : SizedBox()
+            : mapBikesController.displaySearch.value
+                ? SearchBarVelo()
+                : SizedBox();
       }),
     ]);
   }

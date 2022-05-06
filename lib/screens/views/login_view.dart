@@ -10,7 +10,6 @@ import 'package:velyvelo/controllers/login_controller.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velyvelo/controllers/navigation_controller.dart';
-import 'package:velyvelo/screens/home/title_app_bar.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
@@ -25,6 +24,9 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    final snackBarLoading = SnackBar(
+        content: Text('Connexion en cours...'),
+        backgroundColor: GlobalStyles.blue);
 
     return GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

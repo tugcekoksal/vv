@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
-
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
 

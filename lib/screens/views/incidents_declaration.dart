@@ -66,9 +66,10 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+              padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
               child: SingleChildScrollView(
+                padding:
+                    EdgeInsets.only(bottom: 80, top: 10, left: 20, right: 20),
                 child: Column(
                   children: [
                     SizedBox(height: 15.0),
@@ -176,6 +177,26 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                               return SizedBox();
                             }
                           }),
+                          if (loginController.isTech.value)
+                            Obx(() {
+                              return Row(
+                                children: [
+                                  Checkbox(
+                                      value: incidentDeclarationController
+                                          .technicianSelfAttributeIncident
+                                          .value,
+                                      onChanged: (value) => {
+                                            incidentDeclarationController
+                                                .technicianSelfAttributeIncident(
+                                                    value),
+                                            print(incidentDeclarationController
+                                                .technicianSelfAttributeIncident
+                                                .value)
+                                          }), // ICI
+                                  Text("Attribuer l'incident à mon profil")
+                                ],
+                              );
+                            }),
                         ],
                       ),
                     ),
@@ -257,86 +278,65 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                ReturnBar(text: "Déclaration d'incidents"),
                 Container(
-                  decoration: BoxDecoration(
-                      // boxShadow: [BoxShadow(color: Colors.red)],
-                      color: GlobalStyles.backgroundLightGrey,
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(25.0),
-                          bottomLeft: Radius.circular(25.0))),
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: ReturnContainer(text: "Déclaration d'incidents"),
-                ),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      // boxShadow: [BoxShadow(color: Colors.red)],
-                      color: GlobalStyles.backgroundLightGrey,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(25.0),
-                          topLeft: Radius.circular(25.0))),
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                  child: GestureDetector(
-                      onTap: () async {
-                        FocusScope.of(context).unfocus();
-                        await incidentDeclarationController
-                            .sendIncident(this.widget.veloPk);
-                        if (incidentDeclarationController
-                                    .isFormUncompleted.value !=
-                                "" ||
-                            !incidentDeclarationController
-                                .bikeLabelPicked.value) {
-                          print(
-                              "error value ${incidentDeclarationController.isFormUncompleted.value}");
-                          showIncidentSendingFeedback(
-                              context,
-                              "Un champ n'est pas renseigné.",
-                              GlobalStyles.orange);
-                        } else {
-                          showIncidentSendingFeedback(
-                              context,
-                              "Vos incidents ont été ajouté avec succès.",
-                              GlobalStyles.green);
-                          Future.delayed(Duration(milliseconds: 200),
-                              () => Navigator.of(context).pop());
-                        }
-                      },
-                      child: Column(children: [
-                        if (loginController.isTech.value)
-                          Obx(() {
-                            return Row(
-                              children: [
-                                Checkbox(
-                                    value: incidentDeclarationController
-                                        .technicianSelfAttributeIncident.value,
-                                    onChanged: (value) => {
-                                          incidentDeclarationController
-                                              .technicianSelfAttributeIncident(
-                                                  value),
-                                          print(incidentDeclarationController
-                                              .technicianSelfAttributeIncident
-                                              .value)
-                                        }), // ICI
-                                Text("Attribuer l'incident à mon profil")
-                              ],
-                            );
-                          }),
-                        Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.5,
+                            blurRadius: 3,
+                            offset: Offset(3, 0),
+                          )
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(25.0),
+                            topLeft: Radius.circular(25.0))),
+                    padding: const EdgeInsets.all(0),
+                    child: Column(children: [
+                      GestureDetector(
+                        onTap: () async {
+                          FocusScope.of(context).unfocus();
+                          await incidentDeclarationController
+                              .sendIncident(this.widget.veloPk);
+                          if (incidentDeclarationController
+                                      .isFormUncompleted.value !=
+                                  "" ||
+                              !incidentDeclarationController
+                                  .bikeLabelPicked.value) {
+                            print(
+                                "error value ${incidentDeclarationController.isFormUncompleted.value}");
+                            showIncidentSendingFeedback(
+                                context,
+                                "Un champ n'est pas renseigné.",
+                                GlobalStyles.orange);
+                          } else {
+                            showIncidentSendingFeedback(
+                                context,
+                                "Vos incidents ont été ajouté avec succès.",
+                                GlobalStyles.green);
+                            Future.delayed(Duration(milliseconds: 200),
+                                () => Navigator.of(context).pop());
+                          }
+                        },
+                        child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
-                            color: GlobalStyles.blue,
+                            color: Colors.white,
                           ),
                           padding: EdgeInsets.symmetric(
-                              horizontal: 25.0, vertical: 12.0),
-                          child: Text("Valider ma déclaration",
+                              horizontal: 0, vertical: 15.0),
+                          child: Text("Envoyer ma déclaration",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: GlobalStyles.blue,
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.w600)),
                         ),
-                      ])),
-                ),
+                      )
+                    ])),
               ],
             )
           ])),

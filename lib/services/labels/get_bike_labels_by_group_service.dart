@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/labels/bike_labels_model.dart';
 
 Future fetchBikeLabelsByGroupService(
-    String urlServer, int groupPk, String userToken) async {
+    String urlServer, int groupPk, int clientPk, String userToken) async {
   var headers = {
     'Authorization': 'Token $userToken',
     'Content-Type': 'application/json'
@@ -15,7 +15,7 @@ Future fetchBikeLabelsByGroupService(
   var request =
       http.Request('POST', Uri.parse('$urlServer/api/veloListByGroupe/'));
 
-  request.body = json.encode({"groupe_pk": groupPk});
+  request.body = json.encode({"groupe_pk": groupPk, "client_pk": clientPk});
 
   request.headers.addAll(headers);
 

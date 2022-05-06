@@ -172,14 +172,15 @@ class IncidentDeclarationController extends GetxController {
   void fetchBikeLabelsByGroup() async {
     print("FECTH");
     int groupPk = getGroupItem();
+    int clientPk = getClientItem();
     try {
       isLoadingLabelBike(true);
       dropdownItemBikeList.clear();
       dropdownItemBikeListNames.clear();
       dropdownItemBatteryListNames.clear();
       dropdownItemBatteryList.clear();
-      var bikeLabels =
-          await HttpService.fetchBikeLabelsByGroup(groupPk, userToken);
+      var bikeLabels = await HttpService.fetchBikeLabelsByGroup(
+          groupPk, clientPk, userToken);
       if (bikeLabels != null) {
         var isLabelsPresent = [];
         bikeLabels.map((label) {
@@ -210,7 +211,8 @@ class IncidentDeclarationController extends GetxController {
       dropdownItemBikeListNames.clear();
       dropdownItemBatteryListNames.clear();
       dropdownItemBatteryList.clear();
-      var bikeLabels = await HttpService.fetchBikeLabelsByGroup(id, userToken);
+      var bikeLabels = await HttpService.fetchBikeLabelsByGroup(
+          id, getClientItem(), userToken);
       if (bikeLabels != null) {
         var isLabelsPresent = [];
         bikeLabels.map((label) {
@@ -297,6 +299,7 @@ class IncidentDeclarationController extends GetxController {
   setGroupLabel(value) {
     print(value);
     print(informations["Groupe"]);
+    print(informations["Client"]);
     if (value != informations["Groupe"]) {
       // Set client label value
       informations["Groupe"] = value;

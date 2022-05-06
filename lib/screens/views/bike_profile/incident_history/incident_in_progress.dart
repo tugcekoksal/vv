@@ -24,7 +24,7 @@ class IncidentInProgress extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 20.0),
+              padding: const EdgeInsets.only(left: 20.0, top: 10),
               child: Text("Les incidents en cours",
                   style: TextStyle(
                       color: GlobalStyles.purple,
@@ -32,7 +32,7 @@ class IncidentInProgress extends StatelessWidget {
                       fontWeight: FontWeight.w600)),
             ),
           ),
-          SizedBox(height: 10.0),
+          // SizedBox(height: 10.0),
           bikeController.userBike.value.inProgressRepairs.length == 0
               ? Center(
                   child: Text("Aucun incident en cours"),

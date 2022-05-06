@@ -6,15 +6,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Components
-import 'package:velyvelo/components/BuildPopUpFilters.dart';
-import 'package:velyvelo/components/BuildPopUpSearch.dart';
 import 'package:velyvelo/controllers/hub_controller.dart';
-
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
-import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
-import 'package:velyvelo/screens/views/scanView.dart';
-import 'package:velyvelo/services/http_service.dart';
 
 class ButtonTypeMapElem extends StatelessWidget {
   final HubController hubController;

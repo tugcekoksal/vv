@@ -1,24 +1,13 @@
 // Vendor
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/controllers/incident_controller.dart';
-import 'package:velyvelo/screens/home/button_account.dart';
-
-// Views
-import 'package:velyvelo/screens/views/incidents_view/incidents_view.dart';
-import 'package:velyvelo/screens/views/login_view.dart';
-import 'package:velyvelo/screens/views/my_bikes/my_bikes_view.dart';
-import 'package:velyvelo/screens/views/incidents_declaration.dart';
 
 //Controllers
-import 'package:velyvelo/controllers/navigation_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
 
 class TitleAppBar extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());

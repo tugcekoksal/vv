@@ -124,8 +124,7 @@ class IncidentController extends GetxController {
         piecesList: [],
         selectedPieces: jsonListToIdAndNameList(infosReparation["pieces"]),
         selectedPieceDropDown: IdAndName(id: 0, name: ""),
-        commentary: TextEditingController(
-            text: utf8.decode(infosReparation["commentary"])));
+        commentary: TextEditingController(text: infosReparation["commentary"]));
   }
 
   IdAndName getFirstWhereNameEqual(String name, List<IdAndName> list) {
@@ -289,6 +288,7 @@ class IncidentController extends GetxController {
       await HttpService.sendCurrentDetailBikeStatus(
           currentReparation.value, userToken);
     } catch (e) {
+      error.value = "Error sending datas";
       print("error send state1 $e");
     }
   }

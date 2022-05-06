@@ -1,5 +1,6 @@
 // Vendor
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -18,6 +19,8 @@ class MapBikesController extends GetxController {
 
   var isLoading = false.obs;
   var isLoadingFilters = false.obs;
+
+  final refreshController = RefreshController();
 
   var bikeList = <MapModel>[];
   var bikeWithPositionList = <MapModel>[].obs;
@@ -98,6 +101,7 @@ class MapBikesController extends GetxController {
       isLoading(false);
       bikesBySearch();
     } catch (e) {
+      isLoading(false);
       print("mapController fetchAllbikes $e");
       error.value =
           "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
