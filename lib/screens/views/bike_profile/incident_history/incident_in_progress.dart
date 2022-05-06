@@ -40,6 +40,7 @@ class IncidentInProgress extends StatelessWidget {
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: ListView.builder(
+                      padding: EdgeInsets.only(top: 20),
                       itemCount: bikeController
                           .userBike.value.inProgressRepairs.length,
                       shrinkWrap: true,
