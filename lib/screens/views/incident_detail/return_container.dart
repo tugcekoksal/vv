@@ -47,12 +47,16 @@ class ReturnStyled extends StatelessWidget {
                   padding: text.length > LONGTEXT
                       ? EdgeInsets.fromLTRB(60, 0, 0, 0)
                       : EdgeInsets.all(0),
-                  child: Flexible(
-                    child: Text(text,
-                        style: TextStyle(
-                            color: GlobalStyles.greyText,
-                            fontSize: 19.0,
-                            fontWeight: FontWeight.w700)),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Text(text,
+                            style: TextStyle(
+                                color: GlobalStyles.greyText,
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w700)),
+                      )
+                    ],
                   )),
             ]));
   }
