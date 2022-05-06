@@ -212,7 +212,7 @@ class HubsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    init();
+    // init();
     return Obx(() {
       if (hubController.isLoadingHub.value) {
         return Padding(
