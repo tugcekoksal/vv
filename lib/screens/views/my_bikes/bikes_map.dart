@@ -65,7 +65,13 @@ class BikesMap extends StatefulWidget {
 }
 
 class _BikesMapState extends State<BikesMap> {
+  var firstTime = true;
   void onGeoChanged(MapPosition position, bool hasGesture) {
+    // Handle conflict render GETX / STATE render widget, the onGeoChanged function trigger one time at the start when the widget is not fully built
+    if (firstTime) {
+      firstTime = false;
+      return;
+    }
     if (position.zoom != null) {
       if ((widget.oldZoom - position.zoom!).abs() > 1) {
         widget.oldZoom = position.zoom!;
@@ -95,7 +101,8 @@ class _BikesMapState extends State<BikesMap> {
       return Stack(children: [
         FlutterMap(
           options: MapOptions(
-            onPositionChanged: onGeoChanged,
+            onPositionChanged: (MapPosition position, bool hasGesture) =>
+                {onGeoChanged(position, hasGesture)},
             center: latLng.LatLng(47.8, 2.350492773209436),
             zoom: 5.1,
             minZoom: 3,
