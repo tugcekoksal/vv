@@ -125,7 +125,7 @@ class BikesList extends StatelessWidget {
       return Container(
           color: GlobalStyles.backgroundLightGrey,
           child: Padding(
-              padding: EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(top: 100, bottom: 20),
               child: FadeListView(
                   // Need to enable refresh here !
                   child: SmartRefresher(
