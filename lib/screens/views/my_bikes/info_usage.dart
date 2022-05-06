@@ -41,15 +41,20 @@ class InfoContainer extends StatelessWidget {
 class InfoNotFound extends StatelessWidget {
   final String text;
   final bool isVisible;
+  final Color color;
 
-  const InfoNotFound({Key? key, required this.text, required this.isVisible})
+  const InfoNotFound(
+      {Key? key,
+      required this.color,
+      required this.text,
+      required this.isVisible})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InfoContainer(
       isVisible: isVisible,
-      colorBackground: GlobalStyles.orange,
+      colorBackground: color,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

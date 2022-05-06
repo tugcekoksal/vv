@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 // Global Styles like colors
 import 'package:velyvelo/controllers/hub_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
@@ -162,14 +163,28 @@ class _MyBikesViewState extends State<MyBikesView> {
                       isVisible: mapBikesController.isLoading.value ||
                           hubController.isLoadingHub.value);
                 }),
+              ],
+            ),
+
+            // Little pop informatives
+          )),
+      Positioned(
+          bottom: 75,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Obx(() {
                   return InfoNotFound(
-                      text: "Aucuns résultats.",
+                      color: GlobalStyles.blue,
+                      text: "Aucun résultat",
                       isVisible: mapBikesController
                           .didNotFoundBikesWithPosition.value);
                 })
               ],
             ),
+
             // Little pop informatives
           )),
       // Search bar

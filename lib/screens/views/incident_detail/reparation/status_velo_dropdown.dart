@@ -90,7 +90,7 @@ class StatusVeloDropDown extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Aucun résultats",
+                    "Aucun résultat",
                     style: TextStyle(
                         color: GlobalStyles.backgroundDarkGrey,
                         fontSize: 20.0,

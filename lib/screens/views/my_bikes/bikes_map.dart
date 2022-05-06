@@ -131,7 +131,7 @@ class _BikesMapState extends State<BikesMap> {
                   widget.mapBikeController.bikeWithPositionList.map((bike) {
                 return Marker(
                     width: 35.0,
-                    height: 70.0,
+                    height: 80.0,
                     point: latLng.LatLng(
                         bike.pos?.latitude ?? 0, bike.pos?.longitude ?? 0),
                     builder: (ctx) =>
