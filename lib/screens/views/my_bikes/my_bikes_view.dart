@@ -142,6 +142,8 @@ class _MyBikesViewState extends State<MyBikesView> {
                           ButtonTypeMapElem(
                               hubController: hubController, isHub: true),
                         ]),
+                      if (!loginController.isAdminOrTech.value)
+                        const SizedBox(),
                       TopSwitch(
                           changeMapView: changeMapView,
                           mapBikesController: mapBikesController)
