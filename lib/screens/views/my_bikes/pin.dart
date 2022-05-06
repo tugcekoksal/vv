@@ -51,8 +51,8 @@ class HubPin extends StatelessWidget {
             child: Container(color: Colors.black, height: 15, width: 15),
           )),
       Container(
-          width: 60,
-          height: 60,
+          width: 35,
+          height: 35,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
               color: GlobalStyles.yellow,
