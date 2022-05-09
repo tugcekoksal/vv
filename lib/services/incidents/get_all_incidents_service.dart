@@ -39,6 +39,7 @@ Future fetchReparationByPkService(
       headers: {"Authorization": "Token $userToken"});
 
   if (response.statusCode == 200) {
+    // print(response.body);
     return response.body;
   } else {
     throw Exception("Error getting reparation infos with pk");

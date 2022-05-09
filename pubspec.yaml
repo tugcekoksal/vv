@@ -52,6 +52,7 @@ dependencies:
   firebase_core: ^1.13.1
   url_launcher: ^6.0.20
   new_version: ^0.3.0
+  colorful_safe_area: ^0.3.0
 
 dev_dependencies:
   integration_test:

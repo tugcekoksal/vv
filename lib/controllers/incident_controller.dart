@@ -109,7 +109,8 @@ class IncidentController extends GetxController {
       var photoFile = await urlToFile(HttpService.urlServer + photo);
       listPhotoFile.add(photoFile);
     }
-
+    // print(infosReparation["commentary"]);
+    print(utf8convert(infosReparation["commentary"]));
     currentReparation.value = Reparation(
         statusBike: infosReparation["status_bike"],
         isBikeFunctional: infosReparation["is_bike_functional"],
@@ -124,7 +125,8 @@ class IncidentController extends GetxController {
         piecesList: [],
         selectedPieces: jsonListToIdAndNameList(infosReparation["pieces"]),
         selectedPieceDropDown: IdAndName(id: 0, name: ""),
-        commentary: TextEditingController(text: infosReparation["commentary"]));
+        commentary: TextEditingController(
+            text: utf8convert(infosReparation["commentary"])));
   }
 
   IdAndName getFirstWhereNameEqual(String name, List<IdAndName> list) {

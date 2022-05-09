@@ -1,4 +1,5 @@
 // Vendor
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
@@ -96,24 +97,25 @@ class ReturnBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return ColorfulSafeArea(
+        color: Colors.white,
         child: Container(
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 0.5,
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            )
-          ],
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(25.0),
-              bottomLeft: Radius.circular(25.0))),
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: ReturnContainer(text: text),
-    ));
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 0.5,
+                  blurRadius: 3,
+                  offset: Offset(0, 1),
+                )
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(25.0),
+                  bottomLeft: Radius.circular(25.0))),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: ReturnContainer(text: text),
+        ));
   }
 }
 
