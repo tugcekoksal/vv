@@ -15,7 +15,9 @@ import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/header_container.dart';
 import 'package:velyvelo/screens/views/incident_detail/informations_container.dart';
+import 'package:velyvelo/screens/views/incident_detail/incident_container.dart';
 import 'package:velyvelo/screens/views/incident_detail/reparation/reparation_container.dart';
+import 'package:velyvelo/screens/views/incident_detail/reparation/save_button.dart';
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 // Service Url
@@ -37,22 +39,28 @@ class IncidentDetail extends StatelessWidget {
 
   void init() {
     incidentController.fetchReparation(incident.incidentPk);
+    incidentController.selectedIncidentType.value = "";
   }
 
   @override
   Widget build(BuildContext context) {
     init();
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: GlobalStyles.backgroundLightGrey,
         body: ColorfulSafeArea(
             color: Colors.white,
             child: GestureDetector(
                 onTap: () {
-                  FocusScope.of(context).requestFocus(new FocusNode());
+                  var currentFocus = FocusScope.of(context);
+
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
                 },
                 child: Stack(children: [
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
                       child: SingleChildScrollView(
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -67,170 +75,10 @@ class IncidentDetail extends StatelessWidget {
                               // Container informations with "Groupe" and "Vélo" names
                               InformationsContainer(
                                   incidentController: incidentController),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30.0, vertical: 20.0),
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 0.0, vertical: 8.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Incident(s)",
-                                        style: TextStyle(
-                                            color: GlobalStyles.purple,
-                                            fontSize: 17.0,
-                                            fontWeight: FontWeight.w600)),
-                                    SizedBox(height: 10.0),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: "Type d'incident ",
-                                        style: TextStyle(
-                                            color: GlobalStyles.greyText,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w700),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: valueIsNull(
-                                                  incidentController
-                                                      .incidentDetailValue
-                                                      .value
-                                                      .typeIncident),
-                                              style: TextStyle(
-                                                  color: GlobalStyles
-                                                      .lightGreyText)),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.0),
-                                    incidentController.incidentDetailValue.value
-                                                .commentaire ==
-                                            null
-                                        ? SizedBox()
-                                        : RichText(
-                                            text: TextSpan(
-                                              text: 'Commentaire associé : ',
-                                              style: TextStyle(
-                                                  color: GlobalStyles.greyText,
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.w700),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                    text: incidentController
-                                                        .incidentDetailValue
-                                                        .value
-                                                        .commentaire,
-                                                    style: TextStyle(
-                                                        color: GlobalStyles
-                                                            .lightGreyText)),
-                                              ],
-                                            ),
-                                          ),
-                                    SizedBox(height: 5.0),
-                                    RichText(
-                                      text: TextSpan(
-                                          text: 'Photos ',
-                                          style: TextStyle(
-                                              color: GlobalStyles.greyText,
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w700)),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    incidentController.incidentDetailValue.value
-                                                    .photos ==
-                                                null ||
-                                            incidentController
-                                                    .incidentDetailValue
-                                                    .value
-                                                    .photos!
-                                                    .length ==
-                                                0
-                                        ? Text(
-                                            "Cet incident ne contient aucune photo",
-                                            style: TextStyle(
-                                                color:
-                                                    GlobalStyles.lightGreyText,
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.w700),
-                                          )
-                                        : GridView.count(
-                                            padding: EdgeInsets.zero,
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            crossAxisCount: 3,
-                                            childAspectRatio: 3 / 2,
-                                            crossAxisSpacing: 5,
-                                            children: incidentController
-                                                        .incidentDetailValue
-                                                        .value
-                                                        .photos ==
-                                                    null
-                                                ? <String>[]
-                                                    .map((e) => ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            Navigator.of(context).push(MaterialPageRoute(
-                                                                builder: (context) => SliderShowFullmages(
-                                                                    mode:
-                                                                        "Network",
-                                                                    listImagesModel: incidentController
-                                                                        .incidentDetailValue
-                                                                        .value
-                                                                        .photos!,
-                                                                    current: incidentController
-                                                                        .currentImageIndexInViewer
-                                                                        .value)));
-                                                          },
-                                                          child: Image.asset(
-                                                            e,
-                                                            fit:
-                                                                BoxFit.fitWidth,
-                                                          ),
-                                                        )))
-                                                    .toList()
-                                                : incidentController
-                                                    .incidentDetailValue
-                                                    .value
-                                                    .photos!
-                                                    .map((image) => ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          child: InkWell(
-                                                            onTap: () {
-                                                              Navigator.of(context).push(MaterialPageRoute(
-                                                                  builder: (context) => SliderShowFullmages(
-                                                                      mode:
-                                                                          "Network",
-                                                                      listImagesModel: incidentController
-                                                                          .incidentDetailValue
-                                                                          .value
-                                                                          .photos!,
-                                                                      current:
-                                                                          0)));
-                                                            },
-                                                            child:
-                                                                Image.network(
-                                                              HttpService
-                                                                      .urlServer +
-                                                                  image,
-                                                              fit: BoxFit
-                                                                  .fitWidth,
-                                                            ),
-                                                          ),
-                                                        ))
-                                                    .toList(),
-                                          )
-                                  ],
-                                ),
-                              ),
+                              // Container type incident + photos incidents
+                              IncidentContainer(
+                                  incidentController: incidentController),
+                              // Container to have and update reparation informations
                               ReparationContainer(
                                 loginController: loginController,
                                 incidentController: incidentController,
@@ -244,66 +92,7 @@ class IncidentDetail extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      GestureDetector(
-                        onTap: () async {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-
-                          var snackBar = SnackBar(
-                            content: Text(
-                                'Votre demande est en cours de traitement...'),
-                            backgroundColor: GlobalStyles.blue,
-                          );
-
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                          await incidentController.sendReparationUpdate();
-
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          if (incidentController.error.value == "") {
-                            snackBar = SnackBar(
-                              content: Text(
-                                  'Vos informations ont bien été sauvegardées.'),
-                              backgroundColor: Color(0xff46b594),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          } else {
-                            snackBar = SnackBar(
-                              content: Text(
-                                  'Une erreur est survenue, vérfiez votre réseau.'),
-                              backgroundColor: GlobalStyles.orange,
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
-                        },
-                        child: SafeArea(
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 0.5,
-                                    blurRadius: 3,
-                                    offset: Offset(3, 0),
-                                  )
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(15.0),
-                                    topLeft: Radius.circular(15.0))),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 0, vertical: 15.0),
-                            child: Text("Enregistrer mes modifications",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: GlobalStyles.blue,
-                                    fontSize: 17.0,
-                                    fontWeight: FontWeight.w600)),
-                          ),
-                        ),
-                      ),
+                      SaveButton(incidentController: incidentController)
                     ],
                   )
                 ]))));

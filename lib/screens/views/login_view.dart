@@ -26,7 +26,13 @@ class LoginView extends StatelessWidget {
         backgroundColor: GlobalStyles.blue);
 
     return GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () {
+          var currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
         child: Stack(alignment: Alignment.center, children: [
           Positioned(
             bottom: 0,

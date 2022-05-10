@@ -21,6 +21,7 @@ class _BikeDetailScanState extends State<BikeDetailScan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: GlobalStyles.backgroundLightGrey,
         body: MyBikeView(
           isFromScan: true,

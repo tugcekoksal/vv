@@ -98,7 +98,7 @@ class BuildDropDown extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Aucun résultat",
+                    "Aucun résultats",
                     style: TextStyle(
                         color: GlobalStyles.backgroundDarkGrey,
                         fontSize: 20.0,

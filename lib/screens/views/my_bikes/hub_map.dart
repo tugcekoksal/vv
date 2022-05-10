@@ -66,7 +66,13 @@ class HubMap extends StatefulWidget {
 }
 
 class _HubMapState extends State<HubMap> {
+  var firstTime = true;
   void onGeoChanged(MapPosition position, bool hasGesture) {
+    // Handle conflict render GETX / STATE render widget, the onGeoChanged function trigger one time at the start when the widget is not fully built
+    if (firstTime) {
+      firstTime = false;
+      return;
+    }
     if (position.zoom != null) {
       if ((widget.oldZoom - position.zoom!).abs() > 1) {
         widget.oldZoom = position.zoom!;
@@ -96,6 +102,7 @@ class _HubMapState extends State<HubMap> {
       return Stack(children: [
         FlutterMap(
           options: MapOptions(
+            onTap: (tap, pos) => {widget.popupController.hideAllPopups()},
             onPositionChanged: onGeoChanged,
             center: latLng.LatLng(47.8, 2.350492773209436),
             zoom: 5.1,

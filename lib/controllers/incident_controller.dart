@@ -80,6 +80,43 @@ class IncidentController extends GetxController {
           commentary: TextEditingController())
       .obs;
 
+  RxString selectedIncidentType = "".obs;
+  RxBool modifTypeIncident = false.obs;
+  RxList<String> dropDownItemIncidentTypeList = <String>[].obs;
+
+  // void fetchIncidentLabels() async {
+  //   try {
+  //     isLoadingLabelIncidentType(true);
+  //     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
+  //     if (incidentLabels != null) {
+  //       incidentLabels.map((incidentLabel) {
+  //         dropDownItemIncidentTypeList.add(incidentLabel);
+  //       }).toList();
+  //       dropDownItemIncidentTypeList.refresh();
+  //     }
+  //     isLoadingLabelIncidentType(false);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+  void fetchIncidentTypeList() async {
+    var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
+    print(incidentLabels);
+    dropDownItemIncidentTypeList.value = incidentLabels;
+    dropDownItemIncidentTypeList.refresh();
+  }
+
+  void setItemIncidentType(value, index) {
+    selectedIncidentType.value = value;
+  }
+
+  void typeIncidentAction() {
+    if (modifTypeIncident.value == false) {
+      fetchIncidentTypeList();
+    }
+    modifTypeIncident.value = !modifTypeIncident.value;
+  }
+
   @override
   void onInit() {
     userToken = Get.find<LoginController>().userToken;
@@ -286,7 +323,7 @@ class IncidentController extends GetxController {
   sendReparationUpdate() async {
     try {
       await HttpService.sendCurrentDetailBikeStatus(
-          currentReparation.value, userToken);
+          currentReparation.value, selectedIncidentType.value, userToken);
     } catch (e) {
       error.value = "Error sending datas";
       print("error send state1 $e");

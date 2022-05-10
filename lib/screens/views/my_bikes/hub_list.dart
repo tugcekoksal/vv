@@ -151,50 +151,49 @@ class HubsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("REBUILD LIST");
     return Obx(() {
-      return Container(
-          color: GlobalStyles.backgroundLightGrey,
-          child: Padding(
-              padding: EdgeInsets.only(top: 100, bottom: 60),
-              child: FadeListView(
-                // Need to enable refresh here !
-                child: SmartRefresher(
-                  enablePullDown: true,
-                  enablePullUp: false,
-                  controller: hubController.refreshController,
-                  // controller: incidentController.refreshController,
-                  onRefresh: () {
-                    // Refresh incidents
-                    hubController.fetchHubs();
-                    hubController.refreshController.refreshCompleted();
-                  },
-                  onLoading: () {
-                    // Add new incidents in the list with newest_id and count
-                    // incidentController.fetchNewIncidents();
-                    hubController.refreshController.loadComplete();
-                  },
-                  child: ListView.builder(
-                    padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                    itemCount: hubController.hubs.length,
-                    itemBuilder: (context, index) {
-                      // hubController
-                      //     .fetchOneHub(hubController.hubs[index].id ?? -1);
-                      return (GestureDetector(
-                        // child: Text("oeirgh"),
-                        child: HubCard(
-                          hub: hubController.hubs[index],
-                        ),
-                        onTap: () => {
-                          // Go to nothing
-                          // goToBikeProfileFromPk(
-                          //     mapBikeController.bikeWithPositionList[index].veloPk,
-                          //     mapBikeController)
-                        },
-                      ));
+      return Padding(
+          padding: EdgeInsets.only(top: 100, bottom: 60),
+          child: FadeListView(
+            // Need to enable refresh here !
+            child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: false,
+              controller: hubController.refreshController,
+              // controller: incidentController.refreshController,
+              onRefresh: () {
+                // Refresh incidents
+                hubController.fetchHubs();
+                hubController.refreshController.refreshCompleted();
+              },
+              onLoading: () {
+                // Add new incidents in the list with newest_id and count
+                // incidentController.fetchNewIncidents();
+                hubController.refreshController.loadComplete();
+              },
+              child: ListView.builder(
+                padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                itemCount: hubController.hubs.length,
+                itemBuilder: (context, index) {
+                  // hubController
+                  //     .fetchOneHub(hubController.hubs[index].id ?? -1);
+                  return GestureDetector(
+                    // child: Text("oeirgh"),
+                    child: HubCard(
+                      hub: hubController.hubs[index],
+                    ),
+                    onTap: () => {
+                      // Go to nothing
+                      // goToBikeProfileFromPk(
+                      //     mapBikeController.bikeWithPositionList[index].veloPk,
+                      //     mapBikeController)
                     },
-                  ),
-                ),
-              )));
+                  );
+                },
+              ),
+            ),
+          ));
     });
   }
 }
@@ -212,24 +211,28 @@ class HubsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // init();
-    return Obx(() {
-      if (hubController.isLoadingHub.value) {
-        return Padding(
-            padding: EdgeInsets.only(top: 100), child: ListIsLoading());
-      } else if (hubController.error.value != "") {
-        return InfoError(
-            icon: Icons.other_houses,
-            color: GlobalStyles.orange,
-            text: "Une erreur s'est produite",
-            action: init);
-      } else if (hubController.hubs.length == 0) {
-        return InfoEmpty(
-            icon: Icons.other_houses,
-            color: GlobalStyles.greyUnselectedIcon,
-            text: "Aucun hub trouvé");
-      } else {
-        return HubsList(hubController: hubController);
-      }
-    });
+    print("REBUILD VIEW");
+    return Container(
+        height: MediaQuery.of(context).size.height,
+        color: GlobalStyles.backgroundLightGrey,
+        child: Obx(() {
+          if (hubController.isLoadingHub.value) {
+            return Padding(
+                padding: EdgeInsets.only(top: 100), child: ListIsLoading());
+          } else if (hubController.error.value != "") {
+            return InfoError(
+                icon: Icons.other_houses,
+                color: GlobalStyles.orange,
+                text: "Une erreur s'est produite",
+                action: init);
+          } else if (hubController.hubs.length == 0) {
+            return InfoEmpty(
+                icon: Icons.other_houses,
+                color: GlobalStyles.greyUnselectedIcon,
+                text: "Aucun hub trouvé");
+          } else {
+            return HubsList(hubController: hubController);
+          }
+        }));
   }
 }

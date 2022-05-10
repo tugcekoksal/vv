@@ -240,24 +240,27 @@ class BikesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (mapBikeController.isLoading.value) {
-        return Padding(
-            padding: EdgeInsets.only(top: 100), child: ListIsLoading());
-      } else if (mapBikeController.error.value != "") {
-        return InfoError(
-            action: init,
-            icon: Icons.pedal_bike,
-            color: GlobalStyles.orange,
-            text: "Une erreur s'est produite");
-      } else if (mapBikeController.bikeWithPositionList.length == 0) {
-        return InfoEmpty(
-            icon: Icons.pedal_bike,
-            color: GlobalStyles.greyUnselectedIcon,
-            text: "Aucun vélo trouvé");
-      } else {
-        return BikesList(mapBikeController: mapBikeController);
-      }
-    });
+    return Container(
+        height: MediaQuery.of(context).size.height,
+        color: GlobalStyles.backgroundLightGrey,
+        child: Obx(() {
+          if (mapBikeController.isLoading.value) {
+            return Padding(
+                padding: EdgeInsets.only(top: 100), child: ListIsLoading());
+          } else if (mapBikeController.error.value != "") {
+            return InfoError(
+                action: init,
+                icon: Icons.pedal_bike,
+                color: GlobalStyles.orange,
+                text: "Une erreur s'est produite");
+          } else if (mapBikeController.bikeWithPositionList.length == 0) {
+            return InfoEmpty(
+                icon: Icons.pedal_bike,
+                color: GlobalStyles.greyUnselectedIcon,
+                text: "Aucun vélo trouvé");
+          } else {
+            return BikesList(mapBikeController: mapBikeController);
+          }
+        }));
   }
 }

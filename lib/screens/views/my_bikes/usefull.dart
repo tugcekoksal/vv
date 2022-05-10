@@ -11,7 +11,8 @@ Future<void> goToBikeProfileFromMarker(
   MapModel bike = mapBikeController.getBikeFromMarker(marker);
   Get.to(
       () => Scaffold(
-              body: MyBikeView(
+          resizeToAvoidBottomInset: true,
+          body: MyBikeView(
             isFromScan: false,
             veloPk: bike.veloPk,
           )),
@@ -23,7 +24,8 @@ Future<void> goToBikeProfileFromPk(
     int veloPk, MapBikesController mapBikeController) async {
   Get.to(
       () => Scaffold(
-              body: MyBikeView(
+          resizeToAvoidBottomInset: true,
+          body: MyBikeView(
             isFromScan: false,
             veloPk: veloPk,
           )),

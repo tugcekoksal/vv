@@ -50,7 +50,7 @@ class IncidentsView extends StatelessWidget {
             ),
             Obx(() {
               if (incidentController.isLoading.value) {
-                return ListIsLoading();
+                return ListIncidentIsLoading();
               } else if (incidentController.error.value != '') {
                 return IncidentListError(
                     incidentController: incidentController);

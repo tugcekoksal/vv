@@ -42,6 +42,10 @@ class _MyBikeViewState extends State<MyBikeView> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  void init() {
     bikeIsRobbed = bikeController.userBike.value.isStolen;
     if (!widget.isFromScan) {
       setState(() {
@@ -51,6 +55,7 @@ class _MyBikeViewState extends State<MyBikeView> {
   }
 
   void showConfirmStolenBikeDialog() {
+    init();
     BuildContext savePageContext = context;
     showCupertinoDialog(
       context: context,
@@ -102,7 +107,7 @@ class _MyBikeViewState extends State<MyBikeView> {
           Container(
               color: GlobalStyles.backgroundLightGrey,
               child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(bottom: 80, top: 20),
                     child: Container(

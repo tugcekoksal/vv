@@ -20,42 +20,44 @@ class IncidentInProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 10),
-              child: Text("Les incidents en cours",
-                  style: TextStyle(
-                      color: GlobalStyles.purple,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w600)),
-            ),
+    return Obx(() {
+      return Column(children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0, top: 10),
+            child: Text("Les incidents en cours",
+                style: TextStyle(
+                    color: GlobalStyles.purple,
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w600)),
           ),
-          // SizedBox(height: 10.0),
-          bikeController.userBike.value.inProgressRepairs.length == 0
-              ? Center(
-                  child: Text("Aucun incident en cours"),
-                )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: ListView.builder(
-                      padding: EdgeInsets.only(top: 20),
-                      itemCount: bikeController
-                          .userBike.value.inProgressRepairs.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () => {},
-                          child: IncidentHistoricCard(
-                            data: bikeController
-                                .userBike.value.inProgressRepairs[index],
-                            isHistorique: false,
-                          ),
-                        );
-                      }),
-                )
-        ]));
+        ),
+        // SizedBox(height: 10.0),
+        bikeController.userBike.value.inProgressRepairs.length == 0
+            ? Center(
+                child: Text("Aucun incident en cours"),
+              )
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ListView.builder(
+                    padding: EdgeInsets.only(top: 20),
+                    itemCount:
+                        bikeController.userBike.value.inProgressRepairs.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => {},
+                        child: IncidentHistoricCard(
+                          data: bikeController
+                              .userBike.value.inProgressRepairs[index],
+                          isHistorique: false,
+                        ),
+                      );
+                    }),
+              )
+      ]);
+    });
   }
 }

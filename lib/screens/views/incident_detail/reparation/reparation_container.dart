@@ -13,6 +13,8 @@ import 'package:velyvelo/screens/views/incident_detail/reparation/pieces_modif.d
 // Components
 import 'package:velyvelo/screens/views/incident_detail/reparation/statut_velo_modif.dart';
 
+GlobalKey keyWidget = GlobalKey();
+
 class ReparationContainer extends StatelessWidget {
   final LoginController loginController;
   final IncidentController incidentController;
@@ -25,6 +27,8 @@ class ReparationContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget gotoWidget = SizedBox(height: 0, width: 0, key: keyWidget);
+
     return Obx(() {
       if (loginController.isAdminOrTech.value) {
         return Container(
@@ -60,6 +64,8 @@ class ReparationContainer extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
                 TextField(
+                  onTap: () =>
+                      {Scrollable.ensureVisible(keyWidget.currentContext!)},
                   controller:
                       incidentController.currentReparation.value.commentary,
                   keyboardType: TextInputType.multiline,
@@ -90,6 +96,14 @@ class ReparationContainer extends StatelessWidget {
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600),
                 ),
+                gotoWidget
+                // Obx(() {
+                //   if (incidentController.error.value == "")
+                //     return SizedBox(
+                //       height: MediaQuery.of(context).viewInsets.bottom,
+                //     );
+                //   return SizedBox.expand();
+                // }),
               ],
             ));
       } else {

@@ -45,16 +45,17 @@ class ReturnStyled extends StatelessWidget {
                         color: GlobalStyles.greyText,
                       ))),
               Container(
-                  padding: EdgeInsets.fromLTRB(60, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
-                        child: Text(text,
-                            style: TextStyle(
-                                color: GlobalStyles.greyText,
-                                fontSize: 19.0,
-                                fontWeight: FontWeight.w700)),
-                      )
+                          child: Text(text,
+                              style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: GlobalStyles.greyText,
+                                  fontSize: 19.0,
+                                  fontWeight: FontWeight.w700))),
                     ],
                   )),
             ]));

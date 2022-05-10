@@ -11,6 +11,7 @@ import 'package:velyvelo/components/BuildDropDown.dart';
 import 'package:velyvelo/components/BuildFormIncident.dart';
 import 'package:velyvelo/components/BuildFormsDivider.dart';
 import 'package:velyvelo/components/BuildDisabledDropDown.dart';
+import 'package:velyvelo/controllers/bike_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
@@ -59,23 +60,42 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
     ));
   }
 
+  void init() {
+    if (widget.client != null) {
+      incidentDeclarationController.setClientLabel(widget.client);
+    }
+    if (widget.groupe != null) {
+      incidentDeclarationController.setGroupLabel(widget.groupe);
+    }
+    if (widget.velo != null) {
+      incidentDeclarationController.setBikeLabel(widget.velo);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    init();
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: GlobalStyles.backgroundLightGrey,
         body: ColorfulSafeArea(
           color: Colors.white,
           child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () {
+                var currentFocus = FocusScope.of(context);
+
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
+              },
               child: Stack(children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(
                         bottom: 80, top: 10, left: 20, right: 20),
                     child: Column(
                       children: [
-                        SizedBox(height: 15.0),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -106,10 +126,12 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                       placeholder: "Client");
                                 } else if (loginController
                                     .isAdminOrTech.value) {
+                                  if (this.widget.client != null) {
+                                    return BuildDisabledDropDown(
+                                        placeholder: this.widget.client!);
+                                  }
                                   return BuildDropDown(
-                                      placeholder: this.widget.client != null
-                                          ? this.widget.client!
-                                          : "Client",
+                                      placeholder: "Client",
                                       dropdownItemList:
                                           incidentDeclarationController
                                               .dropdownItemClientListNames,
@@ -124,11 +146,13 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                 if (incidentDeclarationController
                                             .clientLabelPicked.value &&
                                         !loginController.isUser.value ||
-                                    this.widget.velo != null) {
+                                    this.widget.groupe != null) {
+                                  if (this.widget.groupe != null) {
+                                    return BuildDisabledDropDown(
+                                        placeholder: this.widget.groupe!);
+                                  }
                                   return BuildDropDown(
-                                      placeholder: this.widget.groupe != null
-                                          ? this.widget.groupe!
-                                          : "Groupe",
+                                      placeholder: "Groupe",
                                       dropdownItemList:
                                           incidentDeclarationController
                                               .dropdownItemGroupListNames,
@@ -147,10 +171,12 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                         .groupLabelPicked.value ||
                                     loginController.isUser.value ||
                                     this.widget.velo != null) {
+                                  if (this.widget.velo != null) {
+                                    return BuildDisabledDropDown(
+                                        placeholder: this.widget.velo!);
+                                  }
                                   return BuildDropDown(
-                                      placeholder: this.widget.velo != null
-                                          ? this.widget.velo!
-                                          : "Vélo",
+                                      placeholder: "Vélo",
                                       dropdownItemList:
                                           incidentDeclarationController
                                               .dropdownItemBikeListNames,
@@ -290,7 +316,11 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                     ReturnBar(text: "Déclaration d'incidents"),
                     GestureDetector(
                       onTap: () async {
-                        FocusScope.of(context).unfocus();
+                        var currentFocus = FocusScope.of(context);
+
+                        if (!currentFocus.hasPrimaryFocus) {
+                          currentFocus.unfocus();
+                        }
                         await incidentDeclarationController
                             .sendIncident(this.widget.veloPk);
                         if (incidentDeclarationController
@@ -309,6 +339,12 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                               context,
                               "Vos incidents ont été ajouté avec succès.",
                               GlobalStyles.green);
+
+                          if (widget.veloPk != null) {
+                            BikeController bikeController =
+                                Get.put(BikeController());
+                            bikeController.fetchUserBike(widget.veloPk!);
+                          }
                           Future.delayed(Duration(milliseconds: 200),
                               () => Navigator.of(context).pop());
                         }

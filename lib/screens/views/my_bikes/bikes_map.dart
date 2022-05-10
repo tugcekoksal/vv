@@ -101,6 +101,7 @@ class _BikesMapState extends State<BikesMap> {
       return Stack(children: [
         FlutterMap(
           options: MapOptions(
+            onTap: (tap, pos) => {widget.popupController.hideAllPopups()},
             onPositionChanged: (MapPosition position, bool hasGesture) =>
                 {onGeoChanged(position, hasGesture)},
             center: latLng.LatLng(47.8, 2.350492773209436),

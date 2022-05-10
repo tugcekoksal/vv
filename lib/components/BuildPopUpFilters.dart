@@ -1,4 +1,5 @@
 // Vendor
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +19,7 @@ class BuildPopUpFilters extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    // ScrollController scrollController = ScrollController();
 
     return SimpleDialog(
         insetPadding: EdgeInsets.zero,
@@ -56,40 +58,45 @@ class BuildPopUpFilters extends StatelessWidget {
               ),
               Container(
                   constraints: BoxConstraints(maxHeight: screenHeight * 0.15),
-                  child: Expanded(
-                      child: Scrollbar(
-                    isAlwaysShown: true,
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        Obx(
-                          (() => Wrap(
-                              spacing: 4.0,
-                              direction: Axis.horizontal,
-                              children: mapBikeController
-                                          .selectedFiltersList.length ==
-                                      0
-                                  ? [Text("Aucuns groupes séléctionnés")]
-                                  : mapBikeController.availableFiltersList
-                                      .map((filterLabel) => Obx(() {
-                                            if (mapBikeController
-                                                .selectedFiltersList
-                                                .contains(filterLabel)) {
-                                              return BuildButtonSelectedFilter(
-                                                  text: filterLabel,
-                                                  setFilters: mapBikeController
-                                                      .setFilters);
-                                            }
-                                            return SizedBox(
-                                              height: 0,
-                                              width: 0,
-                                            );
-                                          }))
-                                      .toList())),
-                        )
-                      ],
-                    ),
-                  ))),
+                  child: Row(children: [
+                    Expanded(
+                        child: Scrollbar(
+                      // controller: scrollController,
+                      isAlwaysShown: true,
+                      child: ListView(
+                        // controller: scrollController,
+                        shrinkWrap: true,
+                        children: [
+                          Obx(
+                            (() => Wrap(
+                                spacing: 4.0,
+                                direction: Axis.horizontal,
+                                children: mapBikeController
+                                            .selectedFiltersList.length ==
+                                        0
+                                    ? [Text("Aucuns groupes séléctionnés")]
+                                    : mapBikeController.availableFiltersList
+                                        .map((filterLabel) => Obx(() {
+                                              if (mapBikeController
+                                                  .selectedFiltersList
+                                                  .contains(filterLabel)) {
+                                                return BuildButtonSelectedFilter(
+                                                    text: filterLabel,
+                                                    setFilters:
+                                                        mapBikeController
+                                                            .setFilters);
+                                              }
+                                              return SizedBox(
+                                                height: 0,
+                                                width: 0,
+                                              );
+                                            }))
+                                        .toList())),
+                          )
+                        ],
+                      ),
+                    ))
+                  ])),
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Padding(
                     padding: EdgeInsets.fromLTRB(0, 10, 5, 10),
@@ -126,31 +133,33 @@ class BuildPopUpFilters extends StatelessWidget {
                     )),
               ]),
               Container(
-                  child: Expanded(
-                      child: Scrollbar(
-                isAlwaysShown: true,
-                child: ListView(
-                  children: [
-                    Wrap(
-                        spacing: 4.0,
-                        direction: Axis.horizontal,
-                        children:
-                            mapBikeController.availableFiltersList.length == 0
-                                ? [Text("Aucun filtre disponible")]
-                                : mapBikeController.availableFiltersList
-                                    .map((filterLabel) => Obx(() {
-                                          return BuildButtonFilter(
-                                              label: filterLabel,
-                                              setFilters:
-                                                  mapBikeController.setFilters,
-                                              isSelected: mapBikeController
-                                                  .selectedFiltersList
-                                                  .contains(filterLabel));
-                                        }))
-                                    .toList()),
-                  ],
-                ),
-              )))
+                  child: Row(children: [
+                Expanded(
+                    child: Scrollbar(
+                  isAlwaysShown: true,
+                  child: ListView(
+                    children: [
+                      Wrap(
+                          spacing: 4.0,
+                          direction: Axis.horizontal,
+                          children:
+                              mapBikeController.availableFiltersList.length == 0
+                                  ? [Text("Aucun filtre disponible")]
+                                  : mapBikeController.availableFiltersList
+                                      .map((filterLabel) => Obx(() {
+                                            return BuildButtonFilter(
+                                                label: filterLabel,
+                                                setFilters: mapBikeController
+                                                    .setFilters,
+                                                isSelected: mapBikeController
+                                                    .selectedFiltersList
+                                                    .contains(filterLabel));
+                                          }))
+                                      .toList()),
+                    ],
+                  ),
+                ))
+              ]))
             ]),
           )
         ]);

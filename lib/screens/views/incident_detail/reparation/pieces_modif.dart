@@ -18,6 +18,10 @@ class PiecesModif extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<GlobalKey> keyGoto = List.generate(3, (index) => GlobalKey());
+    List<Widget> gotoWidget = List.generate(
+        3, (index) => SizedBox(height: 0, width: 0, key: keyGoto[index]));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

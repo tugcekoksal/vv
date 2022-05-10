@@ -43,6 +43,7 @@ class _SliderShowFullmagesState extends State<SliderShowFullmages> {
     return new Container(
         color: Colors.transparent,
         child: new Scaffold(
+            resizeToAvoidBottomInset: true,
             backgroundColor: GlobalStyles.backgroundLightGrey,
             appBar: AppBar(
               leading: IconButton(
