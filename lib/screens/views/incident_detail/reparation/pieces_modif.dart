@@ -1,4 +1,5 @@
 // Vendor
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velyvelo/components/BuildDropDown.dart';
@@ -21,7 +22,8 @@ class PiecesModif extends StatelessWidget {
     List<GlobalKey> keyGoto = List.generate(3, (index) => GlobalKey());
     List<Widget> gotoWidget = List.generate(
         3, (index) => SizedBox(height: 0, width: 0, key: keyGoto[index]));
-
+    // scrollController.createScrollPosition(
+    // ScrollPhysics(), ScrollPosition(), null);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -112,8 +114,10 @@ class PiecesModif extends StatelessWidget {
                       : 240,
                   child: Scrollbar(
                       isAlwaysShown: true,
+                      showTrackOnHover: true,
                       controller: scrollController,
                       child: ListView.builder(
+                        controller: scrollController,
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemCount: incidentController

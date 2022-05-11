@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Components
-import 'package:velyvelo/components/BuildPopUpFilters.dart';
+import 'package:velyvelo/components/pop_up_filter/pop_up_filters.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
@@ -21,7 +21,7 @@ class ButtonFilter extends StatelessWidget {
         // useSafeArea: true,
         context: context,
         builder: (BuildContext context) {
-          return BuildPopUpFilters();
+          return PopUpFilters();
         }).then((value) {
       // Check if filters have changed and fire the fetch of bikes if true
       mapBikesController.onChangeFilters();

@@ -146,24 +146,11 @@ class IncidentController extends GetxController {
       var photoFile = await urlToFile(HttpService.urlServer + photo);
       listPhotoFile.add(photoFile);
     }
-    // print(infosReparation["commentary"]);
-    print(utf8convert(infosReparation["commentary"]));
-    currentReparation.value = Reparation(
-        statusBike: infosReparation["status_bike"],
-        isBikeFunctional: infosReparation["is_bike_functional"],
-        incidentPk: currentIncidentId.value,
-        reparationPhotosList: listPhotoFile,
-        typeInterventionList:
-            jsonListToIdAndNameList(infosReparation["list_type_intervention"]),
-        typeReparationList:
-            jsonListToIdAndNameList(infosReparation["list_type_reparation"]),
-        valueTypeIntervention: "",
-        valueTypeReparation: "",
-        piecesList: [],
-        selectedPieces: jsonListToIdAndNameList(infosReparation["pieces"]),
-        selectedPieceDropDown: IdAndName(id: 0, name: ""),
-        commentary: TextEditingController(
-            text: utf8convert(infosReparation["commentary"])));
+    print(currentReparation.value.incidentPk);
+    currentReparation.value = Reparation.fromJson(
+        infosReparation, currentIncidentId.value, listPhotoFile);
+    currentReparation.refresh();
+    print(currentReparation.value.incidentPk);
   }
 
   IdAndName getFirstWhereNameEqual(String name, List<IdAndName> list) {
@@ -321,12 +308,14 @@ class IncidentController extends GetxController {
   }
 
   sendReparationUpdate() async {
+    error.value = "";
+
     try {
       await HttpService.sendCurrentDetailBikeStatus(
           currentReparation.value, selectedIncidentType.value, userToken);
     } catch (e) {
-      error.value = "Error sending datas";
-      print("error send state1 $e");
+      error.value = e.toString();
+      print(error.value);
     }
   }
 }

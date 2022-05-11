@@ -140,7 +140,7 @@ class HttpService {
   }
 
   // Set a bike status in detail page
-  static Future sendCurrentDetailBikeStatus(
+  static Future<String> sendCurrentDetailBikeStatus(
       Reparation reparation, String incidentType, String userToken) async {
     return sendCurrentDetailBikeStatusService(
         urlServer, reparation, incidentType, userToken);

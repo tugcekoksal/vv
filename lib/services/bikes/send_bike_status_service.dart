@@ -9,7 +9,7 @@ List<int> listIdFromListIdAndName(List<IdAndName> theList) {
   return theList.map((elem) => elem.id).toList();
 }
 
-Future sendCurrentDetailBikeStatusService(String urlServer,
+Future<String> sendCurrentDetailBikeStatusService(String urlServer,
     Reparation reparation, String incidentType, String userToken) async {
   var request = http.MultipartRequest(
       'POST', Uri.parse('$urlServer/api/updateIncident/'));
@@ -27,32 +27,27 @@ Future sendCurrentDetailBikeStatusService(String urlServer,
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
   };
-
   request.headers.addAll(headers);
 
-  // Check if at least on photo has been taken
-  if (reparation.reparationPhotosList.length != 0) {
-    // Loop threw all incident photos and add it to the request
-    for (var i = 0; i < reparation.reparationPhotosList.length; i++) {
-      request.files.add(await http.MultipartFile.fromPath(
-          'files', reparation.reparationPhotosList[i].path));
-    }
-  } else {
-    // Otherwise, add an empty list
-    request.fields.addAll({"files": json.encode([])});
+  // Add the files fields in payload
+  request.fields.addAll({"files": json.encode([])});
+  // Add files to the payload
+  for (var i = 0; i < reparation.reparationPhotosList.length; i++) {
+    request.files.add(await http.MultipartFile.fromPath(
+        'files', reparation.reparationPhotosList[i].path));
   }
-  http.StreamedResponse response = await request.send();
-  await response.stream.bytesToString();
 
-  if (response.statusCode == 200) {
-    print(response);
-  } else if (response.statusCode == 400) {
-    print("error updating reparation informations");
-    print(response.reasonPhrase);
-  } else {
-    print(response.reasonPhrase);
-    throw Exception("unexpected error updating reparation informations");
+  // Get stream response and convert to response
+  http.StreamedResponse streamResponse = await request.send();
+  http.Response response = await http.Response.fromStream(streamResponse);
+  String message =
+      json.decode(response.body)["message"] ?? "No message from server";
+
+  if (response.statusCode >= 400) {
+    throw Exception(message);
   }
+  // The status is OK : We give a success phrase from the server
+  return message;
 }
 
 Future fetchPieceFromTypeService(String urlServer, int interventionType,

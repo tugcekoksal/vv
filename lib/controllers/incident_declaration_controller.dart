@@ -352,6 +352,12 @@ class IncidentDeclarationController extends GetxController {
 
   // Get the clientPk linked to the right client name
   getClientItem() {
+    print(dropdownItemClientList);
+    if (dropdownItemClientList.length == 0) {
+      print("QUITTTTT");
+      return 0;
+    }
+    print("PASSé");
     var clientLabel = dropdownItemClientList
         .firstWhere((item) => item["label"] == informations["Client"]);
     return int.parse(clientLabel["value"]);
@@ -359,6 +365,11 @@ class IncidentDeclarationController extends GetxController {
 
   // Get the groupPk linked to the right client name
   getGroupItem() {
+    if (dropdownItemGroupList.length == 0) {
+      print("QUITTTTT");
+      return 0;
+    }
+
     var groupLabel = dropdownItemGroupList
         .firstWhere((item) => item["label"] == informations["Groupe"]);
     return int.parse(groupLabel["value"]);

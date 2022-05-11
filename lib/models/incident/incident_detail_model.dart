@@ -68,8 +68,11 @@ class IdAndName {
 
 List<IdAndName> jsonListToIdAndNameList(jsonList) {
   List<IdAndName> resList = [];
-  for (var obj in jsonList) {
-    resList.add(IdAndName.fromJson(obj));
+
+  if (jsonList != null) {
+    for (var obj in jsonList) {
+      resList.add(IdAndName.fromJson(obj));
+    }
   }
   return resList;
 }
@@ -101,4 +104,23 @@ class Reparation {
       required this.selectedPieces,
       required this.selectedPieceDropDown,
       required this.commentary});
+
+  factory Reparation.fromJson(Map<String, dynamic> json, int incidentPk,
+          List<File> listPhotoFile) =>
+      Reparation(
+          statusBike: json["status_bike"],
+          isBikeFunctional: json["is_bike_functional"],
+          incidentPk: incidentPk,
+          reparationPhotosList: listPhotoFile,
+          typeInterventionList:
+              jsonListToIdAndNameList(json["list_type_intervention"]),
+          typeReparationList:
+              jsonListToIdAndNameList(json["list_type_reparation"]),
+          valueTypeIntervention: "",
+          valueTypeReparation: "",
+          piecesList: [],
+          selectedPieces: jsonListToIdAndNameList(json["pieces"]),
+          selectedPieceDropDown: IdAndName(id: 0, name: ""),
+          commentary: TextEditingController(
+              text: utf8convert(json["commentary"] ?? "")));
 }
