@@ -16,7 +16,6 @@ class IncidentDetailModel {
   IncidentDetailModel({
     required this.groupe,
     required this.velo,
-    required this.batteries,
     required this.typeIncident,
     required this.commentaire,
     required this.photos,
@@ -27,7 +26,6 @@ class IncidentDetailModel {
 
   final String? groupe;
   final String? velo;
-  final String? batteries;
   final String? typeIncident;
   final String? commentaire;
   final List<String>? photos;
@@ -39,7 +37,6 @@ class IncidentDetailModel {
       IncidentDetailModel(
         groupe: json["groupe"] == null ? null : json["groupe"],
         velo: json["velo"] == null ? null : json["velo"],
-        batteries: json["batteries"] == null ? null : json["batteries"],
         typeIncident:
             json["type_incident"] == null ? null : json["type_incident"],
         commentaire: json["commentaire"] == null ? null : json["commentaire"],
@@ -82,10 +79,10 @@ class Reparation {
   bool isBikeFunctional;
   int incidentPk;
   List<File> reparationPhotosList;
+  IdAndName typeIntervention;
+  IdAndName typeReparation;
   List<IdAndName> typeInterventionList;
   List<IdAndName> typeReparationList;
-  String valueTypeIntervention;
-  String valueTypeReparation;
   List<IdAndName> piecesList;
   List<IdAndName> selectedPieces;
   IdAndName selectedPieceDropDown;
@@ -96,10 +93,10 @@ class Reparation {
       required this.isBikeFunctional,
       required this.incidentPk,
       required this.reparationPhotosList,
+      required this.typeIntervention,
       required this.typeInterventionList,
+      required this.typeReparation,
       required this.typeReparationList,
-      required this.valueTypeIntervention,
-      required this.valueTypeReparation,
       required this.piecesList,
       required this.selectedPieces,
       required this.selectedPieceDropDown,
@@ -112,12 +109,12 @@ class Reparation {
           isBikeFunctional: json["is_bike_functional"],
           incidentPk: incidentPk,
           reparationPhotosList: listPhotoFile,
+          typeIntervention: IdAndName.fromJson(json["type_intervention"]),
+          typeReparation: IdAndName.fromJson(json["type_reparation"]),
           typeInterventionList:
               jsonListToIdAndNameList(json["list_type_intervention"]),
           typeReparationList:
               jsonListToIdAndNameList(json["list_type_reparation"]),
-          valueTypeIntervention: "",
-          valueTypeReparation: "",
           piecesList: [],
           selectedPieces: jsonListToIdAndNameList(json["pieces"]),
           selectedPieceDropDown: IdAndName(id: 0, name: ""),

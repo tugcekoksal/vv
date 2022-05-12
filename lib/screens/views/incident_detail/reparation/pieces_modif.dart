@@ -19,11 +19,6 @@ class PiecesModif extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<GlobalKey> keyGoto = List.generate(3, (index) => GlobalKey());
-    List<Widget> gotoWidget = List.generate(
-        3, (index) => SizedBox(height: 0, width: 0, key: keyGoto[index]));
-    // scrollController.createScrollPosition(
-    // ScrollPhysics(), ScrollPosition(), null);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -43,7 +38,8 @@ class PiecesModif extends StatelessWidget {
           return Column(
             children: [
               BuildDropDown(
-                placeholder: "Type intervention",
+                placeholder: utf8convert(incidentController
+                    .currentReparation.value.typeIntervention.name),
                 dropdownItemList: incidentController
                     .currentReparation.value.typeInterventionList
                     .map((intervention) => utf8convert(intervention.name))
@@ -52,7 +48,8 @@ class PiecesModif extends StatelessWidget {
               ),
               const SizedBox(height: 10.0),
               BuildDropDown(
-                placeholder: "Type reparation",
+                placeholder: utf8convert(incidentController
+                    .currentReparation.value.typeReparation.name),
                 dropdownItemList: incidentController
                     .currentReparation.value.typeReparationList
                     .map((reparation) => utf8convert(reparation.name))
@@ -60,14 +57,16 @@ class PiecesModif extends StatelessWidget {
                 setItem: incidentController.setTypeReparation,
               ),
               const SizedBox(height: 10.0),
-              BuildDropDown(
-                placeholder: "Pièce",
-                dropdownItemList: incidentController
-                    .currentReparation.value.piecesList
-                    .map((piece) => utf8convert(piece.name))
-                    .toList(),
-                setItem: incidentController.setPiece,
-              ),
+              Obx(() {
+                return BuildDropDown(
+                  placeholder: "Pièce",
+                  dropdownItemList: incidentController
+                      .currentReparation.value.piecesList
+                      .map((piece) => utf8convert(piece.name))
+                      .toList(),
+                  setItem: incidentController.setPiece,
+                );
+              }),
               const SizedBox(height: 25.0),
               Center(
                 child: GestureDetector(

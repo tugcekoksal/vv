@@ -24,8 +24,7 @@ class IncidentDeclarationController extends GetxController {
   var isLoadingLabelIncidentType = true.obs;
 
   var labelList = [].obs;
-  var informations =
-      {"Client": "", "Groupe": "", "Vélo": "", "Batterie": ""}.obs;
+  var informations = {"Client": "", "Groupe": "", "Vélo": ""}.obs;
 
   var clientLabelPicked = false.obs;
   var groupLabelPicked = false.obs;
@@ -187,8 +186,6 @@ class IncidentDeclarationController extends GetxController {
                 .add({'label': label.name, 'value': label.veloPk.toString()});
             // Add the list to the dropdownItemClientListNames
             dropdownItemBikeListNames.add(label.name);
-            if (label.batterie != "")
-              dropdownItemBatteryListNames.add(label.batterie);
             isLabelsPresent.add(label.name);
           }
         }).toList();
@@ -219,8 +216,6 @@ class IncidentDeclarationController extends GetxController {
                 .add({'label': label.name, 'value': label.veloPk.toString()});
             // Add the list to the dropdownItemClientListNames
             dropdownItemBikeListNames.add(label.name);
-            if (label.batterie != "")
-              dropdownItemBatteryListNames.add(label.batterie);
             isLabelsPresent.add(label.name);
           }
         }).toList();
@@ -285,7 +280,6 @@ class IncidentDeclarationController extends GetxController {
       // Reset values
       informations["Groupe"] = "";
       informations["Vélo"] = "";
-      informations["Batterie"] = "";
 
       // Fetch new groups
       fetchGroupLabelsByClient();
@@ -303,7 +297,6 @@ class IncidentDeclarationController extends GetxController {
 
       // Reset values
       informations["Vélo"] = "";
-      informations["Batterie"] = "";
 
       // Fetch new bikes labels
       fetchBikeLabelsByGroup();
@@ -319,15 +312,7 @@ class IncidentDeclarationController extends GetxController {
       bikeLabelPicked(true);
 
       // Reset values
-      informations["Batterie"] = "";
-
       veloFormNotCompleted.value = "";
-    }
-  }
-
-  setBatteryLabel(value) {
-    if (value != informations["Batterie"]) {
-      informations["Batterie"] = value;
     }
   }
 

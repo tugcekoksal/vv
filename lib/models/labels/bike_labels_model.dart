@@ -15,23 +15,19 @@ class BikeLabelsListModel {
   BikeLabelsListModel({
     required this.veloPk,
     required this.name,
-    required this.batterie,
   });
 
   final int veloPk;
   final String name;
-  final String batterie;
 
   factory BikeLabelsListModel.fromJson(Map<String, dynamic> json) =>
       BikeLabelsListModel(
         veloPk: json["velo_pk"],
         name: json["name"],
-        batterie: json["Batterie"] != null ? json["Batterie"] : "",
       );
 
   Map<String, dynamic> toJson() => {
         "velo_pk": veloPk,
         "name": name,
-        "Batterie": batterie,
       };
 }

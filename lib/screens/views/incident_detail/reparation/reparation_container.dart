@@ -28,7 +28,8 @@ class ReparationContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget gotoWidget = SizedBox(height: 0, width: 0, key: keyWidget);
-
+    incidentController.fetchPieceFromType();
+    // incidentController.currentReparation.refresh();
     return Obx(() {
       if (loginController.isAdminOrTech.value) {
         return Container(

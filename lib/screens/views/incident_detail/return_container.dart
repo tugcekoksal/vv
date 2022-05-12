@@ -64,13 +64,18 @@ class ReturnStyled extends StatelessWidget {
 
 class ReturnContainer extends StatelessWidget {
   final String text;
-
-  const ReturnContainer({Key? key, required this.text}) : super(key: key);
+  final Function? optionalFunction;
+  const ReturnContainer({Key? key, required this.text, this.optionalFunction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: (() => Navigator.pop(context)), child: ReturnStyled(text: text));
+        onTap: (() => {
+              if (optionalFunction != null) {optionalFunction!()},
+              Navigator.pop(context)
+            }),
+        child: ReturnStyled(text: text));
   }
 }
 
@@ -93,8 +98,10 @@ class ReturnContainerToScan extends StatelessWidget {
 
 class ReturnBar extends StatelessWidget {
   final String text;
+  final Function? optionalFunction;
 
-  const ReturnBar({Key? key, required this.text}) : super(key: key);
+  const ReturnBar({Key? key, required this.text, this.optionalFunction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +120,7 @@ class ReturnBar extends StatelessWidget {
               bottomRight: Radius.circular(25.0),
               bottomLeft: Radius.circular(25.0))),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: ReturnContainer(text: text),
+      child: ReturnContainer(text: text, optionalFunction: optionalFunction),
     );
   }
 }

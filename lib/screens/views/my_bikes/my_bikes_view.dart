@@ -117,8 +117,8 @@ class _MyBikesViewState extends State<MyBikesView> {
                               onTransparentBackground:
                                   mapBikesController.isMapView,
                               title: hubController.hubView.value
-                                  ? "Mes hubs"
-                                  : "Mes vélos",
+                                  ? "Hubs"
+                                  : "Vélos",
                             );
                           }),
                         )

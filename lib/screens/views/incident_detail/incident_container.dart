@@ -1,18 +1,13 @@
 // Vendor
-import 'package:colorful_safe_area/colorful_safe_area.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
-// Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
-
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:velyvelo/helpers/utf8_convert.dart';
 
 // Service Url
 import 'package:velyvelo/services/http_service.dart';
@@ -22,7 +17,6 @@ import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
 
 class IncidentContainer extends StatelessWidget {
   final IncidentController incidentController;
-
   const IncidentContainer({Key? key, required this.incidentController})
       : super(key: key);
 
@@ -53,45 +47,12 @@ class IncidentContainer extends StatelessWidget {
                     fontWeight: FontWeight.w700),
                 children: <TextSpan>[
                   TextSpan(
-                      text: incidentController.selectedIncidentType.value == ""
-                          ? valueIsNull(incidentController
-                              .incidentDetailValue.value.typeIncident)
-                          : incidentController.selectedIncidentType.value,
+                      text: utf8convert(
+                          incidentController.actualTypeReparation.value),
                       style: TextStyle(color: GlobalStyles.lightGreyText)),
-                  TextSpan(
-                    text: incidentController.modifTypeIncident.value
-                        ? ' fermer'
-                        : ' modifier',
-                    style: TextStyle(color: GlobalStyles.blue),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        incidentController.typeIncidentAction();
-                      },
-                  ),
                 ],
               ),
             );
-          }),
-          Obx(() {
-            if (incidentController.modifTypeIncident.value)
-              return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: BuildDropDown(
-                      placeholder:
-                          incidentController.selectedIncidentType.value == ""
-                              ? "Type d'incident"
-                              : incidentController.selectedIncidentType.value,
-                      dropdownItemList:
-                          incidentController.dropDownItemIncidentTypeList,
-                      setItem: (value, index) => {
-                            incidentController.setItemIncidentType(
-                                value, index),
-                            incidentController.modifTypeIncident.value = false
-                          },
-                      index: 0
-                      // widget.indexIncident,
-                      ));
-            return SizedBox(height: 0, width: 0);
           }),
           SizedBox(height: 5.0),
           incidentController.incidentDetailValue.value.commentaire == null

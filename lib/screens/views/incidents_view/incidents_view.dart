@@ -33,13 +33,18 @@ class IncidentsView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ButtonAccount(),
-                    Column(mainAxisSize: MainAxisSize.min, children: [
-                      TitleAppBar(
-                        onTransparentBackground: false,
-                        title: "Mes incidents",
-                      ),
-                      SubTitleIncidents(incidentController: incidentController)
-                    ]),
+                    GestureDetector(
+                        onTap: () => incidentController.fetchAllIncidents(
+                            incidentController.incidentsToFetch.value),
+                        child:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
+                          TitleAppBar(
+                            onTransparentBackground: false,
+                            title: "Incidents",
+                          ),
+                          SubTitleIncidents(
+                              incidentController: incidentController)
+                        ])),
                     ButtonScan()
                   ])),
           // BODY

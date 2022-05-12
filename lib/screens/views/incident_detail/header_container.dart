@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:get/get.dart';
 
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
+import 'package:velyvelo/helpers/utf8_convert.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class HeaderContainer extends StatelessWidget {
+  final IncidentController incidentController = Get.put(IncidentController());
+
   final Incident incident;
-  const HeaderContainer({Key? key, required this.incident}) : super(key: key);
+  HeaderContainer({Key? key, required this.incident}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +32,18 @@ class HeaderContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Type reparation
-              Expanded(
-                child: Text(
-                    incident.incidentTypeReparation ??
-                        "Pas de type de réparation",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600)),
-              ),
+              Obx(() {
+                return Expanded(
+                  child: Text(
+                      utf8convert(
+                          incidentController.actualTypeReparation.value),
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: GlobalStyles.purple,
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w600)),
+                );
+              }),
               // Little top right colored box indicating the reparation number
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 100),

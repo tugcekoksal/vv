@@ -10,7 +10,7 @@ List<int> listIdFromListIdAndName(List<IdAndName> theList) {
 }
 
 Future<String> sendCurrentDetailBikeStatusService(String urlServer,
-    Reparation reparation, String incidentType, String userToken) async {
+    Reparation reparation, String causeIncident, String userToken) async {
   var request = http.MultipartRequest(
       'POST', Uri.parse('$urlServer/api/updateIncident/'));
   request
@@ -21,7 +21,9 @@ Future<String> sendCurrentDetailBikeStatusService(String urlServer,
     ..fields["pieces"] =
         json.encode(reparation.selectedPieces.map((elem) => elem.id).toList())
     ..fields["commentary"] = reparation.commentary.value.text
-    ..fields["incident_type"] = incidentType;
+    ..fields["cause"] = causeIncident
+    ..fields["intervention_type_id"] = reparation.typeIntervention.id.toString()
+    ..fields["reparation_type_id"] = reparation.typeReparation.id.toString();
 
   var headers = {
     "Authorization": 'Token $userToken',

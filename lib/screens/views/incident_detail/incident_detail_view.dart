@@ -39,7 +39,6 @@ class IncidentDetail extends StatelessWidget {
 
   void init() {
     incidentController.fetchReparation(incident.incidentPk);
-    incidentController.selectedIncidentType.value = "";
   }
 
   @override
@@ -88,13 +87,18 @@ class IncidentDetail extends StatelessWidget {
                           ),
                         ),
                       )),
-                  ReturnBar(text: "Détails de l'incident"),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SaveButton(incidentController: incidentController)
-                    ],
-                  )
+                  ReturnBar(
+                      text: "Détails de l'incident",
+                      optionalFunction: () =>
+                          incidentController.fetchAllIncidents(
+                              incidentController.incidentsToFetch.value)),
+                  if (loginController.isAdminOrTech())
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SaveButton(incidentController: incidentController)
+                      ],
+                    )
                 ]))));
   }
 }

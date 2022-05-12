@@ -67,25 +67,6 @@ class InformationsContainer extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 5.0),
-          incidentController.incidentDetailValue.value.batteries == "" ||
-                  incidentController.incidentDetailValue.value.batteries == null
-              ? SizedBox()
-              : RichText(
-                  text: TextSpan(
-                    text: 'Batterie ',
-                    style: TextStyle(
-                        color: GlobalStyles.greyText,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w700),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: incidentController
-                              .incidentDetailValue.value.batteries,
-                          style: TextStyle(color: GlobalStyles.lightGreyText)),
-                    ],
-                  ),
-                ),
         ],
       ),
     );

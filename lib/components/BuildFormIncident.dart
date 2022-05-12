@@ -37,11 +37,24 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
 
   Future pickImage() async {
     try {
+      showDialog(
+          barrierColor: Colors.transparent,
+          barrierDismissible: false,
+          // useSafeArea: true,
+
+          context: context,
+          builder: (BuildContext context) {
+            return Center(
+              child:
+                  Container(height: 300, width: 300, color: Colors.transparent),
+            );
+          });
       final _currentImage = await ImagePicker().pickImage(
           source: ImageSource.camera,
           imageQuality: 50,
           maxHeight: 500,
           maxWidth: 500);
+      Navigator.pop(context);
       if (_currentImage == null) return;
 
       final imageTemporary = File(_currentImage.path);

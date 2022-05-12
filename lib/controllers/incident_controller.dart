@@ -45,7 +45,6 @@ class IncidentController extends GetxController {
   var incidentDetailValue = IncidentDetailModel(
       groupe: "",
       velo: "",
-      batteries: "",
       typeIncident: "",
       commentaire: "",
       photos: [],
@@ -69,19 +68,19 @@ class IncidentController extends GetxController {
           statusBike: "",
           isBikeFunctional: true,
           incidentPk: 0,
+          typeIntervention: IdAndName(id: 0, name: ""),
+          typeReparation: IdAndName(id: 0, name: ""),
           reparationPhotosList: [],
           typeInterventionList: [],
           typeReparationList: [],
-          valueTypeIntervention: "",
-          valueTypeReparation: "",
           piecesList: [],
           selectedPieces: [],
           selectedPieceDropDown: IdAndName(id: 0, name: ""),
           commentary: TextEditingController())
       .obs;
 
-  RxString selectedIncidentType = "".obs;
-  RxBool modifTypeIncident = false.obs;
+  RxString actualTypeReparation = "".obs;
+  RxString selectedIncidentCause = "".obs;
   RxList<String> dropDownItemIncidentTypeList = <String>[].obs;
 
   // void fetchIncidentLabels() async {
@@ -101,20 +100,12 @@ class IncidentController extends GetxController {
   // }
   void fetchIncidentTypeList() async {
     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
-    print(incidentLabels);
     dropDownItemIncidentTypeList.value = incidentLabels;
     dropDownItemIncidentTypeList.refresh();
   }
 
-  void setItemIncidentType(value, index) {
-    selectedIncidentType.value = value;
-  }
-
-  void typeIncidentAction() {
-    if (modifTypeIncident.value == false) {
-      fetchIncidentTypeList();
-    }
-    modifTypeIncident.value = !modifTypeIncident.value;
+  void setItemIncidentCause(value, index) {
+    selectedIncidentCause.value = value;
   }
 
   @override
@@ -146,11 +137,11 @@ class IncidentController extends GetxController {
       var photoFile = await urlToFile(HttpService.urlServer + photo);
       listPhotoFile.add(photoFile);
     }
-    print(currentReparation.value.incidentPk);
     currentReparation.value = Reparation.fromJson(
         infosReparation, currentIncidentId.value, listPhotoFile);
     currentReparation.refresh();
-    print(currentReparation.value.incidentPk);
+    actualTypeReparation.value = currentReparation.value.typeReparation.name;
+    fetchPieceFromType();
   }
 
   IdAndName getFirstWhereNameEqual(String name, List<IdAndName> list) {
@@ -160,13 +151,9 @@ class IncidentController extends GetxController {
 
   Future<void> fetchPieceFromType() async {
     // get selected intervention type
-    var interventionType = getFirstWhereNameEqual(
-        currentReparation.value.valueTypeIntervention,
-        currentReparation.value.typeInterventionList);
+    IdAndName interventionType = currentReparation.value.typeIntervention;
     // get selected reparation type
-    var reparationType = getFirstWhereNameEqual(
-        currentReparation.value.valueTypeReparation,
-        currentReparation.value.typeReparationList);
+    IdAndName reparationType = currentReparation.value.typeReparation;
 
     // ask the server for the relatives pieces from those filters
     var response = await HttpService.fetchPieceFromType(
@@ -182,14 +169,20 @@ class IncidentController extends GetxController {
 
   setTypeIntervention(value) {
     currentReparation.update((reparation) {
-      reparation!.valueTypeIntervention = value;
+      IdAndName typeIntervention = currentReparation.value.typeInterventionList
+          .firstWhere((type) => utf8convert(type.name) == value,
+              orElse: (() => IdAndName(id: 0, name: "")));
+      reparation!.typeIntervention = typeIntervention;
     });
     fetchPieceFromType();
   }
 
   setTypeReparation(value) {
     currentReparation.update((reparation) {
-      reparation!.valueTypeReparation = value;
+      IdAndName typeReparation = currentReparation.value.typeReparationList
+          .firstWhere((type) => utf8convert(type.name) == value,
+              orElse: (() => IdAndName(id: 0, name: "")));
+      reparation!.typeReparation = typeReparation;
     });
     fetchPieceFromType();
   }
@@ -312,10 +305,11 @@ class IncidentController extends GetxController {
 
     try {
       await HttpService.sendCurrentDetailBikeStatus(
-          currentReparation.value, selectedIncidentType.value, userToken);
+          currentReparation.value, selectedIncidentCause.value, userToken);
     } catch (e) {
       error.value = e.toString();
       print(error.value);
     }
+    fetchReparation(currentIncidentId.value.toString());
   }
 }

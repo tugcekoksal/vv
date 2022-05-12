@@ -27,7 +27,7 @@ import 'package:velyvelo/services/hubs/fetch_all_hubs.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
-  static String urlServer = "http://localhost:8000";
+  static String urlServer = "http://192.168.10.111:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
@@ -141,9 +141,9 @@ class HttpService {
 
   // Set a bike status in detail page
   static Future<String> sendCurrentDetailBikeStatus(
-      Reparation reparation, String incidentType, String userToken) async {
+      Reparation reparation, String causeIncident, String userToken) async {
     return sendCurrentDetailBikeStatusService(
-        urlServer, reparation, incidentType, userToken);
+        urlServer, reparation, causeIncident, userToken);
   }
 
   static Future fetchPieceFromType(
