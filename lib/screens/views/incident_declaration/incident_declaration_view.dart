@@ -1,0 +1,45 @@
+import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:flutter/material.dart';
+import 'package:velyvelo/controllers/incident_declaration_controller.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/screens/views/incident_declaration/declaration_send_button.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incident_declaration_scrollview.dart';
+import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
+
+// Usefull function
+void looseFocus(BuildContext context) {
+  var currentFocus = FocusScope.of(context);
+
+  if (!currentFocus.hasPrimaryFocus) {
+    currentFocus.unfocus();
+  }
+}
+
+class IncidentDeclaration extends StatelessWidget {
+  final DeclarationInfoContainer? infoContainer;
+
+  const IncidentDeclaration({Key? key, this.infoContainer}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ColorfulSafeArea(
+        color: Colors.white,
+        child: GestureDetector(
+          onTap: () {
+            looseFocus(context);
+          },
+          child: Stack(children: [
+            IncidentDeclarationScrollview(infoContainer: infoContainer),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ReturnBar(text: "Déclaration d'incidents"),
+                  DeclarationSendButton(),
+                ])
+          ]),
+        ),
+      ),
+    );
+  }
+}

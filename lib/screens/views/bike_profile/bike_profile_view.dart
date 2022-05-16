@@ -12,7 +12,7 @@ import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_in
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 // Views
-import 'package:velyvelo/screens/views/incident_declaration/incidents_declaration.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incident_declaration_view.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
@@ -299,16 +299,8 @@ class _MyBikeViewState extends State<MyBikeView> {
                           Center(
                               child: GestureDetector(
                             onTap: () => Get.to(
-                                () => IncidentDeclaration(
-                                      client: bikeController
-                                          .userBike.value.clientName,
-                                      velo: bikeController
-                                          .userBike.value.bikeName,
-                                      groupe: bikeController
-                                          .userBike.value.groupeName,
-                                      veloPk:
-                                          bikeController.userBike.value.veloPk,
-                                    ),
+                                // Préremplir les champs
+                                () => IncidentDeclaration(),
                                 transition: Transition.downToUp,
                                 duration: Duration(milliseconds: 400)),
                             child: Container(

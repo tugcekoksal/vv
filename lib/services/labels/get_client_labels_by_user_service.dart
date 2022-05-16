@@ -1,17 +1,22 @@
 // Vendor
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 // Models
-import 'package:velyvelo/models/labels/client_labels_model.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
-Future<List<ClientLabelsListModel>> fetchClientLabelsByUserService(
+Future<List<IdAndName>> fetchClientLabelsByUserService(
     String urlServer, String userToken) async {
-  var response = await http.get(Uri.parse("$urlServer/api/clientListByUser/"),
+  http.Response response = await http.get(
+      Uri.parse("$urlServer/api/clientListByUser/"),
       headers: {"Authorization": 'Token $userToken'});
-  if (response.statusCode == 200) {
-    var clientLabels = response.body;
-    return clientLabelsListModelFromJson(clientLabels);
-  } else {
-    throw Exception();
+
+  // If error from server
+  if (response.statusCode >= 400) {
+    String message =
+        json.decode(response.body)["message"] ?? "No message from server";
+    throw Exception(message);
   }
+  // The status is OK : we give the data from the server
+  return jsonListToIdAndNameList(json.decode(response.body));
 }

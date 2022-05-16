@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 // Models
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
 
-Future setIncidentService(
+Future<String> setIncidentService(
     String urlServer, IncidentToSendModel incident, String userToken) async {
   var headers = {
     'Authorization': 'Token $userToken',
@@ -33,11 +33,11 @@ Future setIncidentService(
   }
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
+  String body = await response.stream.bytesToString();
+  String message = jsonDecode(body)["message"] ?? "Pas de message du serveur";
 
-  if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
-    return 'Vos incidents ont été ajouté avec succès.';
-  } else {
-    print(response);
+  if (response.statusCode >= 400) {
+    throw Exception(message);
   }
+  return message;
 }

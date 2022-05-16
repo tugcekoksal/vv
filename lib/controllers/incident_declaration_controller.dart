@@ -5,30 +5,81 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incident_declaration_view.dart';
+import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';
 
+// Models
+
+class DeclarationInfoContainer {
+  final IdAndName? client;
+  final IdAndName? group;
+  final IdAndName? velo;
+
+  DeclarationInfoContainer({this.client, this.group, this.velo});
+}
+
+class DeclarationInfoDropDown {
+  List<IdAndName> listOptions;
+  bool isLoading;
+  IdAndName? selected;
+
+  DeclarationInfoDropDown(
+      {required this.listOptions, required this.isLoading, this.selected});
+}
+
+class DeclarationInfoSelection {
+  final DeclarationInfoDropDown infoClient;
+  final DeclarationInfoDropDown infoGroup;
+  final DeclarationInfoDropDown infoVelo;
+
+  DeclarationInfoSelection(
+      {required this.infoClient,
+      required this.infoGroup,
+      required this.infoVelo});
+}
+
+class DeclarationErrors {
+  String veloError;
+
+  DeclarationErrors({required this.veloError});
+}
+
+DeclarationInfoSelection emptySelection() {
+  return DeclarationInfoSelection(
+      infoClient: DeclarationInfoDropDown(
+          listOptions: [], isLoading: true, selected: null),
+      infoGroup: DeclarationInfoDropDown(
+          listOptions: [], isLoading: true, selected: null),
+      infoVelo: DeclarationInfoDropDown(
+          listOptions: [], isLoading: true, selected: null));
+}
+
 class IncidentDeclarationController extends GetxController {
-  var userToken;
-  var userType;
+  // User infos
+  String userToken = "";
+  String userType = "";
+
+  // Generic infos
+  Rx<DeclarationInfoSelection> infosSelection = emptySelection().obs;
+  Rx<DeclarationInfoDropDown> incidentTypeSelection =
+      DeclarationInfoDropDown(listOptions: [], isLoading: true).obs;
+
+  // Technician
+  Rx<bool> selfAttribute = false.obs;
+
+  // Errors
+  Rx<DeclarationErrors> errors = DeclarationErrors(veloError: "").obs;
+
+  // Old part for list incident declaration list
 
   var currentImageIndexInViewer = 0.obs;
-
-  var isLoadingLabelClient = true.obs;
-  var isLoadingLabelGroup = true.obs;
-  var isLoadingLabelBike = true.obs;
-  var isLoadingLabelIncidentType = true.obs;
-
-  var labelList = [].obs;
-  var informations = {"Client": "", "Groupe": "", "Vélo": ""}.obs;
-
-  var clientLabelPicked = false.obs;
-  var groupLabelPicked = false.obs;
-  var bikeLabelPicked = false.obs;
 
   var index = 1;
 
@@ -40,210 +91,223 @@ class IncidentDeclarationController extends GetxController {
   var incidentCommentList = [""].obs;
   var incidentPhotosList = <List<File>>[[]].obs;
 
-  var dropdownItemClientList = [].obs;
-  var dropdownItemClientListNames = <String>[].obs;
-
-  var dropdownItemGroupList = [].obs;
-  var dropdownItemGroupListNames = <String>[].obs;
-
-  var dropdownItemBikeList = [].obs;
-  var dropdownItemBikeListNames = <String>[].obs;
-
-  var dropdownItemBatteryList = [].obs;
-  var dropdownItemBatteryListNames = <String>[].obs;
-
-  var dropDownItemIncidentTypeList = <String>[].obs;
-
   var isFormUncompleted = "".obs;
   var indexWhereFormIsNotCompleted = "".obs;
   var veloFormNotCompleted = "".obs;
   var success = "".obs;
 
-  var technicianSelfAttributeIncident = true.obs;
-
   @override
   void onInit() {
     userToken = Get.find<LoginController>().userToken;
     userType = Get.find<LoginController>().userType;
-    // Fetch all the labels
-    if (userType == "User" || userType == 'SuperUser') {
-      fetchBikeLabelsByGroupOnInit(-1);
-    } else if (userType == "Client") {
-      fetchGroupLabelsWithoutClient();
-    } else {
-      fetchClientLabelsByUserOnInit();
-    }
+    // Never change so we can initialize at beginning
     fetchIncidentLabels();
     super.onInit();
   }
 
-  void fetchClientLabelsByUserOnInit() async {
-    try {
-      isLoadingLabelClient(true);
-      dropdownItemClientList.clear();
-      var clientLabels = await HttpService.fetchClientLabelsByUser(userToken);
-      if (clientLabels != null) {
-        var isLabelsPresent = [];
-        clientLabels.map((label) {
-          if (!isLabelsPresent.contains(label.name)) {
-            // Add the list to the dropDownClientItemList
-            dropdownItemClientList
-                .add({'label': label.name, 'value': label.clientPk.toString()});
-            // Add the list to the dropdownItemClientListNames
-            dropdownItemClientListNames.add(label.name);
-            isLabelsPresent.add(label.name);
-          }
-        }).toList();
-        dropdownItemClientList.refresh();
-        isLoadingLabelClient(false);
+  void resetGroupDropDown() {
+    infosSelection.update((val) {
+      val?.infoGroup.listOptions = [];
+      val?.infoGroup.selected = null;
+    });
+  }
 
-        if (dropdownItemClientList.length == 1 && userType == "user") {
-          informations["Client"] = dropdownItemClientList[0]["value"];
-        }
+  void resetVeloDropDown() {
+    infosSelection.update((val) {
+      val?.infoVelo.listOptions = [];
+      val?.infoVelo.selected = null;
+    });
+  }
+
+  // Client DropDown - BEGIN //
+  void fetchClientLabels() async {
+    print("Fetch");
+    // Client labels are loading
+    infosSelection.update((val) {
+      val?.infoClient.isLoading = true;
+    });
+    try {
+      List<IdAndName> clientLabels =
+          await HttpService.fetchClientLabelsByUser(userToken);
+      // Data received / valid request to server
+      print(userType);
+      if (userType != "AdminOrTechnician") {
+        print("ICI WEHS RTAPAS LE DROIT");
+        infosSelection.update((val) {
+          val?.infoClient.selected = clientLabels[0];
+        });
+        // Simulate the selection of client
+        infosSelection.update((val) {
+          val?.infoClient.selected = infosSelection.value.infoClient.selected;
+        });
+        fetchGroupLabels();
+        return;
+        // End simulation and return
       }
+      infosSelection.update((val) {
+        val?.infoClient.listOptions = clientLabels;
+      });
     } catch (e) {
       print(e);
+      // Message error from server / handle front error
     }
+
+    // Client labels finished loading
+    infosSelection.update((val) {
+      val?.infoClient.isLoading = false;
+    });
+    print("End Fetch");
   }
 
-  void fetchGroupLabelsByClient() async {
-    int clientPk = getClientItem();
-    try {
-      dropdownItemGroupList.clear();
-      dropdownItemGroupListNames.clear();
-      var groupLabels =
-          await HttpService.fetchGroupLabelsByClient(clientPk, userToken);
-      if (groupLabels != null) {
-        var isLabelsPresent = [];
-        groupLabels.map((label) {
-          if (!isLabelsPresent.contains(label.name)) {
-            dropdownItemGroupList
-                .add({'label': label.name, 'value': label.groupePk.toString()});
-            // Add the list to the dropdownItemClientListNames
-            dropdownItemGroupListNames.add(label.name);
-            isLabelsPresent.add(label.name);
-          }
-        }).toList();
-        dropdownItemGroupList
-            .insert(0, {'label': 'Pas de groupe', 'value': (-1).toString()});
-        dropdownItemGroupListNames.insert(0, "Pas de groupe");
+  void setClientLabel(String value) {
+    // Find the IdAndName object from name value ine the listOptions
+    IdAndName selected = infosSelection.value.infoClient.listOptions.firstWhere(
+      (element) {
+        return element.name == value;
+      },
+    );
+    // Update the current selected label
+    infosSelection.update((val) {
+      val?.infoClient.selected = selected;
+    });
 
-        dropdownItemGroupList.refresh();
-        isLoadingLabelGroup(false);
-        clientLabelPicked(true);
-      }
-    } catch (e) {
-      print("groupLabels controller $e");
-    }
+    // Reinitialisation Velo and Group options
+    resetGroupDropDown();
+    resetVeloDropDown();
+    // Now we have a client we can pick a group
+    fetchGroupLabels();
   }
+  // Client DropDown - END //
 
-  void fetchGroupLabelsWithoutClient() async {
-    int clientPk = -1;
+  // Group DropDown - BEGIN //
+  void fetchGroupLabels() async {
+    // Only called when the setClientLabel function is call
+    infosSelection.update((val) {
+      val?.infoGroup.isLoading = true;
+    });
     try {
-      dropdownItemGroupList.clear();
-      dropdownItemGroupListNames.clear();
-      var groupLabels =
-          await HttpService.fetchGroupLabelsByClient(clientPk, userToken);
-      if (groupLabels != null) {
-        var isLabelsPresent = [];
-        groupLabels.map((label) {
-          if (!isLabelsPresent.contains(label.name)) {
-            dropdownItemGroupList
-                .add({'label': label.name, 'value': label.groupePk.toString()});
-            // Add the list to the dropdownItemClientListNames
-            dropdownItemGroupListNames.add(label.name);
-            isLabelsPresent.add(label.name);
-          }
-        }).toList();
-        dropdownItemGroupList
-            .insert(0, {'label': 'Pas de groupe', 'value': (-1).toString()});
-        dropdownItemGroupListNames.insert(0, "Pas de groupe");
-        dropdownItemGroupList.refresh();
-        isLoadingLabelGroup(false);
-        clientLabelPicked(true);
+      List<IdAndName> groupLabels = await HttpService.fetchGroupLabelsByClient(
+          infosSelection.value.infoClient.selected!.id, userToken);
+      print(userType);
+      if (userType == "User") {
+        print("I AM A USERPATEUR");
+        infosSelection.update((val) {
+          val?.infoGroup.selected = groupLabels[0];
+        });
+        // Simulate the selection of client
+        infosSelection.update((val) {
+          val?.infoGroup.selected = infosSelection.value.infoGroup.selected;
+        });
+        fetchVeloLabels();
+        return;
+        // End simulation and return
       }
-    } catch (e) {
-      print("groupLabels controller $e");
-    }
-  }
-
-  void fetchBikeLabelsByGroup() async {
-    int groupPk = getGroupItem();
-    int clientPk = getClientItem();
-    try {
-      isLoadingLabelBike(true);
-      dropdownItemBikeList.clear();
-      dropdownItemBikeListNames.clear();
-      dropdownItemBatteryListNames.clear();
-      dropdownItemBatteryList.clear();
-      var bikeLabels = await HttpService.fetchBikeLabelsByGroup(
-          groupPk, clientPk, userToken);
-      if (bikeLabels != null) {
-        var isLabelsPresent = [];
-        bikeLabels.map((label) {
-          if (!isLabelsPresent.contains(label.name)) {
-            dropdownItemBikeList
-                .add({'label': label.name, 'value': label.veloPk.toString()});
-            // Add the list to the dropdownItemClientListNames
-            dropdownItemBikeListNames.add(label.name);
-            isLabelsPresent.add(label.name);
-          }
-        }).toList();
-        dropdownItemBikeList.refresh();
-        dropdownItemBatteryList.refresh();
-        isLoadingLabelBike(false);
-        groupLabelPicked(true);
-      }
+      groupLabels.insert(0, IdAndName(id: -1, name: "Pas de groupe"));
+      // Data received / valid request to server
+      infosSelection.update((val) {
+        val?.infoGroup.listOptions = groupLabels;
+      });
     } catch (e) {
       print(e);
+      // Message error from server / handle front error
     }
+
+    // Client labels finished loading
+    infosSelection.update((val) {
+      val?.infoGroup.isLoading = false;
+    });
   }
 
-  void fetchBikeLabelsByGroupOnInit(int id) async {
+  void setGroupLabel(String value) {
+    // Find the IdAndName object from name value ine the listOptions
+    IdAndName selected = infosSelection.value.infoGroup.listOptions.firstWhere(
+      (element) {
+        return element.name == value;
+      },
+    );
+    // Update the current selected label
+    infosSelection.update((val) {
+      val?.infoGroup.selected = selected;
+    });
+    // Reset velo selection datas
+    resetVeloDropDown();
+    // Now we have a group we can pick a velo
+    fetchVeloLabels();
+  }
+  // Group DropDown - END //
+
+  // Velo DropDown - BEGIN //
+  void fetchVeloLabels() async {
+    // Only called when the setClientLabel function is call
+    infosSelection.update((val) {
+      val?.infoVelo.isLoading = true;
+    });
     try {
-      isLoadingLabelBike(true);
-      dropdownItemBikeList.clear();
-      dropdownItemBikeListNames.clear();
-      dropdownItemBatteryListNames.clear();
-      dropdownItemBatteryList.clear();
-      var bikeLabels = await HttpService.fetchBikeLabelsByGroup(
-          id, getClientItem(), userToken);
-      if (bikeLabels != null) {
-        var isLabelsPresent = [];
-        bikeLabels.map((label) {
-          if (!isLabelsPresent.contains(label.name)) {
-            dropdownItemBikeList
-                .add({'label': label.name, 'value': label.veloPk.toString()});
-            // Add the list to the dropdownItemClientListNames
-            dropdownItemBikeListNames.add(label.name);
-            isLabelsPresent.add(label.name);
-          }
-        }).toList();
-        dropdownItemBikeList.refresh();
-        dropdownItemBatteryList.refresh();
-        isLoadingLabelBike(false);
-        groupLabelPicked(true);
-      }
+      List<IdAndName> veloLabels = await HttpService.fetchBikeLabelsByGroup(
+          infosSelection.value.infoGroup.selected!.id,
+          infosSelection.value.infoClient.selected!.id,
+          userToken);
+      // Data received / valid request to server
+      infosSelection.update((val) {
+        val?.infoVelo.listOptions = veloLabels;
+      });
+      // print(infosSelection.value.info);
     } catch (e) {
       print(e);
+      // Message error from server / handle front error
     }
+
+    // Client labels finished loading
+    infosSelection.update((val) {
+      val?.infoVelo.isLoading = false;
+    });
   }
 
+  void setVeloLabel(String value) {
+    // Find the IdAndName object from name value ine the listOptions
+    IdAndName selected = infosSelection.value.infoVelo.listOptions.firstWhere(
+      (element) {
+        return element.name == value;
+      },
+    );
+    // Update the current selected label
+    infosSelection.update((val) {
+      val?.infoVelo.selected = selected;
+    });
+    // Now we have a velo we can keep going declaring incident
+  }
+  // Velo DropDown - END //
+
+  // Incident DropDown - BEGIN //
   void fetchIncidentLabels() async {
+    incidentTypeSelection.update((val) {
+      val?.isLoading = true;
+    });
+    incidentTypeSelection.value.isLoading = true;
     try {
-      isLoadingLabelIncidentType(true);
-      var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
-      if (incidentLabels != null) {
-        incidentLabels.map((incidentLabel) {
-          dropDownItemIncidentTypeList.add(incidentLabel);
-        }).toList();
-        dropDownItemIncidentTypeList.refresh();
-      }
-      isLoadingLabelIncidentType(false);
+      List<IdAndName> incidentLabels =
+          await HttpService.fetchIncidentLabels(userToken);
+      incidentTypeSelection.update((val) {
+        val?.listOptions = incidentLabels;
+      });
     } catch (e) {
       print(e);
     }
+    incidentTypeSelection.update((val) {
+      val?.isLoading = false;
+    });
   }
+
+  // set the value of each incident TYPE in the state;
+  setIncidentTypeLabel(value, index) {
+    incidentTypeList[index] = value;
+
+    if (index.toString() == indexWhereFormIsNotCompleted.value)
+      indexWhereFormIsNotCompleted.value = "";
+  }
+  // Incident DropDown - END //
+
+  // Old part for list incident declaration list
 
   // Add a new form of incident declaration
   addForm() {
@@ -266,64 +330,6 @@ class IncidentDeclarationController extends GetxController {
     index--;
   }
 
-  setClientLabel(value) {
-    // Check if the client value has changed
-    if (value != informations["Client"]) {
-      // Set client label value
-      informations["Client"] = value;
-
-      // Put all inputs to disable status
-      clientLabelPicked(false);
-      groupLabelPicked(false);
-      bikeLabelPicked(false);
-
-      // Reset values
-      informations["Groupe"] = "";
-      informations["Vélo"] = "";
-
-      // Fetch new groups
-      fetchGroupLabelsByClient();
-    }
-  }
-
-  setGroupLabel(value) {
-    if (value != informations["Groupe"]) {
-      // Set client label value
-      informations["Groupe"] = value;
-
-      // Put bike and battery inputs to disable status
-      groupLabelPicked(false);
-      bikeLabelPicked(false);
-
-      // Reset values
-      informations["Vélo"] = "";
-
-      // Fetch new bikes labels
-      fetchBikeLabelsByGroup();
-    }
-  }
-
-  setBikeLabel(value) {
-    if (value != informations["Vélo"]) {
-      // Set client label value
-      informations["Vélo"] = value;
-
-      //Put battery label to disable status
-      bikeLabelPicked(true);
-
-      // Reset values
-      veloFormNotCompleted.value = "";
-    }
-  }
-
-  // set the value of each incident TYPE in the state;
-  setIncidentTypeLabel(value, index) {
-    incidentTypeList[index] = value;
-
-    if (index.toString() == indexWhereFormIsNotCompleted.value)
-      indexWhereFormIsNotCompleted.value = "";
-  }
-
   // set the value of each incident COMMENT in the state;
   setIncidentCommentValue(value, index) {
     incidentCommentList[index] = value;
@@ -335,55 +341,17 @@ class IncidentDeclarationController extends GetxController {
     incidentPhotosList.refresh();
   }
 
-  // Get the clientPk linked to the right client name
-  getClientItem() {
-    print(dropdownItemClientList);
-    if (dropdownItemClientList.length == 0) {
-      print("QUITTTTT");
-      return 0;
-    }
-    print("PASSé");
-    var clientLabel = dropdownItemClientList
-        .firstWhere((item) => item["label"] == informations["Client"]);
-    return int.parse(clientLabel["value"]);
-  }
-
-  // Get the groupPk linked to the right client name
-  getGroupItem() {
-    if (dropdownItemGroupList.length == 0) {
-      print("QUITTTTT");
-      return 0;
-    }
-
-    var groupLabel = dropdownItemGroupList
-        .firstWhere((item) => item["label"] == informations["Groupe"]);
-    return int.parse(groupLabel["value"]);
-  }
-
-  // Get the veloPk linked to the right client name
-  getBikeItem() {
-    var bikeLabel = dropdownItemBikeList
-        .firstWhere((item) => item["label"] == informations["Vélo"]);
-    return int.parse(bikeLabel["value"]);
-  }
-
   // Send the incident to the server if
-  Future<void> sendIncident(int? veloPkFromScan) async {
+  Future<bool> sendIncident(int? veloPkFromScan) async {
     isFormUncompleted.value = "";
     success.value = "";
 
     // Check if informations are complete
-    if (!bikeLabelPicked.value) {
-      veloFormNotCompleted.value = "Le champ vélo n'est pas spécifié";
-      return;
-    } else {
-      veloFormNotCompleted.value = "";
-    }
     if (incidentTypeList.contains("")) {
       indexWhereFormIsNotCompleted.value =
           incidentTypeList.indexWhere((element) => element == "").toString();
       isFormUncompleted.value = "Un champ n'est pas spécifié.";
-      return;
+      return false;
     } else {
       indexWhereFormIsNotCompleted.value = "";
     }
@@ -402,7 +370,7 @@ class IncidentDeclarationController extends GetxController {
       if (userType == "user") {
         veloPk = Get.find<LoginController>().userBikeID.value;
       } else {
-        veloPk = getBikeItem();
+        veloPk = infosSelection.value.infoVelo.selected!.id;
       }
     }
 
@@ -412,23 +380,24 @@ class IncidentDeclarationController extends GetxController {
           type: incidentTypeList[index],
           commentary: incidentCommentList[index],
           files: incidentPhotosList[index],
-          isSelfAttributed: technicianSelfAttributeIncident.value);
+          isSelfAttributed: selfAttribute.value);
       incidentsToSend.add(incident);
     });
 
     // Send all the incidents
     incidentsToSend.map((incidentToSend) async {
       try {
-        var incidentSent =
+        String incidentSent =
             await HttpService.setIncident(incidentToSend, userToken);
-        if (incidentSent != null) {
-          success.value = incidentSent.toString();
-          Get.find<IncidentController>().refreshIncidentsList();
-        }
+        success.value = incidentSent;
+        Get.find<IncidentController>().refreshIncidentsList();
+        print(incidentSent);
       } catch (e) {
         print(e);
+        return false;
       }
     }).toList();
+    return true;
   }
 
   // Delete all forms
@@ -449,9 +418,5 @@ class IncidentDeclarationController extends GetxController {
     incidentPhotosList.add([]);
 
     index = 1;
-    informations["client"] = "";
-    informations["group"] = "";
-    informations["bike"] = "";
-    informations["battery"] = "";
   }
 }

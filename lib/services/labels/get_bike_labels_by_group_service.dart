@@ -1,11 +1,12 @@
 // Vendor
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 // Models
 import 'package:velyvelo/models/labels/bike_labels_model.dart';
 
-Future fetchBikeLabelsByGroupService(
+Future<List<IdAndName>> fetchBikeLabelsByGroupService(
     String urlServer, int groupPk, int clientPk, String userToken) async {
   var headers = {
     'Authorization': 'Token $userToken',
@@ -20,11 +21,11 @@ Future fetchBikeLabelsByGroupService(
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
-
-  if (response.statusCode == 200) {
-    var bikeLabels = await response.stream.bytesToString();
-    return bikeLabelsListModelFromJson(bikeLabels);
-  } else {
-    print(response.reasonPhrase);
+  String body = await response.stream.bytesToString();
+  if (response.statusCode >= 400) {
+    String message =
+        json.decode(body)["message"] ?? "Pas de message du serveur";
+    throw Exception(message);
   }
+  return jsonListToIdAndNameList(json.decode(body));
 }

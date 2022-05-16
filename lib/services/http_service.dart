@@ -107,29 +107,31 @@ class HttpService {
   }
 
   // Fetch all the client labels
-  static Future fetchClientLabelsByUser(String userToken) async {
+  static Future<List<IdAndName>> fetchClientLabelsByUser(
+      String userToken) async {
     return fetchClientLabelsByUserService(urlServer, userToken);
   }
 
   // Fetch all the group labels
-  static Future fetchGroupLabelsByClient(int clientPk, String userToken) async {
+  static Future<List<IdAndName>> fetchGroupLabelsByClient(
+      int clientPk, String userToken) async {
     return fetchGroupLabelsByClientService(urlServer, clientPk, userToken);
   }
 
   // Fetch all the bike labels
-  static Future fetchBikeLabelsByGroup(
+  static Future<List<IdAndName>> fetchBikeLabelsByGroup(
       int groupPk, int clientPk, String userToken) async {
     return fetchBikeLabelsByGroupService(
         urlServer, groupPk, clientPk, userToken);
   }
 
   // Fetch all the incident type labels
-  static Future fetchIncidentLabels(String userToken) async {
+  static Future<List<IdAndName>> fetchIncidentLabels(String userToken) async {
     return fetchIncidentLabelsService(urlServer, userToken);
   }
 
   // Send a incident
-  static Future setIncident(
+  static Future<String> setIncident(
       IncidentToSendModel incident, String userToken) async {
     return setIncidentService(urlServer, incident, userToken);
   }

@@ -100,7 +100,8 @@ class IncidentController extends GetxController {
   // }
   void fetchIncidentTypeList() async {
     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
-    dropDownItemIncidentTypeList.value = incidentLabels;
+    dropDownItemIncidentTypeList.value =
+        incidentLabels.map((e) => e.name).toList();
     dropDownItemIncidentTypeList.refresh();
   }
 
