@@ -55,38 +55,32 @@ class PopUpGroupList extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Container(
-        constraints: BoxConstraints(maxHeight: screenHeight * 0.15),
-        child: Row(children: [
-          Expanded(
-              child: Scrollbar(
-            controller: scrollController,
-            isAlwaysShown: true,
-            child: ListView(
-              controller: scrollController,
-              children: [
-                Obx(() {
-                  return Wrap(
-                      spacing: 4.0,
-                      direction: Axis.horizontal,
-                      children:
-                          mapBikesController.availableFiltersList.length == 0
-                              ? [Text("Aucun filtre disponible")]
-                              : mapBikesController.availableFiltersList
-                                  .map((filterLabel) => Obx(() {
-                                        return BuildButtonGroup(
-                                            label: filterLabel,
-                                            setFilters:
-                                                mapBikesController.setFilters,
-                                            isSelected: mapBikesController
-                                                .selectedFiltersList
-                                                .contains(filterLabel));
-                                      }))
-                                  .toList());
-                })
-              ],
-            ),
-          ))
-        ]));
+    return Expanded(
+        child: Scrollbar(
+      controller: scrollController,
+      isAlwaysShown: true,
+      child: ListView(
+        controller: scrollController,
+        children: [
+          Obx(() {
+            return Wrap(
+                spacing: 4.0,
+                direction: Axis.horizontal,
+                children: mapBikesController.availableFiltersList.length == 0
+                    ? [Text("Aucun filtre disponible")]
+                    : mapBikesController.availableFiltersList
+                        .map((filterLabel) => Obx(() {
+                              return BuildButtonGroup(
+                                  label: filterLabel,
+                                  setFilters: mapBikesController.setFilters,
+                                  isSelected: mapBikesController
+                                      .selectedFiltersList
+                                      .contains(filterLabel));
+                            }))
+                        .toList());
+          })
+        ],
+      ),
+    ));
   }
 }
