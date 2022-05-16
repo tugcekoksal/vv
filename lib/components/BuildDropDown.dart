@@ -15,7 +15,7 @@ class BuildDropDown extends StatelessWidget {
       : super(key: key);
 
   final String placeholder;
-  final dropdownItemList;
+  final List<String> dropdownItemList;
   final Function setItem;
   final int? index;
 

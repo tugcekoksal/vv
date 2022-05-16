@@ -114,7 +114,9 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
             return BuildDropDown(
               placeholder: "Type d'incident",
               dropdownItemList: incidentDeclarationController
-                  .incidentTypeSelection.value.listOptions,
+                  .incidentTypeSelection.value.listOptions
+                  .map((e) => e.name)
+                  .toList(),
               setItem: incidentDeclarationController.setIncidentTypeLabel,
               index: widget.indexIncident,
             );
