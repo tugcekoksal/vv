@@ -297,7 +297,7 @@ class IncidentController extends GetxController {
 
   setBikeStatus(value) async {
     currentReparation.update((reparation) {
-      reparation!.statusBike = value;
+      reparation!.statusBike = utf8convert(value);
     });
   }
 
