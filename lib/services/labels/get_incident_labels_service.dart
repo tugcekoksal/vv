@@ -12,11 +12,11 @@ Future<List<IdAndName>> fetchIncidentLabelsService(
   var response = await http.get(Uri.parse("$urlServer/api/typeIncidentList/"),
       headers: {"Authorization": 'Token $userToken'});
 
-  print(response.body);
+  String body = utf8.decode(response.bodyBytes);
   if (response.statusCode >= 400) {
     String message =
-        json.decode(response.body)["message"] ?? "Pas de message du serveur";
+        json.decode(body)["message"] ?? "Pas de message du serveur";
     throw Exception(message);
   }
-  return jsonListToIdAndNameList(json.decode(response.body));
+  return jsonListToIdAndNameList(json.decode(body));
 }

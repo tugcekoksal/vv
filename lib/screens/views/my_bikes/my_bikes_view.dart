@@ -193,15 +193,21 @@ class _MyBikesViewState extends State<MyBikesView> {
             // Little pop informatives
           )),
       // Search bar
-      Obx(() {
-        return hubController.hubView.value
-            ? hubController.displaySearch.value
-                ? SearchBarHub()
-                : SizedBox()
-            : mapBikesController.displaySearch.value
-                ? SearchBarVelo()
-                : SizedBox();
-      }),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Obx(() {
+            return hubController.hubView.value
+                ? hubController.displaySearch.value
+                    ? SearchBarHub()
+                    : SizedBox()
+                : mapBikesController.displaySearch.value
+                    ? SearchBarVelo()
+                    : SizedBox();
+          }),
+          const SizedBox(),
+        ],
+      )
     ]);
   }
 }

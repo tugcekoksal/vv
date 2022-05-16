@@ -60,50 +60,46 @@ class SearchBarVelo extends StatelessWidget {
     return Container(
         child: Padding(
             padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
-            child: Positioned(
-                top: 0,
-                left: 0,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              height: 40,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () =>
+                            {mapBikeController.displaySearch.value = false},
+                        icon: Icon(Icons.arrow_back_ios)),
+                    Container(
+                      width: screenWidth * 0.5,
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Rechercher un vélo"),
+                        controller: textInputController,
+                        onChanged: (value) => {
+                          mapBikeController.searchText.value = value,
+                          mapBikeController.bikesBySearch(),
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                            onPressed: () =>
-                                {mapBikeController.displaySearch.value = false},
-                            icon: Icon(Icons.arrow_back_ios)),
-                        Container(
-                          width: screenWidth * 0.5,
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Rechercher un vélo"),
-                            controller: textInputController,
-                            onChanged: (value) => {
-                              mapBikeController.searchText.value = value,
-                              mapBikeController.bikesBySearch(),
-                            },
-                          ),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                                onPressed: () => {
-                                      textInputController.text = "",
-                                      mapBikeController.searchText.value = "",
-                                      mapBikeController.bikesBySearch(),
-                                    },
-                                icon: Icon(Icons.close)),
-                          ],
-                        )
-                      ]),
-                ))));
+                            onPressed: () => {
+                                  textInputController.text = "",
+                                  mapBikeController.searchText.value = "",
+                                  mapBikeController.bikesBySearch(),
+                                },
+                            icon: Icon(Icons.close)),
+                      ],
+                    )
+                  ]),
+            )));
   }
 }
 
@@ -154,49 +150,45 @@ class SearchBarHub extends StatelessWidget {
     return Container(
         child: Padding(
             padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
-            child: Positioned(
-                top: 0,
-                left: 0,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  height: 40,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              height: 40,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () =>
+                            {hubController.displaySearch.value = false},
+                        icon: Icon(Icons.arrow_back_ios)),
+                    Container(
+                      width: screenWidth * 0.5,
+                      child: TextField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Rechercher un hub"),
+                        controller: textInputController,
+                        onChanged: (value) => {
+                          hubController.searchText.value = value,
+                          hubController.hubsBySearch(),
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                            onPressed: () =>
-                                {hubController.displaySearch.value = false},
-                            icon: Icon(Icons.arrow_back_ios)),
-                        Container(
-                          width: screenWidth * 0.5,
-                          child: TextField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Rechercher un hub"),
-                            controller: textInputController,
-                            onChanged: (value) => {
-                              hubController.searchText.value = value,
-                              hubController.hubsBySearch(),
-                            },
-                          ),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                                onPressed: () => {
-                                      textInputController.text = "",
-                                      hubController.searchText.value = "",
-                                      hubController.hubsBySearch(),
-                                    },
-                                icon: Icon(Icons.close)),
-                          ],
-                        )
-                      ]),
-                ))));
+                            onPressed: () => {
+                                  textInputController.text = "",
+                                  hubController.searchText.value = "",
+                                  hubController.hubsBySearch(),
+                                },
+                            icon: Icon(Icons.close)),
+                      ],
+                    )
+                  ]),
+            )));
   }
 }
