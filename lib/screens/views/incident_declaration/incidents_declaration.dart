@@ -17,6 +17,9 @@ import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incident_dropdown/incident_client_dropdown.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incident_dropdown/incident_group_dropdown.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incident_dropdown/incident_velo_dropdown.dart';
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 class IncidentDeclaration extends StatefulWidget {
@@ -345,8 +348,12 @@ class _IncidentDeclarationState extends State<IncidentDeclaration> {
                                 Get.put(BikeController());
                             bikeController.fetchUserBike(widget.veloPk!);
                           }
-                          Future.delayed(Duration(milliseconds: 200),
-                              () => Navigator.of(context).pop());
+                          Future.delayed(
+                              Duration(milliseconds: 200),
+                              () => {
+                                    Get.delete<IncidentDeclarationController>(),
+                                    Navigator.of(context).pop()
+                                  });
                         }
                       },
                       child: SafeArea(

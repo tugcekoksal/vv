@@ -120,14 +120,12 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
           }
         }),
         Obx(() {
-          if (incidentDeclarationController
-                  .indexWhereFormIsNotCompleted.value ==
-              widget.indexIncident.toString()) {
+          if (incidentDeclarationController.isFormUncompleted.value != "") {
             return Align(
               alignment: Alignment.center,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Le champ doit être spécifié",
+                child: Text("Le type d'incident n'est pas renseigné",
                     style: TextStyle(
                         color: GlobalStyles.orange,
                         fontSize: 11.0,

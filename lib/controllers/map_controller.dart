@@ -50,7 +50,6 @@ class MapBikesController extends GetxController {
 
   @override
   void onInit() {
-    fetchFilters();
     super.onInit();
   }
 
@@ -112,6 +111,7 @@ class MapBikesController extends GetxController {
     try {
       isLoadingFilters(true);
 
+      print("FETCH FILTERS");
       var filters = await HttpService.fetchMapfilters(userToken);
       if (filters != null) {
         availableFiltersList.value = filters.groups;

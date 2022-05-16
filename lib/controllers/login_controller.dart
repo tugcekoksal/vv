@@ -139,6 +139,7 @@ class LoginController extends GetxController {
     try {
       var userTypeFetched = await HttpService.fetchTypeUser(userToken);
 
+      print("USER FETCHED: " + userTypeFetched);
       if (userTypeFetched == "Client") {
         isClient(true);
         userType = "Client";

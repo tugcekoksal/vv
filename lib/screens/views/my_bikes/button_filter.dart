@@ -16,6 +16,8 @@ class ButtonFilter extends StatelessWidget {
 
   Future<void> displayFilters(context) async {
     mapBikesController.isFiltersChanged(false);
+    mapBikesController.fetchFilters();
+
     return showDialog(
         // barrierDismissible: false,
         // useSafeArea: true,

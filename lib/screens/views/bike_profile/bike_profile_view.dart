@@ -12,7 +12,7 @@ import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_in
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 // Views
-import 'package:velyvelo/screens/views/incidents_declaration.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incidents_declaration.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';

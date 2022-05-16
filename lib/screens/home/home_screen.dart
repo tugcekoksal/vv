@@ -10,7 +10,7 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/screens/views/incidents_view/incidents_view.dart';
 import 'package:velyvelo/screens/views/login_view.dart';
 import 'package:velyvelo/screens/views/my_bikes/my_bikes_view.dart';
-import 'package:velyvelo/screens/views/incidents_declaration.dart';
+import 'package:velyvelo/screens/views/incident_declaration/incidents_declaration.dart';
 
 //Controllers
 import 'package:velyvelo/controllers/navigation_controller.dart';
