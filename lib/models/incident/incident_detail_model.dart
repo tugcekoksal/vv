@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:velyvelo/helpers/utf8_convert.dart';
 
 IncidentDetailModel incidentDetailModelFromJson(String str) =>
-    IncidentDetailModel.fromJson(json.decode(utf8convert(str)));
+    IncidentDetailModel.fromJson(json.decode(str));
 
 class IncidentDetailModel {
   IncidentDetailModel({

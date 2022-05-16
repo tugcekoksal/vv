@@ -65,22 +65,25 @@ class PopUpGroupList extends StatelessWidget {
             child: ListView(
               controller: scrollController,
               children: [
-                Wrap(
-                    spacing: 4.0,
-                    direction: Axis.horizontal,
-                    children: mapBikesController.availableFiltersList.length ==
-                            0
-                        ? [Text("Aucun filtre disponible")]
-                        : mapBikesController.availableFiltersList
-                            .map((filterLabel) => Obx(() {
-                                  return BuildButtonGroup(
-                                      label: filterLabel,
-                                      setFilters: mapBikesController.setFilters,
-                                      isSelected: mapBikesController
-                                          .selectedFiltersList
-                                          .contains(filterLabel));
-                                }))
-                            .toList()),
+                Obx(() {
+                  return Wrap(
+                      spacing: 4.0,
+                      direction: Axis.horizontal,
+                      children:
+                          mapBikesController.availableFiltersList.length == 0
+                              ? [Text("Aucun filtre disponible")]
+                              : mapBikesController.availableFiltersList
+                                  .map((filterLabel) => Obx(() {
+                                        return BuildButtonGroup(
+                                            label: filterLabel,
+                                            setFilters:
+                                                mapBikesController.setFilters,
+                                            isSelected: mapBikesController
+                                                .selectedFiltersList
+                                                .contains(filterLabel));
+                                      }))
+                                  .toList());
+                })
               ],
             ),
           ))

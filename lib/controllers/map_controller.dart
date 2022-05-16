@@ -111,7 +111,6 @@ class MapBikesController extends GetxController {
     try {
       isLoadingFilters(true);
 
-      print("FETCH FILTERS");
       var filters = await HttpService.fetchMapfilters(userToken);
       if (filters != null) {
         availableFiltersList.value = filters.groups;

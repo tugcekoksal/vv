@@ -5,6 +5,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/helpers/utf8_convert.dart';
 
 // GlobalKey keyWidget = GlobalKey();
 
@@ -124,8 +125,13 @@ class StatusVeloDropDown extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
           ),
-          selectedItem: incidentController.currentReparation.value.statusBike,
-          items: incidentController.incidentDetailValue.value.status,
+          selectedItem: utf8convert(
+              incidentController.currentReparation.value.statusBike),
+          items: incidentController.incidentDetailValue.value.status == null
+              ? incidentController.incidentDetailValue.value.status
+              : incidentController.incidentDetailValue.value.status!
+                  .map((status) => utf8convert(status))
+                  .toList(),
           onChanged: (value) {
             incidentController.setBikeStatus(value);
           }),
