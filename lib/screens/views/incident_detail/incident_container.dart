@@ -7,7 +7,6 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
-import 'package:velyvelo/helpers/utf8_convert.dart';
 
 // Service Url
 import 'package:velyvelo/services/http_service.dart';
@@ -47,8 +46,7 @@ class IncidentContainer extends StatelessWidget {
                     fontWeight: FontWeight.w700),
                 children: <TextSpan>[
                   TextSpan(
-                      text: utf8convert(
-                          incidentController.actualTypeReparation.value),
+                      text: incidentController.actualTypeReparation.value,
                       style: TextStyle(color: GlobalStyles.lightGreyText)),
                 ],
               ),

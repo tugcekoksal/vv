@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
-import 'package:velyvelo/helpers/utf8_convert.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class HeaderContainer extends StatelessWidget {
@@ -34,9 +33,7 @@ class HeaderContainer extends StatelessWidget {
               // Type reparation
               Obx(() {
                 return Expanded(
-                  child: Text(
-                      utf8convert(
-                          incidentController.actualTypeReparation.value),
+                  child: Text(incidentController.actualTypeReparation.value,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: GlobalStyles.purple,

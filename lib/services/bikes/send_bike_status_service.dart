@@ -60,5 +60,5 @@ Future fetchPieceFromTypeService(String urlServer, int interventionType,
   };
   var response = await http.post(Uri.parse("$urlServer/api/piecesInfos/"),
       body: body, headers: {"Authorization": "Token $userToken"});
-  return response.body;
+  return utf8.decode(response.bodyBytes);
 }

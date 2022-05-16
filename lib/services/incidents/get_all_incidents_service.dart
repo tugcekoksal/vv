@@ -40,7 +40,7 @@ Future fetchReparationByPkService(
 
   if (response.statusCode == 200) {
     // print(response.body);
-    return response.body;
+    return utf8.decode(response.bodyBytes);
   } else {
     throw Exception("Error getting reparation infos with pk");
   }

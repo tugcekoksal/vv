@@ -9,7 +9,6 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
-import 'package:velyvelo/helpers/utf8_convert.dart';
 
 class PiecesModif extends StatelessWidget {
   final IncidentController incidentController;
@@ -38,21 +37,21 @@ class PiecesModif extends StatelessWidget {
           return Column(
             children: [
               BuildDropDown(
-                placeholder: utf8convert(incidentController
-                    .currentReparation.value.typeIntervention.name),
+                placeholder: incidentController
+                    .currentReparation.value.typeIntervention.name,
                 dropdownItemList: incidentController
                     .currentReparation.value.typeInterventionList
-                    .map((intervention) => utf8convert(intervention.name))
+                    .map((intervention) => intervention.name)
                     .toList(),
                 setItem: incidentController.setTypeIntervention,
               ),
               const SizedBox(height: 10.0),
               BuildDropDown(
-                placeholder: utf8convert(incidentController
-                    .currentReparation.value.typeReparation.name),
+                placeholder: incidentController
+                    .currentReparation.value.typeReparation.name,
                 dropdownItemList: incidentController
                     .currentReparation.value.typeReparationList
-                    .map((reparation) => utf8convert(reparation.name))
+                    .map((reparation) => reparation.name)
                     .toList(),
                 setItem: incidentController.setTypeReparation,
               ),
@@ -62,7 +61,7 @@ class PiecesModif extends StatelessWidget {
                   placeholder: "Pièce",
                   dropdownItemList: incidentController
                       .currentReparation.value.piecesList
-                      .map((piece) => utf8convert(piece.name))
+                      .map((piece) => piece.name)
                       .toList(),
                   setItem: incidentController.setPiece,
                 );
@@ -125,11 +124,11 @@ class PiecesModif extends StatelessWidget {
                           return ListTile(
                             title: Row(children: [
                               Flexible(
-                                  child: Text(utf8convert(incidentController
+                                  child: Text(incidentController
                                       .currentReparation
                                       .value
                                       .selectedPieces[index]
-                                      .name))),
+                                      .name)),
                               IconButton(
                                   onPressed: () => {
                                         incidentController

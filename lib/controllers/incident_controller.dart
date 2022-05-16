@@ -9,7 +9,6 @@ import 'package:velyvelo/config/urlToFile.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/helpers/utf8_convert.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -146,7 +145,7 @@ class IncidentController extends GetxController {
   }
 
   IdAndName getFirstWhereNameEqual(String name, List<IdAndName> list) {
-    return list.firstWhere((elem) => utf8convert(elem.name) == name,
+    return list.firstWhere((elem) => elem.name == name,
         orElse: (() => IdAndName(id: -1, name: "")));
   }
 
@@ -171,7 +170,7 @@ class IncidentController extends GetxController {
   setTypeIntervention(value) {
     currentReparation.update((reparation) {
       IdAndName typeIntervention = currentReparation.value.typeInterventionList
-          .firstWhere((type) => utf8convert(type.name) == value,
+          .firstWhere((type) => type.name == value,
               orElse: (() => IdAndName(id: 0, name: "")));
       reparation!.typeIntervention = typeIntervention;
     });
@@ -181,7 +180,7 @@ class IncidentController extends GetxController {
   setTypeReparation(value) {
     currentReparation.update((reparation) {
       IdAndName typeReparation = currentReparation.value.typeReparationList
-          .firstWhere((type) => utf8convert(type.name) == value,
+          .firstWhere((type) => type.name == value,
               orElse: (() => IdAndName(id: 0, name: "")));
       reparation!.typeReparation = typeReparation;
     });
@@ -190,7 +189,7 @@ class IncidentController extends GetxController {
 
   setPiece(value) {
     var piece = currentReparation.value.piecesList.firstWhere(
-        (piece) => utf8convert(piece.name) == value,
+        (piece) => piece.name == value,
         orElse: (() => IdAndName(id: -1, name: "")));
     currentReparation.value.selectedPieceDropDown = piece;
   }
@@ -297,7 +296,7 @@ class IncidentController extends GetxController {
 
   setBikeStatus(value) async {
     currentReparation.update((reparation) {
-      reparation!.statusBike = utf8convert(value);
+      reparation!.statusBike = value;
     });
   }
 

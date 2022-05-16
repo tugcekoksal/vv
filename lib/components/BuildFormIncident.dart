@@ -16,7 +16,6 @@ import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
-import 'package:velyvelo/helpers/utf8_convert.dart';
 
 class BuildFormIncident extends StatefulWidget {
   BuildFormIncident({
@@ -115,9 +114,7 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
             return BuildDropDown(
               placeholder: "Type d'incident",
               dropdownItemList: incidentDeclarationController
-                  .incidentTypeSelection.value.listOptions
-                  .map((e) => utf8convert(e.name))
-                  .toList(),
+                  .incidentTypeSelection.value.listOptions,
               setItem: incidentDeclarationController.setIncidentTypeLabel,
               index: widget.indexIncident,
             );

@@ -7,7 +7,6 @@ import 'dart:io';
 
 // Helpers
 import 'package:flutter/material.dart';
-import 'package:velyvelo/helpers/utf8_convert.dart';
 
 IncidentDetailModel incidentDetailModelFromJson(String str) =>
     IncidentDetailModel.fromJson(json.decode(str));
@@ -118,6 +117,5 @@ class Reparation {
           piecesList: [],
           selectedPieces: jsonListToIdAndNameList(json["pieces"]),
           selectedPieceDropDown: IdAndName(id: 0, name: ""),
-          commentary: TextEditingController(
-              text: utf8convert(json["commentary"] ?? "")));
+          commentary: TextEditingController(text: json["commentary"] ?? ""));
 }
