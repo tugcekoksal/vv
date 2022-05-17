@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 class DeclarationSendButton extends StatelessWidget {
@@ -13,6 +14,7 @@ class DeclarationSendButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        print("ON SEND OU QUOI");
         // Dismiss keyboard on button click
         var currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus) {
@@ -39,6 +41,10 @@ class DeclarationSendButton extends StatelessWidget {
 
         bool isSent = await declarationController.sendIncident(null);
         if (isSent) {
+          try {
+            Get.find<BikeController>().fetchUserBike(declarationController
+                .infosSelection.value.infoVelo.selected!.id);
+          } catch (e) {}
           Future.delayed(
               Duration(milliseconds: 200),
               () => {

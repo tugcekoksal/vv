@@ -5,9 +5,12 @@ import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
+import 'package:velyvelo/models/bike/user_bike_model.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_in_progress.dart';
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
@@ -38,7 +41,11 @@ class MyBikeView extends StatefulWidget {
 
 class _MyBikeViewState extends State<MyBikeView> {
   final BikeController bikeController = Get.put(BikeController());
+  final IncidentDeclarationController declarationController =
+      Get.put(IncidentDeclarationController());
+
   bool bikeIsRobbed = false;
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +59,26 @@ class _MyBikeViewState extends State<MyBikeView> {
         bikeController.fetchUserBike(widget.veloPk);
       });
     }
+  }
+
+  DeclarationInfoContainer infoDeclarationFromBikeController() {
+    UserBikeModel userBike = bikeController.userBike.value;
+
+    // Fill global infos
+    declarationController.infosSelection.update((val) => {
+          val?.infoClient.selected =
+              IdAndName(id: 0, name: userBike.clientName),
+          val?.infoGroup.selected =
+              IdAndName(id: 0, name: userBike.groupeName ?? "Pas de groupe"),
+          val?.infoVelo.selected =
+              IdAndName(id: userBike.veloPk, name: userBike.bikeName)
+        });
+
+    // Give the infos to dropdown
+    return DeclarationInfoContainer(
+        client: IdAndName(id: 0, name: userBike.clientName),
+        group: IdAndName(id: 0, name: userBike.groupeName ?? "Pas de groupe"),
+        velo: IdAndName(id: userBike.veloPk, name: userBike.bikeName));
   }
 
   void showConfirmStolenBikeDialog() {
@@ -300,7 +327,9 @@ class _MyBikeViewState extends State<MyBikeView> {
                               child: GestureDetector(
                             onTap: () => Get.to(
                                 // Préremplir les champs
-                                () => IncidentDeclaration(),
+                                () => IncidentDeclaration(
+                                    infoContainer:
+                                        infoDeclarationFromBikeController()),
                                 transition: Transition.downToUp,
                                 duration: Duration(milliseconds: 400)),
                             child: Container(

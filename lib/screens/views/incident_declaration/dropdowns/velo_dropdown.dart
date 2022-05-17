@@ -21,30 +21,27 @@ class VeloDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      // All users can see this field
+    return velo != null
+        // If the velo is already selected (obx probleme if use in)
+        ? BuildDisabledDropDown(placeholder: velo!.name)
+        : Obx(() {
+            // All users can see this field
+            // If velo is loading OR group is not selected
+            if (declarationController.infosSelection.value.infoVelo.isLoading ||
+                declarationController.infosSelection.value.infoGroup.selected ==
+                    null) {
+              return BuildDisabledDropDown(placeholder: "Velo");
+            }
 
-      // If the velo is already selected
-      if (velo != null) {
-        return BuildDisabledDropDown(placeholder: velo!.name);
-      }
-
-      // If velo is loading OR group is not selected
-      if (declarationController.infosSelection.value.infoVelo.isLoading ||
-          declarationController.infosSelection.value.infoGroup.selected ==
-              null) {
-        return BuildDisabledDropDown(placeholder: "Velo");
-      }
-
-      // Has access
-      return BuildDropDown(
-        placeholder: "Velo",
-        dropdownItemList: declarationController
-            .infosSelection.value.infoVelo.listOptions
-            .map((e) => e.name)
-            .toList(),
-        setItem: (value) => {declarationController.setVeloLabel(value)},
-      );
-    });
+            // Has access
+            return BuildDropDown(
+              placeholder: "Velo",
+              dropdownItemList: declarationController
+                  .infosSelection.value.infoVelo.listOptions
+                  .map((e) => e.name)
+                  .toList(),
+              setItem: (value) => {declarationController.setVeloLabel(value)},
+            );
+          });
   }
 }
