@@ -3,9 +3,6 @@ import 'package:get/get.dart';
 import 'package:velyvelo/components/BuildFormIncident.dart';
 import 'package:velyvelo/components/BuildFormsDivider.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
-import 'package:velyvelo/screens/views/incident_declaration/declaration_information_container.dart';
-import 'package:velyvelo/screens/views/incident_declaration/incident_declaration_view.dart';
-import 'package:velyvelo/screens/views/my_bikes/info_usage.dart';
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 class DeclarationIncidentsContainer extends StatelessWidget {

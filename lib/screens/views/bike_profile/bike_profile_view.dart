@@ -53,10 +53,15 @@ class _MyBikeViewState extends State<MyBikeView> {
   }
 
   void init() {
-    bikeIsRobbed = bikeController.userBike.value.isStolen;
     if (!widget.isFromScan) {
       setState(() {
-        bikeController.fetchUserBike(widget.veloPk);
+        bikeController.fetchUserBike(widget.veloPk).then((value) => {
+              setState(() {
+                bikeIsRobbed = bikeController.userBike.value.isStolen;
+              }),
+              print("INIT"),
+              print(bikeIsRobbed)
+            });
       });
     }
   }
@@ -88,9 +93,13 @@ class _MyBikeViewState extends State<MyBikeView> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text("Déclarer un vol"),
-          content:
-              Text("Êtes-vous sûr de vouloir déclarer votre vélo comme volé ?"),
+          title:
+              bikeIsRobbed ? Text("Vélo retrouvé ?") : Text("Déclarer un vol"),
+          content: bikeIsRobbed
+              ? Text(
+                  "Êtes-vous sûr de vouloir déclarer votre vélo comme retrouvé ?")
+              : Text(
+                  "Êtes-vous sûr de vouloir déclarer votre vélo comme volé ?"),
           actions: [
             CupertinoDialogAction(
                 child: Text("Annuler"),
@@ -108,7 +117,8 @@ class _MyBikeViewState extends State<MyBikeView> {
                 await bikeController.setBikeToNewRobbedStatus(
                     bikeIsRobbed, bikeController.userBike.value.veloPk);
                 final snackBar = SnackBar(
-                  content: Text('Votre vélo a bien été déclaré comme volé !'),
+                  content: Text('Votre vélo a bien été déclaré comme ' +
+                      (bikeIsRobbed ? 'volé !' : 'retrouvé !')),
                   backgroundColor: Color(0xff46b594),
                 );
 

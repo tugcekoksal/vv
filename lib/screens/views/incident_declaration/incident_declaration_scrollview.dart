@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/screens/views/incident_declaration/declaration_incidents_container.dart';
 import 'package:velyvelo/screens/views/incident_declaration/declaration_information_container.dart';
-import 'package:velyvelo/screens/views/incident_declaration/incident_declaration_view.dart';
-import 'package:velyvelo/screens/views/my_bikes/info_usage.dart';
 
 class IncidentDeclarationScrollview extends StatelessWidget {
   final DeclarationInfoContainer? infoContainer;

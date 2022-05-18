@@ -127,10 +127,11 @@ class MapBikesController extends GetxController {
     }
   }
 
-  String buildPopUpContentName(marker) {
-    MapModel bikePopup = bikeWithPositionList.firstWhere((bike) =>
+  String? buildPopUpContentName(marker) {
+    MapModel? bikePopup = bikeWithPositionList.firstWhereOrNull((bike) =>
         bike.pos?.latitude == marker.point.latitude &&
         bike.pos?.longitude == marker.point.longitude);
+    if (bikePopup == null) return null;
     return bikePopup.name;
   }
 

@@ -6,9 +6,6 @@ import 'package:get/get.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
-// Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
-
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -19,12 +16,6 @@ import 'package:velyvelo/screens/views/incident_detail/incident_container.dart';
 import 'package:velyvelo/screens/views/incident_detail/reparation/reparation_container.dart';
 import 'package:velyvelo/screens/views/incident_detail/reparation/save_button.dart';
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
-
-// Service Url
-import 'package:velyvelo/services/http_service.dart';
-
-// Components
-import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
 
 // Labels to put on bike
 var dropdownItemList = <String>["Rangé", "Utilisé", "Volé"];
@@ -51,11 +42,13 @@ class IncidentDetail extends StatelessWidget {
             color: Colors.white,
             child: GestureDetector(
                 onTap: () {
-                  var currentFocus = FocusScope.of(context);
+                  FocusManager.instance.primaryFocus?.unfocus();
 
-                  if (!currentFocus.hasPrimaryFocus) {
-                    currentFocus.unfocus();
-                  }
+                  // var currentFocus = FocusScope.of(context);
+
+                  // if (!currentFocus.hasPrimaryFocus) {
+                  //   currentFocus.unfocus();
+                  // }
                 },
                 child: Stack(children: [
                   Padding(

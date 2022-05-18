@@ -27,11 +27,12 @@ class LoginView extends StatelessWidget {
 
     return GestureDetector(
         onTap: () {
-          var currentFocus = FocusScope.of(context);
+          FocusManager.instance.primaryFocus?.unfocus();
+          // var currentFocus = FocusScope.of(context);
 
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
+          // if (!currentFocus.hasPrimaryFocus) {
+          //   currentFocus.unfocus();
+          // }
         },
         child: Stack(alignment: Alignment.center, children: [
           Positioned(

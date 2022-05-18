@@ -24,6 +24,7 @@ Future fetchUserBikeService(
   if (response.statusCode == 200) {
     print("User bike on air");
     var userBike = responseStr;
+    print(userBikeModelFromJson(userBike).isStolen);
     return userBikeModelFromJson(userBike);
   } else if (response.statusCode == 400) {
     return null;

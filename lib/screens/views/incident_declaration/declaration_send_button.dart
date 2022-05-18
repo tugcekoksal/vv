@@ -15,11 +15,12 @@ class DeclarationSendButton extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         print("ON SEND OU QUOI");
+        FocusManager.instance.primaryFocus?.unfocus();
         // Dismiss keyboard on button click
-        var currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
+        // var currentFocus = FocusScope.of(context);
+        // if (!currentFocus.hasPrimaryFocus) {
+        //   currentFocus.unfocus();
+        // }
 
         if (declarationController.infosSelection.value.infoVelo.selected ==
             null) {
@@ -32,12 +33,6 @@ class DeclarationSendButton extends StatelessWidget {
             val?.veloError = "";
           });
         }
-
-        // if (declarationController.incidentTypeSelection.value.selected ==
-        //     null) {
-        //   print("NOT SELECTED");
-        //   return;
-        // }
 
         bool isSent = await declarationController.sendIncident(null);
         if (isSent) {

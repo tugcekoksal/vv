@@ -168,84 +168,90 @@ class _BikesMapState extends State<BikesMap> {
               },
               popupOptions: PopupOptions(
                   popupController: widget.popupController,
-                  popupBuilder: (_, marker) => ClipPath(
-                        clipper: PopUpClipper(),
-                        child: Container(
-                          width: 300,
-                          height: 170,
-                          padding: EdgeInsets.all(15.0),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12.0)),
-                          child: Stack(
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    widget.mapBikeController
-                                        .buildPopUpContentName(marker),
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: GlobalStyles.greyAddPhotos),
-                                  ),
-                                  RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      text: 'Dernière émission le \n',
-                                      style: TextStyle(
-                                          fontSize: 18.0, color: Colors.black),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text: widget.mapBikeController
-                                                .buildPopUpContentLastEmission(
-                                                    marker),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  GestureDetector(
-                                      onTap: () => goToBikeProfileFromMarker(
-                                          marker, widget.mapBikeController),
-                                      child: Container(
-                                        width: double.infinity,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: GlobalStyles.blue),
-                                            borderRadius:
-                                                BorderRadius.circular(5.0)),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 7.5),
-                                        child: Text(
-                                          "Voir le profil".toUpperCase(),
-                                          style: TextStyle(
-                                              color: GlobalStyles.blue,
-                                              fontSize: 18.0,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: GestureDetector(
-                                  onTap: () => widget.popupController
-                                      .togglePopup(marker),
-                                  child: Container(
-                                      height: 20,
-                                      width: 20,
-                                      child: Icon(Icons.close)),
+                  popupBuilder: (_, marker) {
+                    String? popUpName =
+                        widget.mapBikeController.buildPopUpContentName(marker);
+                    if (popUpName == null) {
+                      return SizedBox();
+                    }
+                    return ClipPath(
+                      clipper: PopUpClipper(),
+                      child: Container(
+                        width: 300,
+                        height: 170,
+                        padding: EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12.0)),
+                        child: Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  popUpName,
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: GlobalStyles.greyAddPhotos),
                                 ),
-                              )
-                            ],
-                          ),
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: 'Dernière émission le \n',
+                                    style: TextStyle(
+                                        fontSize: 18.0, color: Colors.black),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: widget.mapBikeController
+                                              .buildPopUpContentLastEmission(
+                                                  marker),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10.0),
+                                GestureDetector(
+                                    onTap: () => goToBikeProfileFromMarker(
+                                        marker, widget.mapBikeController),
+                                    child: Container(
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: GlobalStyles.blue),
+                                          borderRadius:
+                                              BorderRadius.circular(5.0)),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0, vertical: 7.5),
+                                      child: Text(
+                                        "Voir le profil".toUpperCase(),
+                                        style: TextStyle(
+                                            color: GlobalStyles.blue,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    )),
+                              ],
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: GestureDetector(
+                                onTap: () =>
+                                    widget.popupController.togglePopup(marker),
+                                child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    child: Icon(Icons.close)),
+                              ),
+                            )
+                          ],
                         ),
-                      )),
+                      ),
+                    );
+                  }),
             ),
           ],
         ),

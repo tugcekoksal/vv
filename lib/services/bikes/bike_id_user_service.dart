@@ -19,6 +19,6 @@ Future fetchBikeIDUserService(String urlServer, String userToken) async {
     print("error");
     print(error);
   } else {
-    throw Exception("UserBikeID ${body}");
+    throw Exception("UserBikeID " + body);
   }
 }

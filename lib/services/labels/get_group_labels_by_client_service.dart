@@ -3,10 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
-// Models
-import 'package:velyvelo/models/labels/group_labels_model.dart';
-import 'package:velyvelo/services/bikes/send_bike_status_service.dart';
-
 Future<List<IdAndName>> fetchGroupLabelsByClientService(
     String urlServer, int clientPk, String userToken) async {
   var response = await http.post(

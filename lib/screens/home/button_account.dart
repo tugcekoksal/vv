@@ -66,7 +66,7 @@ class ButtonAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TopButton(
-        actionFunction: () => displayPopUp(context),
+        actionFunction: () => {displayPopUp(context)},
         isLoading: false,
         iconButton: Icons.person);
   }

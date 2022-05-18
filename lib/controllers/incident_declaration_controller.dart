@@ -9,8 +9,6 @@ import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
-import 'package:velyvelo/screens/views/incident_declaration/incident_declaration_view.dart';
-import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velyvelo/components/BuildDisabledDropDown.dart';
 import 'package:velyvelo/components/BuildDropDown.dart';
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
-import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 class IncidentStatusDropDown extends StatelessWidget {

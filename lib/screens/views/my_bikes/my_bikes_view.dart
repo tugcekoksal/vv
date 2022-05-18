@@ -90,6 +90,7 @@ class _MyBikesViewState extends State<MyBikesView> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Top buttons (whites)
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -185,7 +186,9 @@ class _MyBikesViewState extends State<MyBikesView> {
                       color: GlobalStyles.blue,
                       text: "Aucun résultat",
                       isVisible: mapBikesController
-                          .didNotFoundBikesWithPosition.value);
+                              .didNotFoundBikesWithPosition.value &&
+                          !hubController.hubView.value &&
+                          mapBikesController.isMapView);
                 })
               ],
             ),
