@@ -18,6 +18,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:new_version/new_version.dart';
 import 'package:flutter/services.dart';
 
+//SENTRY
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 //FOR HTTP CALLS ANDROID
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -35,6 +38,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://8c020d0b25804516a3f61ecad3ce0859@o916392.ingest.sentry.io/6417938';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(MyApp()),
+  );
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = new MyHttpOverrides();
 
