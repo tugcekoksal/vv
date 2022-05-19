@@ -34,29 +34,31 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
 
-void main() async {
+void main({bool testing = false}) async {
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = new MyHttpOverrides();
 
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
+  // Don t enable pop up notification authorization when testing
+  // Still no solutions to accept those terms with the test integration suite
+  if (testing == false) {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+  }
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -66,6 +68,8 @@ void main() async {
     badge: true,
     sound: true,
   );
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   // Run the App after all is well initialized
   runApp(MyApp());
@@ -83,7 +87,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [const Locale('en'), const Locale('fr')],
+      supportedLocales: [const Locale('en', ''), const Locale('fr', '')],
       title: 'VelyVelo',
       theme: ThemeData(
         fontFamily: "Montserrat",
