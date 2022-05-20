@@ -4,12 +4,14 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as latLng;
+import 'package:logger/logger.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/views/my_bikes/pin.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
@@ -66,7 +68,10 @@ class BikesMap extends StatefulWidget {
 
 class _BikesMapState extends State<BikesMap> {
   var firstTime = true;
+  final Logger log = logger(BikesMap);
   void onGeoChanged(MapPosition position, bool hasGesture) {
+    log.d("RENDER on geo");
+
     // Handle conflict render GETX / STATE render widget, the onGeoChanged function trigger one time at the start when the widget is not fully built
     if (firstTime) {
       firstTime = false;
@@ -98,6 +103,8 @@ class _BikesMapState extends State<BikesMap> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      log.d("RENDER map");
+
       return Stack(children: [
         FlutterMap(
           options: MapOptions(

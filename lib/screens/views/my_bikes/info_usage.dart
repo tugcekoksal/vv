@@ -93,10 +93,12 @@ class InfoLoading extends StatelessWidget {
           SizedBox(
             height: 20,
             width: 20,
-            child: CircularProgressIndicator(
-              color: Colors.white,
-              strokeWidth: 2,
-            ),
+            child: isVisible
+                ? CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  )
+                : SizedBox(),
           )
         ],
       ),

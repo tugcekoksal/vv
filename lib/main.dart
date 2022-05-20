@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Components
 import 'package:velyvelo/screens/home/home_screen.dart';
@@ -38,16 +39,25 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main({bool testing = false}) async {
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://8c020d0b25804516a3f61ecad3ce0859@o916392.ingest.sentry.io/6417938';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(MyApp()),
-  );
+  // Logout user auto when testing
+  if (testing) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+    prefs.remove("username");
+  }
+  // Don t enable sentry on testing
+  if (testing == false) {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn =
+            'https://8c020d0b25804516a3f61ecad3ce0859@o916392.ingest.sentry.io/6417938';
+        // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+        // We recommend adjusting this value in production.
+        options.tracesSampleRate = 1.0;
+      },
+      appRunner: () => runApp(MyApp()),
+    );
+  }
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,7 +94,13 @@ void main({bool testing = false}) async {
   );
 
   // Run the App after all is well initialized
-  runApp(MaterialApp(home: MyApp()));
+  if (testing) {
+    // If we are testing, force app rebuild (to relog in same test group for ex)
+    runApp(MaterialApp(key: UniqueKey(), home: MyApp()));
+  } else {
+    // Normal app launch
+    runApp(MaterialApp(home: MyApp()));
+  }
 }
 
 class MyApp extends StatelessWidget {

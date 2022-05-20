@@ -40,7 +40,7 @@ class TitleAppBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      loginController.isLogin.value ? title : "VelyVelo",
+                      loginController.isLogged.value ? title : "VelyVelo",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: GlobalStyles.backgroundDarkGrey,
@@ -49,7 +49,7 @@ class TitleAppBar extends StatelessWidget {
                     )
                   ]))
           : Text(
-              loginController.isLogin.value ? title : "VelyVelo",
+              loginController.isLogged.value ? title : "VelyVelo",
               style: TextStyle(
                   color: GlobalStyles.backgroundDarkGrey,
                   fontSize: 20.0,

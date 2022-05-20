@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             backgroundColor: GlobalStyles.loginBackground,
             resizeToAvoidBottomInset: false,
             body: Obx(() {
-              if (loginController.isLogin.value) {
+              if (loginController.isLogged.value) {
                 return PageView(
                   onPageChanged: (index) =>
                       navigationController.changePage(index),
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                   height: 60.0,
                   width: 60.0,
                   child: navigationController.currentIndex.value == 0 &&
-                          loginController.isLogin.value
+                          loginController.isLogged.value
                       ? FloatingActionButton(
                           backgroundColor: GlobalStyles.backgroundDarkGrey,
                           onPressed: () => showDeclarationIncidentPage(),
@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                       : SizedBox());
             }),
             bottomNavigationBar: Obx(() {
-              if (loginController.isLogin.value) {
+              if (loginController.isLogged.value) {
                 return Obx(() {
                   return BottomNavigationBar(
                       iconSize: 35.0,
@@ -99,11 +99,13 @@ class HomeScreen extends StatelessWidget {
                       items: <BottomNavigationBarItem>[
                         BottomNavigationBarItem(
                             icon: Padding(
+                                key: Key("bottom-navbar-incident"),
                                 padding: EdgeInsets.symmetric(vertical: 3.0),
                                 child: Icon(CupertinoIcons.wrench)),
                             label: "Incidents"),
                         BottomNavigationBarItem(
                             icon: Padding(
+                              key: Key("bottom-navbar-map"),
                               padding: EdgeInsets.symmetric(vertical: 3.0),
                               child: Icon(Icons.map_outlined),
                             ),

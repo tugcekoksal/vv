@@ -1,6 +1,7 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/controllers/hub_controller.dart';
@@ -9,6 +10,7 @@ import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
 import 'package:velyvelo/screens/home/title_app_bar.dart';
@@ -39,6 +41,7 @@ class _MyBikesViewState extends State<MyBikesView> {
   final MapBikesController mapBikesController = Get.put(MapBikesController());
   final HubController hubController = Get.put(HubController());
   final LoginController loginController = Get.put(LoginController());
+  final Logger log = logger(MyBikesView);
 
   void changeMapView() {
     setState(() {
@@ -68,6 +71,7 @@ class _MyBikesViewState extends State<MyBikesView> {
     return Stack(children: [
       // HUB OR BIKES ?
       Obx(() {
+        log.d("RENDER");
         return hubController.hubView.value
             ? mapBikesController.isMapView
                 ? HubMap(
@@ -95,6 +99,8 @@ class _MyBikesViewState extends State<MyBikesView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Obx(() {
+                        log.d("RENDER overlay");
+
                         return Row(
                           children: [
                             ButtonAccount(),
@@ -117,6 +123,8 @@ class _MyBikesViewState extends State<MyBikesView> {
                                 : mapBikesController.fetchAllBikes()
                           },
                           child: Obx(() {
+                            log.d("RENDER title");
+
                             return TitleAppBar(
                               onTransparentBackground:
                                   mapBikesController.isMapView,
@@ -128,6 +136,8 @@ class _MyBikesViewState extends State<MyBikesView> {
                         )
                       ]),
                       Obx(() {
+                        log.d("RENDER filter");
+
                         return Row(children: [
                           hubController.hubView.value
                               ? const SizedBox(width: 40)
@@ -164,6 +174,8 @@ class _MyBikesViewState extends State<MyBikesView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Obx(() {
+                  log.d("RENDER pop up");
+
                   return InfoLoading(
                       text: "Chargement des données",
                       isVisible: mapBikesController.isLoading.value ||
@@ -171,9 +183,8 @@ class _MyBikesViewState extends State<MyBikesView> {
                 }),
               ],
             ),
-
-            // Little pop informatives
           )),
+      // Little pop informatives
       Positioned(
           bottom: 75,
           child: Padding(
@@ -182,6 +193,8 @@ class _MyBikesViewState extends State<MyBikesView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Obx(() {
+                  log.d("RENDER pop up not found");
+
                   return InfoNotFound(
                       color: GlobalStyles.blue,
                       text: "Aucun résultat",
@@ -200,6 +213,8 @@ class _MyBikesViewState extends State<MyBikesView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Obx(() {
+            log.d("RENDER searchbars");
+
             return hubController.hubView.value
                 ? hubController.displaySearch.value
                     ? SearchBarHub()

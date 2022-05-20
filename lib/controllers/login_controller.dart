@@ -1,5 +1,6 @@
 // Vendor
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Controllers
@@ -10,6 +11,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/map_controller.dart';
 import 'package:velyvelo/controllers/navigation_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 
 // Models
 import 'package:velyvelo/models/bike/user_bike_model.dart';
@@ -18,11 +20,13 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class LoginController extends GetxController {
+  Logger log = logger(LoginController);
+
   var isLoading = false.obs;
   var login = ''.obs;
   var password = ''.obs;
 
-  var isLogin = false.obs;
+  var isLogged = false.obs;
   var isClient = false.obs;
   var isUser = false.obs;
   var isAdminOrTech = false.obs;
@@ -58,7 +62,7 @@ class LoginController extends GetxController {
     if (prefs.getString("username") != null &&
         prefs.getString("token") != null) {
       isLoading(false);
-      isLogin(true);
+      isLogged(true);
       tokenAndNameAuth();
     }
   }
@@ -68,7 +72,7 @@ class LoginController extends GetxController {
     if (prefs.getString("token") != null) {
       userToken = prefs.getString("token")!;
       fetchTypeUser();
-      isLogin(true);
+      isLogged(true);
       await HttpService.addDeviceToken(userToken);
     }
     if (prefs.getString("username") != null) {
@@ -76,41 +80,52 @@ class LoginController extends GetxController {
     }
   }
 
-  void onChangedPassword(value) {
-    password.value = value;
+  void setUsername(SharedPreferences prefs, String? name) async {
+    if (name != null) {
+      await prefs.setString('username', name);
+      userName = name;
+    } else {
+      userName = prefs.getString("username") ?? "No user";
+    }
   }
 
-  void onChangedLogin(value) async {
-    login.value = value;
-    // Obtain shared preferences.
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', value);
+  void setToken(SharedPreferences prefs, String? token) async {
+    if (token != null) {
+      await prefs.setString('token', token);
+      userToken = token;
+    } else {
+      userToken = prefs.getString("token") ?? "No token";
+    }
   }
 
   // Login the user with login and password
   Future loginUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     error.value = "";
+    isLoading(true);
+
+    // Get login token or stop
+    String token;
     try {
-      isLoading(true);
-      // Call the login function
-      var token = await HttpService.loginUser(login.value, password.value);
-      userToken = token;
-      userName = userName = prefs.getString("username")!;
-      await prefs.setString('token', userToken);
-      print(token);
-      isLoading(false);
-      isLogin(true);
-      fetchTypeUser();
-      tokenAndNameAuth();
+      token = await HttpService.loginUser(login.value, password.value);
     } catch (e) {
-      print(e);
-      error.value = "Identifiants ou mot de passe incorrects";
+      log.w(e);
+      error.value = e.toString();
+      return;
     }
+
+    // Update shared preferences.
+    setUsername(prefs, login.value);
+    setToken(prefs, token);
+
+    fetchTypeUser();
+    tokenAndNameAuth();
+    isLoading(false);
+    isLogged(true);
   }
 
   void logoutUser() async {
-    isLogin(false);
+    isLogged(false);
 
     isClient(false);
     isUser(false);
@@ -158,7 +173,7 @@ class LoginController extends GetxController {
           isTech(true);
         }
       }
-      isLogin(true);
+      isLogged(true);
     } catch (e) {
       print(e);
     }
@@ -178,5 +193,13 @@ class LoginController extends GetxController {
     } catch (e) {
       print(e);
     }
+  }
+
+  void onChangedPassword(value) {
+    password.value = value;
+  }
+
+  void onChangedLogin(value) async {
+    login.value = value;
   }
 }

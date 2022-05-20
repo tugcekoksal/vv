@@ -50,7 +50,7 @@ class HttpService {
   }
 
   // Login the user
-  static Future loginUser(String login, String password) async {
+  static Future<String> loginUser(String login, String password) async {
     return loginUserService(urlServer, login, password);
   }
 

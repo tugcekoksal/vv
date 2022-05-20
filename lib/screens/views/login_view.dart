@@ -28,11 +28,6 @@ class LoginView extends StatelessWidget {
     return GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
-          // var currentFocus = FocusScope.of(context);
-
-          // if (!currentFocus.hasPrimaryFocus) {
-          //   currentFocus.unfocus();
-          // }
         },
         child: Stack(alignment: Alignment.center, children: [
           Positioned(
@@ -69,11 +64,13 @@ class LoginView extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.03),
                 SizedBox(height: screenHeight * 0.03),
                 BuildInputLogin(
+                    keyLabel: "login-username",
                     placeholder: "Identifiant",
                     isPassword: false,
                     onChanged: loginController.onChangedLogin),
                 SizedBox(height: 10.0),
                 BuildInputLogin(
+                    keyLabel: "login-password",
                     placeholder: "Mot de passe",
                     isPassword: true,
                     onChanged: loginController.onChangedPassword),
@@ -97,6 +94,7 @@ class LoginView extends StatelessWidget {
                         opacity: loginController.error.value != "" ? 1 : 0,
                         duration: Duration(milliseconds: 300),
                         child: Text(loginController.error.value,
+                            key: Key("login-error"),
                             style: TextStyle(
                                 color: Colors.red,
                                 fontSize: 11.0,
@@ -182,8 +180,11 @@ class BuildInputLogin extends StatefulWidget {
   final String placeholder;
   final bool isPassword;
   final Function onChanged;
+  final String keyLabel;
+
   BuildInputLogin(
       {Key? key,
+      required this.keyLabel,
       required this.placeholder,
       required this.isPassword,
       required this.onChanged})
@@ -198,6 +199,7 @@ class _BuildInputLoginState extends State<BuildInputLogin> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      key: Key(widget.keyLabel),
       autocorrect: false,
       obscureText: widget.isPassword ? _isObscure : false,
       autofocus: false,
