@@ -37,6 +37,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main({bool testing = false}) async {
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = new MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -69,10 +70,8 @@ void main({bool testing = false}) async {
     sound: true,
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
-
   // Run the App after all is well initialized
-  runApp(MyApp());
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

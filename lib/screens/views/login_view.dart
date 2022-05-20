@@ -105,6 +105,7 @@ class LoginView extends StatelessWidget {
                 }),
                 SizedBox(height: screenHeight * 0.03),
                 GestureDetector(
+                  key: Key("login-button"),
                   onTap: () async => {
                     ScaffoldMessenger.of(context).showSnackBar(snackBarLoading),
                     await loginController.loginUser(),
