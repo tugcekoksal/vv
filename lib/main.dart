@@ -38,26 +38,27 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
 
-void main({bool testing = false}) async {
+// void main({bool testing = false}) async {
+void main() async {
   // Logout user auto when testing
-  if (testing) {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
-    prefs.remove("username");
-  }
+  // if (testing) {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('token');
+  prefs.remove("username");
+  // }
   // Don t enable sentry on testing
-  if (testing == false) {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn =
-            'https://8c020d0b25804516a3f61ecad3ce0859@o916392.ingest.sentry.io/6417938';
-        // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-        // We recommend adjusting this value in production.
-        options.tracesSampleRate = 1.0;
-      },
-      appRunner: () => runApp(MyApp()),
-    );
-  }
+  // if (testing == false) {
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://8c020d0b25804516a3f61ecad3ce0859@o916392.ingest.sentry.io/6417938';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(MyApp()),
+  );
+  // }
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,18 +69,18 @@ void main({bool testing = false}) async {
 
   // Don t enable pop up notification authorization when testing
   // Still no solutions to accept those terms with the test integration suite
-  if (testing == false) {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-    await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-  }
+  // if (testing == false) {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  // }
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -94,13 +95,13 @@ void main({bool testing = false}) async {
   );
 
   // Run the App after all is well initialized
-  if (testing) {
-    // If we are testing, force app rebuild (to relog in same test group for ex)
-    runApp(MaterialApp(key: UniqueKey(), home: MyApp()));
-  } else {
-    // Normal app launch
-    runApp(MaterialApp(home: MyApp()));
-  }
+  // if (testing) {
+  // If we are testing, force app rebuild (to relog in same test group for ex)
+  // runApp(MaterialApp(key: UniqueKey(), home: MyApp()));
+  // } else {
+  // Normal app launch
+  runApp(MaterialApp(home: MyApp()));
+  // }
 }
 
 class MyApp extends StatelessWidget {

@@ -19,7 +19,7 @@ void main() {
     IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
     testWidgets('Error missing username', (WidgetTester tester) async {
-      app.main(testing: true);
+      // app.main(testing: true);
       await tester.pumpAndSettle();
 
       SimpleRobot simpleRobot = SimpleRobot(tester);
@@ -31,7 +31,7 @@ void main() {
     });
 
     testWidgets('Error missing password', (WidgetTester tester) async {
-      app.main(testing: true);
+      // app.main(testing: true);
       await tester.pumpAndSettle();
 
       SimpleRobot simpleRobot = SimpleRobot(tester);
@@ -44,7 +44,7 @@ void main() {
     });
 
     testWidgets('Error bad informations', (WidgetTester tester) async {
-      app.main(testing: true);
+      // app.main(testing: true);
       await tester.pumpAndSettle();
 
       SimpleRobot simpleRobot = SimpleRobot(tester);
@@ -58,7 +58,7 @@ void main() {
     });
 
     testWidgets('Valid login', (WidgetTester tester) async {
-      app.main(testing: true);
+      // app.main(testing: true);
       await tester.pumpAndSettle();
 
       SimpleRobot simpleRobot = SimpleRobot(tester);
