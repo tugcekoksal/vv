@@ -15,7 +15,7 @@ class BuildLoadingBox extends StatelessWidget {
     return Shimmer.fromColors(
         baseColor: global_styles.backgroundLightGreyLoading,
         highlightColor: Colors.white,
-        period: Duration(milliseconds: 2000),
+        period: const Duration(milliseconds: 2000),
         child: child);
   }
 }

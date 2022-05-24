@@ -39,9 +39,11 @@ class DeclarationSendButton extends StatelessWidget {
           try {
             Get.find<BikeController>().fetchUserBike(declarationController
                 .infosSelection.value.infoVelo.selected!.id);
-          } catch (e) {}
+          } catch (e) {
+            print(e);
+          }
           Future.delayed(
-              Duration(milliseconds: 200),
+              const Duration(milliseconds: 200),
               () => {
                     // Get.delete<IncidentDeclarationController>(),
                     Navigator.of(context).pop()
@@ -75,15 +77,15 @@ class DeclarationSendButton extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 0.5,
                   blurRadius: 3,
-                  offset: Offset(3, 0),
+                  offset: const Offset(3, 0),
                 )
               ],
               color: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(15.0),
                   topLeft: Radius.circular(15.0))),
-          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-          child: Text("Envoyer ma déclaration",
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
+          child: const Text("Envoyer ma déclaration",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: global_styles.blue,

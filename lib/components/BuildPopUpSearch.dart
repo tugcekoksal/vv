@@ -16,7 +16,7 @@ class BuildPopUpSearchVelo extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return SimpleDialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 20.0),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20.0),
         titlePadding: EdgeInsets.zero,
         contentPadding: EdgeInsets.zero,
         backgroundColor: Colors.transparent,

@@ -13,12 +13,6 @@ class BikeScanController extends GetxController {
   var bikeById = BikeModel().obs;
   var isBikeIncidentsOpen = false.obs;
 
-  @override
-  void onInit() {
-    // fetchIncidentById(5);
-    super.onInit();
-  }
-
   toggleIsBikeIncidentsOpen() {
     isBikeIncidentsOpen.value = !isBikeIncidentsOpen.value;
   }

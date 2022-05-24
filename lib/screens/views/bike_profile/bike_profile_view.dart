@@ -32,7 +32,7 @@ class MyBikeView extends StatefulWidget {
   final bool isFromScan;
   final int veloPk;
 
-  MyBikeView({Key? key, required this.isFromScan, this.veloPk = 0})
+  const MyBikeView({Key? key, required this.isFromScan, this.veloPk = 0})
       : super(key: key);
 
   @override
@@ -93,21 +93,22 @@ class _MyBikeViewState extends State<MyBikeView> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title:
-              bikeIsRobbed ? Text("Vélo retrouvé ?") : Text("Déclarer un vol"),
+          title: bikeIsRobbed
+              ? const Text("Vélo retrouvé ?")
+              : const Text("Déclarer un vol"),
           content: bikeIsRobbed
-              ? Text(
+              ? const Text(
                   "Êtes-vous sûr de vouloir déclarer votre vélo comme retrouvé ?")
-              : Text(
+              : const Text(
                   "Êtes-vous sûr de vouloir déclarer votre vélo comme volé ?"),
           actions: [
             CupertinoDialogAction(
-                child: Text("Annuler"),
+                child: const Text("Annuler"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 }),
             CupertinoDialogAction(
-              child: Text("Confirmer"),
+              child: const Text("Confirmer"),
               onPressed: () async {
                 setState(() {
                   bikeIsRobbed = !bikeIsRobbed;
@@ -119,7 +120,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                 final snackBar = SnackBar(
                   content: Text('Votre vélo a bien été déclaré comme ' +
                       (bikeIsRobbed ? 'volé !' : 'retrouvé !')),
-                  backgroundColor: Color(0xff46b594),
+                  backgroundColor: const Color(0xff46b594),
                 );
 
                 // Find the Scaffold in the widget tree and use
@@ -146,7 +147,7 @@ class _MyBikeViewState extends State<MyBikeView> {
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.only(bottom: 80, top: 20),
+                    padding: const EdgeInsets.only(bottom: 80, top: 20),
                     child: Container(
                       color: global_styles.backgroundLightGrey,
                       child: Column(
@@ -160,7 +161,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                       horizontal: 30.0, vertical: 20.0),
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 20.0, vertical: 8.0),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(25))),
@@ -170,7 +171,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                             } else {
                               return Container(
                                   width: double.infinity,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(25))),
@@ -208,7 +209,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                             } else if (bikeController.error.value != '') {
                               return Center(
                                   child: Text(bikeController.error.value,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.red,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600)));
@@ -225,7 +226,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Informations",
+                                    const Text("Informations",
                                         style: TextStyle(
                                             color: global_styles.purple,
                                             fontSize: 17.0,
@@ -234,19 +235,16 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     RichText(
                                       text: TextSpan(
                                         text: 'Groupe ',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
                                           TextSpan(
                                               text: bikeController.userBike
-                                                          .value.groupeName !=
-                                                      null
-                                                  ? bikeController
-                                                      .userBike.value.groupeName
-                                                  : "Aucun groupe",
-                                              style: TextStyle(
+                                                      .value.groupeName ??
+                                                  "Aucun groupe",
+                                              style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
                                         ],
@@ -256,7 +254,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     RichText(
                                       text: TextSpan(
                                         text: 'Kilométrage ',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
@@ -267,7 +265,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                                       .value
                                                       .kilometrage)
                                                   .toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
                                         ],
@@ -277,7 +275,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     RichText(
                                       text: TextSpan(
                                         text: 'Client ',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
@@ -285,7 +283,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                           TextSpan(
                                               text: valueIsNull(bikeController
                                                   .userBike.value.clientName),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
                                         ],
@@ -295,7 +293,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     RichText(
                                       text: TextSpan(
                                         text: 'Numéro Cadre ',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
@@ -303,7 +301,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                           TextSpan(
                                               text: valueIsNull(bikeController
                                                   .userBike.value.numeroCadran),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
                                         ],
@@ -313,7 +311,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     RichText(
                                       text: TextSpan(
                                         text: 'Date de création ',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
@@ -321,7 +319,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                           TextSpan(
                                               text: valueIsNull(bikeController
                                                   .userBike.value.dateCreation),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
                                         ],
@@ -332,7 +330,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                               );
                             }
                           }),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           Center(
                               child: GestureDetector(
                             onTap: () => Get.to(
@@ -341,24 +339,24 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     infoContainer:
                                         infoDeclarationFromBikeController()),
                                 transition: Transition.downToUp,
-                                duration: Duration(milliseconds: 400)),
+                                duration: const Duration(milliseconds: 400)),
                             child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15.0),
                                   color: global_styles.blue,
                                 ),
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 25.0, vertical: 15.0),
-                                child: Text("Déclarer un incident",
+                                child: const Text("Déclarer un incident",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 17.0,
                                         fontWeight: FontWeight.w600))),
                           )),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           // Display title & list of current incidents
                           IncidentInProgress(bikeController: bikeController),
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           // Button & list of passed incidents
                           IncidentHistoryContainer(
                               bikeController: bikeController),
@@ -379,7 +377,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     borderRadius: BorderRadius.circular(20.0)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: const [
                                     Text("Que faire en cas de vol ?",
                                         style: TextStyle(
                                             color: global_styles.purple,
@@ -402,16 +400,16 @@ class _MyBikeViewState extends State<MyBikeView> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15.0),
                                       color: bikeIsRobbed
-                                          ? Color(0xff46b594)
+                                          ? const Color(0xff46b594)
                                           : global_styles.orange,
                                     ),
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 20.0, vertical: 18.0),
                                     child: Text(
                                         bikeIsRobbed
                                             ? "Mon vélo a été retrouvé"
                                             : "Déclarer mon vélo comme volé",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 17.0,
                                             fontWeight: FontWeight.w600)),
@@ -420,7 +418,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 50,
                           )
                         ],
@@ -428,7 +426,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                     ),
                   ))),
           Obx(() {
-            return !this.widget.isFromScan
+            return !widget.isFromScan
                 ? ReturnBar(text: bikeController.userBike.value.bikeName)
                 : ReturnBarScan(
                     bikeController: bikeController,

@@ -56,7 +56,7 @@ class StatutVeloModif extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("Statut de la réparation",
-            style: const TextStyle(
+            style: TextStyle(
                 color: global_styles.purple,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w600)),

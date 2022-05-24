@@ -29,7 +29,7 @@ class VeloDropdown extends StatelessWidget {
             if (declarationController.infosSelection.value.infoVelo.isLoading ||
                 declarationController.infosSelection.value.infoGroup.selected ==
                     null) {
-              return BuildDisabledDropDown(placeholder: "Velo");
+              return const BuildDisabledDropDown(placeholder: "Velo");
             }
 
             // Has access

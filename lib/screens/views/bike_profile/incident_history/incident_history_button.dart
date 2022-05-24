@@ -21,7 +21,7 @@ class IncidentHistoryButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Historique des incidents",
+            const Text("Historique des incidents",
                 style: TextStyle(
                     color: global_styles.purple,
                     fontSize: 17.0,

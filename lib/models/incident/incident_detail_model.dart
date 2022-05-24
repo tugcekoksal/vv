@@ -34,18 +34,15 @@ class IncidentDetailModel {
 
   factory IncidentDetailModel.fromJson(Map<String, dynamic> json) =>
       IncidentDetailModel(
-        groupe: json["groupe"] == null ? null : json["groupe"],
-        velo: json["velo"] == null ? null : json["velo"],
-        typeIncident:
-            json["type_incident"] == null ? null : json["type_incident"],
-        commentaire: json["commentaire"] == null ? null : json["commentaire"],
+        groupe: json["groupe"],
+        velo: json["velo"],
+        typeIncident: json["type_incident"],
+        commentaire: json["commentaire"],
         photos: json["photos"] == null
             ? null
             : List<String>.from(json["photos"].map((x) => x)),
-        isFunctional:
-            json["is_functional"] == null ? null : json["is_functional"],
-        actualStatus:
-            json["actual_status"] == null ? null : json["actual_status"],
+        isFunctional: json["is_functional"],
+        actualStatus: json["actual_status"],
         status: json["status"] == null
             ? null
             : List<String>.from(json["status"].map((x) => x)),

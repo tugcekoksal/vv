@@ -15,12 +15,12 @@ class IncidentStatusDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 100))
+    Future.delayed(const Duration(milliseconds: 100))
         .then((value) => declarationController.fetchClientLabels());
 
     return Obx(() {
       if (declarationController.incidentTypeSelection.value.isLoading) {
-        return BuildDisabledDropDown(placeholder: "Client");
+        return const BuildDisabledDropDown(placeholder: "Client");
       }
       // Has access
       return BuildDropDown(

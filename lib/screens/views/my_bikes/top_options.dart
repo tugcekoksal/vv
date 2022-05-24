@@ -13,8 +13,10 @@ class SwitchButton extends StatelessWidget {
   final bool isActive;
 
   const SwitchButton(
-      {Key? key, required this.textButton, required this.isActive});
+      {Key? key, required this.textButton, required this.isActive})
+      : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return (Container(
       decoration: BoxDecoration(
@@ -44,9 +46,8 @@ class TopSwitch extends StatelessWidget {
   final Function changeMapView;
 
   const TopSwitch(
-      {Key? key,
-      required this.mapBikesController,
-      required this.changeMapView});
+      {Key? key, required this.mapBikesController, required this.changeMapView})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +103,7 @@ class TopButton extends StatefulWidget {
 }
 
 class _TopButtonState extends State<TopButton> {
+  @override
   Widget build(BuildContext context) {
     return (GestureDetector(
         onTap: () {
@@ -126,13 +128,13 @@ class _TopButtonState extends State<TopButton> {
                     child: SizedBox(
                       height: 25,
                       width: 25,
-                      child: const CircularProgressIndicator(
+                      child: CircularProgressIndicator(
                         color: global_styles.greyTitle,
                         strokeWidth: 2,
                       ),
                     ),
                   )
-                : Container(
+                : SizedBox(
                     height: 30,
                     width: 30,
                     child: Icon(

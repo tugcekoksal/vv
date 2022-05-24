@@ -19,7 +19,7 @@ class ReparationContainer extends StatelessWidget {
   final LoginController loginController;
   final IncidentController incidentController;
 
-  ReparationContainer(
+  const ReparationContainer(
       {Key? key,
       required this.loginController,
       required this.incidentController})

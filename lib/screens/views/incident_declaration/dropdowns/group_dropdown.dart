@@ -24,7 +24,7 @@ class GroupDropDown extends StatelessWidget {
     return Obx(() {
       // Simple user does not have access
       if (loginController.isUser.value) {
-        return SizedBox();
+        return const SizedBox();
       }
 
       // If the group is already selected
@@ -36,7 +36,7 @@ class GroupDropDown extends StatelessWidget {
       if (declarationController.infosSelection.value.infoGroup.isLoading ||
           declarationController.infosSelection.value.infoClient.selected ==
               null) {
-        return BuildDisabledDropDown(placeholder: "Groupe");
+        return const BuildDisabledDropDown(placeholder: "Groupe");
       }
       // Has access
       return BuildDropDown(

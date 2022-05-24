@@ -23,14 +23,14 @@ class Pin extends StatelessWidget {
           child: Transform.rotate(
             angle: 40,
             child:
-                Container(color: MarkersColor[status], height: 15, width: 15),
+                Container(color: markersColor[status], height: 15, width: 15),
           )),
       Container(
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(100),
-              border: Border.all(color: MarkersColor[status], width: 2)),
-          child: Image.asset(MarkersPaths[status])),
+              border: Border.all(color: markersColor[status], width: 2)),
+          child: Image.asset(markersPaths[status])),
     ]);
   }
 }
@@ -62,7 +62,7 @@ class HubPin extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               child: Image.network(
                 HttpService.urlServer + hub.pictureUrl!,
-                errorBuilder: (context, child, loadingProgress) => Icon(
+                errorBuilder: (context, child, loadingProgress) => const Icon(
                   Icons.other_houses,
                   color: Colors.white,
                 ),

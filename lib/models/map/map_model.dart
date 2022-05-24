@@ -24,12 +24,12 @@ class MapModel {
   final String mapStatus;
 
   factory MapModel.fromJson(Map<String, dynamic> json) => MapModel(
-      veloPk: json["velo_pk"] == null ? null : json["velo_pk"],
+      veloPk: json["velo_pk"] ?? -1,
       statut: json["statut"] == null ? null : Statut.fromJson(json["statut"]),
       pos: json["pos"] == null ? null : Pos.fromJson(json["pos"]),
-      name: json["name"] == null ? null : json["name"],
-      group: json["group"] == null ? null : json["group"],
-      mapStatus: json["map_status"] == null ? null : json["map_status"]);
+      name: json["name"] ?? "Pas de nom",
+      group: json["group"] ?? "Pas de groupe",
+      mapStatus: json["map_status"] ?? "Pas de status");
 }
 
 class Pos {
@@ -48,12 +48,12 @@ class Pos {
   final String? message;
 
   factory Pos.fromJson(Map<String, dynamic> json) => Pos(
-        deviceId: json["device_id"] == null ? null : json["device_id"],
+        deviceId: json["device_id"],
         latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
         longitude:
             json["longitude"] == null ? null : json["longitude"].toDouble(),
-        timestamp: json["timestamp"] == null ? null : json["timestamp"],
-        message: json["message"] == null ? null : json["message"],
+        timestamp: json["timestamp"],
+        message: json["message"],
       );
 }
 
@@ -67,7 +67,7 @@ class Statut {
   final String color;
 
   factory Statut.fromJson(Map<String, dynamic> json) => Statut(
-        name: json["name"] == null ? null : json["name"],
-        color: json["color"] == null ? null : json["color"],
+        name: json["name"] ?? "Pas de nom",
+        color: json["color"] ?? "Pas de couleur",
       );
 }

@@ -20,13 +20,13 @@ class ClientDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 100))
+    Future.delayed(const Duration(milliseconds: 100))
         .then((value) => declarationController.fetchClientLabels());
 
     return Obx(() {
       // Tech and admin have access to the client dropdown
       if (!loginController.isAdminOrTech.value) {
-        return SizedBox();
+        return const SizedBox();
       }
 
       // If the client is already selected
@@ -35,7 +35,7 @@ class ClientDropDown extends StatelessWidget {
       }
 
       if (declarationController.infosSelection.value.infoClient.isLoading) {
-        return BuildDisabledDropDown(placeholder: "Client");
+        return const BuildDisabledDropDown(placeholder: "Client");
       }
       // Has access
       return BuildDropDown(

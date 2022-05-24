@@ -19,7 +19,7 @@ import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class IncidentController extends GetxController {
-  var userToken;
+  String userToken = "";
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -249,7 +249,7 @@ class IncidentController extends GetxController {
         newestId: int.parse(incidentList.first.incidentPk),
         count: incidentList.length);
 
-    if (incidentFilters.length == 0) {
+    if (incidentFilters.isEmpty) {
       incidentsToFetchFilter.statusList = ["Nouvelle", "En cours", "Terminé"];
     }
     try {
@@ -268,7 +268,7 @@ class IncidentController extends GetxController {
   Future<void> refreshIncidentsList() async {
     final RefreshIncidentModel incidentsToFetchFilter;
 
-    if (incidentFilters.length == 0) {
+    if (incidentFilters.isEmpty) {
       incidentsToFetchFilter =
           RefreshIncidentModel(statusList: ["Nouvelle", "En cours", "Terminé"]);
     } else {

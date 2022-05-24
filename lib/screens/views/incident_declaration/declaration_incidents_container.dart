@@ -17,7 +17,7 @@ class DeclarationIncidentsContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(text),
-          Icon(
+          const Icon(
             Icons.info_rounded,
             color: Colors.white,
           )
@@ -41,27 +41,27 @@ class DeclarationIncidentsContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Incident(s)",
             style: TextStyle(
                 color: global_styles.greyText,
                 fontSize: 19.0,
                 fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 10.0),
-          BuildFormIncident(indexIncident: 0),
+          const SizedBox(height: 10.0),
+          const BuildFormIncident(indexIncident: 0),
           Obx(() {
-            if (declarationController.incidentMoreFormsList.length > 0) {
-              return BuildFormsDivider();
+            if (declarationController.incidentMoreFormsList.isNotEmpty) {
+              return const BuildFormsDivider();
             } else {
-              return SizedBox();
+              return const SizedBox();
             }
           }),
           Obx(() => ListView.separated(
                 padding: EdgeInsets.zero,
                 itemCount: declarationController.incidentMoreFormsList.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Obx(() {
                     return BuildFormIncident(
@@ -69,7 +69,7 @@ class DeclarationIncidentsContainer extends StatelessWidget {
                             declarationController.incidentMoreFormsList[index]);
                   });
                 },
-                separatorBuilder: (context, index) => BuildFormsDivider(),
+                separatorBuilder: (context, index) => const BuildFormsDivider(),
               )),
           const SizedBox(height: 30),
           Center(
@@ -80,11 +80,11 @@ class DeclarationIncidentsContainer extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: global_styles.backgroundDarkGrey,
                       borderRadius: BorderRadius.circular(30.0)),
-                  child: Icon(Icons.add, color: Colors.white)),
+                  child: const Icon(Icons.add, color: Colors.white)),
             ),
           ),
-          SizedBox(height: 15.0),
-          Center(
+          const SizedBox(height: 15.0),
+          const Center(
             child: Text("Ajouter un autre incident à déclarer",
                 style: TextStyle(
                     color: global_styles.greyTextInput,

@@ -48,11 +48,6 @@ class MapBikesController extends GetxController {
 
   var isStreetView = true;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void changeMapView() {
     isMapView = !isMapView;
   }

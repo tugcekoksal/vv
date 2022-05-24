@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 Color getColorBasedOnMarkersStatus(String markersStatus) {
-  var colorStatus;
+  Color colorStatus;
   switch (markersStatus) {
     case "Utilisé":
       {

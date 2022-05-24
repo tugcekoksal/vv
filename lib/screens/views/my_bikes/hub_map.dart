@@ -8,7 +8,7 @@ import 'package:velyvelo/controllers/hub_controller.dart';
 // Vendor
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart' as latLng;
+import 'package:latlong2/latlong.dart' as lat_long;
 
 // Controllers
 import 'package:velyvelo/models/hubs/hub_map.dart';
@@ -56,7 +56,7 @@ class HubMap extends StatefulWidget {
 
   bool streetView;
   double oldZoom = 0;
-  latLng.LatLng oldPosition = latLng.LatLng(0, 0);
+  lat_long.LatLng oldPosition = lat_long.LatLng(0, 0);
 
   HubMap({Key? key, required this.hubController, required this.streetView})
       : super(key: key);
@@ -104,7 +104,7 @@ class _HubMapState extends State<HubMap> {
           options: MapOptions(
             onTap: (tap, pos) => {widget.popupController.hideAllPopups()},
             onPositionChanged: onGeoChanged,
-            center: latLng.LatLng(47.8, 2.350492773209436),
+            center: lat_long.LatLng(47.8, 2.350492773209436),
             zoom: 5.1,
             minZoom: 3,
             maxZoom: 21.0,
@@ -142,7 +142,7 @@ class _HubMapState extends State<HubMap> {
                 return Marker(
                     width: 35.0,
                     height: 80.0,
-                    point: latLng.LatLng(hub.pinModel?.latitude ?? 0,
+                    point: lat_long.LatLng(hub.pinModel?.latitude ?? 0,
                         hub.pinModel?.longitude ?? 0),
                     builder: (ctx) =>
                         HubPin(hub: hub.pinModel ?? HubPinModel()));

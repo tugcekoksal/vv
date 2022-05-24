@@ -72,8 +72,7 @@ class PopUpListFilters extends StatelessWidget {
                   (() => Wrap(
                       spacing: 4.0,
                       direction: Axis.horizontal,
-                      children: mapBikesController.selectedFiltersList.length ==
-                              0
+                      children: mapBikesController.selectedFiltersList.isEmpty
                           ? [const Text("Aucuns groupes séléctionnés")]
                           : mapBikesController.availableFiltersList
                               .map((filterLabel) => Obx(() {

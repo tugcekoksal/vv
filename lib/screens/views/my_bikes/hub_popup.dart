@@ -11,7 +11,7 @@ import 'package:velyvelo/models/hubs/hub_map.dart';
 class HubPopup extends StatelessWidget {
   final HubModel hub;
 
-  HubPopup({Key? key, required this.hub}) : super(key: key);
+  const HubPopup({Key? key, required this.hub}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class HubPopup extends StatelessWidget {
         children: [
           const Text(
             "Vous avez ",
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
             hub.reparations.toString(),
@@ -73,7 +73,7 @@ class HubPopup extends StatelessWidget {
           ),
           const Text(
             " réparations à effectuer.",
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),

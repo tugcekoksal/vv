@@ -22,14 +22,14 @@ class ButtonAccount extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Icon(
+                  const Icon(
                     Icons.person,
                     size: 40,
                     color: Colors.white,
                   ),
                   const SizedBox(height: 10),
                   Text(loginController.userName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold))

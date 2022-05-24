@@ -35,7 +35,7 @@ class HeaderContainer extends StatelessWidget {
                 return Expanded(
                   child: Text(incidentController.actualTypeReparation.value,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: global_styles.purple,
                           fontSize: 17.0,
                           fontWeight: FontWeight.w600)),
@@ -43,10 +43,10 @@ class HeaderContainer extends StatelessWidget {
               }),
               // Little top right colored box indicating the reparation number
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 100),
+                constraints: const BoxConstraints(maxWidth: 100),
                 child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 4.0),
                     decoration: BoxDecoration(
                       color: colorBasedOnIncidentStatus(
                           incident.incidentStatus ??
@@ -55,7 +55,7 @@ class HeaderContainer extends StatelessWidget {
                     ),
                     child: Text(valueIsNull(incident.reparationNumber),
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 13.0,
                             fontWeight: FontWeight.w800))),
@@ -68,12 +68,12 @@ class HeaderContainer extends StatelessWidget {
               Flexible(
                 child: Text(incident.veloGroup,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
-              Text(" - ",
+              const Text(" - ",
                   style: TextStyle(
                       color: global_styles.purple,
                       fontSize: 17.0,
@@ -81,7 +81,7 @@ class HeaderContainer extends StatelessWidget {
               Flexible(
                 child: Text(valueIsNull(incident.veloName),
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
@@ -93,18 +93,18 @@ class HeaderContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(valueIsNull(incident.dateCreation),
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: global_styles.green,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w700)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.schedule,
                     color: global_styles.purple,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -112,7 +112,7 @@ class HeaderContainer extends StatelessWidget {
                             ? incident.interventionTime.toString()
                             : "moins d'1") +
                         'h',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: global_styles.purple,
                         fontWeight: FontWeight.w700),
                   )

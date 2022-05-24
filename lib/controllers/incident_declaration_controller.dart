@@ -300,8 +300,9 @@ class IncidentDeclarationController extends GetxController {
   setIncidentTypeLabel(value, index) {
     incidentTypeList[index] = value;
 
-    if (index.toString() == indexWhereFormIsNotCompleted.value)
+    if (index.toString() == indexWhereFormIsNotCompleted.value) {
       indexWhereFormIsNotCompleted.value = "";
+    }
   }
   // Incident DropDown - END //
 
@@ -362,9 +363,9 @@ class IncidentDeclarationController extends GetxController {
 
     // Loop threw all the incidents
     int veloPk;
-    if (veloPkFromScan != null)
+    if (veloPkFromScan != null) {
       veloPk = veloPkFromScan;
-    else {
+    } else {
       if (userType == "user") {
         veloPk = Get.find<LoginController>().userBikeID.value;
       } else {

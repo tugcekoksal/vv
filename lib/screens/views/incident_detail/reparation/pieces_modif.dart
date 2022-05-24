@@ -98,8 +98,7 @@ class PiecesModif extends StatelessWidget {
         const SizedBox(height: 10),
         Obx(() {
           return incidentController
-                      .currentReparation.value.selectedPieces.length ==
-                  0
+                  .currentReparation.value.selectedPieces.isEmpty
               ? const ListTile(title: Text("Aucunes pièces sélectionnées"))
               : SizedBox(
                   height: incidentController

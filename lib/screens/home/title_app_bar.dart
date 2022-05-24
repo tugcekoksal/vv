@@ -25,7 +25,7 @@ class TitleAppBar extends StatelessWidget {
       child: onTransparentBackground
           ? Container(
               height: 40,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -42,7 +42,7 @@ class TitleAppBar extends StatelessWidget {
                     Text(
                       loginController.isLogged.value ? title : "VelyVelo",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: global_styles.backgroundDarkGrey,
                           fontSize: 20.0,
                           fontWeight: FontWeight.w700),
@@ -50,7 +50,7 @@ class TitleAppBar extends StatelessWidget {
                   ]))
           : Text(
               loginController.isLogged.value ? title : "VelyVelo",
-              style: TextStyle(
+              style: const TextStyle(
                   color: global_styles.backgroundDarkGrey,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w700),
@@ -87,6 +87,6 @@ class SubTitleIncidents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(getSubtitleIncident(),
-        style: TextStyle(color: global_styles.greyText, fontSize: 10));
+        style: const TextStyle(color: global_styles.greyText, fontSize: 10));
   }
 }

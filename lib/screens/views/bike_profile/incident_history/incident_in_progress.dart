@@ -22,10 +22,10 @@ class IncidentInProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Column(children: [
-        Align(
+        const Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 10),
+            padding: EdgeInsets.only(left: 20.0, top: 10),
             child: Text("Les incidents en cours",
                 style: TextStyle(
                     color: global_styles.purple,
@@ -34,18 +34,18 @@ class IncidentInProgress extends StatelessWidget {
           ),
         ),
         // SizedBox(height: 10.0),
-        bikeController.userBike.value.inProgressRepairs.length == 0
-            ? Center(
+        bikeController.userBike.value.inProgressRepairs.isEmpty
+            ? const Center(
                 child: Text("Aucun incident en cours"),
               )
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ListView.builder(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 20),
                     itemCount:
                         bikeController.userBike.value.inProgressRepairs.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () => {},

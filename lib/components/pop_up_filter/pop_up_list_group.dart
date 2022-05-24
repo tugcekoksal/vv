@@ -34,7 +34,7 @@ class BuildButtonGroup extends StatelessWidget {
                 fontWeight: FontWeight.w600)),
         backgroundColor: Colors.white,
         shape: const StadiumBorder(
-            side: const BorderSide(
+            side: BorderSide(
                 color: global_styles.backgroundDarkGrey, width: 1.5)),
         onSelected: (bool value) => setFilters(value, label),
         checkmarkColor: global_styles.blue,
@@ -65,7 +65,7 @@ class PopUpGroupList extends StatelessWidget {
             return Wrap(
                 spacing: 4.0,
                 direction: Axis.horizontal,
-                children: mapBikesController.availableFiltersList.length == 0
+                children: mapBikesController.availableFiltersList.isEmpty
                     ? [const Text("Aucun filtre disponible")]
                     : mapBikesController.availableFiltersList
                         .map((filterLabel) => Obx(() {

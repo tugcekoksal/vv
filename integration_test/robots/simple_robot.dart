@@ -7,7 +7,7 @@ import '../usefull.dart' as usefull;
 
 class SimpleRobot {
   final WidgetTester tester;
-  final log = logger(SimpleRobot);
+  final log = getLogger(SimpleRobot);
 
   SimpleRobot(this.tester);
 

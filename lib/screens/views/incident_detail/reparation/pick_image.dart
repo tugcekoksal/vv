@@ -12,7 +12,8 @@ class PickImage extends StatelessWidget {
   final IncidentController incidentController;
   final String text;
 
-  PickImage({Key? key, required this.incidentController, required this.text})
+  const PickImage(
+      {Key? key, required this.incidentController, required this.text})
       : super(key: key);
 
   Future pickImage(context) async {
@@ -51,16 +52,16 @@ class PickImage extends StatelessWidget {
       child: DottedBorder(
         color: global_styles.backgroundLightGrey,
         strokeWidth: 3,
-        radius: Radius.circular(40.0),
-        dashPattern: [15, 15],
+        radius: const Radius.circular(40.0),
+        dashPattern: const [15, 15],
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 10.0),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
           child: Column(
-            children: [
+            children: const [
               Icon(Icons.camera_alt_outlined,
                   color: global_styles.greyTextInput, size: 25.0),
               SizedBox(height: 10.0),

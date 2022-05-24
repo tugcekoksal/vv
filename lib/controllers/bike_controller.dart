@@ -11,8 +11,8 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class BikeController extends GetxController {
-  var userToken;
-  var userBikeID;
+  String userToken = "";
+  String userBikeID = "";
 
   var isViewingScanPage = false.obs;
 

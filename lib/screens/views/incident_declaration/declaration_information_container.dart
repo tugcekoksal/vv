@@ -20,7 +20,7 @@ class ErrorContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(text,
-            style: TextStyle(
+            style: const TextStyle(
                 color: global_styles.orange,
                 fontSize: 11.0,
                 fontWeight: FontWeight.w500)),
@@ -53,24 +53,24 @@ class DeclarationInformationContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Informations",
             style: TextStyle(
                 color: global_styles.greyText,
                 fontSize: 19.0,
                 fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           ClientDropDown(
               loginController: loginController,
               declarationController: declarationController,
               client: client),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           GroupDropDown(
               loginController: loginController,
               declarationController: declarationController,
               group: group),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           VeloDropdown(
               loginController: loginController,
               declarationController: declarationController,
@@ -81,10 +81,10 @@ class DeclarationInformationContainer extends StatelessWidget {
               return ErrorContainer(
                   text: declarationController.errors.value.veloError);
             } else {
-              return SizedBox();
+              return const SizedBox();
             }
           }),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TechCheckbox(
               loginController: loginController,
               declarationController: declarationController),

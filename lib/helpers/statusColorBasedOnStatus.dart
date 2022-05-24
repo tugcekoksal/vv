@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 Color colorBasedOnIncidentStatus(String incidentStatus) {
-  var colorStatus;
+  Color colorStatus;
   switch (incidentStatus) {
     case "Nouvelle":
       {

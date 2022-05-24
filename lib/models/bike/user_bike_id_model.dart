@@ -20,7 +20,7 @@ class UserBikeIDModel {
 
   factory UserBikeIDModel.fromJson(Map<String, dynamic> json) =>
       UserBikeIDModel(
-        veloPk: json["velo_pk"] == null ? null : json["velo_pk"],
+        veloPk: json["velo_pk"] ?? -1,
       );
 
   Map<String, dynamic> toJson() => {

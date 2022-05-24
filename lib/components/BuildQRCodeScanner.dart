@@ -44,7 +44,7 @@ class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
 
     if (bikeController.error.value == "") {
       bikeController.isViewingScanPage(true);
-      Get.to(() => BikeDetailScan(),
+      Get.to(() => const BikeDetailScan(),
           transition: Transition.downToUp,
           duration: const Duration(milliseconds: 400));
     } else {

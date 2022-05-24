@@ -24,7 +24,7 @@ class IncidentDeclaration extends StatelessWidget {
             Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ReturnBar(text: "Déclaration d'incidents"),
+                  const ReturnBar(text: "Déclaration d'incidents"),
                   DeclarationSendButton(),
                 ])
           ]),

@@ -9,7 +9,7 @@ import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 // GlobalKey keyWidget = GlobalKey();
 
 class StatusVeloDropDown extends StatelessWidget {
-  StatusVeloDropDown({
+  const StatusVeloDropDown({
     Key? key,
     required this.incidentController,
   }) : super(key: key);

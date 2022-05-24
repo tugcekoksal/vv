@@ -68,7 +68,7 @@ class BikesMap extends StatefulWidget {
 
 class _BikesMapState extends State<BikesMap> {
   var firstTime = true;
-  final Logger log = logger(BikesMap);
+  final Logger log = getLogger(BikesMap);
   void onGeoChanged(MapPosition position, bool hasGesture) {
     log.d("RENDER on geo");
 

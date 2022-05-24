@@ -38,17 +38,15 @@ class UserBikeModel {
   final List<Incident> otherRepairs;
 
   factory UserBikeModel.fromJson(Map<String, dynamic> json) => UserBikeModel(
-        clientName: json["client_name"] == null ? null : json["client_name"],
-        numeroCadran:
-            json["numero_cadran"] == null ? null : json["numero_cadran"],
-        kilometrage: json["kilometrage"] == null ? null : json["kilometrage"],
-        dateCreation:
-            json["date_creation"] == null ? null : json["date_creation"],
-        pictureUrl: json["picture_url"] == null ? null : json["picture_url"],
-        bikeName: json["nom"] == null ? null : json["nom"],
-        groupeName: json["groupe_name"] == null ? null : json["groupe_name"],
-        isStolen: json["vole"] == null ? false : json["vole"],
-        veloPk: json["pk"] == null ? false : json["pk"],
+        clientName: json["client_name"] ?? "Pas de nom de client",
+        numeroCadran: json["numero_cadran"] ?? "Pas de numéro cadran",
+        kilometrage: json["kilometrage"] ?? 0,
+        dateCreation: json["date_creation"] ?? "Pas de date",
+        pictureUrl: json["picture_url"],
+        bikeName: json["nom"] ?? "Pas de nom de vélo",
+        groupeName: json["groupe_name"],
+        isStolen: json["vole"] ?? false,
+        veloPk: json["pk"] ?? false,
         inProgressRepairs: List<Incident>.from(
             json["in_progress_repairs"].map((x) => Incident.fromJson(x))),
         otherRepairs: List<Incident>.from(
@@ -67,50 +65,3 @@ class UserBikeModel {
         "pk": veloPk
       };
 }
-
-// IncidentOverview incidentFromJson(String str) =>
-//     IncidentOverview.fromJson(json.decode(str));
-
-// String incidentToJson(IncidentOverview data) => json.encode(data.toJson());
-
-// class IncidentOverview {
-//   IncidentOverview({
-//     required this.incidentTypeReparation,
-//     required this.incidentStatus,
-//     required this.veloGroup,
-//     required this.veloName,
-//     required this.dateCreation,
-//     required this.incidentPk,
-//     required this.interventionTime,
-//   });
-
-//   String incidentTypeReparation;
-//   String incidentStatus;
-//   String veloGroup;
-//   String veloName;
-//   String dateCreation;
-//   String incidentPk;
-//   int interventionTime;
-
-//   factory IncidentOverview.fromJson(Map<String, dynamic> json) =>
-//       IncidentOverview(
-//         incidentTypeReparation: json["incident_type_reparation"],
-//         incidentStatus: json["incident_status"],
-//         veloGroup:
-//             json["velo_group"] != null ? "Aucun groupe" : json["velo_group"],
-//         veloName: json["velo_name"],
-//         dateCreation: json["date_creation"],
-//         incidentPk: json["incident_pk"],
-//         interventionTime: json["intervention_time"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "incident_type_reparation": incidentTypeReparation,
-//         "incident_status": incidentStatus,
-//         "velo_group": veloGroup,
-//         "velo_name": veloName,
-//         "date_creation": dateCreation,
-//         "incident_pk": incidentPk,
-//         "intervention_time": interventionTime,
-//       };
-// }

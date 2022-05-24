@@ -31,7 +31,7 @@ const accesToken =
     "sk.eyJ1IjoibHVjYXNncmFmZW4iLCJhIjoiY2wwNnA2a3NnMDRndzNpbHYyNTV0NGd1ZCJ9.nfFc_JlfaGgq1Kajg6agoQ";
 
 class MyBikesView extends StatefulWidget {
-  MyBikesView({Key? key}) : super(key: key);
+  const MyBikesView({Key? key}) : super(key: key);
 
   @override
   State<MyBikesView> createState() => _MyBikesViewState();
@@ -41,7 +41,7 @@ class _MyBikesViewState extends State<MyBikesView> {
   final MapBikesController mapBikesController = Get.put(MapBikesController());
   final HubController hubController = Get.put(HubController());
   final LoginController loginController = Get.put(LoginController());
-  final Logger log = logger(MyBikesView);
+  final Logger log = getLogger(MyBikesView);
 
   void changeMapView() {
     setState(() {

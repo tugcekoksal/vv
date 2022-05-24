@@ -29,31 +29,30 @@ class IncidentHistoryContainer extends StatelessWidget {
           IncidentHistoryButton(bikeController: bikeController),
           // List display
           AnimatedSize(
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               curve: Curves.fastOutSlowIn,
               child: Obx(() {
-                return Container(
+                return SizedBox(
                     height: bikeController.isBikeIncidentsOpen.value ? null : 0,
                     child: Column(
                       children: [
-                        bikeController.userBike.value.otherRepairs.length == 0
-                            ? Text("Il y aura des éléments ici")
+                        bikeController.userBike.value.otherRepairs.isEmpty
+                            ? const Text("Il y aura des éléments ici")
                             : Column(
                                 children: [
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   ListView.builder(
                                       shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       itemCount: bikeController
                                           .userBike.value.otherRepairs.length,
                                       itemBuilder: (context, index) {
-                                        return GestureDetector(
-                                            onTap: () => null,
-                                            child: IncidentHistoricCard(
-                                              data: bikeController.userBike
-                                                  .value.otherRepairs[index],
-                                              isHistorique: true,
-                                            ));
+                                        return IncidentHistoricCard(
+                                          data: bikeController.userBike.value
+                                              .otherRepairs[index],
+                                          isHistorique: true,
+                                        );
                                       }),
                                 ],
                               )
