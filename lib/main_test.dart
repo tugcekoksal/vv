@@ -56,17 +56,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Still no solutions to accept those terms with the test integration
-  // FirebaseMessaging messaging = FirebaseMessaging.instance;
-  // await messaging.requestPermission(
-  //   alert: true,
-  //   announcement: false,
-  //   badge: true,
-  //   carPlay: false,
-  //   criticalAlert: false,
-  //   provisional: false,
-  //   sound: true,
-  // );
+  // We do not show request permission pop up in integration tests
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -80,13 +70,12 @@ void main() async {
     sound: true,
   );
 
-  // Run the App after all is well initialized
-  // Don't show alert pop up authorize notification on integration test
-  // (Can't click on native pop up with integration tests)
-
   // Auto logout user while testing
   final LoginController loginController = Get.put(LoginController());
   loginController.logoutUser();
 
+  // Run the App after all is well initialized
+  // Don't show alert pop up authorize notification on integration test
+  // (Can't click on native pop up with integration tests)
   runApp(const MaterialApp(home: MyApp(showAlert: false)));
 }
