@@ -17,7 +17,7 @@ class LoginModel {
   final String token;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        token: json["token"] ?? null,
+        token: json["token"] ?? "Pas de token",
       );
 
   Map<String, dynamic> toJson() => {

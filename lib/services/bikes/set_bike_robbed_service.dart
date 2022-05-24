@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 Future setBikeRobbedService(
     String urlServer, int id, bool robbed, String userToken) async {
-  await Future.delayed(Duration(seconds: 1));
+  await Future.delayed(const Duration(seconds: 1));
   String robbedString = robbed ? "True" : "False";
 
   var response = await http.post(Uri.parse("$urlServer/api/robbed/"),

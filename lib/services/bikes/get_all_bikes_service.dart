@@ -13,8 +13,8 @@ Future fetchAllBikesService(String urlServer, List filtersList, List statusList,
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
   };
-  FilterListModel filterList = new FilterListModel(
-      filters: new Filters(
+  FilterListModel filterList = FilterListModel(
+      filters: Filters(
           groupes: filtersList.map((filter) => filter.toString()).toList(),
           statusUsing: statusList.map((status) => status.toString()).toList()));
   request.body = json.encode(filterList.toJson());

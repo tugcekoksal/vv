@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/helpers/logger.dart';
 
 // Views
@@ -24,20 +24,21 @@ class HomeScreen extends StatelessWidget {
       Get.put(NavigationController());
   final LoginController loginController = Get.put(LoginController());
   final PageController _pageController = Get.put(PageController());
-  final log = logger(HomeScreen);
+  final log = getLogger(HomeScreen);
 
   showDeclarationIncidentPage() {
-    Get.to(() => IncidentDeclaration(),
-        transition: Transition.downToUp, duration: Duration(milliseconds: 400));
+    Get.to(() => const IncidentDeclaration(),
+        transition: Transition.downToUp,
+        duration: const Duration(milliseconds: 400));
   }
 
   @override
   Widget build(BuildContext context) {
     // navigationController.currentIndex.value = 0;
-    return new Container(
+    return Container(
         color: Colors.transparent,
         child: Scaffold(
-            backgroundColor: GlobalStyles.loginBackground,
+            backgroundColor: global_styles.loginBackground,
             resizeToAvoidBottomInset: false,
             body: Obx(() {
               if (loginController.isLogged.value) {
@@ -45,10 +46,10 @@ class HomeScreen extends StatelessWidget {
                   onPageChanged: (index) =>
                       navigationController.changePage(index),
                   controller: _pageController,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   children: <Widget>[
                     IncidentsView(),
-                    MyBikesView(),
+                    const MyBikesView(),
                   ],
                 );
               } else {
@@ -56,40 +57,40 @@ class HomeScreen extends StatelessWidget {
               }
             }),
             floatingActionButton: Obx(() {
-              return Container(
+              return SizedBox(
                   height: 60.0,
                   width: 60.0,
                   child: navigationController.currentIndex.value == 0 &&
                           loginController.isLogged.value
                       ? FloatingActionButton(
-                          backgroundColor: GlobalStyles.backgroundDarkGrey,
+                          backgroundColor: global_styles.backgroundDarkGrey,
                           onPressed: () => showDeclarationIncidentPage(),
-                          child: Icon(
+                          child: const Icon(
                             Icons.add,
                             color: Colors.white,
                             size: 30,
                           ))
-                      : SizedBox());
+                      : const SizedBox());
             }),
             bottomNavigationBar: Obx(() {
               if (loginController.isLogged.value) {
                 return Obx(() {
                   return BottomNavigationBar(
                       iconSize: 35.0,
-                      backgroundColor: GlobalStyles.backgroundDarkGrey,
+                      backgroundColor: global_styles.backgroundDarkGrey,
                       selectedItemColor: Colors.white,
-                      selectedIconTheme:
-                          IconThemeData(color: GlobalStyles.blue, size: 25.0),
-                      selectedLabelStyle: TextStyle(
+                      selectedIconTheme: const IconThemeData(
+                          color: global_styles.blue, size: 25.0),
+                      selectedLabelStyle: const TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600,
                       ),
-                      unselectedItemColor: GlobalStyles.greyBottomBarText,
-                      unselectedIconTheme: IconThemeData(
-                          color: GlobalStyles.greyUnselectedIcon, size: 25.0),
-                      unselectedLabelStyle: TextStyle(
-                          color: GlobalStyles.greyBottomBarText,
+                      unselectedItemColor: global_styles.greyBottomBarText,
+                      unselectedIconTheme: const IconThemeData(
+                          color: global_styles.greyUnselectedIcon, size: 25.0),
+                      unselectedLabelStyle: const TextStyle(
+                          color: global_styles.greyBottomBarText,
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600),
                       currentIndex: navigationController.currentIndex.value,
@@ -98,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                         _pageController.jumpToPage(
                             navigationController.currentIndex.value);
                       },
-                      items: <BottomNavigationBarItem>[
+                      items: const <BottomNavigationBarItem>[
                         BottomNavigationBarItem(
                             icon: Padding(
                                 key: Key("bottom-navbar-incident"),
@@ -115,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                       ]);
                 });
               } else {
-                return SizedBox();
+                return const SizedBox();
               }
             })));
   }

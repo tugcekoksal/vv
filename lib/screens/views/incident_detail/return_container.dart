@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_controller.dart';
 
-const LONGTEXT = 14;
+const longText = 14;
 
 class ReturnStyled extends StatelessWidget {
   final String text;
@@ -16,17 +16,17 @@ class ReturnStyled extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 20.0),
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: Stack(
             clipBehavior: Clip.none,
-            alignment: text.length > LONGTEXT
+            alignment: text.length > longText
                 ? AlignmentDirectional.centerStart
                 : AlignmentDirectional.center,
             children: [
               Positioned(
                   left: 0,
                   child: Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
@@ -38,21 +38,21 @@ class ReturnStyled extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         size: 25,
-                        color: GlobalStyles.greyText,
+                        color: global_styles.greyText,
                       ))),
               Container(
-                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
                           child: Text(text,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   overflow: TextOverflow.ellipsis,
-                                  color: GlobalStyles.greyText,
+                                  color: global_styles.greyText,
                                   fontSize: 19.0,
                                   fontWeight: FontWeight.w700))),
                     ],
@@ -111,11 +111,11 @@ class ReturnBar extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 0.5,
               blurRadius: 3,
-              offset: Offset(0, 1),
+              offset: const Offset(0, 1),
             )
           ],
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(25.0),
               bottomLeft: Radius.circular(25.0))),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -141,11 +141,11 @@ class ReturnBarScan extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 0.5,
               blurRadius: 3,
-              offset: Offset(0, 1),
+              offset: const Offset(0, 1),
             )
           ],
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(25.0),
               bottomLeft: Radius.circular(25.0))),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

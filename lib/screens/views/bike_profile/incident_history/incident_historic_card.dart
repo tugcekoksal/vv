@@ -2,10 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class IncidentHistoricCard extends StatelessWidget {
@@ -19,9 +18,8 @@ class IncidentHistoricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: this.isHistorique
-          ? const EdgeInsets.all(0.0)
-          : const EdgeInsets.all(20.0),
+      padding:
+          isHistorique ? const EdgeInsets.all(0.0) : const EdgeInsets.all(20.0),
       margin: const EdgeInsets.only(bottom: 8.0),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
@@ -32,10 +30,10 @@ class IncidentHistoricCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(valueIsNull(data.incidentTypeReparation),
+                child: Text(data.incidentTypeReparation,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
+                    style: const TextStyle(
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
@@ -45,19 +43,19 @@ class IncidentHistoricCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(valueIsNull(data.dateCreation),
-                  style: TextStyle(
-                      color: GlobalStyles.green,
+              Text(data.dateCreation,
+                  style: const TextStyle(
+                      color: global_styles.green,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w700)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.schedule,
-                    color: GlobalStyles.purple,
+                    color: global_styles.purple,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -65,19 +63,19 @@ class IncidentHistoricCard extends StatelessWidget {
                             ? data.interventionTime.toString()
                             : "moins d'1") +
                         'h',
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
+                    style: const TextStyle(
+                        color: global_styles.purple,
                         fontWeight: FontWeight.w700),
                   )
                 ],
               )
             ],
           ),
-          this.isHistorique
-              ? Divider(
+          isHistorique
+              ? const Divider(
                   color: Colors.black,
                 )
-              : SizedBox()
+              : const SizedBox()
         ],
       ),
     );

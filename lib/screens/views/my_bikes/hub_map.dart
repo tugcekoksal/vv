@@ -8,7 +8,7 @@ import 'package:velyvelo/controllers/hub_controller.dart';
 // Vendor
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart' as latLng;
+import 'package:latlong2/latlong.dart' as lat_long;
 
 // Controllers
 import 'package:velyvelo/models/hubs/hub_map.dart';
@@ -51,12 +51,12 @@ class PopUpClipper extends CustomClipper<Path> {
 
 // ignore: must_be_immutable
 class HubMap extends StatefulWidget {
-  final PopupController popupController = new PopupController();
+  final PopupController popupController = PopupController();
   final HubController hubController;
 
   bool streetView;
   double oldZoom = 0;
-  latLng.LatLng oldPosition = latLng.LatLng(0, 0);
+  lat_long.LatLng oldPosition = lat_long.LatLng(0, 0);
 
   HubMap({Key? key, required this.hubController, required this.streetView})
       : super(key: key);
@@ -104,7 +104,7 @@ class _HubMapState extends State<HubMap> {
           options: MapOptions(
             onTap: (tap, pos) => {widget.popupController.hideAllPopups()},
             onPositionChanged: onGeoChanged,
-            center: latLng.LatLng(47.8, 2.350492773209436),
+            center: lat_long.LatLng(47.8, 2.350492773209436),
             zoom: 5.1,
             minZoom: 3,
             maxZoom: 21.0,
@@ -131,8 +131,8 @@ class _HubMapState extends State<HubMap> {
                 }),
             MarkerClusterLayerOptions(
               maxClusterRadius: 120,
-              size: Size(40, 40),
-              fitBoundsOptions: FitBoundsOptions(
+              size: const Size(40, 40),
+              fitBoundsOptions: const FitBoundsOptions(
                 padding: EdgeInsets.all(50),
               ),
               markers: widget.hubController.hubs
@@ -142,12 +142,12 @@ class _HubMapState extends State<HubMap> {
                 return Marker(
                     width: 35.0,
                     height: 80.0,
-                    point: latLng.LatLng(hub.pinModel?.latitude ?? 0,
+                    point: lat_long.LatLng(hub.pinModel?.latitude ?? 0,
                         hub.pinModel?.longitude ?? 0),
-                    builder: (ctx) => Container(
-                        child: HubPin(hub: hub.pinModel ?? HubPinModel())));
+                    builder: (ctx) =>
+                        HubPin(hub: hub.pinModel ?? HubPinModel()));
               }).toList(),
-              polygonOptions: PolygonOptions(
+              polygonOptions: const PolygonOptions(
                   borderColor: Color.fromARGB(0, 255, 255, 255),
                   color: Color.fromARGB(0, 255, 255, 255),
                   borderStrokeWidth: 0),
@@ -161,7 +161,7 @@ class _HubMapState extends State<HubMap> {
                       borderRadius: BorderRadius.circular(20.0)),
                   alignment: Alignment.center,
                   child: Text(markers.length.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                           fontSize: 14.0)),
@@ -174,7 +174,7 @@ class _HubMapState extends State<HubMap> {
                         child: Container(
                           width: 300,
                           height: 175,
-                          padding: EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12.0)),
@@ -189,7 +189,7 @@ class _HubMapState extends State<HubMap> {
                                 child: GestureDetector(
                                   onTap: () => widget.popupController
                                       .togglePopup(marker),
-                                  child: Container(
+                                  child: const SizedBox(
                                       height: 20,
                                       width: 20,
                                       child: Icon(Icons.close)),

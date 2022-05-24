@@ -2,12 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:get/get.dart';
 
 // Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
@@ -35,27 +34,26 @@ class HeaderContainer extends StatelessWidget {
                 return Expanded(
                   child: Text(incidentController.actualTypeReparation.value,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: GlobalStyles.purple,
+                      style: const TextStyle(
+                          color: global_styles.purple,
                           fontSize: 17.0,
                           fontWeight: FontWeight.w600)),
                 );
               }),
               // Little top right colored box indicating the reparation number
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 100),
+                constraints: const BoxConstraints(maxWidth: 100),
                 child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: colorBasedOnIncidentStatus(
-                          incident.incidentStatus ??
-                              "Pas de status d'incident"),
+                      color:
+                          colorBasedOnIncidentStatus(incident.incidentStatus),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Text(valueIsNull(incident.reparationNumber),
+                    child: Text(incident.reparationNumber,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 13.0,
                             fontWeight: FontWeight.w800))),
@@ -68,21 +66,21 @@ class HeaderContainer extends StatelessWidget {
               Flexible(
                 child: Text(incident.veloGroup,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
+                    style: const TextStyle(
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
-              Text(" - ",
+              const Text(" - ",
                   style: TextStyle(
-                      color: GlobalStyles.purple,
+                      color: global_styles.purple,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w600)),
               Flexible(
-                child: Text(valueIsNull(incident.veloName),
+                child: Text(incident.veloName,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
+                    style: const TextStyle(
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               )
@@ -92,19 +90,19 @@ class HeaderContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(valueIsNull(incident.dateCreation),
-                  style: TextStyle(
-                      color: GlobalStyles.green,
+              Text(incident.dateCreation,
+                  style: const TextStyle(
+                      color: global_styles.green,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w700)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.schedule,
-                    color: GlobalStyles.purple,
+                    color: global_styles.purple,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -112,8 +110,8 @@ class HeaderContainer extends StatelessWidget {
                             ? incident.interventionTime.toString()
                             : "moins d'1") +
                         'h',
-                    style: TextStyle(
-                        color: GlobalStyles.purple,
+                    style: const TextStyle(
+                        color: global_styles.purple,
                         fontWeight: FontWeight.w700),
                   )
                 ],

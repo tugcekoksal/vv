@@ -5,20 +5,20 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
+import 'package:velyvelo/components/drop_down.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Components
-import 'package:velyvelo/components/BuildDisabledDropDown.dart';
-import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
+import 'package:velyvelo/components/disabled_drop_down.dart';
+import 'package:velyvelo/components/slider_show_full_images.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 class BuildFormIncident extends StatefulWidget {
-  BuildFormIncident({
+  const BuildFormIncident({
     Key? key,
     required this.indexIncident,
   }) : super(key: key);
@@ -30,7 +30,7 @@ class BuildFormIncident extends StatefulWidget {
 }
 
 class _BuildFormIncidentState extends State<BuildFormIncident> {
-  final indexKey = new GlobalKey();
+  final indexKey = GlobalKey();
 
   final IncidentDeclarationController incidentDeclarationController =
       Get.put(IncidentDeclarationController());
@@ -73,7 +73,7 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
       if (index == widget.indexIncident.toString()) {
         if (indexKey.currentContext != null) {
           Scrollable.ensureVisible(indexKey.currentContext!,
-              duration: Duration(seconds: 1),
+              duration: const Duration(seconds: 1),
               curve: Curves.fastOutSlowIn,
               alignmentPolicy:
                   ScrollPositionAlignmentPolicy.keepVisibleAtStart);
@@ -97,21 +97,21 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                     child: Container(
                         padding: const EdgeInsetsDirectional.fromSTEB(
                             10, 10, 10, 10),
-                        margin: EdgeInsets.only(left: 5.0, bottom: 10.0),
+                        margin: const EdgeInsets.only(left: 5.0, bottom: 10.0),
                         decoration: BoxDecoration(
-                            color: GlobalStyles.backgroundDarkGrey,
+                            color: global_styles.backgroundDarkGrey,
                             borderRadius: BorderRadius.circular(30.0)),
-                        child: Icon(Icons.remove, color: Colors.white)),
+                        child: const Icon(Icons.remove, color: Colors.white)),
                   )
-                : SizedBox()
+                : const SizedBox()
           ],
         ),
         Obx(() {
           if (incidentDeclarationController
               .incidentTypeSelection.value.isLoading) {
-            return BuildDisabledDropDown(placeholder: "Type d'incident");
+            return DisabledDropDown(placeholder: "Type d'incident");
           } else {
-            return BuildDropDown(
+            return DropDown(
               placeholder: "Type d'incident",
               dropdownItemList: incidentDeclarationController
                   .incidentTypeSelection.value.listOptions
@@ -124,22 +124,22 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
         }),
         Obx(() {
           if (incidentDeclarationController.isFormUncompleted.value != "") {
-            return Align(
+            return const Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Text("Le type d'incident n'est pas renseigné",
                     style: TextStyle(
-                        color: GlobalStyles.orange,
+                        color: global_styles.orange,
                         fontSize: 11.0,
                         fontWeight: FontWeight.w500)),
               ),
             );
           } else {
-            return SizedBox();
+            return const SizedBox();
           }
         }),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         TextField(
           keyboardType: TextInputType.multiline,
           maxLines: null,
@@ -151,53 +151,52 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
               .setIncidentCommentValue(e, widget.indexIncident),
           decoration: InputDecoration(
               border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: GlobalStyles.backgroundLightGrey, width: 4.0),
+                  borderSide: const BorderSide(
+                      color: global_styles.backgroundLightGrey, width: 4.0),
                   borderRadius: BorderRadius.circular(15.0)),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: GlobalStyles.backgroundLightGrey, width: 4.0),
+                  borderSide: const BorderSide(
+                      color: global_styles.backgroundLightGrey, width: 4.0),
                   borderRadius: BorderRadius.circular(15.0)),
               focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: GlobalStyles.backgroundLightGrey, width: 4.0),
+                  borderSide: const BorderSide(
+                      color: global_styles.backgroundLightGrey, width: 4.0),
                   borderRadius: BorderRadius.circular(15.0)),
-              hintStyle: TextStyle(
-                  color: GlobalStyles.greyTextInput,
+              hintStyle: const TextStyle(
+                  color: global_styles.greyTextInput,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w600),
               hintText: "Commentaire"),
-          style: TextStyle(
-              color: GlobalStyles.greyTextInput,
+          style: const TextStyle(
+              color: global_styles.greyTextInput,
               fontSize: 16.0,
               fontWeight: FontWeight.w600),
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Obx(() {
           if (incidentDeclarationController
-                  .incidentPhotosList[widget.indexIncident].length ==
-              0) {
+              .incidentPhotosList[widget.indexIncident].isEmpty) {
             return GestureDetector(
               onTap: () => pickImage(),
               child: DottedBorder(
-                color: GlobalStyles.backgroundLightGrey,
+                color: global_styles.backgroundLightGrey,
                 strokeWidth: 4,
-                radius: Radius.circular(40.0),
-                dashPattern: [15, 15],
+                radius: const Radius.circular(40.0),
+                dashPattern: const [15, 15],
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
                   child: Column(
-                    children: [
+                    children: const [
                       Icon(Icons.camera_alt_outlined,
-                          color: GlobalStyles.greyTextInput, size: 50.0),
+                          color: global_styles.greyTextInput, size: 50.0),
                       SizedBox(height: 10.0),
                       Text("Prendre une photo",
                           style: TextStyle(
-                              color: GlobalStyles.greyTextInput,
+                              color: global_styles.greyTextInput,
                               fontSize: 17.0,
                               fontWeight: FontWeight.w700))
                     ],
@@ -212,7 +211,7 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                     childAspectRatio: 3 / 2,
                     mainAxisSpacing: 20.0,
                     crossAxisSpacing: 20.0),
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: incidentDeclarationController
                         .incidentPhotosList[widget.indexIncident].length +
@@ -226,20 +225,20 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                         onTap: () => pickImage(),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: GlobalStyles.backgroundLightGrey,
+                              color: global_styles.backgroundLightGrey,
                               borderRadius: BorderRadius.circular(20.0)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               SizedBox(height: 20),
                               Icon(Icons.add,
-                                  color: GlobalStyles.greyTextInput,
+                                  color: global_styles.greyTextInput,
                                   size: 35.0),
                               Text(
                                 "Ajouter d'autres photos",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: GlobalStyles.greyTextInput,
+                                  color: global_styles.greyTextInput,
                                   fontSize: 10.0,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -254,7 +253,7 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SliderShowFullmages(
+                                builder: (context) => SliderShowFullImages(
                                     mode: "File",
                                     listImagesModel:
                                         incidentDeclarationController

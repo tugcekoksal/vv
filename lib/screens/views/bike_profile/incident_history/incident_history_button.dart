@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
@@ -21,9 +21,9 @@ class IncidentHistoryButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Historique des incidents",
+            const Text("Historique des incidents",
                 style: TextStyle(
-                    color: GlobalStyles.purple,
+                    color: global_styles.purple,
                     fontSize: 17.0,
                     fontWeight: FontWeight.w600)),
             Obx(() {
@@ -31,7 +31,7 @@ class IncidentHistoryButton extends StatelessWidget {
                   bikeController.isBikeIncidentsOpen.value
                       ? Icons.arrow_drop_up
                       : Icons.arrow_drop_down,
-                  color: GlobalStyles.greyDropDown,
+                  color: global_styles.greyDropDown,
                   size: 30);
             })
           ],

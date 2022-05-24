@@ -23,31 +23,28 @@ class IncidentDetailModel {
     required this.status,
   });
 
-  final String? groupe;
-  final String? velo;
-  final String? typeIncident;
-  final String? commentaire;
-  final List<String>? photos;
-  final bool? isFunctional;
-  final String? actualStatus;
-  final List<String>? status;
+  final String groupe;
+  final String velo;
+  final String typeIncident;
+  final String commentaire;
+  final List<String> photos;
+  final bool isFunctional;
+  final String actualStatus;
+  final List<String> status;
 
   factory IncidentDetailModel.fromJson(Map<String, dynamic> json) =>
       IncidentDetailModel(
-        groupe: json["groupe"] == null ? null : json["groupe"],
-        velo: json["velo"] == null ? null : json["velo"],
-        typeIncident:
-            json["type_incident"] == null ? null : json["type_incident"],
-        commentaire: json["commentaire"] == null ? null : json["commentaire"],
+        groupe: json["groupe"] ?? "Pas de nom de groupe",
+        velo: json["velo"] ?? "Pas de nom de vélo",
+        typeIncident: json["type_incident"] ?? "Pas de type d'incident",
+        commentaire: json["commentaire"] ?? "Pas de commentaire",
         photos: json["photos"] == null
-            ? null
+            ? []
             : List<String>.from(json["photos"].map((x) => x)),
-        isFunctional:
-            json["is_functional"] == null ? null : json["is_functional"],
-        actualStatus:
-            json["actual_status"] == null ? null : json["actual_status"],
+        isFunctional: json["is_functional"] ?? false,
+        actualStatus: json["actual_status"] ?? "Pas de status actuel",
         status: json["status"] == null
-            ? null
+            ? []
             : List<String>.from(json["status"].map((x) => x)),
       );
 }

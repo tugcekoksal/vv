@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 //Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 class ButtonAccount extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
@@ -16,20 +16,20 @@ class ButtonAccount extends StatelessWidget {
     return GestureDetector(
         onTap: (() => Navigator.pop(context)),
         child: Container(
-          color: GlobalStyles.black75,
+          color: global_styles.black75,
           child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Icon(
+                  const Icon(
                     Icons.person,
                     size: 40,
                     color: Colors.white,
                   ),
                   const SizedBox(height: 10),
                   Text(loginController.userName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold))
@@ -81,7 +81,7 @@ class ButtonAccount extends StatelessWidget {
     //           children: [
     //             Icon(
     //               Icons.person,
-    //               color: GlobalStyles.purple,
+    //               color: global_styles.purple,
     //               size: 20,
     //             ),
     //             SizedBox(
@@ -97,7 +97,7 @@ class ButtonAccount extends StatelessWidget {
     //           children: [
     //             Icon(
     //               Icons.logout,
-    //               color: GlobalStyles.greyTitle,
+    //               color: global_styles.greyTitle,
     //               size: 20,
     //             ),
     //             SizedBox(

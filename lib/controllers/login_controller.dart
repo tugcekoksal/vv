@@ -20,7 +20,7 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class LoginController extends GetxController {
-  Logger log = logger(LoginController);
+  Logger log = getLogger(LoginController);
 
   var isLoading = false.obs;
   var login = ''.obs;

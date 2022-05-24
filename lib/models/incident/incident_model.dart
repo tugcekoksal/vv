@@ -23,11 +23,10 @@ class IncidentModel {
   final List<String>? photos;
 
   factory IncidentModel.fromJson(Map<String, dynamic> json) => IncidentModel(
-        groupe: json["groupe"] == null ? null : json["groupe"],
-        velo: json["velo"] == null ? null : json["velo"],
-        typeIncident:
-            json["type_incident"] == null ? null : json["type_incident"],
-        commentaire: json["commentaire"] == null ? null : json["commentaire"],
+        groupe: json["groupe"],
+        velo: json["velo"],
+        typeIncident: json["type_incident"],
+        commentaire: json["commentaire"],
         photos: json["photos"] == null
             ? null
             : List<String>.from(json["photos"].map((x) => x)),

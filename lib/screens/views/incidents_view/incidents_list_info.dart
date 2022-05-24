@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 
 // Components
-import 'package:velyvelo/components/BuildLoadingBox.dart';
+import 'package:velyvelo/components/loading_box.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 class IncidentListError extends StatelessWidget {
   final IncidentController incidentController;
@@ -28,8 +28,8 @@ class IncidentListError extends StatelessWidget {
           },
           child: Column(children: [
             Image.asset("assets/incident_error.png"),
-            Icon(Icons.refresh),
-            Text("Recharger")
+            const Icon(Icons.refresh),
+            const Text("Recharger")
           ]),
         ),
       ),
@@ -50,16 +50,16 @@ class IncidentListEmpty extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: const [
             Icon(
               Icons.check_box_rounded,
-              color: GlobalStyles.green,
+              color: global_styles.green,
               size: 50,
             ),
             Text(
               "Aucun incidents",
               style: TextStyle(
-                  color: GlobalStyles.backgroundDarkGrey,
+                  color: global_styles.backgroundDarkGrey,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w700),
             ),
@@ -79,7 +79,7 @@ class ListIncidentIsLoading extends StatelessWidget {
         child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
-              return BuildLoadingBox(
+              return LoadingBox(
                 child: Container(
                     padding: const EdgeInsets.all(20.0),
                     margin: const EdgeInsets.only(
@@ -101,7 +101,7 @@ class ListIsLoading extends StatelessWidget {
     return ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return BuildLoadingBox(
+          return LoadingBox(
             child: Container(
                 padding: const EdgeInsets.all(20.0),
                 margin:

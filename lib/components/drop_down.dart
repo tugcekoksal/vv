@@ -3,10 +3,10 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
-class BuildDropDown extends StatelessWidget {
-  const BuildDropDown(
+class DropDown extends StatelessWidget {
+  const DropDown(
       {Key? key,
       required this.placeholder,
       required this.dropdownItemList,
@@ -23,9 +23,9 @@ class BuildDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-          textTheme: TextTheme(
+          textTheme: const TextTheme(
         subtitle1: TextStyle(
-            color: GlobalStyles.greyTextInput,
+            color: global_styles.greyTextInput,
             fontSize: 16.0,
             fontWeight: FontWeight.w600,
             fontFamily: "Montserrat"),
@@ -37,45 +37,45 @@ class BuildDropDown extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(
-                    color: GlobalStyles.backgroundLightGrey, width: 3.0)),
-            border: OutlineInputBorder(
+                    color: global_styles.backgroundLightGrey, width: 3.0)),
+            border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(
-                    color: GlobalStyles.backgroundLightGrey, width: 3.0)),
+                    color: global_styles.backgroundLightGrey, width: 3.0)),
             isDense: true,
             contentPadding: const EdgeInsets.fromLTRB(15.0, 0.0, 2.0, 0.0),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 borderSide: BorderSide(
-                    color: GlobalStyles.backgroundLightGrey, width: 3.0)),
-            errorStyle: TextStyle(
-                color: GlobalStyles.purple,
+                    color: global_styles.backgroundLightGrey, width: 3.0)),
+            errorStyle: const TextStyle(
+                color: global_styles.purple,
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600),
             hintText: placeholder,
-            hintStyle: TextStyle(
-                color: GlobalStyles.greyTextInput,
+            hintStyle: const TextStyle(
+                color: global_styles.greyTextInput,
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600),
           ),
           popupElevation: 8,
           popupItemBuilder: (BuildContext context, item, bool isSelected) {
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: !isSelected
                   ? null
                   : BoxDecoration(
                       // border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(5),
                       // color: Colors.white,
-                      color: GlobalStyles.backgroundLightGrey),
+                      color: global_styles.backgroundLightGrey),
               child: ListTile(
                 // selected: isSelected,
                 title: Text(item,
-                    style: TextStyle(color: GlobalStyles.greyTextInput)),
+                    style: const TextStyle(color: global_styles.greyTextInput)),
               ),
             );
           },
@@ -88,42 +88,42 @@ class BuildDropDown extends StatelessWidget {
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                        color: GlobalStyles.yellow,
+                        color: global_styles.yellow,
                         borderRadius: BorderRadius.circular(12.0)),
-                    child: Icon(
+                    child: const Icon(
                       Icons.search_off_rounded,
                       color: Colors.white,
                       size: 30,
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     "Aucun résultats",
                     style: TextStyle(
-                        color: GlobalStyles.backgroundDarkGrey,
+                        color: global_styles.backgroundDarkGrey,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w700),
                   )
                 ],
               )),
-          popupShape: RoundedRectangleBorder(
+          popupShape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               side: BorderSide(
-                  color: GlobalStyles.backgroundLightGrey, width: 1.5)),
+                  color: global_styles.backgroundLightGrey, width: 1.5)),
           searchFieldProps: TextFieldProps(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
-                      color: GlobalStyles.backgroundLightGrey, width: 2.0)),
+                      color: global_styles.backgroundLightGrey, width: 2.0)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   borderSide: BorderSide(
-                      color: GlobalStyles.backgroundLightGrey, width: 2.5)),
+                      color: global_styles.backgroundLightGrey, width: 2.5)),
               contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
               hintText: "Rechercher",
               hintStyle: TextStyle(
-                  color: GlobalStyles.greyTextInput,
+                  color: global_styles.greyTextInput,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w600),
             ),

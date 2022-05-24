@@ -8,7 +8,7 @@ import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/controllers/map_controller.dart';
 
 // Globals styles
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
@@ -35,11 +35,11 @@ class MapStatusVelo extends StatelessWidget {
   Color colorBasedOnVeloMapStatus(String status) {
     switch (status) {
       case "Rangé":
-        return GlobalStyles.green;
+        return global_styles.green;
       case "Utilisé":
-        return GlobalStyles.blue;
+        return global_styles.blue;
       case "Volé":
-        return GlobalStyles.orange;
+        return global_styles.orange;
     }
     return Colors.grey;
   }
@@ -47,10 +47,10 @@ class MapStatusVelo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 100),
+      constraints: const BoxConstraints(maxWidth: 100),
       child: Container(
           width: 90,
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
           decoration: BoxDecoration(
             color: colorBasedOnVeloMapStatus(text),
             borderRadius: BorderRadius.circular(12.5),
@@ -58,7 +58,7 @@ class MapStatusVelo extends StatelessWidget {
           child: Center(
               child: Text(text,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13.0,
                       fontWeight: FontWeight.w800)))),
@@ -93,7 +93,7 @@ class VeloCard extends StatelessWidget {
               children: [
                 TitleText(
                   text: name,
-                  color: GlobalStyles.purple,
+                  color: global_styles.purple,
                 ),
                 MapStatusVelo(text: mapStatus),
               ],
@@ -105,7 +105,7 @@ class VeloCard extends StatelessWidget {
               children: [
                 TitleText(
                     text: group == "" ? "Pas de groupe" : group,
-                    color: GlobalStyles.greyBottomBarText)
+                    color: global_styles.greyBottomBarText)
               ],
             )
           ],
@@ -123,9 +123,9 @@ class BikesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-          color: GlobalStyles.backgroundLightGrey,
+          color: global_styles.backgroundLightGrey,
           child: Padding(
-              padding: EdgeInsets.only(top: 100, bottom: 60),
+              padding: const EdgeInsets.only(top: 100, bottom: 60),
               child: FadeListView(
                   // Need to enable refresh here !
                   child: SmartRefresher(
@@ -144,7 +144,7 @@ class BikesList extends StatelessWidget {
                         mapBikeController.refreshController.loadComplete();
                       },
                       child: ListView.builder(
-                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                        padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
                         itemCount:
                             mapBikeController.bikeWithPositionList.length,
                         itemBuilder: (context, index) {
@@ -191,7 +191,7 @@ class InfoEmpty extends StatelessWidget {
         ),
         Text(
           text,
-          style: TextStyle(color: GlobalStyles.greyUnselectedIcon),
+          style: const TextStyle(color: global_styles.greyUnselectedIcon),
         )
       ],
     ));
@@ -221,7 +221,7 @@ class InfoError extends StatelessWidget {
         GestureDetector(
             onTap: () => {action()},
             child: Column(
-              children: [Icon(Icons.refresh), Text("Recharger")],
+              children: const [Icon(Icons.refresh), Text("Recharger")],
             ))
       ]),
     );
@@ -242,21 +242,22 @@ class BikesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height,
-        color: GlobalStyles.backgroundLightGrey,
+        color: global_styles.backgroundLightGrey,
         child: Obx(() {
           if (mapBikeController.isLoading.value) {
-            return Padding(
-                padding: EdgeInsets.only(top: 100), child: ListIsLoading());
+            return const Padding(
+                padding: EdgeInsets.only(top: 100),
+                child: ListIsLoading());
           } else if (mapBikeController.error.value != "") {
             return InfoError(
                 action: init,
                 icon: Icons.pedal_bike,
-                color: GlobalStyles.orange,
+                color: global_styles.orange,
                 text: "Une erreur s'est produite");
-          } else if (mapBikeController.bikeWithPositionList.length == 0) {
-            return InfoEmpty(
+          } else if (mapBikeController.bikeWithPositionList.isEmpty) {
+            return const InfoEmpty(
                 icon: Icons.pedal_bike,
-                color: GlobalStyles.greyUnselectedIcon,
+                color: global_styles.greyUnselectedIcon,
                 text: "Aucun vélo trouvé");
           } else {
             return BikesList(mapBikeController: mapBikeController);

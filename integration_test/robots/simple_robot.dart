@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:velyvelo/main_test.dart' as app;
 
+// ignore: avoid_relative_lib_imports
 import '../../lib/helpers/logger.dart';
 import '../usefull.dart' as usefull;
 
 class SimpleRobot {
   final WidgetTester tester;
-  final log = logger(SimpleRobot);
+  final log = getLogger(SimpleRobot);
 
   SimpleRobot(this.tester);
 

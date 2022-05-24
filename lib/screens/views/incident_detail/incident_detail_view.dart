@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -37,7 +37,7 @@ class IncidentDetail extends StatelessWidget {
     init();
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: GlobalStyles.backgroundLightGrey,
+        backgroundColor: global_styles.backgroundLightGrey,
         body: ColorfulSafeArea(
             color: Colors.white,
             child: GestureDetector(
@@ -55,7 +55,7 @@ class IncidentDetail extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               bottom: 50, top: 10, left: 20, right: 20),
                           child: Column(
                             children: [
@@ -75,7 +75,7 @@ class IncidentDetail extends StatelessWidget {
                                 loginController: loginController,
                                 incidentController: incidentController,
                               ),
-                              SizedBox(height: 10)
+                              const SizedBox(height: 10)
                             ],
                           ),
                         ),

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/config/markersPaths.dart';
 
 // Controllers
@@ -23,14 +23,14 @@ class Pin extends StatelessWidget {
           child: Transform.rotate(
             angle: 40,
             child:
-                Container(color: MarkersColor[status], height: 15, width: 15),
+                Container(color: markersColor[status], height: 15, width: 15),
           )),
       Container(
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(100),
-              border: Border.all(color: MarkersColor[status], width: 2)),
-          child: Image.asset(MarkersPaths[status])),
+              border: Border.all(color: markersColor[status], width: 2)),
+          child: Image.asset(markersPaths[status])),
     ]);
   }
 }
@@ -55,14 +55,14 @@ class HubPin extends StatelessWidget {
           height: 35,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-              color: GlobalStyles.yellow,
+              color: global_styles.yellow,
               borderRadius: BorderRadius.circular(100),
               border: Border.all(color: Colors.black, width: 2)),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Image.network(
                 HttpService.urlServer + hub.pictureUrl!,
-                errorBuilder: (context, child, loadingProgress) => Icon(
+                errorBuilder: (context, child, loadingProgress) => const Icon(
                   Icons.other_houses,
                   color: Colors.white,
                 ),

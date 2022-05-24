@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
 import 'package:velyvelo/screens/views/incident_detail/reparation/pick_image.dart';
 
 // Components
-import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
+import 'package:velyvelo/components/slider_show_full_images.dart';
 
 class PhotosModif extends StatelessWidget {
   final IncidentController incidentController;
@@ -21,16 +21,15 @@ class PhotosModif extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("Photos",
+      const Text("Photos",
           style: TextStyle(
-              color: GlobalStyles.purple,
+              color: global_styles.purple,
               fontSize: 17.0,
               fontWeight: FontWeight.w600)),
-      SizedBox(height: 10.0),
+      const SizedBox(height: 10.0),
       Obx(() {
         if (incidentController
-                .currentReparation.value.reparationPhotosList.length ==
-            0) {
+            .currentReparation.value.reparationPhotosList.isEmpty) {
           return PickImage(
             incidentController: incidentController,
             text: "Prendre une photo",
@@ -42,7 +41,7 @@ class PhotosModif extends StatelessWidget {
                   childAspectRatio: 3 / 2,
                   mainAxisSpacing: 20.0,
                   crossAxisSpacing: 20.0),
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: incidentController
                       .currentReparation.value.reparationPhotosList.length +
@@ -64,7 +63,7 @@ class PhotosModif extends StatelessWidget {
                         child: InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SliderShowFullmages(
+                                  builder: (context) => SliderShowFullImages(
                                       mode: "File",
                                       listImagesModel: incidentController
                                           .currentReparation
@@ -73,7 +72,7 @@ class PhotosModif extends StatelessWidget {
                                       current: 0)));
                             },
                             child: Stack(children: [
-                              Container(
+                              SizedBox(
                                   width: 100,
                                   height: 75,
                                   child: Image.file(
@@ -85,14 +84,14 @@ class PhotosModif extends StatelessWidget {
                                 bottom: 0,
                                 right: 0,
                                 child: Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(20.0),
                                           bottomRight: Radius.circular(20.0)),
                                       color:
                                           Color.fromARGB(129, 228, 229, 232)),
                                   child: IconButton(
-                                    padding: EdgeInsets.all(0.0),
+                                    padding: const EdgeInsets.all(0.0),
                                     iconSize: 20,
                                     icon: const Icon(Icons.delete),
                                     onPressed: () => {

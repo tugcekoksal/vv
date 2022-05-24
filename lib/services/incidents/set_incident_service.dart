@@ -21,7 +21,7 @@ Future<String> setIncidentService(
     ..fields["is_self_attributed"] = jsonEncode(incident.isSelfAttributed);
 
   // Check if at least on photo has been taken
-  if (incident.files.length != 0) {
+  if (incident.files.isNotEmpty) {
     // Loop threw all incident photos and add it to the request
     for (var i = 0; i < incident.files.length; i++) {
       request.files.add(

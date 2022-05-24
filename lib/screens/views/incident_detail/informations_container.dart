@@ -2,10 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
-
-// Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -27,43 +24,42 @@ class InformationsContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Informations",
+          const Text("Informations",
               style: TextStyle(
-                  color: GlobalStyles.purple,
+                  color: global_styles.purple,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w600)),
-          SizedBox(height: 10.0),
-          incidentController.incidentDetailValue.value.groupe == "" ||
-                  incidentController.incidentDetailValue.value.groupe == null
-              ? SizedBox()
+          const SizedBox(height: 10.0),
+          incidentController.incidentDetailValue.value.groupe == ""
+              ? const SizedBox()
               : RichText(
                   text: TextSpan(
                     text: 'Groupe ',
-                    style: TextStyle(
-                        color: GlobalStyles.greyText,
+                    style: const TextStyle(
+                        color: global_styles.greyText,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w700),
                     children: <TextSpan>[
                       TextSpan(
                           text: incidentController
                               .incidentDetailValue.value.groupe,
-                          style: TextStyle(color: GlobalStyles.lightGreyText)),
+                          style: const TextStyle(
+                              color: global_styles.lightGreyText)),
                     ],
                   ),
                 ),
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
           RichText(
             text: TextSpan(
               text: 'Vélo ',
-              style: TextStyle(
-                  color: GlobalStyles.greyText,
+              style: const TextStyle(
+                  color: global_styles.greyText,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w700),
               children: <TextSpan>[
                 TextSpan(
-                    text: valueIsNull(
-                        incidentController.incidentDetailValue.value.velo),
-                    style: TextStyle(color: GlobalStyles.lightGreyText)),
+                    text: incidentController.incidentDetailValue.value.velo,
+                    style: const TextStyle(color: global_styles.lightGreyText)),
               ],
             ),
           ),

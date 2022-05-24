@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
@@ -19,26 +19,26 @@ class BuildButtonSelectedFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-        padding: EdgeInsets.all(0),
-        labelPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+        padding: const EdgeInsets.all(0),
+        labelPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
         label: Row(mainAxisSize: MainAxisSize.min, children: [
           Text(text,
-              style: TextStyle(
-                  color: GlobalStyles.backgroundDarkGrey,
+              style: const TextStyle(
+                  color: global_styles.backgroundDarkGrey,
                   fontSize: 12.0,
                   fontWeight: FontWeight.w600)),
           const SizedBox(width: 5),
-          Icon(
+          const Icon(
             Icons.close,
             size: 12,
           )
         ]),
         backgroundColor: Colors.white,
-        shape: StadiumBorder(
-            side:
-                BorderSide(color: GlobalStyles.backgroundDarkGrey, width: 1.5)),
+        shape: const StadiumBorder(
+            side: BorderSide(
+                color: global_styles.backgroundDarkGrey, width: 1.5)),
         onSelected: (bool value) => setFilters(false, text),
-        checkmarkColor: GlobalStyles.blue,
+        checkmarkColor: global_styles.blue,
         showCheckmark: true,
         selected: false,
         selectedColor: Colors.white,
@@ -72,9 +72,8 @@ class PopUpListFilters extends StatelessWidget {
                   (() => Wrap(
                       spacing: 4.0,
                       direction: Axis.horizontal,
-                      children: mapBikesController.selectedFiltersList.length ==
-                              0
-                          ? [Text("Aucuns groupes séléctionnés")]
+                      children: mapBikesController.selectedFiltersList.isEmpty
+                          ? [const Text("Aucuns groupes séléctionnés")]
                           : mapBikesController.availableFiltersList
                               .map((filterLabel) => Obx(() {
                                     if (mapBikesController.selectedFiltersList
@@ -84,7 +83,7 @@ class PopUpListFilters extends StatelessWidget {
                                           setFilters:
                                               mapBikesController.setFilters);
                                     }
-                                    return SizedBox(
+                                    return const SizedBox(
                                       height: 0,
                                       width: 0,
                                     );

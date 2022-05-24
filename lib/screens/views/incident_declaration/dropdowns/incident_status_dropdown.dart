@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildDisabledDropDown.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
+import 'package:velyvelo/components/disabled_drop_down.dart';
+import 'package:velyvelo/components/drop_down.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
@@ -15,15 +15,15 @@ class IncidentStatusDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 100))
+    Future.delayed(const Duration(milliseconds: 100))
         .then((value) => declarationController.fetchClientLabels());
 
     return Obx(() {
       if (declarationController.incidentTypeSelection.value.isLoading) {
-        return BuildDisabledDropDown(placeholder: "Client");
+        return DisabledDropDown(placeholder: "Client");
       }
       // Has access
-      return BuildDropDown(
+      return DropDown(
         placeholder: "Client",
         dropdownItemList: declarationController
             .infosSelection.value.infoClient.listOptions

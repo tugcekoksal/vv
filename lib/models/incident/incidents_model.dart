@@ -41,40 +41,32 @@ class Incident {
       required this.interventionTime,
       required this.reparationNumber});
 
-  final String? incidentTypeReparation;
-  final String? incidentStatus;
+  final String incidentTypeReparation;
+  final String incidentStatus;
   final String incidentPk;
   final String veloGroup;
   final String veloName;
-  final String? dateCreation;
+  final String dateCreation;
   final int interventionTime;
   final String reparationNumber;
 
   factory Incident.fromJson(Map<String, dynamic> json) => Incident(
-      incidentTypeReparation: json["incident_type_reparation"] == null
-          ? null
-          : json["incident_type_reparation"],
-      incidentStatus:
-          json["incident_status"] == null ? null : json["incident_status"],
+      incidentTypeReparation:
+          json["incident_type_reparation"] ?? "Pas de type de réparation",
+      incidentStatus: json["incident_status"] ?? "Pas de status d'incident",
       incidentPk: json["incident_pk"] ?? "-1",
-      veloGroup:
-          json["velo_group"] == null ? "Pas de groupe" : json["velo_group"],
-      veloName: json["velo_name"] == null ? "Erreur" : json["velo_name"],
-      dateCreation:
-          json["date_creation"] == null ? null : json["date_creation"],
-      interventionTime:
-          json["intervention_time"] == null ? 0 : json["intervention_time"],
-      reparationNumber: json["numero_reparation"] == null
-          ? "Pas de nom"
-          : json["numero_reparation"]);
+      veloGroup: json["velo_group"] ?? "Pas de groupe",
+      veloName: json["velo_name"] ?? "Pas de nom de vélo",
+      dateCreation: json["date_creation"] ?? "Pas de date de création",
+      interventionTime: json["intervention_time"] ?? 0,
+      reparationNumber: json["numero_reparation"] ?? "Pas de nom");
 
   Map<String, dynamic> toJson() => {
-        "incident_type_reparation":
-            incidentTypeReparation == null ? null : incidentTypeReparation,
-        "incident_status": incidentStatus == null ? null : incidentStatus,
+        "incident_type_reparation": incidentTypeReparation,
+        "incident_status": incidentStatus,
         "velo_group": veloGroup,
         "velo_name": veloName,
-        "date_creation": dateCreation == null ? null : dateCreation,
+        "date_creation": dateCreation,
         "intervention_time": interventionTime
       };
 }
@@ -91,14 +83,14 @@ class NbIncidents {
   final int? termine;
 
   factory NbIncidents.fromJson(Map<String, dynamic> json) => NbIncidents(
-        nouvelle: json["Nouvelle"] == null ? null : json["Nouvelle"],
-        enCours: json["En cours"] == null ? null : json["En cours"],
-        termine: json["Termine"] == null ? null : json["Termine"],
+        nouvelle: json["Nouvelle"],
+        enCours: json["En cours"],
+        termine: json["Termine"],
       );
 
   Map<String, dynamic> toJson() => {
-        "Nouvelle": nouvelle == null ? null : nouvelle,
-        "En cours": enCours == null ? null : enCours,
-        "Termine": termine == null ? null : termine,
+        "Nouvelle": nouvelle,
+        "En cours": enCours,
+        "Termine": termine,
       };
 }

@@ -14,7 +14,8 @@ class IncidentDeclarationScrollview extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
       child: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 80, top: 10, left: 20, right: 20),
+        padding:
+            const EdgeInsets.only(bottom: 80, top: 10, left: 20, right: 20),
         child: Column(children: [
           DeclarationInformationContainer(
               client: infoContainer?.client,

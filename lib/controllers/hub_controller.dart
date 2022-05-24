@@ -13,7 +13,7 @@ import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class HubController extends GetxController {
-  var userToken;
+  String userToken = "";
   var hubView = false.obs;
   final refreshController = RefreshController();
 

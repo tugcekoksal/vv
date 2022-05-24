@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Components
 import 'package:velyvelo/controllers/hub_controller.dart';
@@ -31,13 +31,13 @@ class ButtonTypeMapElem extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               color: activated()
-                  ? GlobalStyles.blue
-                  : GlobalStyles.backgroundDarkGrey),
+                  ? global_styles.blue
+                  : global_styles.backgroundDarkGrey),
           child: IconButton(
               onPressed: () => changeView(),
               icon: Icon(
                 isHub ? Icons.other_houses : Icons.pedal_bike,
-                color: activated() ? Colors.white : GlobalStyles.greyText,
+                color: activated() ? Colors.white : global_styles.greyText,
               )));
     });
   }

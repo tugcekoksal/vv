@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Components
-import 'package:velyvelo/components/BuildQRCodeScanner.dart';
+import 'package:velyvelo/components/qr_code_scanner.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
@@ -32,23 +32,23 @@ class ScanView extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.15),
-              child: ReturnContainer(text: "Scannez un vélo")),
+              child: const ReturnContainer(text: "Scannez un vélo")),
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-          Container(
+          SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               width: MediaQuery.of(context).size.width * 0.7,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
-                  child: BuildQRCodeScanner())),
+                  child: const QRCodeScanner())),
           SizedBox(height: MediaQuery.of(context).size.height * 0.0),
           SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.15),
-            child: Text(
+            child: const Text(
                 "Veuillez scanner le QR code d’un vélo afin d’ouvrir sa fiche technique.",
                 style: TextStyle(
-                    color: GlobalStyles.purple,
+                    color: global_styles.purple,
                     fontSize: 12.0,
                     fontWeight: FontWeight.w400)),
           ),

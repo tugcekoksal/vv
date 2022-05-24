@@ -4,7 +4,7 @@ import 'package:velyvelo/helpers/logger.dart';
 import 'login/login_test.dart' as login_test;
 import 'usefull.dart' as usefull;
 
-final log = logger(WidgetTester);
+final log = getLogger(WidgetTester);
 
 void testResult() {
   group('[RESULTS]', () {

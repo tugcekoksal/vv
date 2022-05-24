@@ -13,7 +13,7 @@ Future fetchUserBikeService(
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
   };
-  UserBikeIdToSend bikeIdTosend = new UserBikeIdToSend(veloPk: veloPk);
+  UserBikeIdToSend bikeIdTosend = UserBikeIdToSend(veloPk: veloPk);
 
   request.body = json.encode(bikeIdTosend.toJson());
   request.headers.addAll(headers);

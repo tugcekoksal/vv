@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalstyles.dart' as global_styles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -44,7 +44,7 @@ class LoginView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: screenHeight * 0.2),
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Bienvenue !",
                       style: TextStyle(
@@ -52,7 +52,7 @@ class LoginView extends StatelessWidget {
                           fontSize: 26.0,
                           fontWeight: FontWeight.w700)),
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Connectez-vous à votre espace VelyVelo",
                       style: TextStyle(
@@ -67,19 +67,19 @@ class LoginView extends StatelessWidget {
                     placeholder: "Identifiant",
                     isPassword: false,
                     onChanged: loginController.onChangedLogin),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 BuildInputLogin(
                     keyLabel: "login-password",
                     placeholder: "Mot de passe",
                     isPassword: true,
                     onChanged: loginController.onChangedPassword),
-                SizedBox(height: 5.0),
+                const SizedBox(height: 5.0),
                 Align(
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     onTap: () => launch(
                         'https://dms.velyvelo.com/accounts/password/reset/'),
-                    child: Text("Mot de passe oublié ?",
+                    child: const Text("Mot de passe oublié ?",
                         style: TextStyle(
                             color: global_styles.purple,
                             fontSize: 11.0,
@@ -91,10 +91,10 @@ class LoginView extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 15.0),
                     child: AnimatedOpacity(
                         opacity: loginController.error.value != "" ? 1 : 0,
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         child: Text(loginController.error.value,
-                            key: Key("login-error"),
-                            style: TextStyle(
+                            key: const Key("login-error"),
+                            style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 11.0,
                                 fontWeight: FontWeight.w500))),
@@ -102,19 +102,19 @@ class LoginView extends StatelessWidget {
                 }),
                 SizedBox(height: screenHeight * 0.03),
                 GestureDetector(
-                  key: Key("login-button"),
+                  key: const Key("login-button"),
                   onTap: () async => {
                     ScaffoldMessenger.of(context).showSnackBar(snackBarLoading),
                     await loginController.loginUser(),
                     ScaffoldMessenger.of(context).clearSnackBars(),
                   },
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 14.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0, vertical: 14.0),
                     decoration: BoxDecoration(
                         color: global_styles.purple,
                         borderRadius: BorderRadius.circular(25.0)),
-                    child: Text('Se connecter',
+                    child: const Text('Se connecter',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.0,
@@ -124,7 +124,7 @@ class LoginView extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.03),
                 InkWell(
                   onTap: () => launch('https://dms.velyvelo.com/signup_apple/'),
-                  child: Text(
+                  child: const Text(
                       "Vous n'avez pas encore de compte chez nous ? Cliquez ici",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -139,7 +139,7 @@ class LoginView extends StatelessWidget {
               top: 0,
               left: 0,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Image.asset(
@@ -154,13 +154,13 @@ class LoginView extends StatelessWidget {
               left: 0,
               top: 0,
               child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text(
                               "Velyvelo",
                               style: TextStyle(
@@ -181,7 +181,7 @@ class BuildInputLogin extends StatefulWidget {
   final Function onChanged;
   final String keyLabel;
 
-  BuildInputLogin(
+  const BuildInputLogin(
       {Key? key,
       required this.keyLabel,
       required this.placeholder,
@@ -207,18 +207,18 @@ class _BuildInputLoginState extends State<BuildInputLogin> {
         filled: true,
         fillColor: Colors.white,
         hintText: widget.placeholder,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
             color: global_styles.greyLogin,
             fontSize: 12.0,
             fontWeight: FontWeight.w700),
         contentPadding:
             const EdgeInsets.only(left: 20.0, bottom: 8.0, top: 8.0),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: const BorderSide(color: Colors.white),
           borderRadius: BorderRadius.circular(25.7),
         ),
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: const BorderSide(color: Colors.white),
           borderRadius: BorderRadius.circular(25.7),
         ),
         suffixIcon: widget.isPassword
@@ -233,7 +233,7 @@ class _BuildInputLoginState extends State<BuildInputLogin> {
                   });
                 },
               )
-            : SizedBox(),
+            : const SizedBox(),
       ),
     );
   }

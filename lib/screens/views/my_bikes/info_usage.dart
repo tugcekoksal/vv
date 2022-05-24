@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Access Token
 const accesToken =
@@ -26,10 +26,10 @@ class InfoContainer extends StatelessWidget {
 
     return AnimatedOpacity(
       opacity: isVisible ? 1 : 0,
-      duration: Duration(milliseconds: 750),
+      duration: const Duration(milliseconds: 750),
       child: Container(
           width: screenWidth * 0.9,
-          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
           decoration: BoxDecoration(
               color: colorBackground,
               borderRadius: BorderRadius.circular(12.0)),
@@ -59,11 +59,11 @@ class InfoNotFound extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(text,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w500)),
-          Icon(Icons.info_outline, color: Colors.white, size: 25.0)
+          const Icon(Icons.info_outline, color: Colors.white, size: 25.0)
         ],
       ),
     );
@@ -81,12 +81,12 @@ class InfoLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return InfoContainer(
       isVisible: isVisible,
-      colorBackground: GlobalStyles.backgroundDarkGrey,
+      colorBackground: global_styles.backgroundDarkGrey,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(text,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w400)),
@@ -94,11 +94,11 @@ class InfoLoading extends StatelessWidget {
             height: 20,
             width: 20,
             child: isVisible
-                ? CircularProgressIndicator(
+                ? const CircularProgressIndicator(
                     color: Colors.white,
                     strokeWidth: 2,
                   )
-                : SizedBox(),
+                : const SizedBox(),
           )
         ],
       ),

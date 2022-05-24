@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 class PickImage extends StatelessWidget {
   final IncidentController incidentController;
   final String text;
 
-  PickImage({Key? key, required this.incidentController, required this.text})
+  const PickImage(
+      {Key? key, required this.incidentController, required this.text})
       : super(key: key);
 
   Future pickImage(context) async {
@@ -49,24 +50,24 @@ class PickImage extends StatelessWidget {
     return GestureDetector(
       onTap: () => {pickImage(context)},
       child: DottedBorder(
-        color: GlobalStyles.backgroundLightGrey,
+        color: global_styles.backgroundLightGrey,
         strokeWidth: 3,
-        radius: Radius.circular(40.0),
-        dashPattern: [15, 15],
+        radius: const Radius.circular(40.0),
+        dashPattern: const [15, 15],
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 10.0),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
           child: Column(
-            children: [
+            children: const [
               Icon(Icons.camera_alt_outlined,
-                  color: GlobalStyles.greyTextInput, size: 25.0),
+                  color: global_styles.greyTextInput, size: 25.0),
               SizedBox(height: 10.0),
               Text("Prendre une photo",
                   style: TextStyle(
-                      color: GlobalStyles.greyTextInput,
+                      color: global_styles.greyTextInput,
                       fontSize: 10.0,
                       fontWeight: FontWeight.w700))
             ],
