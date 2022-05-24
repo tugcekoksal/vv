@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -21,7 +21,7 @@ class ErrorContainer extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(text,
             style: TextStyle(
-                color: GlobalStyles.orange,
+                color: global_styles.orange,
                 fontSize: 11.0,
                 fontWeight: FontWeight.w500)),
       ),
@@ -56,7 +56,7 @@ class DeclarationInformationContainer extends StatelessWidget {
           Text(
             "Informations",
             style: TextStyle(
-                color: GlobalStyles.greyText,
+                color: global_styles.greyText,
                 fontSize: 19.0,
                 fontWeight: FontWeight.w600),
           ),

@@ -12,7 +12,7 @@ import 'package:velyvelo/screens/home/title_app_bar.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/screens/views/incidents_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 
@@ -24,11 +24,11 @@ class IncidentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: GlobalStyles.backgroundLightGrey,
+        color: global_styles.backgroundLightGrey,
         // APP BAR
         child: Stack(alignment: Alignment.topCenter, children: [
           Padding(
-              padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -45,17 +45,17 @@ class IncidentsView extends StatelessWidget {
                           SubTitleIncidents(
                               incidentController: incidentController)
                         ])),
-                    ButtonScan()
+                    const ButtonScan()
                   ])),
           // BODY
           Column(children: [
-            SizedBox(height: 100.0),
+            const SizedBox(height: 100.0),
             BuildIncidentsOverview(
               setFilterTab: incidentController.setStatusToDisplay,
             ),
             Obx(() {
               if (incidentController.isLoading.value) {
-                return ListIncidentIsLoading();
+                return const ListIncidentIsLoading();
               } else if (incidentController.error.value != '') {
                 return IncidentListError(
                     incidentController: incidentController);

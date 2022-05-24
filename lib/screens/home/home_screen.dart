@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/helpers/logger.dart';
 
 // Views
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
     return new Container(
         color: Colors.transparent,
         child: Scaffold(
-            backgroundColor: GlobalStyles.loginBackground,
+            backgroundColor: global_styles.loginBackground,
             resizeToAvoidBottomInset: false,
             body: Obx(() {
               if (loginController.isLogged.value) {
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                   child: navigationController.currentIndex.value == 0 &&
                           loginController.isLogged.value
                       ? FloatingActionButton(
-                          backgroundColor: GlobalStyles.backgroundDarkGrey,
+                          backgroundColor: global_styles.backgroundDarkGrey,
                           onPressed: () => showDeclarationIncidentPage(),
                           child: Icon(
                             Icons.add,
@@ -76,20 +76,20 @@ class HomeScreen extends StatelessWidget {
                 return Obx(() {
                   return BottomNavigationBar(
                       iconSize: 35.0,
-                      backgroundColor: GlobalStyles.backgroundDarkGrey,
+                      backgroundColor: global_styles.backgroundDarkGrey,
                       selectedItemColor: Colors.white,
                       selectedIconTheme:
-                          IconThemeData(color: GlobalStyles.blue, size: 25.0),
+                          IconThemeData(color: global_styles.blue, size: 25.0),
                       selectedLabelStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600,
                       ),
-                      unselectedItemColor: GlobalStyles.greyBottomBarText,
+                      unselectedItemColor: global_styles.greyBottomBarText,
                       unselectedIconTheme: IconThemeData(
-                          color: GlobalStyles.greyUnselectedIcon, size: 25.0),
+                          color: global_styles.greyUnselectedIcon, size: 25.0),
                       unselectedLabelStyle: TextStyle(
-                          color: GlobalStyles.greyBottomBarText,
+                          color: global_styles.greyBottomBarText,
                           fontSize: 12.0,
                           fontWeight: FontWeight.w600),
                       currentIndex: navigationController.currentIndex.value,

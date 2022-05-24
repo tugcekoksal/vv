@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 class BuildFormsDivider extends StatelessWidget {
   const BuildFormsDivider({
@@ -12,10 +12,10 @@ class BuildFormsDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: GlobalStyles.greyText,
+      color: global_styles.greyText,
       height: 2,
       width: double.infinity,
-      margin: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 10.0),
+      margin: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 10.0),
     );
   }
 }

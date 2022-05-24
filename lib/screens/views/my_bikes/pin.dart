@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/config/markersPaths.dart';
 
 // Controllers
@@ -55,7 +55,7 @@ class HubPin extends StatelessWidget {
           height: 35,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-              color: GlobalStyles.yellow,
+              color: global_styles.yellow,
               borderRadius: BorderRadius.circular(100),
               border: Border.all(color: Colors.black, width: 2)),
           child: ClipRRect(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Components
 import 'package:velyvelo/controllers/hub_controller.dart';
@@ -28,16 +28,16 @@ class ButtonSearchVelo extends StatelessWidget {
             isLoading: false,
             iconButton: Icons.search),
         mapBikesController.searchText.value == ""
-            ? SizedBox(height: 0, width: 0)
+            ? const SizedBox(height: 0, width: 0)
             : Positioned(
                 right: 3,
                 top: 3,
                 child: Container(
-                    padding: EdgeInsets.all(1),
+                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                        color: GlobalStyles.blue,
+                        color: global_styles.blue,
                         borderRadius: BorderRadius.circular(5)),
-                    child: Icon(
+                    child: const Icon(
                       Icons.warning,
                       color: Colors.white,
                       size: 10,
@@ -57,49 +57,46 @@ class SearchBarVelo extends StatelessWidget {
   Widget build(BuildContext context) {
     textInputController.text = mapBikeController.searchText.value;
     double screenWidth = MediaQuery.of(context).size.width;
-    return Container(
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              height: 40,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                        onPressed: () =>
-                            {mapBikeController.displaySearch.value = false},
-                        icon: Icon(Icons.arrow_back_ios)),
-                    Container(
-                      width: screenWidth * 0.5,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Rechercher un vélo"),
-                        controller: textInputController,
-                        onChanged: (value) => {
-                          mapBikeController.searchText.value = value,
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          height: 40,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            IconButton(
+                onPressed: () =>
+                    {mapBikeController.displaySearch.value = false},
+                icon: const Icon(Icons.arrow_back_ios)),
+            SizedBox(
+              width: screenWidth * 0.5,
+              child: TextField(
+                decoration: const InputDecoration(
+                    border: InputBorder.none, hintText: "Rechercher un vélo"),
+                controller: textInputController,
+                onChanged: (value) => {
+                  mapBikeController.searchText.value = value,
+                  mapBikeController.bikesBySearch(),
+                },
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                    onPressed: () => {
+                          textInputController.text = "",
+                          mapBikeController.searchText.value = "",
                           mapBikeController.bikesBySearch(),
                         },
-                      ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () => {
-                                  textInputController.text = "",
-                                  mapBikeController.searchText.value = "",
-                                  mapBikeController.bikesBySearch(),
-                                },
-                            icon: Icon(Icons.close)),
-                      ],
-                    )
-                  ]),
-            )));
+                    icon: const Icon(Icons.close)),
+              ],
+            )
+          ]),
+        ));
   }
 }
 
@@ -118,16 +115,16 @@ class ButtonSearchHub extends StatelessWidget {
             isLoading: false,
             iconButton: Icons.search),
         hubController.searchText.value == ""
-            ? SizedBox(height: 0, width: 0)
+            ? const SizedBox(height: 0, width: 0)
             : Positioned(
                 right: 3,
                 top: 3,
                 child: Container(
-                    padding: EdgeInsets.all(1),
+                    padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                        color: GlobalStyles.blue,
+                        color: global_styles.blue,
                         borderRadius: BorderRadius.circular(5)),
-                    child: Icon(
+                    child: const Icon(
                       Icons.warning,
                       color: Colors.white,
                       size: 10,
@@ -147,48 +144,44 @@ class SearchBarHub extends StatelessWidget {
   Widget build(BuildContext context) {
     textInputController.text = hubController.searchText.value;
     double screenWidth = MediaQuery.of(context).size.width;
-    return Container(
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              height: 40,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                        onPressed: () =>
-                            {hubController.displaySearch.value = false},
-                        icon: Icon(Icons.arrow_back_ios)),
-                    Container(
-                      width: screenWidth * 0.5,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Rechercher un hub"),
-                        controller: textInputController,
-                        onChanged: (value) => {
-                          hubController.searchText.value = value,
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          height: 40,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            IconButton(
+                onPressed: () => {hubController.displaySearch.value = false},
+                icon: const Icon(Icons.arrow_back_ios)),
+            SizedBox(
+              width: screenWidth * 0.5,
+              child: TextField(
+                decoration: const InputDecoration(
+                    border: InputBorder.none, hintText: "Rechercher un hub"),
+                controller: textInputController,
+                onChanged: (value) => {
+                  hubController.searchText.value = value,
+                  hubController.hubsBySearch(),
+                },
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                    onPressed: () => {
+                          textInputController.text = "",
+                          hubController.searchText.value = "",
                           hubController.hubsBySearch(),
                         },
-                      ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () => {
-                                  textInputController.text = "",
-                                  hubController.searchText.value = "",
-                                  hubController.hubsBySearch(),
-                                },
-                            icon: Icon(Icons.close)),
-                      ],
-                    )
-                  ]),
-            )));
+                    icon: const Icon(Icons.close)),
+              ],
+            )
+          ]),
+        ));
   }
 }

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 class PopUpTitle extends StatelessWidget {
   final String text;
@@ -13,8 +13,8 @@ class PopUpTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(text,
-          style: TextStyle(
-              color: GlobalStyles.greyText,
+          style: const TextStyle(
+              color: global_styles.greyText,
               fontSize: 22.0,
               fontWeight: FontWeight.w600)),
     );
@@ -32,10 +32,10 @@ class PopUpSubTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.fromLTRB(0, 20, 5, 5),
+            padding: const EdgeInsets.fromLTRB(0, 20, 5, 5),
             child: Text(
               text,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             )),
       ],
     );

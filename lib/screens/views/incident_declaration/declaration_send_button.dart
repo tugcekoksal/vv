@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
@@ -52,10 +52,10 @@ class DeclarationSendButton extends StatelessWidget {
         //   print(
         //       "error value ${incidentDeclarationController.isFormUncompleted.value}");
         //   showIncidentSendingFeedback(
-        //       context, "Un champ n'est pas renseigné.", GlobalStyles.orange);
+        //       context, "Un champ n'est pas renseigné.", global_styles.orange);
         // } else {
         //   showIncidentSendingFeedback(context,
-        //       "Vos incidents ont été ajouté avec succès.", GlobalStyles.green);
+        //       "Vos incidents ont été ajouté avec succès.", global_styles.green);
 
         //   if (widget.veloPk != null) {
         //     BikeController bikeController = Get.put(BikeController());
@@ -86,7 +86,7 @@ class DeclarationSendButton extends StatelessWidget {
           child: Text("Envoyer ma déclaration",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: GlobalStyles.blue,
+                  color: global_styles.blue,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w600)),
         ),

@@ -7,7 +7,7 @@ import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/controllers/hub_controller.dart';
 
 // Globals styles
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
@@ -21,8 +21,8 @@ class PurpleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
         child: Text(text,
-            style: TextStyle(
-                color: GlobalStyles.purple,
+            style: const TextStyle(
+                color: global_styles.purple,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w600)));
   }
@@ -44,20 +44,21 @@ class HubCard extends StatelessWidget {
         child: Column(children: [
           Text(hub.groupName ?? "Pas de nom de groupe",
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           Text(
             hub.clientName ?? "Pas de nom de client",
-            style: TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 12),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Icon(
+              const Icon(
                 Icons.location_pin,
-                color: GlobalStyles.greyText,
+                color: global_styles.greyText,
                 size: 20,
               ),
               Flexible(
@@ -68,33 +69,33 @@ class HubCard extends StatelessWidget {
                 onPressed: () => {
                   Clipboard.setData(ClipboardData(text: hub.adresse)).then(
                       (value) => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                               content: Text(
                                   "Adresse copiée dans le presse-papier."))))
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.copy,
-                  color: GlobalStyles.greyText,
+                  color: global_styles.greyText,
                   size: 20,
                 ),
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
             children: [
-              Text(
+              const Text(
                 "Vous avez ",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
                 hub.reparations.toString(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: GlobalStyles.yellow),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: global_styles.yellow),
               ),
-              Flexible(
+              const Flexible(
                   child: Text(
                 " réparations à effectuer.",
                 overflow: TextOverflow.ellipsis,
@@ -102,15 +103,15 @@ class HubCard extends StatelessWidget {
               )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Icon(
+              const Icon(
                 Icons.people,
-                color: GlobalStyles.greyText,
+                color: global_styles.greyText,
                 size: 20,
               ),
               Text(hub.users.toString()),
@@ -120,7 +121,7 @@ class HubCard extends StatelessWidget {
               ),
               Text(
                 hub.bikeParked.toString(),
-                style: TextStyle(color: GlobalStyles.green),
+                style: const TextStyle(color: global_styles.green),
               ),
               Image.asset(
                 "assets/pins/blue_pin.png",
@@ -128,7 +129,7 @@ class HubCard extends StatelessWidget {
               ),
               Text(
                 hub.bikeUsed.toString(),
-                style: TextStyle(color: GlobalStyles.blue),
+                style: const TextStyle(color: global_styles.blue),
               ),
               Image.asset(
                 "assets/pins/orange_pin.png",
@@ -136,7 +137,7 @@ class HubCard extends StatelessWidget {
               ),
               Text(
                 hub.bikeRobbed.toString(),
-                style: TextStyle(color: GlobalStyles.orange),
+                style: const TextStyle(color: global_styles.orange),
               ),
             ],
           ),
@@ -154,7 +155,7 @@ class HubsList extends StatelessWidget {
     print("REBUILD LIST");
     return Obx(() {
       return Padding(
-          padding: EdgeInsets.only(top: 100, bottom: 60),
+          padding: const EdgeInsets.only(top: 100, bottom: 60),
           child: FadeListView(
             // Need to enable refresh here !
             child: SmartRefresher(
@@ -173,7 +174,7 @@ class HubsList extends StatelessWidget {
                 hubController.refreshController.loadComplete();
               },
               child: ListView.builder(
-                padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
                 itemCount: hubController.hubs.length,
                 itemBuilder: (context, index) {
                   // hubController
@@ -214,21 +215,21 @@ class HubsListView extends StatelessWidget {
     print("REBUILD VIEW");
     return Container(
         height: MediaQuery.of(context).size.height,
-        color: GlobalStyles.backgroundLightGrey,
+        color: global_styles.backgroundLightGrey,
         child: Obx(() {
           if (hubController.isLoadingHub.value) {
-            return Padding(
+            return const Padding(
                 padding: EdgeInsets.only(top: 100), child: ListIsLoading());
           } else if (hubController.error.value != "") {
             return InfoError(
                 icon: Icons.other_houses,
-                color: GlobalStyles.orange,
+                color: global_styles.orange,
                 text: "Une erreur s'est produite",
                 action: init);
-          } else if (hubController.hubs.length == 0) {
-            return InfoEmpty(
+          } else if (hubController.hubs.isEmpty) {
+            return const InfoEmpty(
                 icon: Icons.other_houses,
-                color: GlobalStyles.greyUnselectedIcon,
+                color: global_styles.greyUnselectedIcon,
                 text: "Aucun hub trouvé");
           } else {
             return HubsList(hubController: hubController);

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_controller.dart';
 
 // Components
@@ -28,7 +28,7 @@ class IncidentInProgress extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20.0, top: 10),
             child: Text("Les incidents en cours",
                 style: TextStyle(
-                    color: GlobalStyles.purple,
+                    color: global_styles.purple,
                     fontSize: 17.0,
                     fontWeight: FontWeight.w600)),
           ),

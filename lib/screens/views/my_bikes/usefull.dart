@@ -17,7 +17,7 @@ Future<void> goToBikeProfileFromMarker(
             veloPk: bike.veloPk,
           )),
       transition: Transition.downToUp,
-      duration: Duration(milliseconds: 400));
+      duration: const Duration(milliseconds: 400));
 }
 
 Future<void> goToBikeProfileFromPk(
@@ -30,5 +30,5 @@ Future<void> goToBikeProfileFromPk(
             veloPk: veloPk,
           )),
       transition: Transition.downToUp,
-      duration: Duration(milliseconds: 400));
+      duration: const Duration(milliseconds: 400));
 }

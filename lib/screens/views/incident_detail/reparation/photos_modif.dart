@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
@@ -23,7 +23,7 @@ class PhotosModif extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text("Photos",
           style: TextStyle(
-              color: GlobalStyles.purple,
+              color: global_styles.purple,
               fontSize: 17.0,
               fontWeight: FontWeight.w600)),
       SizedBox(height: 10.0),

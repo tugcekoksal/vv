@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
@@ -12,12 +12,14 @@ class SwitchButton extends StatelessWidget {
   final String textButton;
   final bool isActive;
 
-  SwitchButton({Key? key, required this.textButton, required this.isActive});
+  const SwitchButton(
+      {Key? key, required this.textButton, required this.isActive});
 
   Widget build(BuildContext context) {
     return (Container(
       decoration: BoxDecoration(
-          color: isActive ? GlobalStyles.blue : GlobalStyles.backgroundDarkGrey,
+          color:
+              isActive ? global_styles.blue : global_styles.backgroundDarkGrey,
           borderRadius: BorderRadius.circular(30)),
       width: 60,
       height: 30,
@@ -25,7 +27,8 @@ class SwitchButton extends StatelessWidget {
         child: Text(
           textButton,
           style: TextStyle(
-              color: isActive ? Colors.white : GlobalStyles.backgroundLightGrey,
+              color:
+                  isActive ? Colors.white : global_styles.backgroundLightGrey,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -40,14 +43,16 @@ class TopSwitch extends StatelessWidget {
   final MapBikesController mapBikesController;
   final Function changeMapView;
 
-  TopSwitch(
+  const TopSwitch(
       {Key? key,
       required this.mapBikesController,
       required this.changeMapView});
+
+  @override
   Widget build(BuildContext context) {
     return (Container(
         decoration: BoxDecoration(
-          color: GlobalStyles.backgroundDarkGrey,
+          color: global_styles.backgroundDarkGrey,
           borderRadius: BorderRadius.circular(50),
           boxShadow: [
             BoxShadow(
@@ -85,7 +90,7 @@ class TopButton extends StatefulWidget {
   final IconData iconButton;
   final Function actionFunction;
 
-  TopButton(
+  const TopButton(
       {Key? key,
       required this.isLoading,
       required this.actionFunction,
@@ -116,13 +121,13 @@ class _TopButtonState extends State<TopButton> {
               color: Colors.white,
             ),
             child: widget.isLoading
-                ? Padding(
-                    padding: const EdgeInsets.all(2.0),
+                ? const Padding(
+                    padding: EdgeInsets.all(2.0),
                     child: SizedBox(
                       height: 25,
                       width: 25,
-                      child: CircularProgressIndicator(
-                        color: GlobalStyles.greyTitle,
+                      child: const CircularProgressIndicator(
+                        color: global_styles.greyTitle,
                         strokeWidth: 2,
                       ),
                     ),
@@ -132,7 +137,7 @@ class _TopButtonState extends State<TopButton> {
                     width: 30,
                     child: Icon(
                       widget.iconButton,
-                      color: GlobalStyles.backgroundDarkGrey,
+                      color: global_styles.backgroundDarkGrey,
                       size: 25.0,
                     ),
                   ))));
@@ -144,7 +149,7 @@ class TopOptions extends StatelessWidget {
   final Function changeMapView;
   final Function changeMapStyle;
 
-  TopOptions(
+  const TopOptions(
       {Key? key,
       required this.mapBikesController,
       required this.changeMapView,
@@ -181,7 +186,7 @@ class TopOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (Container(
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

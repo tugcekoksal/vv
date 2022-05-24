@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/components/BuildDropDown.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
@@ -20,15 +20,15 @@ class PiecesModif extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Pieces",
+        const Text("Pieces",
             style: TextStyle(
-                color: GlobalStyles.purple,
+                color: global_styles.purple,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 10.0),
-        Text("Séléctionner une pièce",
+        const Text("Séléctionner une pièce",
             style: TextStyle(
-                color: GlobalStyles.greyText,
+                color: global_styles.greyText,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 25.0),
@@ -74,11 +74,11 @@ class PiecesModif extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
-                      color: GlobalStyles.blue,
+                      color: global_styles.blue,
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25.0, vertical: 12.0),
-                    child: Text("Ajouter la pièce",
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0, vertical: 12.0),
+                    child: const Text("Ajouter la pièce",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 17.0,
@@ -90,9 +90,9 @@ class PiecesModif extends StatelessWidget {
           );
         }),
         const SizedBox(height: 40),
-        Text("Mes pièces",
+        const Text("Mes pièces",
             style: TextStyle(
-                color: GlobalStyles.greyText,
+                color: global_styles.greyText,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 10),
@@ -100,7 +100,7 @@ class PiecesModif extends StatelessWidget {
           return incidentController
                       .currentReparation.value.selectedPieces.length ==
                   0
-              ? ListTile(title: Text("Aucunes pièces sélectionnées"))
+              ? const ListTile(title: Text("Aucunes pièces sélectionnées"))
               : SizedBox(
                   height: incidentController
                               .currentReparation.value.selectedPieces.length <
@@ -133,7 +133,7 @@ class PiecesModif extends StatelessWidget {
                                         incidentController
                                             .removePieceFromList(index)
                                       },
-                                  icon: Icon(Icons.delete))
+                                  icon: const Icon(Icons.delete))
                             ]),
                           );
                         },

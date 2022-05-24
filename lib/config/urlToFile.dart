@@ -6,12 +6,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
 Future<File> urlToFile(String imageUrl) async {
-  var rng = new Random();
+  var rng = Random();
 
   // Create the emplacement for the file
   Directory tempDir = await getTemporaryDirectory();
   String tempPath = tempDir.path;
-  File file = new File('$tempPath' + (rng.nextInt(100)).toString() + '.png');
+  File file = File('$tempPath' + (rng.nextInt(100)).toString() + '.png');
 
   // Get the image and writes the bytes
   http.Response response = await http.get(Uri.parse(imageUrl));

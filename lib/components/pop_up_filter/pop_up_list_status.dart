@@ -23,8 +23,8 @@ class BuildButtonStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-        padding: EdgeInsets.all(0),
-        labelPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+        padding: const EdgeInsets.all(0),
+        labelPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
         label: Text(label,
             style: TextStyle(
                 color: isSelected ? Colors.white : colorStatusTypology[label],

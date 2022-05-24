@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 // Helpers
@@ -142,13 +142,13 @@ class _MyBikeViewState extends State<MyBikeView> {
         color: Colors.white,
         child: Stack(children: [
           Container(
-              color: GlobalStyles.backgroundLightGrey,
+              color: global_styles.backgroundLightGrey,
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
                   child: SingleChildScrollView(
                     padding: EdgeInsets.only(bottom: 80, top: 20),
                     child: Container(
-                      color: GlobalStyles.backgroundLightGrey,
+                      color: global_styles.backgroundLightGrey,
                       child: Column(
                         children: [
                           Obx(() {
@@ -227,7 +227,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                   children: [
                                     Text("Informations",
                                         style: TextStyle(
-                                            color: GlobalStyles.purple,
+                                            color: global_styles.purple,
                                             fontSize: 17.0,
                                             fontWeight: FontWeight.w600)),
                                     const SizedBox(height: 5.0),
@@ -235,7 +235,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                       text: TextSpan(
                                         text: 'Groupe ',
                                         style: TextStyle(
-                                            color: GlobalStyles.greyText,
+                                            color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
@@ -247,7 +247,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                                       .userBike.value.groupeName
                                                   : "Aucun groupe",
                                               style: TextStyle(
-                                                  color: GlobalStyles
+                                                  color: global_styles
                                                       .lightGreyText)),
                                         ],
                                       ),
@@ -257,7 +257,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                       text: TextSpan(
                                         text: 'Kilométrage ',
                                         style: TextStyle(
-                                            color: GlobalStyles.greyText,
+                                            color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
@@ -268,7 +268,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                                       .kilometrage)
                                                   .toString(),
                                               style: TextStyle(
-                                                  color: GlobalStyles
+                                                  color: global_styles
                                                       .lightGreyText)),
                                         ],
                                       ),
@@ -278,7 +278,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                       text: TextSpan(
                                         text: 'Client ',
                                         style: TextStyle(
-                                            color: GlobalStyles.greyText,
+                                            color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
@@ -286,7 +286,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                               text: valueIsNull(bikeController
                                                   .userBike.value.clientName),
                                               style: TextStyle(
-                                                  color: GlobalStyles
+                                                  color: global_styles
                                                       .lightGreyText)),
                                         ],
                                       ),
@@ -296,7 +296,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                       text: TextSpan(
                                         text: 'Numéro Cadre ',
                                         style: TextStyle(
-                                            color: GlobalStyles.greyText,
+                                            color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
@@ -304,7 +304,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                               text: valueIsNull(bikeController
                                                   .userBike.value.numeroCadran),
                                               style: TextStyle(
-                                                  color: GlobalStyles
+                                                  color: global_styles
                                                       .lightGreyText)),
                                         ],
                                       ),
@@ -314,7 +314,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                       text: TextSpan(
                                         text: 'Date de création ',
                                         style: TextStyle(
-                                            color: GlobalStyles.greyText,
+                                            color: global_styles.greyText,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
@@ -322,7 +322,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                               text: valueIsNull(bikeController
                                                   .userBike.value.dateCreation),
                                               style: TextStyle(
-                                                  color: GlobalStyles
+                                                  color: global_styles
                                                       .lightGreyText)),
                                         ],
                                       ),
@@ -345,7 +345,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                             child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15.0),
-                                  color: GlobalStyles.blue,
+                                  color: global_styles.blue,
                                 ),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 25.0, vertical: 15.0),
@@ -382,14 +382,14 @@ class _MyBikeViewState extends State<MyBikeView> {
                                   children: [
                                     Text("Que faire en cas de vol ?",
                                         style: TextStyle(
-                                            color: GlobalStyles.purple,
+                                            color: global_styles.purple,
                                             fontSize: 17.0,
                                             fontWeight: FontWeight.w600)),
                                     SizedBox(height: 10.0),
                                     Text(
                                         "Votre vélo a été volé ? Déclarez-le sur l'application à l'aide du bouton ci-dessous",
                                         style: TextStyle(
-                                            color: GlobalStyles.purple,
+                                            color: global_styles.purple,
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.w400))
                                   ],
@@ -403,7 +403,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                                       borderRadius: BorderRadius.circular(15.0),
                                       color: bikeIsRobbed
                                           ? Color(0xff46b594)
-                                          : GlobalStyles.orange,
+                                          : global_styles.orange,
                                     ),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 20.0, vertical: 18.0),

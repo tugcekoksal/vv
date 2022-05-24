@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 //Controllers
@@ -43,7 +43,7 @@ class TitleAppBar extends StatelessWidget {
                       loginController.isLogged.value ? title : "VelyVelo",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: GlobalStyles.backgroundDarkGrey,
+                          color: global_styles.backgroundDarkGrey,
                           fontSize: 20.0,
                           fontWeight: FontWeight.w700),
                     )
@@ -51,7 +51,7 @@ class TitleAppBar extends StatelessWidget {
           : Text(
               loginController.isLogged.value ? title : "VelyVelo",
               style: TextStyle(
-                  color: GlobalStyles.backgroundDarkGrey,
+                  color: global_styles.backgroundDarkGrey,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w700),
             ),
@@ -87,6 +87,6 @@ class SubTitleIncidents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(getSubtitleIncident(),
-        style: TextStyle(color: GlobalStyles.greyText, fontSize: 10));
+        style: TextStyle(color: global_styles.greyText, fontSize: 10));
   }
 }

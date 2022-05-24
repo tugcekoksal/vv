@@ -78,7 +78,7 @@ class MapBikesController extends GetxController {
     try {
       isLoading(true);
       didNotFoundBikesWithPosition(false);
-      List<String> listOfSelectedStatus = selectedStatusList.length == 0
+      List<String> listOfSelectedStatus = selectedStatusList.isEmpty
           ? ["Rangés", "Utilisés", "Volés"]
           : selectedStatusList;
       var bikes = await HttpService.fetchAllBikes(
@@ -89,7 +89,7 @@ class MapBikesController extends GetxController {
         bikeWithPositionList.refresh();
 
         // Check if there's no bikes in the response
-        if (bikeWithPositionList.length == 0) {
+        if (bikeWithPositionList.isEmpty) {
           print("No Bike");
           didNotFoundBikesWithPosition(true);
         } else {

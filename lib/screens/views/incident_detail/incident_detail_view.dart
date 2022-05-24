@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -37,7 +37,7 @@ class IncidentDetail extends StatelessWidget {
     init();
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: GlobalStyles.backgroundLightGrey,
+        backgroundColor: global_styles.backgroundLightGrey,
         body: ColorfulSafeArea(
             color: Colors.white,
             child: GestureDetector(

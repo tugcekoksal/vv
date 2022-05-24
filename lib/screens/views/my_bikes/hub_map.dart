@@ -51,7 +51,7 @@ class PopUpClipper extends CustomClipper<Path> {
 
 // ignore: must_be_immutable
 class HubMap extends StatefulWidget {
-  final PopupController popupController = new PopupController();
+  final PopupController popupController = PopupController();
   final HubController hubController;
 
   bool streetView;
@@ -131,8 +131,8 @@ class _HubMapState extends State<HubMap> {
                 }),
             MarkerClusterLayerOptions(
               maxClusterRadius: 120,
-              size: Size(40, 40),
-              fitBoundsOptions: FitBoundsOptions(
+              size: const Size(40, 40),
+              fitBoundsOptions: const FitBoundsOptions(
                 padding: EdgeInsets.all(50),
               ),
               markers: widget.hubController.hubs
@@ -144,10 +144,10 @@ class _HubMapState extends State<HubMap> {
                     height: 80.0,
                     point: latLng.LatLng(hub.pinModel?.latitude ?? 0,
                         hub.pinModel?.longitude ?? 0),
-                    builder: (ctx) => Container(
-                        child: HubPin(hub: hub.pinModel ?? HubPinModel())));
+                    builder: (ctx) =>
+                        HubPin(hub: hub.pinModel ?? HubPinModel()));
               }).toList(),
-              polygonOptions: PolygonOptions(
+              polygonOptions: const PolygonOptions(
                   borderColor: Color.fromARGB(0, 255, 255, 255),
                   color: Color.fromARGB(0, 255, 255, 255),
                   borderStrokeWidth: 0),
@@ -161,7 +161,7 @@ class _HubMapState extends State<HubMap> {
                       borderRadius: BorderRadius.circular(20.0)),
                   alignment: Alignment.center,
                   child: Text(markers.length.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                           fontSize: 14.0)),
@@ -174,7 +174,7 @@ class _HubMapState extends State<HubMap> {
                         child: Container(
                           width: 300,
                           height: 175,
-                          padding: EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12.0)),
@@ -189,7 +189,7 @@ class _HubMapState extends State<HubMap> {
                                 child: GestureDetector(
                                   onTap: () => widget.popupController
                                       .togglePopup(marker),
-                                  child: Container(
+                                  child: const SizedBox(
                                       height: 20,
                                       width: 20,
                                       child: Icon(Icons.close)),

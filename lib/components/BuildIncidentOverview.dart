@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/components/BuildLoadingBox.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -26,7 +26,7 @@ class BuildIncidentsOverview extends StatelessWidget {
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(10.0),
           ),
-          padding: EdgeInsets.only(top: 15.0),
+          padding: const EdgeInsets.only(top: 15.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             GestureDetector(
                 onTap: () => setFilterTab("Nouvelle"),
@@ -40,9 +40,9 @@ class BuildIncidentsOverview extends StatelessWidget {
                           numberOfTile:
                               incidentController.nbOfNewIncidents.value,
                           title: "Nouveau",
-                          backgroundColor: GlobalStyles.blue));
+                          backgroundColor: global_styles.blue));
                 })),
-            SizedBox(width: 25.0),
+            const SizedBox(width: 25.0),
             GestureDetector(
                 onTap: () => setFilterTab("En cours"),
                 child: Obx(() {
@@ -55,9 +55,9 @@ class BuildIncidentsOverview extends StatelessWidget {
                           numberOfTile:
                               incidentController.nbOfProgressIncidents.value,
                           title: "En cours",
-                          backgroundColor: GlobalStyles.yellow));
+                          backgroundColor: global_styles.yellow));
                 })),
-            SizedBox(width: 25.0),
+            const SizedBox(width: 25.0),
             GestureDetector(
                 onTap: () => setFilterTab("Terminé"),
                 child: Obx(() {
@@ -70,7 +70,7 @@ class BuildIncidentsOverview extends StatelessWidget {
                           numberOfTile:
                               incidentController.nbOfFinishedIncidents.value,
                           title: "Terminé",
-                          backgroundColor: GlobalStyles.green));
+                          backgroundColor: global_styles.green));
                 })),
           ])),
     );
@@ -105,27 +105,29 @@ class BuildStatus extends StatelessWidget {
                       fontSize: 20.0,
                       fontWeight: FontWeight.w800)));
         }),
-        SizedBox(height: 5.0),
+        const SizedBox(height: 5.0),
         Obx(() {
           if (incidentController.isLoading.value) {
             return BuildLoadingBox(
                 child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
               decoration: BoxDecoration(
                 color: backgroundColor,
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: Text('Nouvelle'),
+              child: const Text('Nouvelle'),
             ));
           } else {
             return Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Text(title,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 13.0,
                         fontWeight: FontWeight.w800)));

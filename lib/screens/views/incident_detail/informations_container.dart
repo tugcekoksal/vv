@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
@@ -29,7 +29,7 @@ class InformationsContainer extends StatelessWidget {
         children: [
           Text("Informations",
               style: TextStyle(
-                  color: GlobalStyles.purple,
+                  color: global_styles.purple,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w600)),
           SizedBox(height: 10.0),
@@ -40,14 +40,14 @@ class InformationsContainer extends StatelessWidget {
                   text: TextSpan(
                     text: 'Groupe ',
                     style: TextStyle(
-                        color: GlobalStyles.greyText,
+                        color: global_styles.greyText,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w700),
                     children: <TextSpan>[
                       TextSpan(
                           text: incidentController
                               .incidentDetailValue.value.groupe,
-                          style: TextStyle(color: GlobalStyles.lightGreyText)),
+                          style: TextStyle(color: global_styles.lightGreyText)),
                     ],
                   ),
                 ),
@@ -56,14 +56,14 @@ class InformationsContainer extends StatelessWidget {
             text: TextSpan(
               text: 'Vélo ',
               style: TextStyle(
-                  color: GlobalStyles.greyText,
+                  color: global_styles.greyText,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w700),
               children: <TextSpan>[
                 TextSpan(
                     text: valueIsNull(
                         incidentController.incidentDetailValue.value.velo),
-                    style: TextStyle(color: GlobalStyles.lightGreyText)),
+                    style: TextStyle(color: global_styles.lightGreyText)),
               ],
             ),
           ),

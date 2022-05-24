@@ -31,19 +31,19 @@ class PopUpFilters extends StatelessWidget {
           Container(
             constraints: BoxConstraints(maxHeight: screenHeight * 0.7),
             width: screenWidth,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 borderRadius:
                     BorderRadius.vertical(bottom: Radius.circular(20.0)),
                 color: Colors.white),
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              PopUpTitle(text: "Filtrer mes vélos"),
-              PopUpSubTitle(text: "Filtres appliqués"),
+              const PopUpTitle(text: "Filtrer mes vélos"),
+              const PopUpSubTitle(text: "Filtres appliqués"),
               PopUpListFilters(mapBikesController: mapBikeController),
-              PopUpSubTitle(text: "Status"),
+              const PopUpSubTitle(text: "Status"),
               PopUpStatusList(mapBikesController: mapBikeController),
-              PopUpSubTitle(text: "Groupes"),
+              const PopUpSubTitle(text: "Groupes"),
               PopUpGroupList(mapBikesController: mapBikeController)
             ]),
           )

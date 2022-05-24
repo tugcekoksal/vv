@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 class FadeListView extends StatelessWidget {
   final Widget child;
@@ -13,14 +13,14 @@ class FadeListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(
         shaderCallback: (Rect rect) {
-          return LinearGradient(
+          return const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              GlobalStyles.backgroundLightGrey,
+              global_styles.backgroundLightGrey,
               Colors.transparent,
               Colors.transparent,
-              GlobalStyles.backgroundLightGrey
+              global_styles.backgroundLightGrey
             ],
             stops: [
               0.0,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/models/hubs/hub_map.dart';
@@ -19,21 +19,22 @@ class HubPopup extends StatelessWidget {
       Flexible(
           child: Text(hub.groupName ?? "Pas de nom de groupe",
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
       Text(
         hub.clientName ?? "Pas de nom de client",
-        style: TextStyle(fontSize: 12),
+        style: const TextStyle(fontSize: 12),
       ),
-      SizedBox(
+      const SizedBox(
         height: 10,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.location_pin,
-            color: GlobalStyles.greyText,
+            color: global_styles.greyText,
             size: 20,
           ),
           const SizedBox(width: 5),
@@ -44,47 +45,47 @@ class HubPopup extends StatelessWidget {
             onTap: () => {
               Clipboard.setData(ClipboardData(text: hub.adresse)).then(
                   (value) => ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                           content:
                               Text("Adresse copiée dans le presse-papier."))))
             },
-            child: Icon(
+            child: const Icon(
               Icons.copy,
-              color: GlobalStyles.greyText,
+              color: global_styles.greyText,
               size: 20,
             ),
           )
         ],
       ),
-      SizedBox(
+      const SizedBox(
         height: 5,
       ),
       Row(
         children: [
-          Text(
+          const Text(
             "Vous avez ",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
             hub.reparations.toString(),
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: GlobalStyles.yellow),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: global_styles.yellow),
           ),
-          Text(
+          const Text(
             " réparations à effectuer.",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
-      SizedBox(
+      const SizedBox(
         height: 10,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Icon(
+          const Icon(
             Icons.people,
-            color: GlobalStyles.greyText,
+            color: global_styles.greyText,
             size: 20,
           ),
           Text(hub.users.toString()),
@@ -94,7 +95,7 @@ class HubPopup extends StatelessWidget {
           ),
           Text(
             hub.bikeParked.toString(),
-            style: TextStyle(color: GlobalStyles.green),
+            style: const TextStyle(color: global_styles.green),
           ),
           Image.asset(
             "assets/pins/blue_pin.png",
@@ -102,7 +103,7 @@ class HubPopup extends StatelessWidget {
           ),
           Text(
             hub.bikeUsed.toString(),
-            style: TextStyle(color: GlobalStyles.blue),
+            style: const TextStyle(color: global_styles.blue),
           ),
           Image.asset(
             "assets/pins/orange_pin.png",
@@ -110,7 +111,7 @@ class HubPopup extends StatelessWidget {
           ),
           Text(
             hub.bikeRobbed.toString(),
-            style: TextStyle(color: GlobalStyles.orange),
+            style: const TextStyle(color: global_styles.orange),
           ),
         ],
       ),

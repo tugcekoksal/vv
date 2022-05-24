@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 Color getColorBasedOnMarkersStatus(String markersStatus) {
   var colorStatus;
   switch (markersStatus) {
     case "Utilisé":
       {
-        colorStatus = GlobalStyles.purple;
+        colorStatus = global_styles.purple;
       }
       break;
 
     case "Rangé":
       {
-        colorStatus = GlobalStyles.green;
+        colorStatus = global_styles.green;
       }
       break;
 
     case "Volé":
       {
-        colorStatus = GlobalStyles.orange;
+        colorStatus = global_styles.orange;
       }
       break;
 
     default:
       {
-        colorStatus = GlobalStyles.backgroundDarkGrey;
+        colorStatus = global_styles.backgroundDarkGrey;
       }
       break;
   }

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Helpers
 import 'package:velyvelo/helpers/ifValueIsNull.dart';
@@ -35,7 +35,7 @@ class IncidentHistoricCard extends StatelessWidget {
                 child: Text(valueIsNull(data.incidentTypeReparation),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
@@ -47,7 +47,7 @@ class IncidentHistoricCard extends StatelessWidget {
             children: [
               Text(valueIsNull(data.dateCreation),
                   style: TextStyle(
-                      color: GlobalStyles.green,
+                      color: global_styles.green,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w700)),
               Row(
@@ -55,7 +55,7 @@ class IncidentHistoricCard extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.schedule,
-                    color: GlobalStyles.purple,
+                    color: global_styles.purple,
                   ),
                   SizedBox(
                     width: 5,
@@ -66,7 +66,7 @@ class IncidentHistoricCard extends StatelessWidget {
                             : "moins d'1") +
                         'h',
                     style: TextStyle(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         fontWeight: FontWeight.w700),
                   )
                 ],

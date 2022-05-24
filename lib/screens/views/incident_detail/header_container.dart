@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:get/get.dart';
 
@@ -36,7 +36,7 @@ class HeaderContainer extends StatelessWidget {
                   child: Text(incidentController.actualTypeReparation.value,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: GlobalStyles.purple,
+                          color: global_styles.purple,
                           fontSize: 17.0,
                           fontWeight: FontWeight.w600)),
                 );
@@ -69,20 +69,20 @@ class HeaderContainer extends StatelessWidget {
                 child: Text(incident.veloGroup,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
               Text(" - ",
                   style: TextStyle(
-                      color: GlobalStyles.purple,
+                      color: global_styles.purple,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w600)),
               Flexible(
                 child: Text(valueIsNull(incident.veloName),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               )
@@ -94,7 +94,7 @@ class HeaderContainer extends StatelessWidget {
             children: [
               Text(valueIsNull(incident.dateCreation),
                   style: TextStyle(
-                      color: GlobalStyles.green,
+                      color: global_styles.green,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w700)),
               Row(
@@ -102,7 +102,7 @@ class HeaderContainer extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.schedule,
-                    color: GlobalStyles.purple,
+                    color: global_styles.purple,
                   ),
                   SizedBox(
                     width: 5,
@@ -113,7 +113,7 @@ class HeaderContainer extends StatelessWidget {
                             : "moins d'1") +
                         'h',
                     style: TextStyle(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         fontWeight: FontWeight.w700),
                   )
                 ],

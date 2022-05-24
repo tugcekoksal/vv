@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -25,9 +25,9 @@ class SaveButton extends StatelessWidget {
         //   currentFocus.unfocus();
         // }
 
-        var snackBar = SnackBar(
+        var snackBar = const SnackBar(
           content: Text('Votre demande est en cours de traitement...'),
-          backgroundColor: GlobalStyles.blue,
+          backgroundColor: global_styles.blue,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -36,15 +36,15 @@ class SaveButton extends StatelessWidget {
 
         ScaffoldMessenger.of(context).clearSnackBars();
         if (incidentController.error.value == "") {
-          snackBar = SnackBar(
+          snackBar = const SnackBar(
             content: Text('Vos informations ont bien été sauvegardées.'),
             backgroundColor: Color(0xff46b594),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else {
-          snackBar = SnackBar(
+          snackBar = const SnackBar(
             content: Text('Une erreur est survenue, vérfiez votre réseau.'),
-            backgroundColor: GlobalStyles.orange,
+            backgroundColor: global_styles.orange,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
@@ -57,18 +57,18 @@ class SaveButton extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 0.5,
                 blurRadius: 3,
-                offset: Offset(3, 0),
+                offset: const Offset(3, 0),
               )
             ],
             color: Colors.white,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(15.0),
                 topLeft: Radius.circular(15.0))),
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
-        child: Text("Enregistrer mes modifications",
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15.0),
+        child: const Text("Enregistrer mes modifications",
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: GlobalStyles.blue,
+                color: global_styles.blue,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w600)),
       ),

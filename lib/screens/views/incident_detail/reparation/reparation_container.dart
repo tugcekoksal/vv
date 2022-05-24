@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 
@@ -43,9 +43,9 @@ class ReparationContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Title of the reparation container
-                Text("Informations de réparation",
+                const Text("Informations de réparation",
                     style: TextStyle(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
@@ -54,13 +54,13 @@ class ReparationContainer extends StatelessWidget {
                 const SizedBox(height: 25.0),
                 // Handler of is functionnal velo or status name of the velo
                 StatutVeloModif(incidentController: incidentController),
-                SizedBox(height: 25.0),
+                const SizedBox(height: 25.0),
                 // Handler of the selection of a piece for reparation
                 // and of the listing and deletion of selected pieces
                 PiecesModif(incidentController: incidentController),
-                Text("Commentaire",
+                const Text("Commentaire",
                     style: TextStyle(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
@@ -77,23 +77,23 @@ class ReparationContainer extends StatelessWidget {
                   textAlign: TextAlign.start,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: GlobalStyles.backgroundLightGrey,
+                        borderSide: const BorderSide(
+                            color: global_styles.backgroundLightGrey,
                             width: 4.0),
                         borderRadius: BorderRadius.circular(15.0)),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: GlobalStyles.backgroundLightGrey,
+                        borderSide: const BorderSide(
+                            color: global_styles.backgroundLightGrey,
                             width: 4.0),
                         borderRadius: BorderRadius.circular(15.0)),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: GlobalStyles.backgroundLightGrey,
+                        borderSide: const BorderSide(
+                            color: global_styles.backgroundLightGrey,
                             width: 4.0),
                         borderRadius: BorderRadius.circular(15.0)),
                   ),
-                  style: TextStyle(
-                      color: GlobalStyles.greyTextInput,
+                  style: const TextStyle(
+                      color: global_styles.greyTextInput,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600),
                 ),
@@ -108,7 +108,7 @@ class ReparationContainer extends StatelessWidget {
               ],
             ));
       } else {
-        return SizedBox();
+        return const SizedBox();
       }
     });
   }

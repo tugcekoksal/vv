@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
@@ -30,13 +30,13 @@ class StatutButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         decoration: BoxDecoration(
-            color: isActive ? GlobalStyles.backgroundLightGrey : Colors.white,
+            color: isActive ? global_styles.backgroundLightGrey : Colors.white,
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(
-                color: GlobalStyles.backgroundLightGrey, width: 3.0)),
+                color: global_styles.backgroundLightGrey, width: 3.0)),
         child: Text(text,
-            style: TextStyle(
-                color: GlobalStyles.greyText,
+            style: const TextStyle(
+                color: global_styles.greyText,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w600)),
       ),
@@ -55,18 +55,18 @@ class StatutVeloModif extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Statut de la réparation",
-            style: TextStyle(
-                color: GlobalStyles.purple,
+        const Text("Statut de la réparation",
+            style: const TextStyle(
+                color: global_styles.purple,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 10),
-        Text("Le vélo est-il fonctionnel ?",
+        const Text("Le vélo est-il fonctionnel ?",
             style: TextStyle(
-                color: GlobalStyles.greyText,
+                color: global_styles.greyText,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600)),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         Obx(() {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,13 +88,13 @@ class StatutVeloModif extends StatelessWidget {
             ],
           );
         }),
-        SizedBox(height: 25.0),
-        Text("Séléctionner le statut de la réparation",
+        const SizedBox(height: 25.0),
+        const Text("Séléctionner le statut de la réparation",
             style: TextStyle(
-                color: GlobalStyles.greyText,
+                color: global_styles.greyText,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600)),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         StatusVeloDropDown(incidentController: incidentController),
       ],
     );

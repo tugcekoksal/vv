@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 final IncidentDeclarationController incidentDeclarationController =
@@ -18,12 +18,12 @@ class BuildDisabledDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
           border:
-              Border.all(color: GlobalStyles.backgroundLightGrey, width: 3.0),
+              Border.all(color: global_styles.backgroundLightGrey, width: 3.0),
           borderRadius: BorderRadius.circular(10.0),
-          color: GlobalStyles.backgroundLightGrey),
+          color: global_styles.backgroundLightGrey),
       height: 50,
       width: double.infinity,
       child: Row(
@@ -31,23 +31,23 @@ class BuildDisabledDropDown extends StatelessWidget {
         children: [
           Text(
             placeholder,
-            style: TextStyle(
-                color: GlobalStyles.lightGreyText,
+            style: const TextStyle(
+                color: global_styles.lightGreyText,
                 fontSize: 16.0,
                 fontWeight: FontWeight.w600),
           ),
           placeholder == "Client"
-              ? SizedBox(
+              ? const SizedBox(
                   height: 20,
                   width: 20,
                   child: CircularProgressIndicator(
-                    color: GlobalStyles.greyDropDown,
+                    color: global_styles.greyDropDown,
                     strokeWidth: 2,
                   ),
                 )
-              : Icon(
+              : const Icon(
                   Icons.arrow_drop_down,
-                  color: GlobalStyles.greyDropDown,
+                  color: global_styles.greyDropDown,
                 ),
         ],
       ),

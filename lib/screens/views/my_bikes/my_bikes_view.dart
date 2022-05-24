@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 // Global Styles like colors
 import 'package:velyvelo/controllers/hub_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
@@ -90,7 +90,7 @@ class _MyBikesViewState extends State<MyBikesView> {
 
       // APP BAR
       Padding(
-          padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
+          padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -144,7 +144,7 @@ class _MyBikesViewState extends State<MyBikesView> {
                               : ButtonFilter(
                                   mapBikesController: mapBikesController),
                           const SizedBox(width: 5),
-                          ButtonScan()
+                          const ButtonScan()
                         ]);
                       })
                     ]),
@@ -169,7 +169,7 @@ class _MyBikesViewState extends State<MyBikesView> {
       Positioned(
           bottom: 75,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -188,7 +188,7 @@ class _MyBikesViewState extends State<MyBikesView> {
       Positioned(
           bottom: 75,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -196,7 +196,7 @@ class _MyBikesViewState extends State<MyBikesView> {
                   log.d("RENDER pop up not found");
 
                   return InfoNotFound(
-                      color: GlobalStyles.blue,
+                      color: global_styles.blue,
                       text: "Aucun résultat",
                       isVisible: mapBikesController
                               .didNotFoundBikesWithPosition.value &&
@@ -218,10 +218,10 @@ class _MyBikesViewState extends State<MyBikesView> {
             return hubController.hubView.value
                 ? hubController.displaySearch.value
                     ? SearchBarHub()
-                    : SizedBox()
+                    : const SizedBox()
                 : mapBikesController.displaySearch.value
                     ? SearchBarVelo()
-                    : SizedBox();
+                    : const SizedBox();
           }),
           const SizedBox(),
         ],

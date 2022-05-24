@@ -35,7 +35,7 @@ class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
     }
   }
 
-  final snackBar = SnackBar(
+  final snackBar = const SnackBar(
       content: Text('Vous n\'avez pas accès aux données de ce vélo.'),
       backgroundColor: Colors.red);
 
@@ -46,7 +46,7 @@ class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
       bikeController.isViewingScanPage(true);
       Get.to(() => BikeDetailScan(),
           transition: Transition.downToUp,
-          duration: Duration(milliseconds: 400));
+          duration: const Duration(milliseconds: 400));
     } else {
       // ScaffoldMessenger.of(context).clearSnackBars();
       if (!isSnackBarActive) {

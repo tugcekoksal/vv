@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -32,7 +32,7 @@ class IncidentContainer extends StatelessWidget {
         children: [
           Text("Incident(s)",
               style: TextStyle(
-                  color: GlobalStyles.purple,
+                  color: global_styles.purple,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w600)),
           SizedBox(height: 10.0),
@@ -41,13 +41,13 @@ class IncidentContainer extends StatelessWidget {
               text: TextSpan(
                 text: "Type d'incident ",
                 style: TextStyle(
-                    color: GlobalStyles.greyText,
+                    color: global_styles.greyText,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700),
                 children: <TextSpan>[
                   TextSpan(
                       text: incidentController.actualTypeReparation.value,
-                      style: TextStyle(color: GlobalStyles.lightGreyText)),
+                      style: TextStyle(color: global_styles.lightGreyText)),
                 ],
               ),
             );
@@ -59,14 +59,14 @@ class IncidentContainer extends StatelessWidget {
                   text: TextSpan(
                     text: 'Commentaire associé : ',
                     style: TextStyle(
-                        color: GlobalStyles.greyText,
+                        color: global_styles.greyText,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w700),
                     children: <TextSpan>[
                       TextSpan(
                           text: incidentController
                               .incidentDetailValue.value.commentaire,
-                          style: TextStyle(color: GlobalStyles.lightGreyText)),
+                          style: TextStyle(color: global_styles.lightGreyText)),
                     ],
                   ),
                 ),
@@ -75,7 +75,7 @@ class IncidentContainer extends StatelessWidget {
             text: TextSpan(
                 text: 'Photos ',
                 style: TextStyle(
-                    color: GlobalStyles.greyText,
+                    color: global_styles.greyText,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700)),
           ),
@@ -86,7 +86,7 @@ class IncidentContainer extends StatelessWidget {
               ? Text(
                   "Cet incident ne contient aucune photo",
                   style: TextStyle(
-                      color: GlobalStyles.lightGreyText,
+                      color: global_styles.lightGreyText,
                       fontSize: 14.0,
                       fontWeight: FontWeight.w700),
                 )

@@ -1,4 +1,4 @@
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Get the color of the pin based on its status
 const Map MarkersPaths = {
@@ -8,7 +8,7 @@ const Map MarkersPaths = {
 };
 
 const Map MarkersColor = {
-  "Volé": GlobalStyles.orange,
-  "Rangé": GlobalStyles.green,
-  "Utilisé": GlobalStyles.blue
+  "Volé": global_styles.orange,
+  "Rangé": global_styles.green,
+  "Utilisé": global_styles.blue
 };
