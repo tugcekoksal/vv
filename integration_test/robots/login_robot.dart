@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// ignore: avoid_relative_lib_imports
 import '../../lib/helpers/logger.dart';
-import '../usefull.dart';
 import 'simple_robot.dart';
 
 class LoginRobot {

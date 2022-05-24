@@ -1,15 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:velyvelo/main_test.dart' as app;
-
-import 'dart:io';
-import 'package:path/path.dart';
-
-import '../../lib/helpers/logger.dart';
 import '../robots/login_robot.dart';
-import '../robots/simple_robot.dart';
 import '../usefull.dart';
 
 void testErrorLogin() {
