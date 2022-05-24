@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/colorStatusTypology.dart';
+import 'package:velyvelo/config/color_status_typology.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';

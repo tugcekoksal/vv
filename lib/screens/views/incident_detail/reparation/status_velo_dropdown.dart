@@ -4,7 +4,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // GlobalKey keyWidget = GlobalKey();
 

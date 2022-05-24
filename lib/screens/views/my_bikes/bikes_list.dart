@@ -8,7 +8,7 @@ import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/controllers/map_controller.dart';
 
 // Globals styles
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 

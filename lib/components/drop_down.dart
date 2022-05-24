@@ -3,7 +3,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 class DropDown extends StatelessWidget {
   const DropDown(

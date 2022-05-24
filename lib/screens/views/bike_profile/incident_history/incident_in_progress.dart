@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_controller.dart';
 
 // Components

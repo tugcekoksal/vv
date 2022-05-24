@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 Color colorBasedOnIncidentStatus(String incidentStatus) {
   Color colorStatus;

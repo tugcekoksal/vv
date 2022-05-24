@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 //Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 class ButtonAccount extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());

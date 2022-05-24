@@ -8,7 +8,7 @@ import 'package:velyvelo/components/loading_box.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 class IncidentListError extends StatelessWidget {
   final IncidentController incidentController;
