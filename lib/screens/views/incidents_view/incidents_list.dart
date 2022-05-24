@@ -15,7 +15,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 class IncidentsList extends StatelessWidget {
   final IncidentController incidentController;

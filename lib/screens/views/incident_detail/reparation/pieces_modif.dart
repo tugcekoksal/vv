@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/components/drop_down.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers

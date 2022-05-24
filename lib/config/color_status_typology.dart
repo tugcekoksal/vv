@@ -1,5 +1,5 @@
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Get the color based on its status
 const Map colorStatusTypology = {

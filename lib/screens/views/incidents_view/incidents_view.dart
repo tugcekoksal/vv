@@ -12,7 +12,7 @@ import 'package:velyvelo/screens/home/title_app_bar.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/screens/views/incidents_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 

@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:velyvelo/config/urlToFile.dart';
+import 'package:velyvelo/config/url_to_file.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';

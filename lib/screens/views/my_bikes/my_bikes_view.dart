@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 // Global Styles like colors
 import 'package:velyvelo/controllers/hub_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';

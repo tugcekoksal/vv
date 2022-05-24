@@ -7,7 +7,7 @@ import 'package:latlong2/latlong.dart' as lat_long;
 import 'package:logger/logger.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as global_styles;
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/map_controller.dart';
