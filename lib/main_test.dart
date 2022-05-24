@@ -2,6 +2,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/my_app.dart';
 
 //FIREBASE
@@ -32,8 +34,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
 
-// void main({bool testing = false}) async {
 void main() async {
+  // Always First
+  WidgetsFlutterBinding.ensureInitialized();
+
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -47,23 +51,22 @@ void main() async {
 
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = MyHttpOverrides();
-  WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Still no solutions to accept those terms with the test integration suite
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
+  // Still no solutions to accept those terms with the test integration
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -78,6 +81,12 @@ void main() async {
   );
 
   // Run the App after all is well initialized
-  // Normal app launch
-  runApp(const MaterialApp(home: MyApp()));
+  // Don't show alert pop up authorize notification on integration test
+  // (Can't click on native pop up with integration tests)
+
+  // Auto logout user while testing
+  final LoginController loginController = Get.put(LoginController());
+  loginController.logoutUser();
+
+  runApp(const MaterialApp(home: MyApp(showAlert: false)));
 }

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:velyvelo/main_test.dart' as app;
 
 import '../../lib/helpers/logger.dart';
+import '../usefull.dart' as usefull;
 
 class SimpleRobot {
   final WidgetTester tester;
   final log = logger(SimpleRobot);
-  int nbErrors = 0;
 
   SimpleRobot(this.tester);
 
   Future<void> enterText(String keyLabel, String text) async {
-    log.i("Writing text in '" + keyLabel + "' ...");
+    String info =
+        "<Writing text> KeyLabel: '" + keyLabel + "', text: '" + text + "'";
+    log.i(info);
 
     final Finder textField;
     try {
@@ -21,29 +24,28 @@ class SimpleRobot {
       await tester.pumpAndSettle();
       log.v("Success!");
     } catch (e) {
-      log.d("KeyLabel: '" + keyLabel + "', text: '" + text + "'");
       log.e(e);
-      nbErrors += 1;
+      usefull.nbError += 1;
     }
   }
 
-  Future<void> expectText(String text) async {
-    log.i("Expecting text '" + text + "'...");
+  Future<void> expectText(String text, {int occurences = 1}) async {
+    String info = "<Expecting text> Text: '" + text + "'";
+    log.i(info);
 
-    final Finder textWidget;
     try {
-      expect(find.text(text), findsOneWidget);
+      expect(find.text(text), findsNWidgets(occurences));
       await tester.pumpAndSettle();
       log.v("Success!");
     } catch (e) {
-      log.d("Text: '" + text + "'");
-      log.e(e);
-      nbErrors += 1;
+      log.e(e.toString());
+      usefull.nbError += 1;
     }
   }
 
   Future<void> tap(String keyLabel) async {
-    log.i("Tap on '" + keyLabel + "' ...");
+    String info = "<Tap on> KeyLabel: '" + keyLabel;
+    log.i(info);
 
     final Finder loginButton;
     try {
@@ -53,9 +55,8 @@ class SimpleRobot {
       await tester.pumpAndSettle();
       log.v("Success!");
     } catch (e) {
-      log.d("KeyLabel: '" + keyLabel);
       log.e(e);
-      nbErrors += 1;
+      usefull.nbError += 1;
     }
   }
 }
