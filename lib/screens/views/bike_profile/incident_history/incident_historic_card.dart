@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class IncidentHistoricCard extends StatelessWidget {
@@ -31,7 +30,7 @@ class IncidentHistoricCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(valueIsNull(data.incidentTypeReparation),
+                child: Text(data.incidentTypeReparation,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
@@ -44,7 +43,7 @@ class IncidentHistoricCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(valueIsNull(data.dateCreation),
+              Text(data.dateCreation,
                   style: const TextStyle(
                       color: global_styles.green,
                       fontSize: 17.0,

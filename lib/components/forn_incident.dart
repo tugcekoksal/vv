@@ -5,14 +5,14 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
+import 'package:velyvelo/components/drop_down.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Components
-import 'package:velyvelo/components/BuildDisabledDropDown.dart';
-import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
+import 'package:velyvelo/components/disabled_drop_down.dart';
+import 'package:velyvelo/components/slider_show_full_images.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
@@ -109,9 +109,9 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
         Obx(() {
           if (incidentDeclarationController
               .incidentTypeSelection.value.isLoading) {
-            return const BuildDisabledDropDown(placeholder: "Type d'incident");
+            return DisabledDropDown(placeholder: "Type d'incident");
           } else {
-            return BuildDropDown(
+            return DropDown(
               placeholder: "Type d'incident",
               dropdownItemList: incidentDeclarationController
                   .incidentTypeSelection.value.listOptions
@@ -253,7 +253,7 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SliderShowFullmages(
+                                builder: (context) => SliderShowFullImages(
                                     mode: "File",
                                     listImagesModel:
                                         incidentDeclarationController

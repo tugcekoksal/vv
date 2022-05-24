@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildDisabledDropDown.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
+import 'package:velyvelo/components/disabled_drop_down.dart';
+import 'package:velyvelo/components/drop_down.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -22,18 +22,18 @@ class VeloDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return velo != null
         // If the velo is already selected (obx probleme if use in)
-        ? BuildDisabledDropDown(placeholder: velo!.name)
+        ? DisabledDropDown(placeholder: velo!.name)
         : Obx(() {
             // All users can see this field
             // If velo is loading OR group is not selected
             if (declarationController.infosSelection.value.infoVelo.isLoading ||
                 declarationController.infosSelection.value.infoGroup.selected ==
                     null) {
-              return const BuildDisabledDropDown(placeholder: "Velo");
+              return DisabledDropDown(placeholder: "Velo");
             }
 
             // Has access
-            return BuildDropDown(
+            return DropDown(
               placeholder: "Velo",
               dropdownItemList: declarationController
                   .infosSelection.value.infoVelo.listOptions

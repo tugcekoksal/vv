@@ -1,7 +1,7 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
+import 'package:velyvelo/components/drop_down.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
@@ -35,7 +35,7 @@ class PiecesModif extends StatelessWidget {
         Obx(() {
           return Column(
             children: [
-              BuildDropDown(
+              DropDown(
                 placeholder: incidentController
                     .currentReparation.value.typeIntervention.name,
                 dropdownItemList: incidentController
@@ -45,7 +45,7 @@ class PiecesModif extends StatelessWidget {
                 setItem: incidentController.setTypeIntervention,
               ),
               const SizedBox(height: 10.0),
-              BuildDropDown(
+              DropDown(
                 placeholder: incidentController
                     .currentReparation.value.typeReparation.name,
                 dropdownItemList: incidentController
@@ -56,7 +56,7 @@ class PiecesModif extends StatelessWidget {
               ),
               const SizedBox(height: 10.0),
               Obx(() {
-                return BuildDropDown(
+                return DropDown(
                   placeholder: "Pièce",
                   dropdownItemList: incidentController
                       .currentReparation.value.piecesList

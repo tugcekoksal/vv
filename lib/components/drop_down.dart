@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
-class BuildDropDown extends StatelessWidget {
-  const BuildDropDown(
+class DropDown extends StatelessWidget {
+  const DropDown(
       {Key? key,
       required this.placeholder,
       required this.dropdownItemList,

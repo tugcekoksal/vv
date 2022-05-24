@@ -18,6 +18,12 @@ Color colorBasedOnIncidentStatus(String incidentStatus) {
       }
       break;
 
+    case "Pas de status d'incident":
+      {
+        colorStatus = global_styles.greyLogin;
+      }
+      break;
+
     default:
       {
         colorStatus = global_styles.yellow;

@@ -12,7 +12,6 @@ import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
 
 // Global Styles like colors
@@ -88,7 +87,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(valueIsNull(data.incidentTypeReparation),
+                child: Text(data.incidentTypeReparation,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
@@ -102,12 +101,10 @@ class BuildIncidentHistoricTile extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: data.incidentStatus == null
-                          ? global_styles.greyLogin
-                          : colorBasedOnIncidentStatus(data.incidentStatus!),
+                      color: colorBasedOnIncidentStatus(data.incidentStatus),
                       borderRadius: BorderRadius.circular(12.5),
                     ),
-                    child: Text(valueIsNull(data.reparationNumber),
+                    child: Text(data.reparationNumber,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             color: Colors.white,
@@ -133,7 +130,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(valueIsNull(data.dateCreation),
+              Text(data.dateCreation,
                   style: const TextStyle(
                       color: global_styles.green,
                       fontSize: 17.0,

@@ -8,14 +8,14 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/screens/views/bike_detail_scan.dart';
 
-class BuildQRCodeScanner extends StatefulWidget {
-  const BuildQRCodeScanner({Key? key}) : super(key: key);
+class QRCodeScanner extends StatefulWidget {
+  const QRCodeScanner({Key? key}) : super(key: key);
 
   @override
-  State<BuildQRCodeScanner> createState() => _BuildQRCodeScannerState();
+  State<QRCodeScanner> createState() => _QRCodeScannerState();
 }
 
-class _BuildQRCodeScannerState extends State<BuildQRCodeScanner> {
+class _QRCodeScannerState extends State<QRCodeScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   Barcode? result;

@@ -10,7 +10,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/screens/views/incident_detail/reparation/pick_image.dart';
 
 // Components
-import 'package:velyvelo/components/BuildShowImageFullSlider.dart';
+import 'package:velyvelo/components/slider_show_full_images.dart';
 
 class PhotosModif extends StatelessWidget {
   final IncidentController incidentController;
@@ -29,7 +29,7 @@ class PhotosModif extends StatelessWidget {
       const SizedBox(height: 10.0),
       Obx(() {
         if (incidentController
-                .currentReparation.value.reparationPhotosList.isEmpty) {
+            .currentReparation.value.reparationPhotosList.isEmpty) {
           return PickImage(
             incidentController: incidentController,
             text: "Prendre une photo",
@@ -63,7 +63,7 @@ class PhotosModif extends StatelessWidget {
                         child: InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SliderShowFullmages(
+                                  builder: (context) => SliderShowFullImages(
                                       mode: "File",
                                       listImagesModel: incidentController
                                           .currentReparation

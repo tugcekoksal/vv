@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Components
-import 'package:velyvelo/components/BuildLoadingBox.dart';
+import 'package:velyvelo/components/loading_box.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
@@ -79,7 +79,7 @@ class ListIncidentIsLoading extends StatelessWidget {
         child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
-              return BuildLoadingBox(
+              return LoadingBox(
                 child: Container(
                     padding: const EdgeInsets.all(20.0),
                     margin: const EdgeInsets.only(
@@ -101,7 +101,7 @@ class ListIsLoading extends StatelessWidget {
     return ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return BuildLoadingBox(
+          return LoadingBox(
             child: Container(
                 padding: const EdgeInsets.all(20.0),
                 margin:

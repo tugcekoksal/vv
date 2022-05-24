@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildDisabledDropDown.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
+import 'package:velyvelo/components/disabled_drop_down.dart';
+import 'package:velyvelo/components/drop_down.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -31,14 +31,14 @@ class ClientDropDown extends StatelessWidget {
 
       // If the client is already selected
       if (client != null) {
-        return BuildDisabledDropDown(placeholder: client!.name);
+        return DisabledDropDown(placeholder: client!.name);
       }
 
       if (declarationController.infosSelection.value.infoClient.isLoading) {
-        return const BuildDisabledDropDown(placeholder: "Client");
+        return DisabledDropDown(placeholder: "Client");
       }
       // Has access
-      return BuildDropDown(
+      return DropDown(
         placeholder: "Client",
         dropdownItemList: declarationController
             .infosSelection.value.infoClient.listOptions

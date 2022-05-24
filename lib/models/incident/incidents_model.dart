@@ -41,22 +41,23 @@ class Incident {
       required this.interventionTime,
       required this.reparationNumber});
 
-  final String? incidentTypeReparation;
-  final String? incidentStatus;
+  final String incidentTypeReparation;
+  final String incidentStatus;
   final String incidentPk;
   final String veloGroup;
   final String veloName;
-  final String? dateCreation;
+  final String dateCreation;
   final int interventionTime;
   final String reparationNumber;
 
   factory Incident.fromJson(Map<String, dynamic> json) => Incident(
-      incidentTypeReparation: json["incident_type_reparation"],
-      incidentStatus: json["incident_status"],
+      incidentTypeReparation:
+          json["incident_type_reparation"] ?? "Pas de type de réparation",
+      incidentStatus: json["incident_status"] ?? "Pas de status d'incident",
       incidentPk: json["incident_pk"] ?? "-1",
       veloGroup: json["velo_group"] ?? "Pas de groupe",
-      veloName: json["velo_name"] ?? "Erreur",
-      dateCreation: json["date_creation"],
+      veloName: json["velo_name"] ?? "Pas de nom de vélo",
+      dateCreation: json["date_creation"] ?? "Pas de date de création",
       interventionTime: json["intervention_time"] ?? 0,
       reparationNumber: json["numero_reparation"] ?? "Pas de nom");
 

@@ -7,7 +7,6 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:get/get.dart';
 
 // Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
@@ -48,12 +47,11 @@ class HeaderContainer extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: colorBasedOnIncidentStatus(
-                          incident.incidentStatus ??
-                              "Pas de status d'incident"),
+                      color:
+                          colorBasedOnIncidentStatus(incident.incidentStatus),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Text(valueIsNull(incident.reparationNumber),
+                    child: Text(incident.reparationNumber,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             color: Colors.white,
@@ -79,7 +77,7 @@ class HeaderContainer extends StatelessWidget {
                       fontSize: 17.0,
                       fontWeight: FontWeight.w600)),
               Flexible(
-                child: Text(valueIsNull(incident.veloName),
+                child: Text(incident.veloName,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
@@ -92,7 +90,7 @@ class HeaderContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(valueIsNull(incident.dateCreation),
+              Text(incident.dateCreation,
                   style: const TextStyle(
                       color: global_styles.green,
                       fontSize: 17.0,

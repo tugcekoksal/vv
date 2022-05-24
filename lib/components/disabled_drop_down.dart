@@ -6,14 +6,12 @@ import 'package:get/get.dart';
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
-final IncidentDeclarationController incidentDeclarationController =
-    Get.put(IncidentDeclarationController());
-
-class BuildDisabledDropDown extends StatelessWidget {
-  const BuildDisabledDropDown({Key? key, required this.placeholder})
-      : super(key: key);
+class DisabledDropDown extends StatelessWidget {
+  DisabledDropDown({Key? key, required this.placeholder}) : super(key: key);
 
   final String placeholder;
+  final IncidentDeclarationController incidentDeclarationController =
+      Get.put(IncidentDeclarationController());
 
   @override
   Widget build(BuildContext context) {

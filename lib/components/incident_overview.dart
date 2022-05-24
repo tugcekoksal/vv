@@ -1,7 +1,7 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildLoadingBox.dart';
+import 'package:velyvelo/components/loading_box.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
@@ -9,9 +9,8 @@ import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
 
-class BuildIncidentsOverview extends StatelessWidget {
-  BuildIncidentsOverview({Key? key, required this.setFilterTab})
-      : super(key: key);
+class IncidentsOverview extends StatelessWidget {
+  IncidentsOverview({Key? key, required this.setFilterTab}) : super(key: key);
 
   final Function setFilterTab;
   final IncidentController incidentController = Get.put(IncidentController());
@@ -108,7 +107,7 @@ class BuildStatus extends StatelessWidget {
         const SizedBox(height: 5.0),
         Obx(() {
           if (incidentController.isLoading.value) {
-            return BuildLoadingBox(
+            return LoadingBox(
                 child: Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),

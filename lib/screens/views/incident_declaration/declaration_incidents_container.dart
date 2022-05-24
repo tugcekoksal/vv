@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildFormIncident.dart';
-import 'package:velyvelo/components/BuildFormsDivider.dart';
+import 'package:velyvelo/components/forn_incident.dart';
+import 'package:velyvelo/components/forms_divider.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
@@ -52,7 +52,7 @@ class DeclarationIncidentsContainer extends StatelessWidget {
           const BuildFormIncident(indexIncident: 0),
           Obx(() {
             if (declarationController.incidentMoreFormsList.isNotEmpty) {
-              return const BuildFormsDivider();
+              return const FormsDivider();
             } else {
               return const SizedBox();
             }
@@ -69,7 +69,7 @@ class DeclarationIncidentsContainer extends StatelessWidget {
                             declarationController.incidentMoreFormsList[index]);
                   });
                 },
-                separatorBuilder: (context, index) => const BuildFormsDivider(),
+                separatorBuilder: (context, index) => const FormsDivider(),
               )),
           const SizedBox(height: 30),
           Center(

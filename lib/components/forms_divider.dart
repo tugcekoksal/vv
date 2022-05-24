@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
-class BuildFormsDivider extends StatelessWidget {
-  const BuildFormsDivider({
+class FormsDivider extends StatelessWidget {
+  const FormsDivider({
     Key? key,
   }) : super(key: key);
 

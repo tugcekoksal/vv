@@ -5,8 +5,8 @@ import 'package:shimmer/shimmer.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
-class BuildLoadingBox extends StatelessWidget {
-  const BuildLoadingBox({Key? key, required this.child}) : super(key: key);
+class LoadingBox extends StatelessWidget {
+  const LoadingBox({Key? key, required this.child}) : super(key: key);
 
   final Widget child;
 

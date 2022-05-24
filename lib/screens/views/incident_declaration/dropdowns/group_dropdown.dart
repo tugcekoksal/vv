@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/BuildDisabledDropDown.dart';
-import 'package:velyvelo/components/BuildDropDown.dart';
+import 'package:velyvelo/components/disabled_drop_down.dart';
+import 'package:velyvelo/components/drop_down.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -29,17 +29,17 @@ class GroupDropDown extends StatelessWidget {
 
       // If the group is already selected
       if (group != null) {
-        return BuildDisabledDropDown(placeholder: group!.name);
+        return DisabledDropDown(placeholder: group!.name);
       }
 
       // If group is loading OR client is not selected
       if (declarationController.infosSelection.value.infoGroup.isLoading ||
           declarationController.infosSelection.value.infoClient.selected ==
               null) {
-        return const BuildDisabledDropDown(placeholder: "Groupe");
+        return DisabledDropDown(placeholder: "Groupe");
       }
       // Has access
-      return BuildDropDown(
+      return DropDown(
         placeholder: "Groupe",
         dropdownItemList: declarationController
             .infosSelection.value.infoGroup.listOptions

@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
-// Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
-
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
 
@@ -33,8 +30,7 @@ class InformationsContainer extends StatelessWidget {
                   fontSize: 17.0,
                   fontWeight: FontWeight.w600)),
           const SizedBox(height: 10.0),
-          incidentController.incidentDetailValue.value.groupe == "" ||
-                  incidentController.incidentDetailValue.value.groupe == null
+          incidentController.incidentDetailValue.value.groupe == ""
               ? const SizedBox()
               : RichText(
                   text: TextSpan(
@@ -62,8 +58,7 @@ class InformationsContainer extends StatelessWidget {
                   fontWeight: FontWeight.w700),
               children: <TextSpan>[
                 TextSpan(
-                    text: valueIsNull(
-                        incidentController.incidentDetailValue.value.velo),
+                    text: incidentController.incidentDetailValue.value.velo,
                     style: const TextStyle(color: global_styles.lightGreyText)),
               ],
             ),

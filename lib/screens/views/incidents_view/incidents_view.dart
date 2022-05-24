@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Components
-import 'package:velyvelo/components/BuildIncidentOverview.dart';
+import 'package:velyvelo/components/incident_overview.dart';
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
 import 'package:velyvelo/screens/home/title_app_bar.dart';
@@ -50,7 +50,7 @@ class IncidentsView extends StatelessWidget {
           // BODY
           Column(children: [
             const SizedBox(height: 100.0),
-            BuildIncidentsOverview(
+            IncidentsOverview(
               setFilterTab: incidentController.setStatusToDisplay,
             ),
             Obx(() {

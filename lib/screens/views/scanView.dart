@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 
 // Components
-import 'package:velyvelo/components/BuildQRCodeScanner.dart';
+import 'package:velyvelo/components/qr_code_scanner.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
@@ -39,7 +39,7 @@ class ScanView extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.7,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
-                  child: const BuildQRCodeScanner())),
+                  child: const QRCodeScanner())),
           SizedBox(height: MediaQuery.of(context).size.height * 0.0),
           SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           Padding(

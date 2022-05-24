@@ -7,21 +7,21 @@ import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 // Url server
 import 'package:velyvelo/services/http_service.dart';
 
-class SliderShowFullmages extends StatefulWidget {
+class SliderShowFullImages extends StatefulWidget {
   final List listImagesModel;
   final int current;
   final String mode;
-  const SliderShowFullmages(
+  const SliderShowFullImages(
       {Key? key,
       required this.listImagesModel,
       required this.current,
       required this.mode})
       : super(key: key);
   @override
-  _SliderShowFullmagesState createState() => _SliderShowFullmagesState();
+  _SliderShowFullImagesState createState() => _SliderShowFullImagesState();
 }
 
-class _SliderShowFullmagesState extends State<SliderShowFullmages> {
+class _SliderShowFullImagesState extends State<SliderShowFullImages> {
   int _current = 0;
   bool _stateChange = false;
   @override

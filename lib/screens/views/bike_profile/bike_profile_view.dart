@@ -8,7 +8,6 @@ import 'package:velyvelo/config/globalStyles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 // Helpers
-import 'package:velyvelo/helpers/ifValueIsNull.dart';
 import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_in_progress.dart';
@@ -21,7 +20,7 @@ import 'package:velyvelo/screens/views/incident_declaration/incident_declaration
 import 'package:velyvelo/controllers/bike_controller.dart';
 
 // Components
-import 'package:velyvelo/components/BuildLoadingBox.dart';
+import 'package:velyvelo/components/loading_box.dart';
 import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_history_container.dart';
 
 // Service Url
@@ -154,7 +153,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                         children: [
                           Obx(() {
                             if (bikeController.isLoading.value) {
-                              return BuildLoadingBox(
+                              return LoadingBox(
                                 child: Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.symmetric(
@@ -192,7 +191,7 @@ class _MyBikeViewState extends State<MyBikeView> {
                           const SizedBox(height: 10.0),
                           Obx(() {
                             if (bikeController.isLoading.value) {
-                              return BuildLoadingBox(
+                              return LoadingBox(
                                 child: Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.symmetric(
@@ -260,10 +259,8 @@ class _MyBikeViewState extends State<MyBikeView> {
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: valueIsNull(bikeController
-                                                      .userBike
-                                                      .value
-                                                      .kilometrage)
+                                              text: bikeController
+                                                  .userBike.value.kilometrage
                                                   .toString(),
                                               style: const TextStyle(
                                                   color: global_styles
@@ -281,8 +278,8 @@ class _MyBikeViewState extends State<MyBikeView> {
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: valueIsNull(bikeController
-                                                  .userBike.value.clientName),
+                                              text: bikeController
+                                                  .userBike.value.clientName,
                                               style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
@@ -299,8 +296,8 @@ class _MyBikeViewState extends State<MyBikeView> {
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: valueIsNull(bikeController
-                                                  .userBike.value.numeroCadran),
+                                              text: bikeController
+                                                  .userBike.value.numeroCadran,
                                               style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
@@ -317,8 +314,8 @@ class _MyBikeViewState extends State<MyBikeView> {
                                             fontWeight: FontWeight.w700),
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: valueIsNull(bikeController
-                                                  .userBike.value.dateCreation),
+                                              text: bikeController
+                                                  .userBike.value.dateCreation,
                                               style: const TextStyle(
                                                   color: global_styles
                                                       .lightGreyText)),
