@@ -135,6 +135,9 @@ class LoginController extends GetxController {
 
     userToken = "";
     userType = "";
+    login.value = "";
+    password.value = "";
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
     prefs.remove("username");

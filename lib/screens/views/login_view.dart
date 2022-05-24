@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/config/globalstyles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -21,9 +21,9 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    final snackBarLoading = SnackBar(
+    const snackBarLoading = SnackBar(
         content: Text('Connexion en cours...'),
-        backgroundColor: GlobalStyles.blue);
+        backgroundColor: global_styles.blue);
 
     return GestureDetector(
         onTap: () {
@@ -32,12 +32,11 @@ class LoginView extends StatelessWidget {
         child: Stack(alignment: Alignment.center, children: [
           Positioned(
             bottom: 0,
-            child: Container(
-                width: screenWidth,
-                child: Image.asset(
-                  "assets/background-login.png",
-                  fit: BoxFit.fill,
-                )),
+            width: screenWidth,
+            child: Image.asset(
+              "assets/background-login.png",
+              fit: BoxFit.fill,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(40.0),
@@ -49,7 +48,7 @@ class LoginView extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text("Bienvenue !",
                       style: TextStyle(
-                          color: GlobalStyles.purple,
+                          color: global_styles.purple,
                           fontSize: 26.0,
                           fontWeight: FontWeight.w700)),
                 ),
@@ -57,7 +56,7 @@ class LoginView extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text("Connectez-vous à votre espace VelyVelo",
                       style: TextStyle(
-                          color: GlobalStyles.purple,
+                          color: global_styles.purple,
                           fontSize: 11.0,
                           fontWeight: FontWeight.w500)),
                 ),
@@ -82,7 +81,7 @@ class LoginView extends StatelessWidget {
                         'https://dms.velyvelo.com/accounts/password/reset/'),
                     child: Text("Mot de passe oublié ?",
                         style: TextStyle(
-                            color: GlobalStyles.purple,
+                            color: global_styles.purple,
                             fontSize: 11.0,
                             fontWeight: FontWeight.w500)),
                   ),
@@ -113,7 +112,7 @@ class LoginView extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 15.0, vertical: 14.0),
                     decoration: BoxDecoration(
-                        color: GlobalStyles.purple,
+                        color: global_styles.purple,
                         borderRadius: BorderRadius.circular(25.0)),
                     child: Text('Se connecter',
                         style: TextStyle(
@@ -129,7 +128,7 @@ class LoginView extends StatelessWidget {
                       "Vous n'avez pas encore de compte chez nous ? Cliquez ici",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: GlobalStyles.purple,
+                          color: global_styles.purple,
                           fontSize: 11.0,
                           fontWeight: FontWeight.w500)),
                 ),
@@ -165,7 +164,7 @@ class LoginView extends StatelessWidget {
                             Text(
                               "Velyvelo",
                               style: TextStyle(
-                                  color: GlobalStyles.backgroundDarkGrey,
+                                  color: global_styles.backgroundDarkGrey,
                                   fontSize: 25.0,
                                   fontWeight: FontWeight.w700),
                             )
@@ -209,7 +208,7 @@ class _BuildInputLoginState extends State<BuildInputLogin> {
         fillColor: Colors.white,
         hintText: widget.placeholder,
         hintStyle: TextStyle(
-            color: GlobalStyles.greyLogin,
+            color: global_styles.greyLogin,
             fontSize: 12.0,
             fontWeight: FontWeight.w700),
         contentPadding:
@@ -224,7 +223,7 @@ class _BuildInputLoginState extends State<BuildInputLogin> {
         ),
         suffixIcon: widget.isPassword
             ? IconButton(
-                color: GlobalStyles.purple,
+                color: global_styles.purple,
                 icon: Icon(
                   _isObscure ? Icons.visibility : Icons.visibility_off,
                 ),

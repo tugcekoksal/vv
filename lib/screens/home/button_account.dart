@@ -40,13 +40,13 @@ class ButtonAccount extends StatelessWidget {
                         {loginController.logoutUser(), Navigator.pop(context)},
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(
                             Icons.logout,
                             size: 40,
                             color: Colors.white,
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: 10),
                           Text("Se déconnecter",
                               style: TextStyle(
                                   color: Colors.white,

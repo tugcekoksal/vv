@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/globalStyles.dart' as GlobalStyles;
+import 'package:velyvelo/helpers/logger.dart';
 
 // Views
 import 'package:velyvelo/screens/views/incidents_view/incidents_view.dart';
@@ -23,6 +24,7 @@ class HomeScreen extends StatelessWidget {
       Get.put(NavigationController());
   final LoginController loginController = Get.put(LoginController());
   final PageController _pageController = Get.put(PageController());
+  final log = logger(HomeScreen);
 
   showDeclarationIncidentPage() {
     Get.to(() => IncidentDeclaration(),
