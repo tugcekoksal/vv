@@ -65,7 +65,7 @@ class HubController extends GetxController {
   }
 
   void hubsBySearch() {
-    String? theSearch = searchText.value.capitalize;
+    String? theSearch = searchText.value.toUpperCase();
     if (searchText.value != "") {
       hubs.value = storedHubs
           .where(

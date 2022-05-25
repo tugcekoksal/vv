@@ -86,6 +86,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // first line top left
               Expanded(
                 child: Text(data.incidentTypeReparation,
                     overflow: TextOverflow.ellipsis,

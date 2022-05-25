@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 // Components
 import 'package:velyvelo/components/incident_overview.dart';
+import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
 import 'package:velyvelo/screens/home/title_app_bar.dart';
@@ -15,11 +16,13 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/screens/views/incidents_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
+import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 
 class IncidentsView extends StatelessWidget {
   IncidentsView({Key? key}) : super(key: key);
 
   final IncidentController incidentController = Get.put(IncidentController());
+  final log = getLogger(IncidentsView);
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +35,39 @@ class IncidentsView extends StatelessWidget {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ButtonAccount(),
-                    GestureDetector(
-                        onTap: () => incidentController.fetchAllIncidents(
-                            incidentController.incidentsToFetch.value),
-                        child:
-                            Column(mainAxisSize: MainAxisSize.min, children: [
-                          TitleAppBar(
-                            onTransparentBackground: false,
-                            title: "Incidents",
-                          ),
-                          SubTitleIncidents(
-                              incidentController: incidentController)
-                        ])),
-                    const ButtonScan()
+                    Row(children: [
+                      ButtonAccount(),
+                      const SizedBox(width: 5),
+                      ButtonSearchIncident(
+                          incidentController: incidentController),
+                    ]),
+                    const ButtonScan(),
                   ])),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+              child: GestureDetector(
+                  onTap: () => incidentController.fetchAllIncidents(
+                      incidentController.incidentsToFetch.value),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    TitleAppBar(
+                      onTransparentBackground: false,
+                      title: "Incidents",
+                    ),
+                    SubTitleIncidents(incidentController: incidentController)
+                  ]))),
+          // Search bar
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Obx(() {
+                log.d("RENDER searchbars");
+                return incidentController.displaySearch.value
+                    ? SearchBarIncident()
+                    : const SizedBox();
+              }),
+              const SizedBox(),
+            ],
+          ),
           // BODY
           Column(children: [
             const SizedBox(height: 100.0),
