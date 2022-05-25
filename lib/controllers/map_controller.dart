@@ -57,7 +57,7 @@ class MapBikesController extends GetxController {
   }
 
   void bikesBySearch() {
-    String? theSearch = searchText.value.capitalize;
+    String? theSearch = searchText.value.toUpperCase();
     if (searchText.value != "") {
       bikeWithPositionList.value = bikeList
           .where((element) => element.name.capitalize!.contains(theSearch!))

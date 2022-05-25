@@ -33,6 +33,7 @@ class IncidentController extends GetxController {
   var isLoadingDetailIncident = true.obs;
 
   var incidentList = <Incident>[].obs;
+  var storedIncidents = <Incident>[];
   // var incidentDetail;
 
   var nbOfNewIncidents = 0.obs;
@@ -82,6 +83,9 @@ class IncidentController extends GetxController {
   RxString selectedIncidentCause = "".obs;
   RxList<String> dropDownItemIncidentTypeList = <String>[].obs;
 
+  RxBool displaySearch = false.obs;
+  RxString searchText = "".obs;
+
   // void fetchIncidentLabels() async {
   //   try {
   //     isLoadingLabelIncidentType(true);
@@ -97,6 +101,25 @@ class IncidentController extends GetxController {
   //     print(e);
   //   }
   // }
+
+  void incidentsBySearch() {
+    String? theSearch = searchText.value.toUpperCase();
+    if (searchText.value != "") {
+      print("if");
+      incidentList.value = storedIncidents.where((element) {
+        print(element.reparationNumber);
+        print(element.veloName);
+        print(theSearch!);
+        return element.reparationNumber.contains(theSearch!) ||
+            element.veloName.contains(theSearch);
+      }).toList();
+      incidentList.refresh();
+    } else {
+      print("else");
+      incidentList.value = storedIncidents;
+    }
+  }
+
   void fetchIncidentTypeList() async {
     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
     dropDownItemIncidentTypeList.value =
@@ -210,10 +233,10 @@ class IncidentController extends GetxController {
           await HttpService.fetchAllIncidents(incidentsToFetch, userToken);
       if (incidents != null && incidents.incidents.length != 0) {
         incidentList.value = incidents.incidents;
+        storedIncidents = incidents.incidents;
         nbOfNewIncidents.value = incidents.nbIncidents.nouvelle;
         nbOfProgressIncidents.value = incidents.nbIncidents.enCours;
         nbOfFinishedIncidents.value = incidents.nbIncidents.termine;
-
         isLoading(false);
       } else if (incidents.incidents.length == 0) {
         isLoading(false);
