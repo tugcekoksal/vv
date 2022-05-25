@@ -105,17 +105,12 @@ class IncidentController extends GetxController {
   void incidentsBySearch() {
     String? theSearch = searchText.value.toUpperCase();
     if (searchText.value != "") {
-      print("if");
       incidentList.value = storedIncidents.where((element) {
-        print(element.reparationNumber);
-        print(element.veloName);
-        print(theSearch!);
-        return element.reparationNumber.contains(theSearch!) ||
+        return element.reparationNumber.contains(theSearch) ||
             element.veloName.contains(theSearch);
       }).toList();
       incidentList.refresh();
     } else {
-      print("else");
       incidentList.value = storedIncidents;
     }
   }
