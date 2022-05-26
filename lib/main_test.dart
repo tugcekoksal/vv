@@ -2,8 +2,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/main.dart';
 import 'package:velyvelo/my_app.dart';
 
 //FIREBASE
@@ -35,40 +37,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  // Always First
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://8c020d0b25804516a3f61ecad3ce0859@o916392.ingest.sentry.io/6417938';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(const MyApp()),
-  );
-
-  //FOR HTTP CALLS ANDROID
-  HttpOverrides.global = MyHttpOverrides();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // We do not show request permission pop up in integration tests
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-  // Allow IOS Notification when application is in foreground
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+  // Common test and normal launch setup
+  await commonSetUp();
 
   // Auto logout user while testing
   final LoginController loginController = Get.put(LoginController());
@@ -77,5 +47,6 @@ void main() async {
   // Run the App after all is well initialized
   // Don't show alert pop up authorize notification on integration test
   // (Can't click on native pop up with integration tests)
-  runApp(const MaterialApp(home: MyApp(showAlert: false)));
+  runApp(
+      const ProviderScope(child: MaterialApp(home: MyApp(showAlert: false))));
 }
