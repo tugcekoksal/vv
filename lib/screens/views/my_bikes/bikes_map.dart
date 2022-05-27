@@ -68,10 +68,8 @@ class BikesMap extends StatefulWidget {
 
 class _BikesMapState extends State<BikesMap> {
   var firstTime = true;
-  final Logger log = getLogger(BikesMap);
+  final Logger log = logger(BikesMap);
   void onGeoChanged(MapPosition position, bool hasGesture) {
-    log.d("RENDER on geo");
-
     // Handle conflict render GETX / STATE render widget, the onGeoChanged function trigger one time at the start when the widget is not fully built
     if (firstTime) {
       firstTime = false;
@@ -103,8 +101,6 @@ class _BikesMapState extends State<BikesMap> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      log.d("RENDER map");
-
       return Stack(children: [
         FlutterMap(
           options: MapOptions(

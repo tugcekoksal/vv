@@ -22,7 +22,7 @@ class IncidentsView extends StatelessWidget {
   IncidentsView({Key? key}) : super(key: key);
 
   final IncidentController incidentController = Get.put(IncidentController());
-  final log = getLogger(IncidentsView);
+  final log = logger(IncidentsView);
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,6 @@ class IncidentsView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Obx(() {
-                log.d("RENDER searchbars");
                 return incidentController.displaySearch.value
                     ? SearchBarIncident()
                     : const SizedBox();

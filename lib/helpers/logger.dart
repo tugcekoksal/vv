@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-Logger getLogger(Type type) => Logger(
+final logger = (Type type) => Logger(
       printer: CustomerPrinter(type.toString()),
       level: Level.verbose,
     );

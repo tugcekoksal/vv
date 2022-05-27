@@ -103,7 +103,7 @@ class IncidentController extends GetxController {
   // }
 
   void incidentsBySearch() {
-    String? theSearch = searchText.value.toUpperCase();
+    String theSearch = searchText.value.toUpperCase();
     if (searchText.value != "") {
       incidentList.value = storedIncidents.where((element) {
         return element.reparationNumber.contains(theSearch) ||
