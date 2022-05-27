@@ -12,9 +12,9 @@ xcrun simctl boot iOS13TestDevice
 echo "Checking boot status..."
 xcrun simctl bootstatus iOS13TestDevice
 
+echo "Running pub get..."
+flutter pub get
+
 echo "Running integration test..."
 flutter test \
-    integration_test/app_test.dart & echo "Modifying permissions..." \
-    applesimutils --byName iOS13TestDevice --bundle "com.grafenit.velyvelo" --setPermissions "notifications=YES" || sleep 90
-    
-    
+    integration_test/main_test.dart
