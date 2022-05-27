@@ -20,6 +20,7 @@ version: 2.0.0+6
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
+
 dependencies:
   flutter:
     sdk: flutter
@@ -34,6 +35,7 @@ dependencies:
   # Services & State management
   http: ^0.13.4
   get: ^4.6.1
+  flutter_riverpod: ^1.0.0-dev.11
   sentry_flutter: ^6.5.1
   path_provider: ^2.0.8
   shared_preferences: ^2.0.13

@@ -1,2 +1,2 @@
 flutter test \
-    integration_test/test.dart
+    integration_test/main_test.dart
