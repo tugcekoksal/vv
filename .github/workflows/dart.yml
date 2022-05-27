@@ -1,21 +1,11 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Dart
-
-on:
-  push:
-    branches: [ main, dev ]
-  pull_request:
-    branches: [ main, dev ]
-
+name: Flutter Integration Tests
+on: [push, pull_request]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  integration_tests:
+    runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v1
-    - uses: subosito/flutter-action@v1
-    - run: ./launch_test_integration
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+      - run: flutter pub get
+      - run: chromedriver --port=4444 &
+      - run: flutter test integration_test/main_test.dart
