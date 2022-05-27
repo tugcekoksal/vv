@@ -20,7 +20,6 @@ version: 2.0.0+6
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
-
 dependencies:
   flutter:
     sdk: flutter
@@ -78,7 +77,8 @@ flutter_icons:
 # following page: https://dart.dev/tools/pub/pubspec
 flutter_native_splash:
   color: "#131314"
-  image: assets/logo_splash_bigger.png
+  image: "assets/logo_splash_bigger.png"
+  
 # The following section is specific to Flutter.
 flutter:
 
