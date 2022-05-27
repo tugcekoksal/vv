@@ -1,29 +1,46 @@
-name: Flutter Integration Tests
-on: [push, pull_request]
+name: build
+
+on:
+  push:
+    branches:
+      - '**'
+    # branches: [ main ]
+  pull_request:
+    branches:
+      - '**'
+    # branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Every day at midnight
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
-  test:
-      name: Testing iOS app
-      runs-on: macOS-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v1
-        - name: Force XCode 11.3
-          run: sudo xcode-select -switch /Applications/Xcode_11.3.app
-        # - name: Testing Swift package
-        #   run: exec ./.github/scripts/test_swift_package.sh
-        - name: Testing iOS app
-          run: flutter test integration_test/main_test.dart
-#   flutter_integration_test:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: actions/setup-java@v1
-#         with:
-#           java-version: "12.x"
-#       - uses: subosito/flutter-action@v1
-#         with:
-#           channel: "stable"
-#       - run: flutter pub get
-# #       - run: flutter analyze
-#       - run: flutter test integration_test/main_test.dart -d chrome
+  flutter-tests:
+    name: Test Flutter ${{ matrix.flutter_version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        flutter_version: [dev, beta, stable]
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: ${{ matrix.flutter_version }}
+      - uses: malinskiy/action-android/emulator-run-cmd@release/0.1.1
+        with:
+          cmd: flutter doctor -v
+          api: 25
+          tag: default
+          abi: x86
+      - run: sdkmanager platform-tools
+      - run: adb devices
+      - run: echo $ANDROID_HOME
+      - run: ./tool/flutter_ci_script.sh
