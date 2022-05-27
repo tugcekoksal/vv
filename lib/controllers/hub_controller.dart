@@ -69,7 +69,7 @@ class HubController extends GetxController {
     if (searchText.value != "") {
       hubs.value = storedHubs
           .where(
-              (element) => element.groupName!.capitalize!.contains(theSearch!))
+              (element) => element.groupName!.capitalize!.contains(theSearch))
           .toList();
       hubs.refresh();
     } else {

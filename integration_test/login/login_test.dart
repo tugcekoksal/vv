@@ -48,6 +48,7 @@ void testValidLogin() {
 }
 
 void main() {
+  testErrorLogin();
   testValidLogin();
   testErrorLogin();
 }

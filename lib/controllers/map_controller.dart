@@ -60,7 +60,7 @@ class MapBikesController extends GetxController {
     String? theSearch = searchText.value.toUpperCase();
     if (searchText.value != "") {
       bikeWithPositionList.value = bikeList
-          .where((element) => element.name.capitalize!.contains(theSearch!))
+          .where((element) => element.name.capitalize!.contains(theSearch))
           .toList();
       bikeWithPositionList.refresh();
     } else {
