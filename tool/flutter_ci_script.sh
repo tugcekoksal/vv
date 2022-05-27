@@ -15,4 +15,4 @@ flutter pub get
 # flutter format -n --set-exit-if-changed .
 
 # Run the actual tests.
-flutter test integration_test/main_test.dart
+# flutter test integration_test/main_test.dart
