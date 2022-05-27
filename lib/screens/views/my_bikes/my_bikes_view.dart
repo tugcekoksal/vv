@@ -17,8 +17,8 @@ import 'package:velyvelo/screens/home/title_app_bar.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_filter.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_velo.dart';
-import 'package:velyvelo/screens/views/my_bikes/hub_list.dart';
-import 'package:velyvelo/screens/views/my_bikes/hub_map.dart';
+import 'package:velyvelo/screens/views/hubs/hub_list.dart';
+import 'package:velyvelo/screens/views/hubs/hub_map.dart';
 import 'package:velyvelo/screens/views/my_bikes/info_usage.dart';
 
 // Own modules
@@ -41,7 +41,7 @@ class _MyBikesViewState extends State<MyBikesView> {
   final MapBikesController mapBikesController = Get.put(MapBikesController());
   final HubController hubController = Get.put(HubController());
   final LoginController loginController = Get.put(LoginController());
-  final Logger log = getLogger(MyBikesView);
+  final Logger log = logger(MyBikesView);
 
   void changeMapView() {
     setState(() {
@@ -71,13 +71,9 @@ class _MyBikesViewState extends State<MyBikesView> {
     return Stack(children: [
       // HUB OR BIKES ?
       Obx(() {
-        log.d("RENDER");
         return hubController.hubView.value
             ? mapBikesController.isMapView
-                ? HubMap(
-                    hubController: hubController,
-                    streetView: hubController.isStreetView,
-                  )
+                ? HubMap()
                 : HubsListView(hubController: hubController)
             :
             // MAP OR LIST
@@ -99,8 +95,6 @@ class _MyBikesViewState extends State<MyBikesView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Obx(() {
-                        log.d("RENDER overlay");
-
                         return Row(
                           children: [
                             ButtonAccount(),
@@ -123,8 +117,6 @@ class _MyBikesViewState extends State<MyBikesView> {
                                 : mapBikesController.fetchAllBikes()
                           },
                           child: Obx(() {
-                            log.d("RENDER title");
-
                             return TitleAppBar(
                               onTransparentBackground:
                                   mapBikesController.isMapView,
@@ -136,8 +128,6 @@ class _MyBikesViewState extends State<MyBikesView> {
                         )
                       ]),
                       Obx(() {
-                        log.d("RENDER filter");
-
                         return Row(children: [
                           hubController.hubView.value
                               ? const SizedBox(width: 40)
@@ -174,8 +164,6 @@ class _MyBikesViewState extends State<MyBikesView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Obx(() {
-                  log.d("RENDER pop up");
-
                   return InfoLoading(
                       text: "Chargement des données",
                       isVisible: mapBikesController.isLoading.value ||
@@ -193,8 +181,6 @@ class _MyBikesViewState extends State<MyBikesView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Obx(() {
-                  log.d("RENDER pop up not found");
-
                   return InfoNotFound(
                       color: global_styles.blue,
                       text: "Aucun résultat",
@@ -213,8 +199,6 @@ class _MyBikesViewState extends State<MyBikesView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Obx(() {
-            log.d("RENDER searchbars");
-
             return hubController.hubView.value
                 ? hubController.displaySearch.value
                     ? SearchBarHub()

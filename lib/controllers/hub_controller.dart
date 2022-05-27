@@ -1,7 +1,9 @@
 // Vendor
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -65,7 +67,7 @@ class HubController extends GetxController {
   }
 
   void hubsBySearch() {
-    String? theSearch = searchText.value.toUpperCase();
+    String theSearch = searchText.value.toUpperCase();
     if (searchText.value != "") {
       hubs.value = storedHubs
           .where(

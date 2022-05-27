@@ -5,7 +5,10 @@
 import 'dart:convert';
 
 List<HubModel> hubsModelFromJson(String str) =>
-    List<HubModel>.from(json.decode(str).map((x) => HubModel.fromJson(x)));
+    List<HubModel>.from(json.decode(str).map((x) {
+      print(x);
+      return HubModel.fromJson(x);
+    })).toList();
 
 class HubModel {
   HubModel(
@@ -32,11 +35,11 @@ class HubModel {
   factory HubModel.fromJson(Map<String, dynamic> json) => HubModel(
         groupName: json["infos"]["nom"] ?? "",
         clientName: json["infos"]["client"] ?? "",
-        reparations: json["infos"]["reparations"] ?? 0,
-        users: json["infos"]["users"] ?? 0,
-        bikeParked: json["infos"]["Rangés"] ?? 0,
-        bikeUsed: json["infos"]["Utilisés"] ?? 0,
-        bikeRobbed: json["infos"]["Volés"] ?? 0,
+        reparations: int.parse(json["infos"]["reparations"]),
+        users: int.parse(json["infos"]["users"]),
+        bikeParked: int.parse(json["infos"]["Rangés"]),
+        bikeUsed: int.parse(json["infos"]["Utilisés"]),
+        bikeRobbed: int.parse(json["infos"]["Volés"]),
         adresse: json["infos"]["adresse"] ?? "",
         pinModel: HubPinModel.fromJson(json["map"]),
       );
