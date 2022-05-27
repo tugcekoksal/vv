@@ -1,38 +1,9 @@
-name: build
-
-on:
-  push:
-    branches:
-      - '**'
-    # branches: [ main ]
-  pull_request:
-    branches:
-      - '**'
-    # branches: [ main ]
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *' # Every day at midnight
-
-defaults:
-  run:
-    shell: bash
-
+name: test-my-app
+on: [push, pull_request, workflow_dispatch]
 jobs:
-  flutter-tests:
-    name: Test Flutter ${{ matrix.flutter_version }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        flutter_version: [dev, beta, stable]
-        os: [macos-latest]
+  drive:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '12.x'
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: ${{ matrix.flutter_version }}
-
-      - run: ./tool/my_ci_script.sh
+    - uses: actions/checkout@v1
+    - uses: subosito/flutter-action@v1
+    - run: flutter test
