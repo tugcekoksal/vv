@@ -1,15 +1,17 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/controllers/hub_controller.dart';
+import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
@@ -17,8 +19,8 @@ import 'package:velyvelo/screens/home/title_app_bar.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_filter.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_velo.dart';
-import 'package:velyvelo/screens/views/my_bikes/hub_list.dart';
-import 'package:velyvelo/screens/views/my_bikes/hub_map.dart';
+import 'package:velyvelo/screens/views/hubs/hub_list.dart';
+import 'package:velyvelo/screens/views/hubs/hub_map.dart';
 import 'package:velyvelo/screens/views/my_bikes/info_usage.dart';
 
 // Own modules
@@ -30,63 +32,42 @@ import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 const accesToken =
     "sk.eyJ1IjoibHVjYXNncmFmZW4iLCJhIjoiY2wwNnA2a3NnMDRndzNpbHYyNTV0NGd1ZCJ9.nfFc_JlfaGgq1Kajg6agoQ";
 
-class MyBikesView extends StatefulWidget {
-  const MyBikesView({Key? key}) : super(key: key);
+class MyBikesView extends ConsumerWidget {
+  final Logger log = logger(MyBikesView);
+  MyBikesView({Key? key}) : super(key: key);
 
-  @override
-  State<MyBikesView> createState() => _MyBikesViewState();
-}
-
-class _MyBikesViewState extends State<MyBikesView> {
-  final MapBikesController mapBikesController = Get.put(MapBikesController());
-  final HubController hubController = Get.put(HubController());
   final LoginController loginController = Get.put(LoginController());
-  final Logger log = getLogger(MyBikesView);
 
-  void changeMapView() {
-    setState(() {
-      mapBikesController.changeMapView();
-    });
-  }
+  // void init() {
+  //   if (loginController.isAdminOrTech()) {
+  //     // hubController.fetchHubs();
+  //   }
+  //   mapBikesController.fetchAllBikes();
 
-  void changeMapStyle() {
-    setState(() {
-      mapBikesController.changeMapStyle();
-    });
-  }
-
-  void init() {
-    if (loginController.isAdminOrTech()) {
-      hubController.fetchHubs();
-    }
-    mapBikesController.fetchAllBikes();
-
-    // mapBikeController.didNotFoundBikesWithPosition.value = true;
-    // mapBikeController.isLoading.value = true;
-  }
+  //   // mapBikeController.didNotFoundBikesWithPosition.value = true;
+  //   // mapBikeController.isLoading.value = true;
+  // }
 
   @override
-  Widget build(BuildContext context) {
-    init();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final HubsProvider hubs = ref.watch(hubsProvider);
+    final BikesProvider bikes = ref.watch(bikesProvider);
+    final MapViewProvider view = ref.watch(mapViewProvider);
+
+    // init();
     return Stack(children: [
-      // HUB OR BIKES ?
-      Obx(() {
-        log.d("RENDER");
-        return hubController.hubView.value
-            ? mapBikesController.isMapView
-                ? HubMap(
-                    hubController: hubController,
-                    streetView: hubController.isStreetView,
-                  )
-                : HubsListView(hubController: hubController)
-            :
-            // MAP OR LIST
-            mapBikesController.isMapView
-                ? BikesMap(
-                    mapBikeController: mapBikesController,
-                    streetView: mapBikesController.isStreetView)
-                : BikesListView(mapBikeController: mapBikesController);
-      }),
+      // HubView / BikesView
+      view.isActiveMapView(WhichMapView.hubView)
+          // Map view or List view
+          ? view.isMapOrList(MapOrList.map)
+              ? HubMap()
+              : HubsListView()
+          :
+          // BIKESVIEW
+          view.isMapOrList(MapOrList.map)
+              // Map view or List view
+              ? BikesMap()
+              : const BikesListView(),
 
       // APP BAR
       Padding(
@@ -98,72 +79,60 @@ class _MyBikesViewState extends State<MyBikesView> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(() {
-                        log.d("RENDER overlay");
-
-                        return Row(
-                          children: [
-                            ButtonAccount(),
-                            const SizedBox(width: 5),
-                            hubController.hubView.value
-                                ? ButtonSearchHub(
-                                    hubController: hubController,
-                                  )
-                                : ButtonSearchVelo(
-                                    mapBikesController: mapBikesController,
-                                  ),
-                          ],
-                        );
-                      }),
+                      Row(
+                        children: [
+                          ButtonAccount(),
+                          const SizedBox(width: 5),
+                          view.isActiveMapView(WhichMapView.hubView)
+                              ? const ButtonSearchHub()
+                              : const ButtonSearchVelo(),
+                        ],
+                      ),
                       Column(mainAxisSize: MainAxisSize.min, children: [
                         GestureDetector(
                           onTap: () => {
-                            hubController.hubView.value
-                                ? hubController.fetchHubs()
-                                : mapBikesController.fetchAllBikes()
+                            view.isActiveMapView(WhichMapView.hubView)
+                                ? hubs.fetchHubs()
+                                : bikes.fetchAllBikes()
                           },
-                          child: Obx(() {
-                            log.d("RENDER title");
-
-                            return TitleAppBar(
-                              onTransparentBackground:
-                                  mapBikesController.isMapView,
-                              title: hubController.hubView.value
-                                  ? "Hubs"
-                                  : "Vélos",
-                            );
-                          }),
+                          child:
+                              // done
+                              //  Obx(() {
+                              // return
+                              TitleAppBar(
+                            onTransparentBackground:
+                                view.isMapOrList(MapOrList.map),
+                            title: view.isActiveMapView(WhichMapView.hubView)
+                                ? "Hubs"
+                                : "Vélos",
+                          ),
+                          // }),
                         )
                       ]),
-                      Obx(() {
-                        log.d("RENDER filter");
-
-                        return Row(children: [
-                          hubController.hubView.value
-                              ? const SizedBox(width: 40)
-                              : ButtonFilter(
-                                  mapBikesController: mapBikesController),
-                          const SizedBox(width: 5),
-                          const ButtonScan()
-                        ]);
-                      })
+                      Row(children: [
+                        view.isActiveMapView(WhichMapView.hubView)
+                            ? const SizedBox(width: 40)
+                            : const ButtonFilter(),
+                        const SizedBox(width: 5),
+                        const ButtonScan()
+                      ]),
                     ]),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       if (loginController.isAdminOrTech.value)
-                        Row(children: [
+                        Row(children: const [
                           ButtonTypeMapElem(
-                              hubController: hubController, isHub: false),
-                          const SizedBox(width: 5),
+                            whichView: WhichMapView.bikeView,
+                          ),
+                          SizedBox(width: 5),
                           ButtonTypeMapElem(
-                              hubController: hubController, isHub: true),
+                            whichView: WhichMapView.hubView,
+                          ),
                         ]),
                       if (!loginController.isAdminOrTech.value)
                         const SizedBox(),
-                      TopSwitch(
-                          changeMapView: changeMapView,
-                          mapBikesController: mapBikesController)
+                      const TopSwitch()
                     ])
               ])),
       Positioned(
@@ -173,14 +142,9 @@ class _MyBikesViewState extends State<MyBikesView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Obx(() {
-                  log.d("RENDER pop up");
-
-                  return InfoLoading(
-                      text: "Chargement des données",
-                      isVisible: mapBikesController.isLoading.value ||
-                          hubController.isLoadingHub.value);
-                }),
+                InfoLoading(
+                    text: "Chargement des données",
+                    isVisible: bikes.isLoadingBikes || hubs.isLoadingHub),
               ],
             ),
           )),
@@ -192,17 +156,15 @@ class _MyBikesViewState extends State<MyBikesView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Obx(() {
-                  log.d("RENDER pop up not found");
-
-                  return InfoNotFound(
-                      color: global_styles.blue,
-                      text: "Aucun résultat",
-                      isVisible: mapBikesController
-                              .didNotFoundBikesWithPosition.value &&
-                          !hubController.hubView.value &&
-                          mapBikesController.isMapView);
-                })
+                // Obx(() {
+                //   return
+                InfoNotFound(
+                    color: global_styles.blue,
+                    text: "Aucun résultat",
+                    isVisible: bikes.didNotFoundBikesWithPosition &&
+                        view.isActiveMapView(WhichMapView.bikeView) &&
+                        view.isMapOrList(MapOrList.map)),
+                // })
               ],
             ),
 
@@ -212,17 +174,16 @@ class _MyBikesViewState extends State<MyBikesView> {
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Obx(() {
-            log.d("RENDER searchbars");
-
-            return hubController.hubView.value
-                ? hubController.displaySearch.value
-                    ? SearchBarHub()
-                    : const SizedBox()
-                : mapBikesController.displaySearch.value
-                    ? SearchBarVelo()
-                    : const SizedBox();
-          }),
+          // Obx(() {
+          // return
+          view.isActiveMapView(WhichMapView.hubView)
+              ? hubs.displaySearch
+                  ? SearchBarHub()
+                  : const SizedBox()
+              : bikes.displaySearch
+                  ? SearchBarVelo()
+                  : const SizedBox(),
+          // }),
           const SizedBox(),
         ],
       )

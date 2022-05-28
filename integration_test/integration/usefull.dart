@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:velyvelo/main_test.dart' as app;
+import 'package:velyvelo/test_main.dart' as app;
 
 int nbError = 0;
 

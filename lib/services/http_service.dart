@@ -1,6 +1,7 @@
 // Vendor
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/models/hubs/hub_map.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -65,7 +66,7 @@ class HttpService {
   }
 
   // Fetch the hubs for map
-  static Future fetchHubs(String userToken) async {
+  static Future<List<HubModel>> fetchHubs(String userToken) async {
     return fetchHubsService(urlServer, userToken);
   }
 

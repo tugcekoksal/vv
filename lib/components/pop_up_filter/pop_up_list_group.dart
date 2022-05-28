@@ -1,12 +1,12 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
+// Provider
+import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
 
 class BuildButtonGroup extends StatelessWidget {
   const BuildButtonGroup(
@@ -45,15 +45,15 @@ class BuildButtonGroup extends StatelessWidget {
   }
 }
 
-class PopUpGroupList extends StatelessWidget {
-  final MapBikesController mapBikesController;
+class PopUpGroupList extends ConsumerWidget {
   final ScrollController scrollController = ScrollController();
 
-  PopUpGroupList({Key? key, required this.mapBikesController})
-      : super(key: key);
+  PopUpGroupList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final BikesProvider bikes = ref.watch(bikesProvider);
+
     return Expanded(
         child: Scrollbar(
       controller: scrollController,
@@ -61,23 +61,18 @@ class PopUpGroupList extends StatelessWidget {
       child: ListView(
         controller: scrollController,
         children: [
-          Obx(() {
-            return Wrap(
-                spacing: 4.0,
-                direction: Axis.horizontal,
-                children: mapBikesController.availableFiltersList.isEmpty
-                    ? [const Text("Aucun filtre disponible")]
-                    : mapBikesController.availableFiltersList
-                        .map((filterLabel) => Obx(() {
-                              return BuildButtonGroup(
-                                  label: filterLabel,
-                                  setFilters: mapBikesController.setFilters,
-                                  isSelected: mapBikesController
-                                      .selectedFiltersList
-                                      .contains(filterLabel));
-                            }))
-                        .toList());
-          })
+          Wrap(
+              spacing: 4.0,
+              direction: Axis.horizontal,
+              children: bikes.availableFiltersList.isEmpty
+                  ? const [Text("Aucun filtre disponible")]
+                  : bikes.availableFiltersList
+                      .map((filterLabel) => BuildButtonGroup(
+                          label: filterLabel,
+                          setFilters: bikes.setFilters,
+                          isSelected:
+                              bikes.selectedFiltersList.contains(filterLabel)))
+                      .toList())
         ],
       ),
     ));

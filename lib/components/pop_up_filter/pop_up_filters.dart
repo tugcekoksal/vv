@@ -1,6 +1,5 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 // Components
 import 'package:velyvelo/components/pop_up_filter/pop_up_list_filters.dart';
@@ -8,13 +7,8 @@ import 'package:velyvelo/components/pop_up_filter/pop_up_list_group.dart';
 import 'package:velyvelo/components/pop_up_filter/pop_up_list_status.dart';
 import 'package:velyvelo/components/pop_up_filter/pop_up_titles.dart';
 
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
-
 class PopUpFilters extends StatelessWidget {
-  PopUpFilters({Key? key}) : super(key: key);
-
-  final MapBikesController mapBikeController = Get.put(MapBikesController());
+  const PopUpFilters({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +34,11 @@ class PopUpFilters extends StatelessWidget {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               const PopUpTitle(text: "Filtrer mes vélos"),
               const PopUpSubTitle(text: "Filtres appliqués"),
-              PopUpListFilters(mapBikesController: mapBikeController),
+              PopUpListFilters(),
               const PopUpSubTitle(text: "Status"),
-              PopUpStatusList(mapBikesController: mapBikeController),
+              const PopUpStatusList(),
               const PopUpSubTitle(text: "Groupes"),
-              PopUpGroupList(mapBikesController: mapBikeController)
+              PopUpGroupList()
             ]),
           )
         ]);
