@@ -19,12 +19,10 @@ Future<List<HubModel>> fetchHubsService(
   http.Response response = await http.Response.fromStream(streamResponse);
   // String message =
   //     json.decode(response.body)["message"] ?? "No message from server";
-  log.w(response.statusCode);
+
   if (response.statusCode >= 400) {
     throw Exception("message");
   }
-  List<HubModel> listHubs = [];
-  // return listHubs;
   return hubsModelFromJson(response.body);
 }
 

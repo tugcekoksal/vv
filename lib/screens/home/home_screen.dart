@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: <Widget>[
                     IncidentsView(),
-                    const MyBikesView(),
+                    MyBikesView(),
                   ],
                 );
               } else {

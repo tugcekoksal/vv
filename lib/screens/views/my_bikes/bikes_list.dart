@@ -1,11 +1,9 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
-
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
 
 // Globals styles
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
@@ -113,59 +111,56 @@ class VeloCard extends StatelessWidget {
   }
 }
 
-class BikesList extends StatelessWidget {
-  final MapBikesController mapBikeController;
+class BikesList extends ConsumerWidget {
+  final RefreshController refreshController = RefreshController();
 
-  const BikesList({Key? key, required this.mapBikeController})
-      : super(key: key);
+  BikesList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return Container(
-          color: global_styles.backgroundLightGrey,
-          child: Padding(
-              padding: const EdgeInsets.only(top: 100, bottom: 60),
-              child: FadeListView(
-                  // Need to enable refresh here !
-                  child: SmartRefresher(
-                      enablePullDown: true,
-                      enablePullUp: false,
-                      controller: mapBikeController.refreshController,
-                      // controller: incidentController.refreshController,
-                      onRefresh: () {
-                        // Refresh incidents
-                        mapBikeController.fetchAllBikes();
-                        mapBikeController.refreshController.refreshCompleted();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final BikesProvider bikes = ref.watch(bikesProvider);
+    return Container(
+        color: global_styles.backgroundLightGrey,
+        child: Padding(
+            padding: const EdgeInsets.only(top: 100, bottom: 60),
+            child: FadeListView(
+                // Need to enable refresh here !
+                child: SmartRefresher(
+                    enablePullDown: true,
+                    enablePullUp: false,
+                    controller: refreshController,
+                    // controller: incidentController.refreshController,
+                    onRefresh: () {
+                      // Refresh incidents
+                      ref.read(bikesProvider).fetchAllBikes();
+                      refreshController.refreshCompleted();
+                    },
+                    onLoading: () {
+                      // Add new incidents in the list with newest_id and count
+                      // incidentController.fetchNewIncidents();
+                      refreshController.loadComplete();
+                    },
+                    child: ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                      itemCount: bikes.bikeWithPositionList.length,
+                      itemBuilder: (context, index) {
+                        return (GestureDetector(
+                          child: VeloCard(
+                              name: bikes.bikeWithPositionList[index].name,
+                              group: bikes.bikeWithPositionList[index].group,
+                              mapStatus:
+                                  bikes.bikeWithPositionList[index].mapStatus),
+                          onTap: () => {
+                            goToBikeProfileFromPk(
+                              ref
+                                  .read(bikesProvider)
+                                  .bikeWithPositionList[index]
+                                  .veloPk,
+                            )
+                          },
+                        ));
                       },
-                      onLoading: () {
-                        // Add new incidents in the list with newest_id and count
-                        // incidentController.fetchNewIncidents();
-                        mapBikeController.refreshController.loadComplete();
-                      },
-                      child: ListView.builder(
-                        padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                        itemCount:
-                            mapBikeController.bikeWithPositionList.length,
-                        itemBuilder: (context, index) {
-                          return (GestureDetector(
-                            child: VeloCard(
-                                name: mapBikeController
-                                    .bikeWithPositionList[index].name,
-                                group: mapBikeController
-                                    .bikeWithPositionList[index].group,
-                                mapStatus: mapBikeController
-                                    .bikeWithPositionList[index].mapStatus),
-                            onTap: () => {
-                              goToBikeProfileFromPk(
-                                  mapBikeController
-                                      .bikeWithPositionList[index].veloPk,
-                                  mapBikeController)
-                            },
-                          ));
-                        },
-                      )))));
-    });
+                    )))));
   }
 }
 
@@ -228,40 +223,37 @@ class InfoError extends StatelessWidget {
   }
 }
 
-class BikesListView extends StatelessWidget {
-  final MapBikesController mapBikeController;
-
-  const BikesListView({Key? key, required this.mapBikeController})
-      : super(key: key);
-  void init() {
-    mapBikeController.fetchAllBikes();
-    // mapBikeController.bikeWithPositionList.refresh();
-  }
+class BikesListView extends ConsumerWidget {
+  const BikesListView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final BikesProvider bikes = ref.watch(bikesProvider);
     return Container(
         height: MediaQuery.of(context).size.height,
         color: global_styles.backgroundLightGrey,
-        child: Obx(() {
-          if (mapBikeController.isLoading.value) {
-            return const Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: ListIsLoading());
-          } else if (mapBikeController.error.value != "") {
-            return InfoError(
-                action: init,
-                icon: Icons.pedal_bike,
-                color: global_styles.orange,
-                text: "Une erreur s'est produite");
-          } else if (mapBikeController.bikeWithPositionList.isEmpty) {
-            return const InfoEmpty(
-                icon: Icons.pedal_bike,
-                color: global_styles.greyUnselectedIcon,
-                text: "Aucun vélo trouvé");
-          } else {
-            return BikesList(mapBikeController: mapBikeController);
-          }
-        }));
+        child:
+            // If bikes are loading
+            bikes.isLoadingBikes
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 100), child: ListIsLoading())
+                :
+                // If error loading bikes
+                bikes.messageError != ""
+                    ? InfoError(
+                        action: bikes.fetchAllBikes,
+                        icon: Icons.pedal_bike,
+                        color: global_styles.orange,
+                        text: "Une erreur s'est produite")
+                    :
+                    // If bikes loaded are empty
+                    bikes.bikeWithPositionList.isEmpty
+                        ? const InfoEmpty(
+                            icon: Icons.pedal_bike,
+                            color: global_styles.greyUnselectedIcon,
+                            text: "Aucun vélo trouvé")
+                        :
+                        // Else bikes loaded good
+                        BikesList());
   }
 }

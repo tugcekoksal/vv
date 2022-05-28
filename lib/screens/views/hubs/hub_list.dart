@@ -1,13 +1,14 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
-import 'package:velyvelo/controllers/hub_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 
 // Globals styles
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
@@ -145,95 +146,82 @@ class HubCard extends StatelessWidget {
   }
 }
 
-class HubsList extends StatelessWidget {
-  final HubController hubController;
+class HubsList extends ConsumerWidget {
+  final refreshController = RefreshController();
 
-  const HubsList({Key? key, required this.hubController}) : super(key: key);
+  HubsList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final HubsProvider hubs = ref.watch(hubsProvider);
     print("REBUILD LIST");
-    return Obx(() {
-      return Padding(
-          padding: const EdgeInsets.only(top: 100, bottom: 60),
-          child: FadeListView(
-            // Need to enable refresh here !
-            child: SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: false,
-              controller: hubController.refreshController,
-              // controller: incidentController.refreshController,
-              onRefresh: () {
-                // Refresh incidents
-                hubController.fetchHubs();
-                hubController.refreshController.refreshCompleted();
+    return Padding(
+        padding: const EdgeInsets.only(top: 100, bottom: 60),
+        child: FadeListView(
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: false,
+            controller: refreshController,
+            onRefresh: () {
+              // Refresh incidents
+              hubs.fetchHubs();
+              refreshController.refreshCompleted();
+            },
+            onLoading: () {
+              // Add new incidents in the list with newest_id and count
+              // incidentController.fetchNewIncidents();
+              refreshController.loadComplete();
+            },
+            child: ListView.builder(
+              padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+              itemCount: hubs.hubs.length,
+              itemBuilder: (context, index) {
+                // hubController
+                //     .fetchOneHub(hubController.hubs[index].id ?? -1);
+                return GestureDetector(
+                  child: HubCard(
+                    hub: hubs.hubs[index],
+                  ),
+                  onTap: () => {
+                    // Go to Hub profile ?
+                  },
+                );
               },
-              onLoading: () {
-                // Add new incidents in the list with newest_id and count
-                // incidentController.fetchNewIncidents();
-                hubController.refreshController.loadComplete();
-              },
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                itemCount: hubController.hubs.length,
-                itemBuilder: (context, index) {
-                  // hubController
-                  //     .fetchOneHub(hubController.hubs[index].id ?? -1);
-                  return GestureDetector(
-                    // child: Text("oeirgh"),
-                    child: HubCard(
-                      hub: hubController.hubs[index],
-                    ),
-                    onTap: () => {
-                      // Go to nothing
-                      // goToBikeProfileFromPk(
-                      //     mapBikeController.bikeWithPositionList[index].veloPk,
-                      //     mapBikeController)
-                    },
-                  );
-                },
-              ),
             ),
-          ));
-    });
+          ),
+        ));
   }
 }
 
-class HubsListView extends StatelessWidget {
-  final HubController hubController;
-
-  const HubsListView({Key? key, required this.hubController}) : super(key: key);
-
-  void init() {
-    hubController.fetchHubs();
-    // hubController.hubs.refresh();
-  }
+class HubsListView extends ConsumerWidget {
+  final log = logger(HubsListView);
+  HubsListView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // init();
-    print("REBUILD VIEW");
+  Widget build(BuildContext context, WidgetRef ref) {
+    final HubsProvider hubs = ref.watch(hubsProvider);
+    log.d("REBUILD VIEW");
     return Container(
         height: MediaQuery.of(context).size.height,
         color: global_styles.backgroundLightGrey,
-        child: Obx(() {
-          if (hubController.isLoadingHub.value) {
-            return const Padding(
-                padding: EdgeInsets.only(top: 100), child: ListIsLoading());
-          } else if (hubController.error.value != "") {
-            return InfoError(
-                icon: Icons.other_houses,
-                color: global_styles.orange,
-                text: "Une erreur s'est produite",
-                action: init);
-          } else if (hubController.hubs.isEmpty) {
-            return const InfoEmpty(
-                icon: Icons.other_houses,
-                color: global_styles.greyUnselectedIcon,
-                text: "Aucun hub trouvé");
-          } else {
-            return HubsList(hubController: hubController);
-          }
-        }));
+        // If Hubs are loading
+        child: hubs.isLoadingHub
+            ? const Padding(
+                padding: EdgeInsets.only(top: 100), child: ListIsLoading())
+            // If there is an error loading hubs
+            : hubs.messageError != ""
+                ? InfoError(
+                    icon: Icons.other_houses,
+                    color: global_styles.orange,
+                    text: "Une erreur s'est produite",
+                    action: hubs.fetchHubs)
+                // If load is successfull but there are no hubs
+                : hubs.hubs.isEmpty
+                    ? const InfoEmpty(
+                        icon: Icons.other_houses,
+                        color: global_styles.greyUnselectedIcon,
+                        text: "Aucun hub trouvé")
+                    // Else display the list of the Hubs
+                    : HubsList());
   }
 }

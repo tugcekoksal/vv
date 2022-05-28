@@ -1,12 +1,12 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/color_status_typology.dart';
 
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
+// Provider
+import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
 
 class BuildButtonStatus extends StatelessWidget {
   const BuildButtonStatus(
@@ -42,28 +42,25 @@ class BuildButtonStatus extends StatelessWidget {
   }
 }
 
-class PopUpStatusList extends StatelessWidget {
-  final MapBikesController mapBikesController;
-  const PopUpStatusList({Key? key, required this.mapBikesController})
-      : super(key: key);
+class PopUpStatusList extends ConsumerWidget {
+  const PopUpStatusList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final BikesProvider bikes = ref.watch(bikesProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Wrap(
             spacing: 4.0,
             direction: Axis.horizontal,
-            children: mapBikesController.availableStatus
-                .map((statusLabel) => Obx(() {
-                      return BuildButtonStatus(
-                        label: statusLabel,
-                        setFilters: mapBikesController.setStatus,
-                        isSelected: mapBikesController.selectedStatusList
-                            .contains(statusLabel),
-                      );
-                    }))
+            children: bikes.availableStatus
+                .map((statusLabel) => BuildButtonStatus(
+                      label: statusLabel,
+                      setFilters: bikes.setStatus,
+                      isSelected:
+                          bikes.selectedStatusList.contains(statusLabel),
+                    ))
                 .toList()),
       ],
     );

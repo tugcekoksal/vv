@@ -1,16 +1,12 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-
-// Global Styles like colors
-import 'package:velyvelo/controllers/hub_controller.dart';
 
 // Vendor
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as lat_long;
-import 'package:velyvelo/controllers/hub_provider/hub_provider.dart';
+import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/map_provider/camera_provider.dart';
 
 // Controllers
@@ -52,8 +48,8 @@ class PopUpClipper extends CustomClipper<Path> {
   }
 }
 
-void onGeoChangeActualize(
-    MapPosition position, bool hasGesture, CameraProvider camera) {
+void onGeoChangeActualize(MapPosition position, bool hasGesture,
+    CameraProvider camera, HubsProvider hub) {
   print("ON GEO CHANGE");
   // if (firstTime) {
   //   firstTime = false;
@@ -63,14 +59,14 @@ void onGeoChangeActualize(
   if (position.zoom != null) {
     if ((camera.oldZoom - position.zoom!).abs() > 1) {
       camera.updateZoom(position.zoom!);
-      // hub.fetchHubs();
+      hub.fetchHubs();
     }
   }
   // When map axe x or y movement is too large
   if (position.bounds != null) {
     if (position.bounds!.contains(camera.oldPosition) == false) {
       camera.updatePosition(position.center!);
-      // hub.fetchHubs();
+      hub.fetchHubs();
     }
   }
   // When far zoom display map style
@@ -90,7 +86,7 @@ class HubMap extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HubProvider hub = ref.watch(hubProvider);
+    final HubsProvider hubs = ref.watch(hubsProvider);
     final CameraProvider camera = ref.watch(cameraProvider);
 
     return Stack(children: [
@@ -99,8 +95,8 @@ class HubMap extends ConsumerWidget {
           onTap: (tap, pos) => {popupController.hideAllPopups()},
           onPositionChanged: (MapPosition position, bool hasGesture) {
             Future(() => {
-                  onGeoChangeActualize(
-                      position, hasGesture, ref.read(cameraProvider))
+                  onGeoChangeActualize(position, hasGesture,
+                      ref.read(cameraProvider), ref.read(hubsProvider))
                 });
           },
           center: lat_long.LatLng(47.8, 2.350492773209436),
@@ -135,7 +131,7 @@ class HubMap extends ConsumerWidget {
               padding: EdgeInsets.all(50),
             ),
             markers:
-                hub.hubs.where((hub) => hub.adresse != "").toList().map((hub) {
+                hubs.hubs.where((hub) => hub.adresse != "").toList().map((hub) {
               return Marker(
                   width: 35.0,
                   height: 80.0,
@@ -176,7 +172,7 @@ class HubMap extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(12.0)),
                         child: Stack(
                           children: [
-                            HubPopup(hub: hub.getHubFromMarker(marker)),
+                            HubPopup(hub: hubs.getHubFromMarker(marker)),
                             Positioned(
                               right: 0,
                               top: 0,

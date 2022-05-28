@@ -1,16 +1,9 @@
 // Vendor
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import 'package:logger/logger.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/helpers/usefull.dart';
 
@@ -20,10 +13,10 @@ import 'package:velyvelo/models/hubs/hub_map.dart';
 // Services
 import 'package:velyvelo/services/http_service.dart';
 
-final hubProvider =
-    ChangeNotifierProvider.autoDispose<HubProvider>((ref) => HubProvider());
+final hubsProvider =
+    ChangeNotifierProvider.autoDispose<HubsProvider>((ref) => HubsProvider());
 
-class HubProvider extends ChangeNotifier {
+class HubsProvider extends ChangeNotifier {
   // Fetched Hubs
   List<HubModel> storedHubs = <HubModel>[];
 
@@ -35,15 +28,12 @@ class HubProvider extends ChangeNotifier {
   String searchText = "";
 
   bool isLoadingHub = false;
-  bool hubView = false;
-  bool displayStreetView = true;
-  bool displayMapView = true;
   bool displaySearch = false;
 
-  final log = logger(HubProvider);
+  final log = logger(HubsProvider);
 
   // Initialisation
-  HubProvider() {
+  HubsProvider() {
     getTokenFromSharedPref().then((token) => {userToken = token, fetchHubs()});
   }
 
@@ -88,5 +78,10 @@ class HubProvider extends ChangeNotifier {
         hub.pinModel?.latitude == marker.point.latitude &&
         hub.pinModel?.longitude == marker.point.longitude);
     return hub;
+  }
+
+  void toggleSearch(bool isSearch) {
+    displaySearch = isSearch;
+    notifyListeners();
   }
 }
