@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
 
 // Global Styles like colors

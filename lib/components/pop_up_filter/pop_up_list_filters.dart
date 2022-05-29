@@ -62,7 +62,7 @@ class PopUpListFilters extends ConsumerWidget {
           Expanded(
               child: Scrollbar(
             controller: scrollController,
-            isAlwaysShown: true,
+            thumbVisibility: true,
             child: ListView(
               controller: scrollController,
               shrinkWrap: true,

@@ -109,7 +109,7 @@ class PiecesModif extends StatelessWidget {
                           60
                       : 240,
                   child: Scrollbar(
-                      isAlwaysShown: true,
+                      thumbVisibility: true,
                       showTrackOnHover: true,
                       controller: scrollController,
                       child: ListView.builder(
