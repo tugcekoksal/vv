@@ -1,7 +1,6 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
 
 // Handle camera and zoom position on the map
 final mapViewProvider = ChangeNotifierProvider<MapViewProvider>((ref) {

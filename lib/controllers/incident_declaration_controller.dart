@@ -373,7 +373,7 @@ class IncidentDeclarationController extends GetxController {
       }
     }
 
-    incidentFormAllList.forEach((index) {
+    for (var index in incidentFormAllList) {
       IncidentToSendModel incident = IncidentToSendModel(
           veloPk: veloPk.toString(),
           type: incidentTypeList[index],
@@ -381,7 +381,7 @@ class IncidentDeclarationController extends GetxController {
           files: incidentPhotosList[index],
           isSelfAttributed: selfAttribute.value);
       incidentsToSend.add(incident);
-    });
+    }
 
     // Send all the incidents
     incidentsToSend.map((incidentToSend) async {

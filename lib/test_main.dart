@@ -10,15 +10,12 @@ import 'package:velyvelo/my_app.dart';
 
 //FIREBASE
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 //NOTIFS
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 //NEW VERSION
-import 'package:flutter/services.dart';
 
 //SENTRY
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 //FOR HTTP CALLS ANDROID
 class MyHttpOverrides extends HttpOverrides {

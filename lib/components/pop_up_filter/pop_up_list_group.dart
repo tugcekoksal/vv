@@ -57,7 +57,7 @@ class PopUpGroupList extends ConsumerWidget {
     return Expanded(
         child: Scrollbar(
       controller: scrollController,
-      isAlwaysShown: true,
+      thumbVisibility: true,
       child: ListView(
         controller: scrollController,
         children: [
