@@ -6,7 +6,7 @@ import 'simple_robot.dart';
 
 class LoginRobot {
   final WidgetTester tester;
-  final log = logger(LoginRobot);
+  final log = logger(LoginRobot, isColored: true);
   final SimpleRobot simpleRobot;
 
   LoginRobot(this.tester) : simpleRobot = SimpleRobot(tester);

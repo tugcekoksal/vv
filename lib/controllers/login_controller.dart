@@ -1,7 +1,7 @@
 // Vendor
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer' as developer;
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
@@ -18,7 +18,7 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class LoginController extends GetxController {
-  Logger log = logger(LoginController);
+  final log = logger(LoginController);
 
   var isLoading = false.obs;
   var login = ''.obs;
@@ -101,18 +101,19 @@ class LoginController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     error.value = "";
     isLoading(true);
+    developer.log("owgn");
 
     // Get login token or stop
     String token;
     try {
       token = await HttpService.loginUser(login.value, password.value);
     } catch (e) {
-      log.w(e);
+      log.e(e.toString());
       error.value = e.toString();
       return;
     }
 
-    // Update shared preferences.
+    // Update shared preferences
     setUsername(prefs, login.value);
     setToken(prefs, token);
 

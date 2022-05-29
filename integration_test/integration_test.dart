@@ -5,7 +5,7 @@ import 'integration/init/init_test.dart' as init_test;
 import 'integration/login/login_test.dart' as login_test;
 import 'integration/usefull.dart' as usefull;
 
-final log = logger(WidgetTester);
+final log = logger(WidgetTester, isColored: true);
 
 void testResult() {
   group('[RESULTS]', () {

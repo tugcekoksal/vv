@@ -7,7 +7,7 @@ import '../usefull.dart' as usefull;
 
 class SimpleRobot {
   final WidgetTester tester;
-  final log = logger(SimpleRobot);
+  final log = logger(SimpleRobot, isColored: true);
 
   SimpleRobot(this.tester);
 
@@ -23,7 +23,7 @@ class SimpleRobot {
       await tester.pumpAndSettle();
       log.v("Success!");
     } catch (e) {
-      log.e(e);
+      log.e(e.toString());
       usefull.nbError += 1;
     }
   }
@@ -54,7 +54,7 @@ class SimpleRobot {
       await tester.pumpAndSettle();
       log.v("Success!");
     } catch (e) {
-      log.e(e);
+      log.e(e.toString());
       usefull.nbError += 1;
     }
   }
