@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/bike/bike_id_to_send_model.dart';
 
-Future fetchUserBikeService(
+Future<UserBikeModel> fetchUserBikeService(
     String urlServer, int veloPk, String userToken) async {
   var request = http.Request("POST", Uri.parse("$urlServer/api/profilVelo/"));
   var headers = {
@@ -19,17 +19,11 @@ Future fetchUserBikeService(
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
-  String responseStr = await response.stream.bytesToString();
+  String body = await response.stream.bytesToString();
+  String message = jsonDecode(body)["message"] ?? "Pas de message du serveur";
 
-  if (response.statusCode == 200) {
-    print("User bike on air");
-    var userBike = responseStr;
-    print(userBikeModelFromJson(userBike).isStolen);
-    return userBikeModelFromJson(userBike);
-  } else if (response.statusCode == 400) {
-    return null;
-  } else {
-    return null;
-    // throw Exception("UserBike ${request.body}");
+  if (response.statusCode >= 400) {
+    throw Exception(message);
   }
+  return userBikeModelFromJson(body);
 }

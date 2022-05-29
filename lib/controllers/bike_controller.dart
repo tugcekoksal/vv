@@ -11,28 +11,28 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class BikeController extends GetxController {
-  String userToken = "";
-  String userBikeID = "";
+  // String userToken = "";
+  // String userBikeID = "";
 
-  var isViewingScanPage = false.obs;
+  // var isViewingScanPage = false.obs;
 
-  var isLoading = true.obs;
-  var isBikeIncidentsOpen = false.obs;
+  // var isLoading = true.obs;
+  // var isBikeIncidentsOpen = false.obs;
 
-  var userBike = UserBikeModel(
-      clientName: "",
-      numeroCadran: "",
-      kilometrage: 0.0,
-      dateCreation: "",
-      pictureUrl: "",
-      groupeName: "",
-      isStolen: false,
-      bikeName: "",
-      veloPk: 0,
-      otherRepairs: [],
-      inProgressRepairs: []).obs;
+  // var userBike = UserBikeModel(
+  //     clientName: "",
+  //     numeroCadran: "",
+  //     kilometrage: 0.0,
+  //     dateCreation: "",
+  //     pictureUrl: "",
+  //     groupeName: "",
+  //     isStolen: false,
+  //     bikeName: "",
+  //     veloPk: 0,
+  //     otherRepairs: [],
+  //     inProgressRepairs: []).obs;
 
-  var error = ''.obs;
+  // var error = ''.obs;
 
   @override
   void onInit() {

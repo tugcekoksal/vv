@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:velyvelo/models/login/login_model.dart';
 
 Future<String> loginUserService(
@@ -15,7 +14,8 @@ Future<String> loginUserService(
   }
 
   // If the fields are filled, ask for a token to the server
-  Response response = await http.post(Uri.parse("$urlServer/api-token-auth/"),
+  http.Response response = await http.post(
+      Uri.parse("$urlServer/api-token-auth/"),
       body: {"username": login, "password": password});
 
   String body = utf8.decode(response.bodyBytes);
