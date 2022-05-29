@@ -112,7 +112,7 @@ class BikesProvider extends ChangeNotifier {
       fetchAllBikes();
       isLoadingFilters = false;
     } catch (e) {
-      log.d(e);
+      log.d(e.toString());
       messageError =
           "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
     }

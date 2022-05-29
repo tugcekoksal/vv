@@ -33,7 +33,7 @@ const accesToken =
     "sk.eyJ1IjoibHVjYXNncmFmZW4iLCJhIjoiY2wwNnA2a3NnMDRndzNpbHYyNTV0NGd1ZCJ9.nfFc_JlfaGgq1Kajg6agoQ";
 
 class MyBikesView extends ConsumerWidget {
-  final Logger log = logger(MyBikesView);
+  final log = logger(MyBikesView);
   MyBikesView({Key? key}) : super(key: key);
 
   final LoginController loginController = Get.put(LoginController());
