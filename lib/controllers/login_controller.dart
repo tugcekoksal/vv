@@ -1,7 +1,6 @@
 // Vendor
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer' as developer;
 
 // Controllers
 import 'package:velyvelo/controllers/bike_controller.dart';
@@ -101,7 +100,6 @@ class LoginController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     error.value = "";
     isLoading(true);
-    developer.log("owgn");
 
     // Get login token or stop
     String token;
