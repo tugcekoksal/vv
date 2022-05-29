@@ -50,7 +50,7 @@ dependencies:
 
   # Styles
   dotted_border: ^2.0.0+2
-  dropdown_search: ^2.0.1
+  dropdown_search: ^4.0.1
   cupertino_icons: ^1.0.2
   carousel_slider: ^4.0.0
   colorful_safe_area: ^0.3.0
