@@ -140,7 +140,6 @@ class LoginController extends GetxController {
     prefs.remove("username");
 
     Get.delete<IncidentController>();
-    Get.delete<BikeController>();
     Get.delete<BikeScanController>();
     Get.delete<IncidentDeclarationController>();
 
@@ -159,7 +158,6 @@ class LoginController extends GetxController {
       } else if (userTypeFetched == "Utilisateur") {
         isUser(true);
         userType = "User";
-        fetchBikeIDIfUser();
       } else if (userTypeFetched == "SuperUser") {
         isSuperUser(true);
         userType = "SuperUser";
@@ -172,22 +170,6 @@ class LoginController extends GetxController {
         }
       }
       isLogged(true);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void fetchBikeIDIfUser() async {
-    try {
-      isLoading(true);
-      var bikeID = await HttpService.fetchBikeIDUser(userToken);
-      if (bikeID != null) {
-        userBikeID.value = bikeID[0].veloPk;
-
-        // Get the bike of the user
-        Get.find<BikeController>().fetchUserBike(userBikeID.value);
-      }
-      isLoading(false);
     } catch (e) {
       print(e);
     }

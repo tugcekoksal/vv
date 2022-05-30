@@ -1,4 +1,5 @@
 // Vendor
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,48 +14,42 @@ import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 class ScanView extends StatelessWidget {
-  ScanView({Key? key}) : super(key: key);
-
-  final BikeController bikeController = Get.put(BikeController());
-
-  void init() {
-    bikeController.error.value = "";
-  }
+  const ScanView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    init();
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.075),
-          Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.15),
-              child: const ReturnContainer(text: "Scannez un vélo")),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+    return ColorfulSafeArea(
+        color: Colors.white,
+        child: Stack(children: [
           SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30.0),
-                  child: const QRCodeScanner())),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.0),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.15),
-            child: const Text(
-                "Veuillez scanner le QR code d’un vélo afin d’ouvrir sa fiche technique.",
-                style: TextStyle(
-                    color: global_styles.purple,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w400)),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: QRCodeScanner()),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const ReturnBar(text: "Scannez un vélo"),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                    vertical: 25),
+                child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.white),
+                    child: const Text(
+                        "Veuillez scanner le QR code d’un vélo afin d’ouvrir sa fiche technique.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: global_styles.purple,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w400))),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ]));
   }
 }
 

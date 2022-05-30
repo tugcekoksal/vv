@@ -94,18 +94,13 @@ class MyBikesView extends ConsumerWidget {
                                 ? hubs.fetchHubs()
                                 : bikes.fetchAllBikes()
                           },
-                          child:
-                              // done
-                              //  Obx(() {
-                              // return
-                              TitleAppBar(
+                          child: TitleAppBar(
                             onTransparentBackground:
                                 view.isMapOrList(MapOrList.map),
                             title: view.isActiveMapView(WhichMapView.hubView)
                                 ? "Hubs"
                                 : "Vélos",
                           ),
-                          // }),
                         )
                       ]),
                       Row(children: [
@@ -155,15 +150,12 @@ class MyBikesView extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Obx(() {
-                //   return
                 InfoNotFound(
                     color: global_styles.blue,
                     text: "Aucun résultat",
                     isVisible: bikes.didNotFoundBikesWithPosition &&
                         view.isActiveMapView(WhichMapView.bikeView) &&
                         view.isMapOrList(MapOrList.map)),
-                // })
               ],
             ),
 
@@ -173,8 +165,6 @@ class MyBikesView extends ConsumerWidget {
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Obx(() {
-          // return
           view.isActiveMapView(WhichMapView.hubView)
               ? hubs.displaySearch
                   ? SearchBarHub()
@@ -182,7 +172,6 @@ class MyBikesView extends ConsumerWidget {
               : bikes.displaySearch
                   ? SearchBarVelo()
                   : const SizedBox(),
-          // }),
           const SizedBox(),
         ],
       )

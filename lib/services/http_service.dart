@@ -1,6 +1,7 @@
 // Vendor
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/hubs/hub_map.dart';
 
 // Models
@@ -28,7 +29,7 @@ import 'package:velyvelo/services/hubs/fetch_all_hubs.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
-  static String urlServer = "http://localhost:8000";
+  static String urlServer = "http://192.168.10.104:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
@@ -61,7 +62,8 @@ class HttpService {
   }
 
   // Fetch the user's bike
-  static Future fetchUserBike(int veloPk, String userToken) async {
+  static Future<UserBikeModel> fetchUserBike(
+      int veloPk, String userToken) async {
     return fetchUserBikeService(urlServer, veloPk, userToken);
   }
 
@@ -138,7 +140,8 @@ class HttpService {
   }
 
   // Set a bike on robbed status
-  static Future setBikeRobbed(int id, bool robbed, String userToken) async {
+  static Future<String> setBikeRobbed(
+      int id, bool robbed, String userToken) async {
     return setBikeRobbedService(urlServer, id, robbed, userToken);
   }
 

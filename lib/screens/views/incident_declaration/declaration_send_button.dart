@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_controller.dart';
+import 'package:velyvelo/controllers/bike_provider/bike_profile_provider.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 
-class DeclarationSendButton extends StatelessWidget {
+class DeclarationSendButton extends ConsumerWidget {
   final IncidentDeclarationController declarationController =
       Get.put(IncidentDeclarationController());
-
+  final log = logger(DeclarationSendButton);
   DeclarationSendButton({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () async {
-        print("ON SEND OU QUOI");
-        FocusManager.instance.primaryFocus?.unfocus();
         // Dismiss keyboard on button click
-        // var currentFocus = FocusScope.of(context);
-        // if (!currentFocus.hasPrimaryFocus) {
-        //   currentFocus.unfocus();
-        // }
+        FocusManager.instance.primaryFocus?.unfocus();
 
         if (declarationController.infosSelection.value.infoVelo.selected ==
             null) {
@@ -37,10 +35,10 @@ class DeclarationSendButton extends StatelessWidget {
         bool isSent = await declarationController.sendIncident(null);
         if (isSent) {
           try {
-            Get.find<BikeController>().fetchUserBike(declarationController
+            ref.read(bikeProfileProvider).fetchUserBike(declarationController
                 .infosSelection.value.infoVelo.selected!.id);
           } catch (e) {
-            print(e);
+            log.e(e);
           }
           Future.delayed(
               const Duration(milliseconds: 200),
@@ -49,24 +47,6 @@ class DeclarationSendButton extends StatelessWidget {
                     Navigator.of(context).pop()
                   });
         }
-        // if (incidentDeclarationController.isFormUncompleted.value != "" ||
-        //     !incidentDeclarationController.bikeLabelPicked.value) {
-        //   print(
-        //       "error value ${incidentDeclarationController.isFormUncompleted.value}");
-        //   showIncidentSendingFeedback(
-        //       context, "Un champ n'est pas renseigné.", global_styles.orange);
-        // } else {
-        //   showIncidentSendingFeedback(context,
-        //       "Vos incidents ont été ajouté avec succès.", global_styles.green);
-
-        //   if (widget.veloPk != null) {
-        //     BikeController bikeController = Get.put(BikeController());
-        //     bikeController.fetchUserBike(widget.veloPk!);
-        //   }
-
-        // Return to incidents page after a delay (to read pop up)
-
-        // }
       },
       child: SafeArea(
         child: Container(

@@ -13,38 +13,38 @@ String userBikeModelToJson(UserBikeModel data) => json.encode(data.toJson());
 
 class UserBikeModel {
   UserBikeModel(
-      {required this.clientName,
-      required this.numeroCadran,
-      required this.kilometrage,
-      required this.dateCreation,
-      required this.pictureUrl,
-      required this.bikeName,
-      required this.groupeName,
-      required this.isStolen,
-      required this.veloPk,
-      required this.inProgressRepairs,
-      required this.otherRepairs});
+      {this.clientName = "",
+      this.numeroCadran = "",
+      this.kilometrage = 0.0,
+      this.dateCreation = "",
+      this.pictureUrl = "",
+      this.bikeName = "",
+      this.groupeName = "",
+      this.isStolen = false,
+      this.veloPk = 0,
+      this.inProgressRepairs = const [],
+      this.otherRepairs = const []});
 
-  final String clientName;
-  final String bikeName;
-  final String numeroCadran;
-  final double kilometrage;
-  final String dateCreation;
-  final String? pictureUrl;
-  final String? groupeName;
-  final bool isStolen;
-  final int veloPk;
-  final List<Incident> inProgressRepairs;
-  final List<Incident> otherRepairs;
+  String clientName;
+  String bikeName;
+  String numeroCadran;
+  double kilometrage;
+  String dateCreation;
+  String pictureUrl;
+  String groupeName;
+  bool isStolen;
+  int veloPk;
+  List<Incident> inProgressRepairs;
+  List<Incident> otherRepairs;
 
   factory UserBikeModel.fromJson(Map<String, dynamic> json) => UserBikeModel(
         clientName: json["client_name"] ?? "Pas de nom de client",
         numeroCadran: json["numero_cadran"] ?? "Pas de numéro cadran",
         kilometrage: json["kilometrage"] ?? 0,
         dateCreation: json["date_creation"] ?? "Pas de date",
-        pictureUrl: json["picture_url"],
+        pictureUrl: json["picture_url"] ?? "",
         bikeName: json["nom"] ?? "Pas de nom de vélo",
-        groupeName: json["groupe_name"],
+        groupeName: json["groupe_name"] ?? "Pas de nom de groupe",
         isStolen: json["vole"] ?? false,
         veloPk: json["pk"] ?? false,
         inProgressRepairs: List<Incident>.from(
