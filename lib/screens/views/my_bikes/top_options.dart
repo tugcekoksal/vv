@@ -201,13 +201,11 @@ class TopOptions extends ConsumerWidget {
                         actionFunction: () {},
                       ),
                       const SizedBox(width: 10.0),
-                      Obx(() {
-                        return TopButton(
-                          isLoading: bikes.isLoadingFilters,
-                          iconButton: Icons.filter_list_outlined,
-                          actionFunction: showFilters,
-                        );
-                      }),
+                      TopButton(
+                        isLoading: bikes.isLoadingFilters,
+                        iconButton: Icons.filter_list_outlined,
+                        actionFunction: showFilters,
+                      ),
                       const SizedBox(width: 10.0),
                       TopButton(
                         isLoading: false,

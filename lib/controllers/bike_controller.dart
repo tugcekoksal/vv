@@ -10,7 +10,7 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 // Services
 import 'package:velyvelo/services/http_service.dart';
 
-class BikeController extends GetxController {
+// class BikeController extends GetxController {
   // String userToken = "";
   // String userBikeID = "";
 
@@ -34,44 +34,44 @@ class BikeController extends GetxController {
 
   // var error = ''.obs;
 
-  @override
-  void onInit() {
-    userToken = Get.find<LoginController>().userToken;
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   userToken = Get.find<LoginController>().userToken;
+  //   super.onInit();
+  // }
 
-  Future<void> fetchUserBike(int veloPk) async {
-    error.value = "";
-    try {
-      isLoading(true);
-      var bike = await HttpService.fetchUserBike(veloPk, userToken);
-      if (bike != null) {
-        userBike.value = bike;
-        isLoading(false);
-      } else {
-        error.value = "Vous n'avez pas accès aux données de ce vélo";
-        isLoading(false);
-      }
-    } catch (e) {
-      print(e);
-      error.value =
-          "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
-    }
-  }
+  // Future<void> fetchUserBike(int veloPk) async {
+  //   error.value = "";
+  //   try {
+  //     isLoading(true);
+  //     var bike = await HttpService.fetchUserBike(veloPk, userToken);
+  //     if (bike != null) {
+  //       userBike.value = bike;
+  //       isLoading(false);
+  //     } else {
+  //       error.value = "Vous n'avez pas accès aux données de ce vélo";
+  //       isLoading(false);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     error.value =
+  //         "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
+  //   }
+  // }
 
-  toggleIsBikeIncidentsOpen() {
-    isBikeIncidentsOpen.value = !isBikeIncidentsOpen.value;
-  }
+  // toggleIsBikeIncidentsOpen() {
+  //   isBikeIncidentsOpen.value = !isBikeIncidentsOpen.value;
+  // }
 
-  Future setBikeToNewRobbedStatus(bool isRobbed, int veloPk) async {
-    try {
-      var bikeRobbed =
-          await HttpService.setBikeRobbed(veloPk, isRobbed, userToken);
-      if (bikeRobbed != null) {
-        print(bikeRobbed);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-}
+  // Future setBikeToNewRobbedStatus(bool isRobbed, int veloPk) async {
+  //   try {
+  //     var bikeRobbed =
+  //         await HttpService.setBikeRobbed(veloPk, isRobbed, userToken);
+  //     if (bikeRobbed != null) {
+  //       print(bikeRobbed);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+// }

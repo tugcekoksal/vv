@@ -42,7 +42,7 @@ class UserBikeModel {
         numeroCadran: json["numero_cadran"] ?? "Pas de numéro cadran",
         kilometrage: json["kilometrage"] ?? 0,
         dateCreation: json["date_creation"] ?? "Pas de date",
-        pictureUrl: json["picture_url"] ?? "Pas de photo",
+        pictureUrl: json["picture_url"] ?? "",
         bikeName: json["nom"] ?? "Pas de nom de vélo",
         groupeName: json["groupe_name"] ?? "Pas de nom de groupe",
         isStolen: json["vole"] ?? false,

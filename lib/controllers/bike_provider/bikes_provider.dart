@@ -66,9 +66,10 @@ class BikesProvider extends ChangeNotifier {
 
   void fetchAllBikes() async {
     messageError = '';
+    isLoadingBikes = true;
+    didNotFoundBikesWithPosition = false;
+    notifyListeners();
     try {
-      isLoadingBikes = true;
-      didNotFoundBikesWithPosition = false;
       List<String> listOfSelectedStatus = selectedStatusList.isEmpty
           ? ["Rangés", "Utilisés", "Volés"]
           : selectedStatusList;
@@ -87,14 +88,13 @@ class BikesProvider extends ChangeNotifier {
           // add the new bikes in list
         }
       }
-      isLoadingBikes = false;
       bikesBySearch();
     } catch (e) {
-      isLoadingBikes = false;
       log.d("mapController fetchAllbikes $e");
       messageError =
           "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
     }
+    isLoadingBikes = false;
     notifyListeners();
   }
 
@@ -110,12 +110,12 @@ class BikesProvider extends ChangeNotifier {
         hasAccesStatus = filters.hasAccessStatus;
       }
       fetchAllBikes();
-      isLoadingFilters = false;
     } catch (e) {
       log.d(e.toString());
       messageError =
           "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
     }
+    isLoadingFilters = false;
     notifyListeners();
   }
 

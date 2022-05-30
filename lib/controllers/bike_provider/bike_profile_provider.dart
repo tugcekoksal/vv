@@ -22,7 +22,7 @@ final bikeProfileProvider =
 
 class BikeProfileProvider extends ChangeNotifier {
   String userToken = "";
-  String messageError = '';
+  String messageError = "";
 
   bool isViewingScanPage = false;
   bool isLoading = true;
@@ -34,13 +34,23 @@ class BikeProfileProvider extends ChangeNotifier {
 
   // Initialisation
   BikeProfileProvider() {
-    getTokenFromSharedPref()
-        .then((token) => {userToken = token, fetchUserBike(userBike.veloPk)});
+    getTokenFromSharedPref().then((token) => {
+          userToken = token,
+        });
+  }
+
+  void setVeloPk(int veloPk) {
+    userBike.veloPk = veloPk;
+    notifyListeners();
+    // fetchUserBike(veloPk).then((value) => {notifyListeners()});
   }
 
   Future<void> fetchUserBike(int veloPk) async {
     messageError = "";
     isLoading = true;
+    if (userToken == "") {
+      userToken = await getTokenFromSharedPref();
+    }
     try {
       userBike = await HttpService.fetchUserBike(veloPk, userToken);
     } catch (e) {
@@ -66,5 +76,23 @@ class BikeProfileProvider extends ChangeNotifier {
       log.e(e);
     }
     notifyListeners();
+  }
+
+  void fetchBikeIDIfUser() async {
+    isLoading = true;
+    try {
+      var userTypeFetched = await HttpService.fetchTypeUser(userToken);
+      if (userTypeFetched == "Utilisateur") {
+        var bikeID = await HttpService.fetchBikeIDUser(userToken);
+        if (bikeID != null) {
+          userBike.veloPk = bikeID;
+        }
+      } else {
+        log.d("Not a user");
+      }
+    } catch (e) {
+      log.e(e);
+    }
+    isLoading = false;
   }
 }
