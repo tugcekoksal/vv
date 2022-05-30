@@ -84,7 +84,7 @@ void onGeoChangeActualize(MapPosition position, bool hasGesture,
 
 class BikesMap extends ConsumerWidget {
   final PopupController popupController = PopupController();
-  final Logger log = logger(BikesMap);
+  final log = logger(BikesMap);
 
   BikesMap({Key? key}) : super(key: key);
 

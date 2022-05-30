@@ -47,10 +47,10 @@ class HubsProvider extends ChangeNotifier {
       log.w("FETCH ALL HUBS");
       hubsRes = await HttpService.fetchHubs(userToken);
       log.w("END FETCH HUBS");
-      log.w(hubsRes[0].clientName);
+      // log.w(hubsRes[0].clientName);
     } catch (e) {
       messageError = "Error loading hubs";
-      log.e(e);
+      log.e(e.toString());
     }
     hubs = hubsRes;
     storedHubs = hubsRes;
