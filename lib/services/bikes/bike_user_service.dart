@@ -18,16 +18,11 @@ Future<UserBikeModel> fetchUserBikeService(
   request.body = json.encode(bikeIdTosend.toJson());
   request.headers.addAll(headers);
 
-  print(request.headers);
-  print(request.body);
   http.StreamedResponse response = await request.send();
   String body = await response.stream.bytesToString();
   String message = jsonDecode(body)["message"] ?? "Pas de message du serveur";
 
   if (response.statusCode >= 400) {
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\nn\n\n\n\n");
-    print(body);
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\nn\n\n\n\n");
     throw Exception(message);
   }
   return userBikeModelFromJson(body);

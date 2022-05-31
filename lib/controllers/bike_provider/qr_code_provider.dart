@@ -1,4 +1,6 @@
 // Vendor
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -27,8 +29,7 @@ class QrCodeProvider extends ChangeNotifier {
   Barcode? result;
   bool canScan = true;
   bool isSnackBarActive = false;
-
-  final log = logger(QrCodeProvider);
+  double loading = 0;
 
   // Initialisation
   QrCodeProvider();

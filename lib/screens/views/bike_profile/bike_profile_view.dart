@@ -326,10 +326,10 @@ class MyBikeView extends ConsumerWidget {
                           )),
                           const SizedBox(height: 20.0),
                           // Display title & list of current incidents
-                          IncidentInProgress(),
+                          const IncidentInProgress(),
                           const SizedBox(height: 10.0),
                           // Button & list of passed incidents
-                          IncidentHistoryContainer(),
+                          const IncidentHistoryContainer(),
                           Stack(
                             alignment: Alignment.bottomCenter,
                             children: [

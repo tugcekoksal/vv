@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/controllers/bike_scan_controller.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
