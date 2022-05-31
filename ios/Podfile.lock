@@ -602,6 +602,8 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.24):
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
+  - camera (0.0.1):
+    - Flutter
   - Firebase/Analytics (8.15.0):
     - Firebase/Core
   - Firebase/Auth (8.15.0):
@@ -864,6 +866,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - camera (from `.symlinks/plugins/camera/ios`)
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Firestore
@@ -915,6 +918,8 @@ SPEC REPOS:
     - Sentry
 
 EXTERNAL SOURCES:
+  camera:
+    :path: ".symlinks/plugins/camera/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_messaging:
@@ -943,6 +948,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
+  camera: 9993f92f2c793e87b65e35f3a23c70582afb05b1
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
   firebase_core: 318de541b0e61d3f24262982a3f0b54afe72439b
   firebase_messaging: 943cfe65e0b3f457240489ce67655e40da1d270c

@@ -42,7 +42,6 @@ class BikeProfileProvider extends ChangeNotifier {
   void setVeloPk(int veloPk) {
     userBike.veloPk = veloPk;
     notifyListeners();
-    // fetchUserBike(veloPk).then((value) => {notifyListeners()});
   }
 
   Future<void> fetchUserBike(int veloPk) async {

@@ -1,10 +1,8 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/controllers/bike_provider/bike_profile_provider.dart';
 
 // Components

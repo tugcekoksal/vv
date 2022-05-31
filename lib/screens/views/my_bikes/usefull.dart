@@ -21,7 +21,6 @@ Future<void> goToBikeProfileFromMarker(
 }
 
 Future<void> goToBikeProfileFromPk(int veloPk) async {
-  print(veloPk);
   Get.to(
       () => Scaffold(
           resizeToAvoidBottomInset: true,

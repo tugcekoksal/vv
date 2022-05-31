@@ -1,7 +1,6 @@
 // Vendor
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
@@ -10,7 +9,6 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/components/qr_code_scanner.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 
 class ScanView extends StatelessWidget {

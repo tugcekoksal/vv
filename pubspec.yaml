@@ -45,7 +45,6 @@ dependencies:
 
   # Flutter actions
   pull_to_refresh: ^2.0.0
-  # qr_code_scanner: ^0.7.0
   image_picker: ^0.8.4+4
   mobile_scanner: ^1.1.1
 
@@ -61,6 +60,7 @@ dependencies:
   flutter_native_splash: ^2.0.2
   new_version: ^0.3.0
   qr_flutter: ^4.0.0
+  camera: ^0.9.7+1
   
 dev_dependencies:
   integration_test:
