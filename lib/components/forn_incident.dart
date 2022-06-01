@@ -16,6 +16,7 @@ import 'package:velyvelo/components/slider_show_full_images.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 
 class BuildFormIncident extends StatefulWidget {
   const BuildFormIncident({
@@ -62,7 +63,7 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
       incidentDeclarationController.setIncidentPhotosValue(
           imageTemporary, widget.indexIncident);
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      logger(BuildFormIncident).e('Failed to pick image: $e');
     }
   }
 

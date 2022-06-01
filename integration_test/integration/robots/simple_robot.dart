@@ -42,6 +42,20 @@ class SimpleRobot {
     }
   }
 
+  Future<void> expectWidget(String keyLabel, {int occurences = 1}) async {
+    String info = "<Expecting Widget> key: '" + keyLabel + "'";
+    log.i(info);
+
+    try {
+      expect(find.byKey(Key(keyLabel)), findsNWidgets(occurences));
+      await tester.pumpAndSettle();
+      log.v("Success!");
+    } catch (e) {
+      log.e(e.toString());
+      usefull.nbError += 1;
+    }
+  }
+
   Future<void> tap(String keyLabel) async {
     String info = "<Tap on> KeyLabel: '" + keyLabel;
     log.i(info);

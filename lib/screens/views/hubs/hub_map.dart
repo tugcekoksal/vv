@@ -10,7 +10,6 @@ import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/map_provider/camera_provider.dart';
 
 // Controllers
-import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/screens/views/hubs/hub_popup.dart';
 import 'package:velyvelo/screens/views/my_bikes/pin.dart';
 
@@ -135,9 +134,9 @@ class HubMap extends ConsumerWidget {
               return Marker(
                   width: 35.0,
                   height: 80.0,
-                  point: lat_long.LatLng(hub.pinModel?.latitude ?? 0,
-                      hub.pinModel?.longitude ?? 0),
-                  builder: (ctx) => HubPin(hub: hub.pinModel ?? HubPinModel()));
+                  point: lat_long.LatLng(
+                      hub.pinModel.latitude ?? 0, hub.pinModel.longitude ?? 0),
+                  builder: (ctx) => HubPin(hub: hub.pinModel));
             }).toList(),
             polygonOptions: const PolygonOptions(
                 borderColor: Color.fromARGB(0, 255, 255, 255),

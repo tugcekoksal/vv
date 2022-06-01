@@ -1,5 +1,4 @@
 // Vendor
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,18 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 // Controllers
-import 'package:velyvelo/helpers/logger.dart';
-import 'package:velyvelo/helpers/usefull.dart';
-import 'package:velyvelo/models/bike/user_bike_model.dart';
-import 'package:velyvelo/helpers/logger.dart';
 
 // Models
-import 'package:velyvelo/models/map/map_model.dart';
 
 //DATE FORMAT
-import 'package:intl/intl.dart';
 // Services
-import 'package:velyvelo/services/http_service.dart';
 
 final qrCodeProvider = ChangeNotifierProvider.autoDispose<QrCodeProvider>(
     (ref) => QrCodeProvider());

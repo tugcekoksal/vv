@@ -27,7 +27,7 @@ void testErrorLogin() {
       LoginRobot loginRobot = LoginRobot(tester);
       await pumpApp(tester);
 
-      await loginRobot.login("error_username", "error_password");
+      await loginRobot.login("username", "e");
       await loginRobot.isNotLogged("Les informations fournies sont invalides");
     });
   });

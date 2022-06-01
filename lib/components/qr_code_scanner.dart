@@ -1,5 +1,4 @@
 // Vendor
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -58,7 +57,7 @@ class RRectQrCodeClipper extends CustomClipper<Path> {
             center: Offset(size.width / 2, size.height / 2),
             width: 300,
             height: 300),
-        Radius.circular(50));
+        const Radius.circular(50));
     path.addRRect(rounded);
     path.close();
     return path;

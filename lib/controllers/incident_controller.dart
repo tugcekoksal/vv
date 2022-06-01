@@ -86,22 +86,6 @@ class IncidentController extends GetxController {
   RxBool displaySearch = false.obs;
   RxString searchText = "".obs;
 
-  // void fetchIncidentLabels() async {
-  //   try {
-  //     isLoadingLabelIncidentType(true);
-  //     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
-  //     if (incidentLabels != null) {
-  //       incidentLabels.map((incidentLabel) {
-  //         dropDownItemIncidentTypeList.add(incidentLabel);
-  //       }).toList();
-  //       dropDownItemIncidentTypeList.refresh();
-  //     }
-  //     isLoadingLabelIncidentType(false);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
   void incidentsBySearch() {
     String theSearch = searchText.value.toUpperCase();
     if (searchText.value != "") {

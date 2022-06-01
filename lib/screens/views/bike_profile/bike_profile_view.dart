@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_provider/bike_profile_provider.dart';
-import 'package:velyvelo/controllers/bike_provider/qr_code_provider.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 // Helpers

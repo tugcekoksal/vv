@@ -7,6 +7,7 @@ import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
 
 // Globals styles
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 

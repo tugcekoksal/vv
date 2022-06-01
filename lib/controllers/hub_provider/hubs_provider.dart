@@ -75,8 +75,8 @@ class HubsProvider extends ChangeNotifier {
 
   HubModel getHubFromMarker(Marker marker) {
     HubModel hub = hubs.firstWhere((hub) =>
-        hub.pinModel?.latitude == marker.point.latitude &&
-        hub.pinModel?.longitude == marker.point.longitude);
+        hub.pinModel.latitude == marker.point.latitude &&
+        hub.pinModel.longitude == marker.point.longitude);
     return hub;
   }
 

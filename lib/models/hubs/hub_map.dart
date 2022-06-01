@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:velyvelo/models/json_usefull.dart';
+
 List<HubModel> hubsModelFromJson(String str) =>
     List<HubModel>.from(json.decode(str).map((x) {
       return HubModel.fromJson(x);
@@ -19,7 +21,7 @@ class HubModel {
       this.bikeUsed,
       this.bikeRobbed,
       required this.adresse,
-      this.pinModel});
+      required this.pinModel});
 
   final String? groupName;
   final String? clientName;
@@ -29,7 +31,7 @@ class HubModel {
   final int? bikeUsed;
   final int? bikeRobbed;
   final String adresse;
-  final HubPinModel? pinModel;
+  final HubPinModel pinModel;
 
   factory HubModel.fromJson(Map<String, dynamic> json) => HubModel(
         groupName: json["infos"]["nom"] ?? "",
@@ -57,10 +59,12 @@ class HubPinModel {
   final double? latitude;
   final double? longitude;
 
-  factory HubPinModel.fromJson(Map<String, dynamic> json) => HubPinModel(
-        id: json["pk"] ?? -1,
-        pictureUrl: json["picture"] ?? "",
-        latitude: double.parse(json["latitude"]),
-        longitude: double.parse(json["longitude"]),
-      );
+  factory HubPinModel.fromJson(Map<String, dynamic> json) {
+    return HubPinModel(
+      id: getIntOrNull(json["pk"]),
+      pictureUrl: getStringOrNull(json["picture"]),
+      latitude: getDoubleFromStringOrNull(json["latitude"]),
+      longitude: getDoubleFromStringOrNull(json["longitude"]),
+    );
+  }
 }
