@@ -1,9 +1,4 @@
-// To parse this JSON data, do
-//
-//     final incidentToSendModel = incidentToSendModelFromJson(jsonString);
-
 import 'dart:io';
-
 import 'dart:convert';
 
 String incidentToSendModelToJson(IncidentToSendModel data) =>

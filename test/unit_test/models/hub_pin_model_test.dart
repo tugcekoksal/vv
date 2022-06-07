@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:velyvelo/models/hubs/hub_map.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   test("hub pin from json (missing)", () {
     final jsonData = json.decode("""{"blbala": "wlenf"}""");
     final HubPinModel hubPin = HubPinModel.fromJson(jsonData);

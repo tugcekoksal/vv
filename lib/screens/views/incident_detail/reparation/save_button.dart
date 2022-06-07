@@ -42,8 +42,8 @@ class SaveButton extends StatelessWidget {
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else {
-          snackBar = const SnackBar(
-            content: Text('Une erreur est survenue, vérfiez votre réseau.'),
+          snackBar = SnackBar(
+            content: Text(incidentController.error.value),
             backgroundColor: global_styles.orange,
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

@@ -5,10 +5,10 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';
@@ -128,9 +128,7 @@ class IncidentDeclarationController extends GetxController {
       List<IdAndName> clientLabels =
           await HttpService.fetchClientLabelsByUser(userToken);
       // Data received / valid request to server
-      print(userType);
       if (userType != "AdminOrTechnician") {
-        print("ICI WEHS RTAPAS LE DROIT");
         infosSelection.update((val) {
           val?.infoClient.selected = clientLabels[0];
         });
@@ -185,10 +183,8 @@ class IncidentDeclarationController extends GetxController {
     });
     try {
       List<IdAndName> groupLabels = await HttpService.fetchGroupLabelsByClient(
-          infosSelection.value.infoClient.selected!.id, userToken);
-      print(userType);
+          infosSelection.value.infoClient.selected!.id ?? -1, userToken);
       if (userType == "User") {
-        print("I AM A USERPATEUR");
         infosSelection.update((val) {
           val?.infoGroup.selected = groupLabels[0];
         });
@@ -242,8 +238,8 @@ class IncidentDeclarationController extends GetxController {
     });
     try {
       List<IdAndName> veloLabels = await HttpService.fetchBikeLabelsByGroup(
-          infosSelection.value.infoGroup.selected!.id,
-          infosSelection.value.infoClient.selected!.id,
+          infosSelection.value.infoGroup.selected!.id ?? -1,
+          infosSelection.value.infoClient.selected!.id ?? -1,
           userToken);
       // Data received / valid request to server
       infosSelection.update((val) {
@@ -369,7 +365,7 @@ class IncidentDeclarationController extends GetxController {
       if (userType == "user") {
         veloPk = Get.find<LoginController>().userBikeID.value;
       } else {
-        veloPk = infosSelection.value.infoVelo.selected!.id;
+        veloPk = infosSelection.value.infoVelo.selected!.id ?? -1;
       }
     }
 

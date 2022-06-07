@@ -37,20 +37,24 @@ class PiecesModif extends StatelessWidget {
             children: [
               DropDown(
                 placeholder: incidentController
-                    .currentReparation.value.typeIntervention.name,
+                        .currentReparation.value.typeIntervention.name ??
+                    "Error type intervention",
                 dropdownItemList: incidentController
                     .currentReparation.value.typeInterventionList
-                    .map((intervention) => intervention.name)
+                    .map((intervention) =>
+                        intervention.name ?? "Error type intervention")
                     .toList(),
                 setItem: incidentController.setTypeIntervention,
               ),
               const SizedBox(height: 10.0),
               DropDown(
                 placeholder: incidentController
-                    .currentReparation.value.typeReparation.name,
+                        .currentReparation.value.typeReparation.name ??
+                    "Error type reparation",
                 dropdownItemList: incidentController
                     .currentReparation.value.typeReparationList
-                    .map((reparation) => reparation.name)
+                    .map((reparation) =>
+                        reparation.name ?? "Error type reparation")
                     .toList(),
                 setItem: incidentController.setTypeReparation,
               ),
@@ -60,7 +64,7 @@ class PiecesModif extends StatelessWidget {
                   placeholder: "Pièce",
                   dropdownItemList: incidentController
                       .currentReparation.value.piecesList
-                      .map((piece) => piece.name)
+                      .map((piece) => piece.name ?? "Error piece name")
                       .toList(),
                   setItem: incidentController.setPiece,
                 );
@@ -99,7 +103,7 @@ class PiecesModif extends StatelessWidget {
         Obx(() {
           return incidentController
                   .currentReparation.value.selectedPieces.isEmpty
-              ? const ListTile(title: Text("Aucunes pièces sélectionnées"))
+              ? const ListTile(title: Text("Aucunes pièces séléctionnées"))
               : SizedBox(
                   height: incidentController
                               .currentReparation.value.selectedPieces.length <
@@ -123,10 +127,11 @@ class PiecesModif extends StatelessWidget {
                             title: Row(children: [
                               Flexible(
                                   child: Text(incidentController
-                                      .currentReparation
-                                      .value
-                                      .selectedPieces[index]
-                                      .name)),
+                                          .currentReparation
+                                          .value
+                                          .selectedPieces[index]
+                                          .name ??
+                                      "Error selected piece name")),
                               IconButton(
                                   onPressed: () => {
                                         incidentController

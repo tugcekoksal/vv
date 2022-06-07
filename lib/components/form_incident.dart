@@ -1,10 +1,6 @@
 // Vendor
-import 'dart:io';
-import 'package:flutter/services.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:velyvelo/components/drop_down.dart';
 
 // Global Styles like colors
@@ -16,7 +12,7 @@ import 'package:velyvelo/components/slider_show_full_images.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
-import 'package:velyvelo/helpers/logger.dart';
+import 'package:velyvelo/screens/views/incident_detail/reparation/pick_image.dart';
 
 class BuildFormIncident extends StatefulWidget {
   const BuildFormIncident({
@@ -35,37 +31,6 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
 
   final IncidentDeclarationController incidentDeclarationController =
       Get.put(IncidentDeclarationController());
-
-  Future pickImage() async {
-    try {
-      showDialog(
-          barrierColor: Colors.transparent,
-          barrierDismissible: false,
-          // useSafeArea: true,
-
-          context: context,
-          builder: (BuildContext context) {
-            return Center(
-              child:
-                  Container(height: 300, width: 300, color: Colors.transparent),
-            );
-          });
-      final _currentImage = await ImagePicker().pickImage(
-          source: ImageSource.camera,
-          imageQuality: 50,
-          maxHeight: 500,
-          maxWidth: 500);
-      Navigator.pop(context);
-      if (_currentImage == null) return;
-
-      final imageTemporary = File(_currentImage.path);
-
-      incidentDeclarationController.setIncidentPhotosValue(
-          imageTemporary, widget.indexIncident);
-    } on PlatformException catch (e) {
-      logger(BuildFormIncident).e('Failed to pick image: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +81,7 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
               placeholder: "Type d'incident",
               dropdownItemList: incidentDeclarationController
                   .incidentTypeSelection.value.listOptions
-                  .map((e) => e.name)
+                  .map((e) => e.name ?? "Erreur nom groupe")
                   .toList(),
               setItem: incidentDeclarationController.setIncidentTypeLabel,
               index: widget.indexIncident,
@@ -177,34 +142,12 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
         Obx(() {
           if (incidentDeclarationController
               .incidentPhotosList[widget.indexIncident].isEmpty) {
-            return GestureDetector(
-              onTap: () => pickImage(),
-              child: DottedBorder(
-                color: global_styles.backgroundLightGrey,
-                strokeWidth: 4,
-                radius: const Radius.circular(40.0),
-                dashPattern: const [15, 15],
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 30.0),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    children: const [
-                      Icon(Icons.camera_alt_outlined,
-                          color: global_styles.greyTextInput, size: 50.0),
-                      SizedBox(height: 10.0),
-                      Text("Prendre une photo",
-                          style: TextStyle(
-                              color: global_styles.greyTextInput,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w700))
-                    ],
-                  ),
-                ),
-              ),
-            );
+            return PickImage(
+                setItem: (newImage) {
+                  incidentDeclarationController.setIncidentPhotosValue(
+                      newImage, widget.indexIncident);
+                },
+                text: "Prendre une photo");
           } else {
             return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -222,31 +165,12 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                   if (incidentDeclarationController
                           .incidentPhotosList[widget.indexIncident].length ==
                       index) {
-                    return GestureDetector(
-                        onTap: () => pickImage(),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: global_styles.backgroundLightGrey,
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              SizedBox(height: 20),
-                              Icon(Icons.add,
-                                  color: global_styles.greyTextInput,
-                                  size: 35.0),
-                              Text(
-                                "Ajouter d'autres photos",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: global_styles.greyTextInput,
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )
-                            ],
-                          ),
-                        ));
+                    return PickImage(
+                        setItem: (newImage) {
+                          incidentDeclarationController.setIncidentPhotosValue(
+                              newImage, widget.indexIncident);
+                        },
+                        text: "Ajouter d'autres photos");
                   } else {
                     return Obx(() {
                       return ClipRRect(

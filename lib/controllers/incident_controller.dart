@@ -14,6 +14,7 @@ import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 // services
 import 'package:velyvelo/services/http_service.dart';
@@ -64,12 +65,14 @@ class IncidentController extends GetxController {
 
   var currentIncidentId = 0.obs;
 
-  var currentReparation = Reparation(
+  var currentReparation = ReparationModel(
           statusBike: "",
           isBikeFunctional: true,
           incidentPk: 0,
           typeIntervention: IdAndName(id: 0, name: ""),
           typeReparation: IdAndName(id: 0, name: ""),
+          cause: IdAndName(),
+          causelist: [],
           reparationPhotosList: [],
           typeInterventionList: [],
           typeReparationList: [],
@@ -80,7 +83,6 @@ class IncidentController extends GetxController {
       .obs;
 
   RxString actualTypeReparation = "".obs;
-  RxString selectedIncidentCause = "".obs;
   RxList<String> dropDownItemIncidentTypeList = <String>[].obs;
 
   RxBool displaySearch = false.obs;
@@ -102,12 +104,15 @@ class IncidentController extends GetxController {
   void fetchIncidentTypeList() async {
     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
     dropDownItemIncidentTypeList.value =
-        incidentLabels.map((e) => e.name).toList();
+        incidentLabels.map((e) => e.name ?? "Error incident label").toList();
     dropDownItemIncidentTypeList.refresh();
   }
 
-  void setItemIncidentCause(value, index) {
-    selectedIncidentCause.value = value;
+  void setItemIncidentCause(value) {
+    print("Setincident");
+    print(value);
+    currentReparation.value.cause.name = value;
+    print(currentReparation.value.cause.name);
   }
 
   @override
@@ -131,7 +136,7 @@ class IncidentController extends GetxController {
 
   Future<void> fetchReparation(String incidentPk) async {
     var infosReparation =
-        await HttpService.fetchReparationByPk(incidentPk, userToken);
+        await HttpService.fetchIncident(incidentPk, userToken);
     infosReparation = jsonDecode(infosReparation);
 
     List<File> listPhotoFile = [];
@@ -139,10 +144,11 @@ class IncidentController extends GetxController {
       var photoFile = await urlToFile(HttpService.urlServer + photo);
       listPhotoFile.add(photoFile);
     }
-    currentReparation.value = Reparation.fromJson(
+    currentReparation.value = ReparationModel.fromJson(
         infosReparation, currentIncidentId.value, listPhotoFile);
     currentReparation.refresh();
-    actualTypeReparation.value = currentReparation.value.typeReparation.name;
+    actualTypeReparation.value =
+        currentReparation.value.typeReparation.name ?? "Error type reparation";
     fetchPieceFromType();
   }
 
@@ -159,7 +165,7 @@ class IncidentController extends GetxController {
 
     // ask the server for the relatives pieces from those filters
     var response = await HttpService.fetchPieceFromType(
-        interventionType.id, reparationType.id, userToken);
+        interventionType.id ?? -1, reparationType.id ?? -1, userToken);
     response = jsonDecode(response);
     var listPieces = jsonListToIdAndNameList(response["pieces"]);
 
@@ -307,10 +313,9 @@ class IncidentController extends GetxController {
 
     try {
       await HttpService.sendCurrentDetailBikeStatus(
-          currentReparation.value, selectedIncidentCause.value, userToken);
+          currentReparation.value, userToken);
     } catch (e) {
       error.value = e.toString();
-      print(error.value);
     }
     fetchReparation(currentIncidentId.value.toString());
   }

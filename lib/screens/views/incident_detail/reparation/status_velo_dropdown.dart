@@ -16,7 +16,8 @@ class StatusVeloDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return DropDown(
-          placeholder: incidentController.currentReparation.value.statusBike,
+          placeholder: incidentController.currentReparation.value.statusBike ??
+              "Erreur status",
           dropdownItemList: incidentController.incidentDetailValue.value.status,
           setItem: incidentController.setBikeStatus);
     });

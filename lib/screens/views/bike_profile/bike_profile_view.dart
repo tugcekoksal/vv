@@ -11,7 +11,7 @@ import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 // Helpers
 import 'package:velyvelo/models/bike/user_bike_model.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_in_progress.dart';
 import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 

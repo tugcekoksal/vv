@@ -4,7 +4,7 @@ import 'package:velyvelo/components/disabled_drop_down.dart';
 import 'package:velyvelo/components/drop_down.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 class ClientDropDown extends StatelessWidget {
   final LoginController loginController;
@@ -31,7 +31,8 @@ class ClientDropDown extends StatelessWidget {
 
       // If the client is already selected
       if (client != null) {
-        return DisabledDropDown(placeholder: client!.name);
+        return DisabledDropDown(
+            placeholder: client!.name ?? "Erreur nom groupe");
       }
 
       if (declarationController.infosSelection.value.infoClient.isLoading) {
@@ -42,7 +43,7 @@ class ClientDropDown extends StatelessWidget {
         placeholder: "Client",
         dropdownItemList: declarationController
             .infosSelection.value.infoClient.listOptions
-            .map((e) => e.name)
+            .map((e) => e.name ?? "Erreur nom groupe")
             .toList(),
         setItem: (value) => {declarationController.setClientLabel(value)},
       );

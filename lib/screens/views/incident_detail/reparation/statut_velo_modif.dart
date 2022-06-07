@@ -74,15 +74,17 @@ class StatutVeloModif extends StatelessWidget {
               StatutButton(
                 incidentController: incidentController,
                 status: true,
-                isActive:
-                    incidentController.currentReparation.value.isBikeFunctional,
+                isActive: incidentController
+                        .currentReparation.value.isBikeFunctional ??
+                    false,
                 text: "Oui",
               ),
               StatutButton(
                 incidentController: incidentController,
                 status: false,
-                isActive: !incidentController
-                    .currentReparation.value.isBikeFunctional,
+                isActive: incidentController
+                        .currentReparation.value.isBikeFunctional ??
+                    false,
                 text: "Non",
               ),
             ],

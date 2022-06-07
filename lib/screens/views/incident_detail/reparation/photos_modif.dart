@@ -31,7 +31,7 @@ class PhotosModif extends StatelessWidget {
         if (incidentController
             .currentReparation.value.reparationPhotosList.isEmpty) {
           return PickImage(
-            incidentController: incidentController,
+            setItem: incidentController.setReparationsPhotosValue,
             text: "Prendre une photo",
           );
         } else {
@@ -52,7 +52,7 @@ class PhotosModif extends StatelessWidget {
                         .currentReparation.value.reparationPhotosList.length ==
                     index) {
                   return PickImage(
-                    incidentController: incidentController,
+                    setItem: incidentController.setReparationsPhotosValue,
                     text: "Ajouter d'autres photos",
                   );
                 } else {

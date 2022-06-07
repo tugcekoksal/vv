@@ -3,11 +3,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/hubs/hub_map.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 // Models
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 // Services
 import 'package:velyvelo/services/bikes/bike_id_user_service.dart';
@@ -29,7 +30,8 @@ import 'package:velyvelo/services/hubs/fetch_all_hubs.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
-  static String urlServer = "http://localhost:8000";
+  static String urlServer = "http://192.168.10.103:8000";
+  // static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
@@ -89,8 +91,8 @@ class HttpService {
   }
 
   // Fetch informations about a specific reparation
-  static Future fetchReparationByPk(String incidentPk, String userToken) {
-    return fetchReparationByPkService(urlServer, incidentPk, userToken);
+  static Future fetchIncident(String incidentPk, String userToken) {
+    return fetchIncidentService(urlServer, incidentPk, userToken);
   }
 
   // Fetch an incident by id
@@ -147,9 +149,8 @@ class HttpService {
 
   // Set a bike status in detail page
   static Future<String> sendCurrentDetailBikeStatus(
-      Reparation reparation, String causeIncident, String userToken) async {
-    return sendCurrentDetailBikeStatusService(
-        urlServer, reparation, causeIncident, userToken);
+      ReparationModel reparation, String userToken) async {
+    return sendCurrentDetailBikeStatusService(urlServer, reparation, userToken);
   }
 
   static Future fetchPieceFromType(

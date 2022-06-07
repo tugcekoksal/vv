@@ -8,7 +8,7 @@ import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 
 Future fetchAllIncidentsService(String urlServer,
     RefreshIncidentModel incidentsToFetch, String userToken) async {
-  var request = http.Request("GET", Uri.parse("$urlServer/api/infoIncident/"));
+  var request = http.Request("GET", Uri.parse("$urlServer/api/listIncidents/"));
   var headers = {
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
@@ -32,9 +32,9 @@ Future fetchAllIncidentsService(String urlServer,
   }
 }
 
-Future fetchReparationByPkService(
+Future fetchIncidentService(
     String urlServer, String incidentPk, String userToken) async {
-  var response = await http.post(Uri.parse("$urlServer/api/reparationInfos/"),
+  var response = await http.post(Uri.parse("$urlServer/api/reparation/"),
       body: {"incident_pk": incidentPk},
       headers: {"Authorization": "Token $userToken"});
 

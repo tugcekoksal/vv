@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/screens/views/incident_detail/reparation/cause_modif.dart';
 
 // Controllers
 import 'package:velyvelo/screens/views/incident_detail/reparation/photos_modif.dart';
@@ -48,6 +49,9 @@ class ReparationContainer extends StatelessWidget {
                         color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
+                const SizedBox(height: 25.0),
+                // Cause status of incident
+                CauseModif(incidentController: incidentController),
                 const SizedBox(height: 25.0),
                 // Handler of photos adding and photos listing for the reparation
                 PhotosModif(incidentController: incidentController),

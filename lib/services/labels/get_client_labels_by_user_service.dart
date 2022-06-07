@@ -1,9 +1,9 @@
 // Vendor
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/models/json_usefull.dart';
 
 // Models
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 Future<List<IdAndName>> fetchClientLabelsByUserService(
     String urlServer, String userToken) async {
