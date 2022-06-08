@@ -56,9 +56,6 @@ class ReparationContainer extends StatelessWidget {
                 // Handler of photos adding and photos listing for the reparation
                 PhotosModif(incidentController: incidentController),
                 const SizedBox(height: 25.0),
-                // Handler of is functionnal velo or status name of the velo
-                StatutVeloModif(incidentController: incidentController),
-                const SizedBox(height: 25.0),
                 // Handler of the selection of a piece for reparation
                 // and of the listing and deletion of selected pieces
                 PiecesModif(incidentController: incidentController),
@@ -101,7 +98,12 @@ class ReparationContainer extends StatelessWidget {
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600),
                 ),
-                gotoWidget
+                gotoWidget,
+                // Handler of is functionnal velo or status name of the velo
+                const SizedBox(height: 25.0),
+                StatutVeloModif(incidentController: incidentController),
+                const SizedBox(height: 25.0),
+
                 // Obx(() {
                 //   if (incidentController.error.value == "")
                 //     return SizedBox(
