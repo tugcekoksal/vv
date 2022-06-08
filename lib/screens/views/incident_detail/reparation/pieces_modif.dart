@@ -96,47 +96,46 @@ class PieceSelection extends StatelessWidget {
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 10),
         Obx(() {
-          return incidentController
-                  .currentReparation.value.selectedPieces.isEmpty
-              ? const ListTile(title: Text("Aucunes pièces séléctionnées"))
-              : SizedBox(
-                  height: incidentController
-                              .currentReparation.value.selectedPieces.length <
-                          4
-                      ? (incidentController
-                              .currentReparation.value.selectedPieces.length) *
-                          60
-                      : 240,
-                  child: Scrollbar(
-                      thumbVisibility: true,
-                      showTrackOnHover: true,
+          if (incidentController
+              .currentReparation.value.selectedPieces.isEmpty) {
+            return const ListTile(title: Text("Aucunes pièces séléctionnées"));
+          } else {
+            return SizedBox(
+                height: incidentController
+                            .currentReparation.value.selectedPieces.length <
+                        4
+                    ? (incidentController
+                            .currentReparation.value.selectedPieces.length) *
+                        60
+                    : 240,
+                child: Scrollbar(
+                    thumbVisibility: true,
+                    showTrackOnHover: true,
+                    controller: scrollController,
+                    child: ListView.builder(
                       controller: scrollController,
-                      child: ListView.builder(
-                        controller: scrollController,
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemCount: incidentController
-                            .currentReparation.value.selectedPieces.length,
-                        itemBuilder: (context, int index) {
-                          return ListTile(
-                            title: Row(children: [
-                              Flexible(
-                                  child: Text(incidentController
-                                          .currentReparation
-                                          .value
-                                          .selectedPieces[index]
-                                          .name ??
-                                      "Error selected piece name")),
-                              IconButton(
-                                  onPressed: () => {
-                                        incidentController
-                                            .removePieceFromList(index)
-                                      },
-                                  icon: const Icon(Icons.delete))
-                            ]),
-                          );
-                        },
-                      )));
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      itemCount: incidentController
+                          .currentReparation.value.selectedPieces.length,
+                      itemBuilder: (context, int index) {
+                        return ListTile(
+                          title: Row(children: [
+                            Flexible(
+                                child: Text(incidentController.currentReparation
+                                        .value.selectedPieces[index].name ??
+                                    "Error selected piece name")),
+                            IconButton(
+                                onPressed: () => {
+                                      incidentController
+                                          .removePieceFromList(index)
+                                    },
+                                icon: const Icon(Icons.delete))
+                          ]),
+                        );
+                      },
+                    )));
+          }
         }),
         const SizedBox(height: 25)
       ],

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 int? getIntOrNull(dynamic elem) {
   if (elem == null || elem.runtimeType != int) {
     return null;

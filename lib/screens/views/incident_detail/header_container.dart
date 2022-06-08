@@ -7,7 +7,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:get/get.dart';
 
 // Helpers
-import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
+import 'package:velyvelo/helpers/status_color_based_on_status.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class HeaderContainer extends StatelessWidget {

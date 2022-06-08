@@ -244,7 +244,8 @@ class SearchBarIncident extends StatelessWidget {
               child: TextField(
                 autocorrect: false,
                 decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: "Rechercher un hub"),
+                    border: InputBorder.none,
+                    hintText: "Rechercher un incident"),
                 controller: textInputController,
                 onChanged: (value) => {
                   incidentController.searchText.value = value,

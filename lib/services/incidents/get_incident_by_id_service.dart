@@ -12,9 +12,10 @@ Future<IncidentDetailModel> fetchIncidentByIdService(
       body: {"incident_pk": json.encode(id)});
 
   String body = utf8.decode(response.bodyBytes);
-  if (response.statusCode == 200) {
-    return incidentDetailModelFromJson(body);
-  } else {
-    throw Exception();
+  String message = jsonDecode(body)["message"] ?? "Pas de message du serveur";
+
+  if (response.statusCode >= 400) {
+    throw (message);
   }
+  return incidentDetailModelFromJson(body);
 }

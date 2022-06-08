@@ -23,7 +23,7 @@ class IncidentDetailModel {
   });
 
   final String groupe;
-  final String velo;
+  final IdAndName velo;
   final String typeIncident;
   final String commentaire;
   final List<String> photos;
@@ -34,7 +34,7 @@ class IncidentDetailModel {
   factory IncidentDetailModel.fromJson(Map<String, dynamic> json) =>
       IncidentDetailModel(
         groupe: json["groupe"] ?? "Pas de nom de groupe",
-        velo: json["velo"] ?? "Pas de nom de vélo",
+        velo: getIdAndNameOrEmpty(json["velo"]),
         typeIncident: json["type_incident"] ?? "Pas de type d'incident",
         commentaire: json["commentaire"] ?? "Pas de commentaire",
         photos: json["photos"] == null
