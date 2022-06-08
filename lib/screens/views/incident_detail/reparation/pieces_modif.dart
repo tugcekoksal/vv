@@ -9,23 +9,18 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
 
-class PiecesModif extends StatelessWidget {
+class PieceSelection extends StatelessWidget {
   final IncidentController incidentController;
   final ScrollController scrollController = ScrollController();
 
-  PiecesModif({Key? key, required this.incidentController}) : super(key: key);
+  PieceSelection({Key? key, required this.incidentController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Pieces",
-            style: TextStyle(
-                color: global_styles.purple,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w600)),
-        const SizedBox(height: 10.0),
         const Text("Séléctionner une pièce",
             style: TextStyle(
                 color: global_styles.greyText,
@@ -146,5 +141,42 @@ class PiecesModif extends StatelessWidget {
         const SizedBox(height: 25)
       ],
     );
+  }
+}
+
+class PiecesModif extends StatelessWidget {
+  final IncidentController incidentController;
+
+  const PiecesModif({Key? key, required this.incidentController})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const Text("Pieces",
+          style: TextStyle(
+              color: global_styles.purple,
+              fontSize: 17.0,
+              fontWeight: FontWeight.w600)),
+      const SizedBox(height: 10.0),
+      Obx(() {
+        return Row(
+          children: [
+            Checkbox(
+                value: incidentController.currentReparation.value.noPieces,
+                onChanged: (value) {
+                  incidentController.setNoPieces(value);
+                }),
+            const Text("Aucunes pièces utilisées")
+          ],
+        );
+      }),
+      Obx(() {
+        if (incidentController.currentReparation.value.noPieces == false) {
+          return PieceSelection(incidentController: incidentController);
+        }
+        return const SizedBox();
+      })
+    ]);
   }
 }

@@ -53,6 +53,7 @@ class ReparationModel {
   String? statusBike;
   bool? isBikeFunctional;
   int? incidentPk;
+  bool noPieces = false;
 
   IdAndName cause;
   List<IdAndName> causelist;
@@ -75,6 +76,7 @@ class ReparationModel {
       {required this.statusBike,
       required this.isBikeFunctional,
       required this.incidentPk,
+      required this.noPieces,
       required this.reparationPhotosList,
       required this.typeIntervention,
       required this.typeInterventionList,
@@ -102,6 +104,7 @@ class ReparationModel {
             getListIdAndName(jsonData["list_type_intervention"]),
         typeReparationList: getListIdAndName(jsonData["list_type_reparation"]),
         piecesList: [],
+        noPieces: false,
         selectedPieces: getListIdAndName(jsonData["pieces"]),
         selectedPieceDropDown: IdAndName(),
         commentary: TextEditingController(

@@ -77,6 +77,7 @@ class IncidentController extends GetxController {
           typeInterventionList: [],
           typeReparationList: [],
           piecesList: [],
+          noPieces: false,
           selectedPieces: [],
           selectedPieceDropDown: IdAndName(id: 0, name: ""),
           commentary: TextEditingController())
@@ -109,10 +110,15 @@ class IncidentController extends GetxController {
   }
 
   void setItemIncidentCause(value) {
-    print("Setincident");
-    print(value);
     currentReparation.value.cause.name = value;
-    print(currentReparation.value.cause.name);
+  }
+
+  void setNoPieces(bool? value) {
+    if (value != null) {
+      currentReparation.update((reparation) {
+        reparation!.noPieces = value;
+      });
+    }
   }
 
   @override
@@ -311,6 +317,14 @@ class IncidentController extends GetxController {
   sendReparationUpdate() async {
     error.value = "";
 
+    if (currentReparation.value.noPieces) {
+      currentReparation.value.selectedPieces = [];
+    } else {
+      if (currentReparation.value.selectedPieces.isEmpty) {
+        error.value =
+            "Selectionnez une pièce ou cochez la case 'Aucunes pièces utilisées'";
+      }
+    }
     try {
       await HttpService.sendCurrentDetailBikeStatus(
           currentReparation.value, userToken);
