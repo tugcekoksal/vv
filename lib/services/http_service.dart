@@ -2,6 +2,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/bike/user_bike_model.dart';
+import 'package:velyvelo/models/carte/bike_list_model.dart';
+import 'package:velyvelo/models/carte/bike_map_model.dart';
+import 'package:velyvelo/models/carte/hub_list_model.dart';
+import 'package:velyvelo/models/carte/hub_map_model.dart';
 import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
@@ -9,11 +13,12 @@ import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
 import 'package:velyvelo/models/json_usefull.dart';
+import 'package:velyvelo/models/map/map_filter_model.dart';
 
 // Services
 import 'package:velyvelo/services/bikes/bike_id_user_service.dart';
 import 'package:velyvelo/services/bikes/bike_user_service.dart';
-import 'package:velyvelo/services/bikes/get_all_bikes_service.dart';
+import 'package:velyvelo/services/bikes/get_bike_map.dart';
 import 'package:velyvelo/services/bikes/send_bike_status_service.dart';
 import 'package:velyvelo/services/bikes/set_bike_robbed_service.dart';
 import 'package:velyvelo/services/incidents/get_all_incidents_service.dart';
@@ -26,7 +31,7 @@ import 'package:velyvelo/services/labels/get_incident_labels_service.dart';
 import 'package:velyvelo/services/login/login_user_service.dart';
 import 'package:velyvelo/services/login/type_user_service.dart';
 import 'package:velyvelo/services/map/get_map_filters_service.dart';
-import 'package:velyvelo/services/hubs/fetch_all_hubs.dart';
+import 'package:velyvelo/services/hubs/fetch_hub_map.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
@@ -70,13 +75,15 @@ class HttpService {
   }
 
   // Fetch the hubs for map
-  static Future<List<HubModel>> fetchHubs(String userToken) async {
-    return fetchHubsService(urlServer, userToken);
+  static Future<List<HubMapModel>> fetchHubMap(
+      String search, String userToken) async {
+    return fetchHubMapService(urlServer, search, userToken);
   }
 
-  // Fetch one hub for map popup
-  static Future fetchOneHub(int groupPk, String userToken) async {
-    return fetchOneHubService(urlServer, groupPk, userToken);
+  // Fetch the hubs for map
+  static Future<List<HubListModel>> fetchHubList(
+      String search, String userToken) async {
+    return fetchHubListService(urlServer, search, userToken);
   }
 
   // Fetch the user's type
@@ -100,15 +107,37 @@ class HttpService {
     return fetchIncidentByIdService(urlServer, id, userToken);
   }
 
-  // Fetch All bikes
-  static Future fetchAllBikes(
-      List filtersList, List statusList, String userToken) async {
-    return fetchAllBikesService(urlServer, filtersList, statusList, userToken);
+  // Fetch Bike Pos on Map view velo
+  static Future<List<BikeMapModel>> fetchBikeMap(List<String> filtersList,
+      List<String> statusList, String searchText, String userToken) async {
+    return fetchBikeMapService(
+        urlServer, filtersList, statusList, searchText, userToken);
+  }
+
+  // Fetch Bike Popup on Map view velo
+  static Future<BikePopupModel> fetchBikePopup(int id, String userToken) async {
+    return fetchBikePopupService(urlServer, id, userToken);
+  }
+
+  // Fetch Bike Popup on Map view velo
+  static Future<HubListModel> fetchHubPopup(int id, String userToken) async {
+    return fetchHubPopupService(urlServer, id, userToken);
+  }
+
+  // Fetch Bike card list info on list view velo
+  static Future<List<BikeListModel>> fetchBikeList(
+      List<String> filtersList,
+      List<String> statusList,
+      String searchText,
+      bool hasGps,
+      String userToken) async {
+    return fetchBikeListService(
+        urlServer, filtersList, statusList, searchText, hasGps, userToken);
   }
 
   // Fetch map's filters
-  static Future fetchMapfilters(String userToken) async {
-    return fetchMapfiltersService(urlServer, userToken);
+  static Future<GroupFilterModel> fetchGroupFilters(String userToken) async {
+    return fetchGroupFilterService(urlServer, userToken);
   }
 
   // Fetch all the client labels

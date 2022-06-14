@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
-import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
 
 // Globals styles
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
@@ -45,9 +45,8 @@ class MapStatusVelo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 100),
+      constraints: const BoxConstraints(minWidth: 90),
       child: Container(
-          width: 90,
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
           decoration: BoxDecoration(
             color: colorBasedOnVeloMapStatus(text),
@@ -55,7 +54,7 @@ class MapStatusVelo extends StatelessWidget {
           ),
           child: Center(
               child: Text(text,
-                  overflow: TextOverflow.ellipsis,
+                  // overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13.0,
@@ -118,7 +117,7 @@ class BikesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final BikesProvider bikes = ref.watch(bikesProvider);
+    final CarteBikeProvider bikeList = ref.watch(carteBikeProvider);
     return Container(
         color: global_styles.backgroundLightGrey,
         child: Padding(
@@ -129,7 +128,7 @@ class BikesList extends ConsumerWidget {
                     enablePullUp: false,
                     controller: refreshController,
                     onRefresh: () {
-                      ref.read(bikesProvider).fetchAllBikes();
+                      ref.read(carteBikeProvider).fetchBikeMap();
                       refreshController.refreshCompleted();
                     },
                     onLoading: () {
@@ -139,20 +138,21 @@ class BikesList extends ConsumerWidget {
                     },
                     child: ListView.builder(
                       padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                      itemCount: bikes.bikeWithPositionList.length,
+                      itemCount: bikeList.bikeList.length,
                       itemBuilder: (context, index) {
                         return (GestureDetector(
+                          // To change with call api
                           child: VeloCard(
-                              name: bikes.bikeWithPositionList[index].name,
-                              group: bikes.bikeWithPositionList[index].group,
-                              mapStatus:
-                                  bikes.bikeWithPositionList[index].mapStatus),
+                              name: bikeList.bikeList[index].name ??
+                                  "Pas de nom de vélo",
+                              group: bikeList.bikeList[index].groupName ??
+                                  "Pas de nom de groupe",
+                              mapStatus: bikeList.bikeList[index].mapStatus ??
+                                  "Pas de gps"),
                           onTap: () => {
                             goToBikeProfileFromPk(
-                              ref
-                                  .read(bikesProvider)
-                                  .bikeWithPositionList[index]
-                                  .veloPk,
+                              ref.read(carteBikeProvider).bikeList[index].id ??
+                                  0,
                             )
                           },
                         ));
@@ -225,26 +225,26 @@ class BikesListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final BikesProvider bikes = ref.watch(bikesProvider);
+    final CarteBikeProvider bikeList = ref.watch(carteBikeProvider);
     return Container(
         height: MediaQuery.of(context).size.height,
         color: global_styles.backgroundLightGrey,
         child:
             // If bikes are loading
-            bikes.isLoadingBikes
+            bikeList.isLoadingBikes
                 ? const Padding(
                     padding: EdgeInsets.only(top: 100), child: ListIsLoading())
                 :
                 // If error loading bikes
-                bikes.messageError != ""
+                bikeList.messageError != ""
                     ? InfoError(
-                        action: bikes.fetchAllBikes,
+                        action: bikeList.fetchBikeList,
                         icon: Icons.pedal_bike,
                         color: global_styles.orange,
                         text: "Une erreur s'est produite")
                     :
                     // If bikes loaded are empty
-                    bikes.bikeWithPositionList.isEmpty
+                    bikeList.bikeList.isEmpty
                         ? const InfoEmpty(
                             icon: Icons.pedal_bike,
                             color: global_styles.greyUnselectedIcon,

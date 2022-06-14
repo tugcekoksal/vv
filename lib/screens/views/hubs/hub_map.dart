@@ -1,13 +1,17 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Vendor
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as lat_long;
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/map_provider/camera_provider.dart';
+import 'package:velyvelo/models/carte/hub_map_model.dart';
 
 // Controllers
 import 'package:velyvelo/screens/views/hubs/hub_popup.dart';
@@ -48,24 +52,24 @@ class PopUpClipper extends CustomClipper<Path> {
 }
 
 void onGeoChangeActualize(MapPosition position, bool hasGesture,
-    CameraProvider camera, HubsProvider hub) {
-  print("ON GEO CHANGE");
-  // if (firstTime) {
-  //   firstTime = false;
-  //   return;
-  // }
+    CameraProvider camera, CarteHubProvider hubs) {
+  if (camera.firstTime) {
+    camera.firstTime = false;
+    return;
+  }
+
   // When zoom is too large
   if (position.zoom != null) {
     if ((camera.oldZoom - position.zoom!).abs() > 1) {
       camera.updateZoom(position.zoom!);
-      hub.fetchHubs();
+      hubs.fetchHubMap();
     }
   }
   // When map axe x or y movement is too large
   if (position.bounds != null) {
     if (position.bounds!.contains(camera.oldPosition) == false) {
       camera.updatePosition(position.center!);
-      hub.fetchHubs();
+      hubs.fetchHubMap();
     }
   }
   // When far zoom display map style
@@ -80,22 +84,24 @@ void onGeoChangeActualize(MapPosition position, bool hasGesture,
 
 class HubMap extends ConsumerWidget {
   final PopupController popupController = PopupController();
-
   HubMap({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HubsProvider hubs = ref.watch(hubsProvider);
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
     final CameraProvider camera = ref.watch(cameraProvider);
 
     return Stack(children: [
       FlutterMap(
         options: MapOptions(
-          onTap: (tap, pos) => {popupController.hideAllPopups()},
+          onTap: (tap, pos) => {
+            ref.read(carteHubProvider).cleanPopup(),
+            popupController.hideAllPopups()
+          },
           onPositionChanged: (MapPosition position, bool hasGesture) {
             Future(() => {
                   onGeoChangeActualize(position, hasGesture,
-                      ref.read(cameraProvider), ref.read(hubsProvider))
+                      ref.read(cameraProvider), ref.read(carteHubProvider))
                 });
           },
           center: lat_long.LatLng(47.8, 2.350492773209436),
@@ -129,14 +135,14 @@ class HubMap extends ConsumerWidget {
             fitBoundsOptions: const FitBoundsOptions(
               padding: EdgeInsets.all(50),
             ),
-            markers:
-                hubs.hubs.where((hub) => hub.adresse != "").toList().map((hub) {
+            markers: hubs.hubMap.map((hub) {
               return Marker(
                   width: 35.0,
                   height: 80.0,
-                  point: lat_long.LatLng(
-                      hub.pinModel.latitude ?? 0, hub.pinModel.longitude ?? 0),
-                  builder: (ctx) => HubPin(hub: hub.pinModel));
+                  point: lat_long.LatLng(hub.latitude ?? 0, hub.longitude ?? 0),
+                  builder: (ctx) {
+                    return HubPin(hub: hub);
+                  });
             }).toList(),
             polygonOptions: const PolygonOptions(
                 borderColor: Color.fromARGB(0, 255, 255, 255),
@@ -160,34 +166,42 @@ class HubMap extends ConsumerWidget {
             },
             popupOptions: PopupOptions(
                 popupController: popupController,
-                popupBuilder: (_, marker) => ClipPath(
-                      clipper: PopUpClipper(),
-                      child: Container(
-                        width: 300,
-                        height: 175,
-                        padding: const EdgeInsets.all(15.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12.0)),
-                        child: Stack(
-                          children: [
-                            HubPopup(hub: hubs.getHubFromMarker(marker)),
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: GestureDetector(
-                                onTap: () =>
-                                    popupController.togglePopup(marker),
-                                child: const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: Icon(Icons.close)),
-                              ),
-                            )
-                          ],
-                        ),
+                popupBuilder: (_, marker) {
+                  hubs.fetchPopupHub(marker);
+                  if (hubs.hubPopup == null) {
+                    return const SizedBox();
+                  }
+                  return ClipPath(
+                    clipper: PopUpClipper(),
+                    child: Container(
+                      width: 300,
+                      height: 175,
+                      padding: const EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.0)),
+                      child: Stack(
+                        children: [
+                          HubPopup(hubs: hubs),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                ref.read(carteHubProvider).cleanPopup();
+                                popupController.togglePopup(marker);
+                              },
+                              child: const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: Icon(Icons.close)),
+                            ),
+                          )
+                        ],
                       ),
-                    )),
+                    ),
+                  );
+                }),
           ),
         ],
       ),

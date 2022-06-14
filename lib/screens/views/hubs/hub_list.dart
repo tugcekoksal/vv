@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
 
 // Globals styles
@@ -29,13 +30,13 @@ class PurpleText extends StatelessWidget {
   }
 }
 
-class HubCard extends StatelessWidget {
-  final HubModel hub;
+class HubCard extends ConsumerWidget {
+  final int index;
 
-  const HubCard({Key? key, required this.hub}) : super(key: key);
+  const HubCard({Key? key, required this.index}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
         padding: const EdgeInsets.all(20.0),
         margin: const EdgeInsets.only(
@@ -43,12 +44,15 @@ class HubCard extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
         child: Column(children: [
-          Text(hub.groupName ?? "Pas de nom de groupe",
+          Text(
+              ref.read(carteHubProvider).hubList[index].name ??
+                  "Pas de nom de groupe",
               overflow: TextOverflow.ellipsis,
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           Text(
-            hub.clientName ?? "Pas de nom de client",
+            ref.read(carteHubProvider).hubList[index].clientName ??
+                "Pas de nom de client",
             style: const TextStyle(fontSize: 12),
           ),
           const SizedBox(
@@ -63,14 +67,21 @@ class HubCard extends StatelessWidget {
                 size: 20,
               ),
               Flexible(
-                  child: Text(hub.adresse == "" ? "Pas d'adresse" : hub.adresse,
+                  child: Text(
+                      ref.read(carteHubProvider).hubList[index].adress ??
+                          "Pas d'adresse",
                       overflow: TextOverflow.ellipsis)),
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () => {
-                  Clipboard.setData(ClipboardData(text: hub.adresse)).then(
-                      (value) => ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                  Clipboard.setData(ClipboardData(
+                          text: ref
+                                  .read(carteHubProvider)
+                                  .hubList[index]
+                                  .adress ??
+                              "Pas d'adresse"))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(const SnackBar(
                               content: Text(
                                   "Adresse copiée dans le presse-papier."))))
                 },
@@ -92,7 +103,11 @@ class HubCard extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                hub.reparations.toString(),
+                ref
+                    .read(carteHubProvider)
+                    .hubList[index]
+                    .reparationsNb
+                    .toString(),
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, color: global_styles.yellow),
               ),
@@ -115,13 +130,14 @@ class HubCard extends StatelessWidget {
                 color: global_styles.greyText,
                 size: 20,
               ),
-              Text(hub.users.toString()),
+              Text(
+                  ref.read(carteHubProvider).hubList[index].usersNb.toString()),
               Image.asset(
                 "assets/pins/green_pin.png",
                 width: 30,
               ),
               Text(
-                hub.bikeParked.toString(),
+                ref.read(carteHubProvider).hubList[index].parkedNb.toString(),
                 style: const TextStyle(color: global_styles.green),
               ),
               Image.asset(
@@ -129,7 +145,7 @@ class HubCard extends StatelessWidget {
                 width: 30,
               ),
               Text(
-                hub.bikeUsed.toString(),
+                ref.read(carteHubProvider).hubList[index].usedNb.toString(),
                 style: const TextStyle(color: global_styles.blue),
               ),
               Image.asset(
@@ -137,7 +153,7 @@ class HubCard extends StatelessWidget {
                 width: 30,
               ),
               Text(
-                hub.bikeRobbed.toString(),
+                ref.read(carteHubProvider).hubList[index].robbedNb.toString(),
                 style: const TextStyle(color: global_styles.orange),
               ),
             ],
@@ -153,8 +169,7 @@ class HubsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HubsProvider hubs = ref.watch(hubsProvider);
-    print("REBUILD LIST");
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
     return Padding(
         padding: const EdgeInsets.only(top: 100, bottom: 60),
         child: FadeListView(
@@ -164,7 +179,7 @@ class HubsList extends ConsumerWidget {
             controller: refreshController,
             onRefresh: () {
               // Refresh incidents
-              hubs.fetchHubs();
+              hubs.fetchHubList();
               refreshController.refreshCompleted();
             },
             onLoading: () {
@@ -174,13 +189,11 @@ class HubsList extends ConsumerWidget {
             },
             child: ListView.builder(
               padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-              itemCount: hubs.hubs.length,
+              itemCount: hubs.hubList.length,
               itemBuilder: (context, index) {
-                // hubController
-                //     .fetchOneHub(hubController.hubs[index].id ?? -1);
                 return GestureDetector(
                   child: HubCard(
-                    hub: hubs.hubs[index],
+                    index: index,
                   ),
                   onTap: () => {
                     // Go to Hub profile ?
@@ -199,7 +212,8 @@ class HubsListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HubsProvider hubs = ref.watch(hubsProvider);
+    // need change to hubLIstprovider
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
     log.d("REBUILD VIEW");
     return Container(
         height: MediaQuery.of(context).size.height,
@@ -214,9 +228,9 @@ class HubsListView extends ConsumerWidget {
                     icon: Icons.other_houses,
                     color: global_styles.orange,
                     text: "Une erreur s'est produite",
-                    action: hubs.fetchHubs)
+                    action: hubs.fetchHubList)
                 // If load is successfull but there are no hubs
-                : hubs.hubs.isEmpty
+                : hubs.hubList.isEmpty
                     ? const InfoEmpty(
                         icon: Icons.other_houses,
                         color: global_styles.greyUnselectedIcon,

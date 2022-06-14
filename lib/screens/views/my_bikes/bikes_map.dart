@@ -7,7 +7,8 @@ import 'package:latlong2/latlong.dart' as lat_long;
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_provider/camera_provider.dart';
@@ -50,25 +51,30 @@ class PopUpClipper extends CustomClipper<Path> {
 }
 
 void onGeoChangeActualize(MapPosition position, bool hasGesture,
-    CameraProvider camera, BikesProvider bikes) {
+    CameraProvider camera, CarteBikeProvider bikeMap) {
+  bool hasFetch = false;
+
   // Handle conflict render GETX / STATE render widget, the onGeoChanged function trigger one time at the start when the widget is not fully built
-  // if (firstTime) {
-  //   firstTime = false;
-  //   return;
-  // }
+  if (camera.firstTime) {
+    camera.firstTime = false;
+    return;
+  }
 
   // When zoom is too large
   if (position.zoom != null) {
-    if ((camera.oldZoom - position.zoom!).abs() > 1) {
+    if ((camera.oldZoom - position.zoom!).abs() > 1 && hasFetch == false) {
       camera.oldZoom = position.zoom!;
-      bikes.fetchAllBikes();
+      bikeMap.fetchBikeMap();
+      hasFetch = true;
     }
   }
   // When map axe x or y movement is too large
   if (position.bounds != null) {
-    if (position.bounds!.contains(camera.oldPosition) == false) {
+    if (position.bounds!.contains(camera.oldPosition) == false &&
+        hasFetch == false) {
       camera.oldPosition = position.center!;
-      bikes.fetchAllBikes();
+      bikeMap.fetchBikeMap();
+      hasFetch = true;
     }
   }
   // When far zoom display map style
@@ -89,17 +95,20 @@ class BikesMap extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final BikesProvider bikes = ref.watch(bikesProvider);
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
     final CameraProvider camera = ref.watch(cameraProvider);
 
     return Stack(children: [
       FlutterMap(
         options: MapOptions(
-          onTap: (tap, pos) => {popupController.hideAllPopups()},
+          onTap: (tap, pos) => {
+            ref.read(carteHubProvider).cleanPopup(),
+            popupController.hideAllPopups()
+          },
           onPositionChanged: (MapPosition position, bool hasGesture) {
             Future(() => {
                   onGeoChangeActualize(position, hasGesture,
-                      ref.read(cameraProvider), ref.read(bikesProvider))
+                      ref.read(cameraProvider), ref.read(carteBikeProvider))
                 });
           },
           center: lat_long.LatLng(47.8, 2.350492773209436),
@@ -133,13 +142,13 @@ class BikesMap extends ConsumerWidget {
             fitBoundsOptions: const FitBoundsOptions(
               padding: EdgeInsets.all(50),
             ),
-            markers: bikes.bikeWithPositionList.map((bike) {
+            markers: bikes.bikeMap.map((bike) {
               return Marker(
                   width: 35.0,
                   height: 80.0,
-                  point: lat_long.LatLng(
-                      bike.pos?.latitude ?? 0, bike.pos?.longitude ?? 0),
-                  builder: (ctx) => Pin(status: bike.mapStatus));
+                  point:
+                      lat_long.LatLng(bike.latitude ?? 0, bike.longitude ?? 0),
+                  builder: (ctx) => Pin(status: bike.mapStatus ?? ""));
             }).toList(),
             polygonOptions: const PolygonOptions(
                 borderColor: Color.fromARGB(0, 255, 255, 255),
@@ -164,8 +173,8 @@ class BikesMap extends ConsumerWidget {
             popupOptions: PopupOptions(
                 popupController: popupController,
                 popupBuilder: (_, marker) {
-                  String popUpName = bikes.buildPopUpContentName(marker);
-                  if (popUpName == "No bikes") {
+                  bikes.fetchPopupBike(marker);
+                  if (bikes.bikePopup == null) {
                     return const SizedBox();
                   }
                   return ClipPath(
@@ -182,7 +191,7 @@ class BikesMap extends ConsumerWidget {
                           Column(
                             children: [
                               Text(
-                                popUpName,
+                                bikes.bikePopup?.name ?? "Pas de nom de vélo",
                                 style: const TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w600,
@@ -196,9 +205,8 @@ class BikesMap extends ConsumerWidget {
                                       fontSize: 18.0, color: Colors.black),
                                   children: <TextSpan>[
                                     TextSpan(
-                                        text:
-                                            bikes.buildPopUpContentLastEmission(
-                                                marker),
+                                        text: bikes.bikePopup?.timestamp ??
+                                            "Pas d'émission",
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold)),
                                   ],
@@ -206,8 +214,9 @@ class BikesMap extends ConsumerWidget {
                               ),
                               const SizedBox(height: 10.0),
                               GestureDetector(
+                                  // to change with actual popup bike id
                                   onTap: () => goToBikeProfileFromMarker(
-                                      marker, ref.read(bikesProvider)),
+                                      marker, ref.read(carteBikeProvider)),
                                   child: Container(
                                     width: double.infinity,
                                     alignment: Alignment.center,
@@ -233,7 +242,10 @@ class BikesMap extends ConsumerWidget {
                             right: 0,
                             top: 0,
                             child: GestureDetector(
-                              onTap: () => popupController.togglePopup(marker),
+                              onTap: () {
+                                ref.read(carteHubProvider).cleanPopup();
+                                popupController.togglePopup(marker);
+                              },
                               child: const SizedBox(
                                   height: 20,
                                   width: 20,

@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
@@ -43,14 +44,13 @@ class MyBikesView extends ConsumerWidget {
   //   }
   //   mapBikesController.fetchAllBikes();
 
-  //   // mapBikeController.didNotFoundBikesWithPosition.value = true;
   //   // mapBikeController.isLoading.value = true;
   // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HubsProvider hubs = ref.watch(hubsProvider);
-    final BikesProvider bikes = ref.watch(bikesProvider);
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
     final MapViewProvider view = ref.watch(mapViewProvider);
 
     // init();
@@ -82,6 +82,7 @@ class MyBikesView extends ConsumerWidget {
                         children: [
                           ButtonAccount(),
                           const SizedBox(width: 5),
+                          // dynamic provider
                           view.isActiveMapView(WhichMapView.hubView)
                               ? const ButtonSearchHub()
                               : const ButtonSearchVelo(),
@@ -91,8 +92,8 @@ class MyBikesView extends ConsumerWidget {
                         GestureDetector(
                           onTap: () => {
                             view.isActiveMapView(WhichMapView.hubView)
-                                ? hubs.fetchHubs()
-                                : bikes.fetchAllBikes()
+                                ? hubs.fetch(view.isMapOrList(MapOrList.list))
+                                : bikes.fetch(view.isMapOrList(MapOrList.list))
                           },
                           child: TitleAppBar(
                             onTransparentBackground:
@@ -104,9 +105,9 @@ class MyBikesView extends ConsumerWidget {
                         )
                       ]),
                       Row(children: [
-                        view.isActiveMapView(WhichMapView.hubView)
-                            ? const SizedBox(width: 40)
-                            : const ButtonFilter(),
+                        view.isActiveMapView(WhichMapView.bikeView)
+                            ? const ButtonFilter()
+                            : const SizedBox(width: 40),
                         const SizedBox(width: 5),
                         const ButtonScan()
                       ]),
@@ -153,7 +154,8 @@ class MyBikesView extends ConsumerWidget {
                 InfoNotFound(
                     color: global_styles.blue,
                     text: "Aucun résultat",
-                    isVisible: bikes.didNotFoundBikesWithPosition &&
+                    isVisible: bikes.bikeMap.isEmpty &&
+                        bikes.isLoadingBikes == false &&
                         view.isActiveMapView(WhichMapView.bikeView) &&
                         view.isMapOrList(MapOrList.map)),
               ],
@@ -169,7 +171,7 @@ class MyBikesView extends ConsumerWidget {
               ? hubs.displaySearch
                   ? SearchBarHub()
                   : const SizedBox()
-              : bikes.displaySearch
+              : bikes.filter.displaySearch
                   ? SearchBarVelo()
                   : const SizedBox(),
           const SizedBox(),

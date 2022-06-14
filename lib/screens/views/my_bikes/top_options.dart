@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
+import 'package:velyvelo/models/carte/bike_map_model.dart';
 
 class SwitchButton extends StatelessWidget {
   final String textButton;
@@ -67,7 +69,9 @@ class TopSwitch extends ConsumerWidget {
           children: [
             GestureDetector(
                 onTap: () {
-                  if (!ref.read(mapViewProvider).isMapOrList(MapOrList.map)) {
+                  if (ref.read(mapViewProvider).isMapOrList(MapOrList.list)) {
+                    ref.read(carteBikeProvider).fetch(false);
+                    ref.read(carteHubProvider).fetch(false);
                     ref.read(mapViewProvider).toggleMapOrList(MapOrList.map);
                   }
                 },
@@ -76,7 +80,9 @@ class TopSwitch extends ConsumerWidget {
                     isActive: view.isMapOrList(MapOrList.map))),
             GestureDetector(
                 onTap: () {
-                  if (!ref.read(mapViewProvider).isMapOrList(MapOrList.list)) {
+                  if (ref.read(mapViewProvider).isMapOrList(MapOrList.map)) {
+                    ref.read(carteBikeProvider).fetch(true);
+                    ref.read(carteHubProvider).fetch(true);
                     ref.read(mapViewProvider).toggleMapOrList(MapOrList.list);
                   }
                 },
@@ -181,7 +187,7 @@ class TopOptions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final BikesProvider bikes = ref.watch(bikesProvider);
+    final CarteBikeProvider bikeMap = ref.watch(carteBikeProvider);
 
     return (Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -201,7 +207,7 @@ class TopOptions extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10.0),
                       TopButton(
-                        isLoading: bikes.isLoadingFilters,
+                        isLoading: bikeMap.filter.isLoadingGroups,
                         iconButton: Icons.filter_list_outlined,
                         actionFunction: showFilters,
                       ),

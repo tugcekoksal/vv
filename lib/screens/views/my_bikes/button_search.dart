@@ -5,11 +5,14 @@ import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Components
 import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:velyvelo/controllers/map_provider/camera_provider.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 // Controllers
 import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
@@ -19,13 +22,14 @@ class ButtonSearchVelo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final BikesProvider bikes = ref.watch(bikesProvider);
+    final CarteBikeProvider bikeMap = ref.watch(carteBikeProvider);
     return Stack(children: [
       TopButton(
-          actionFunction: () => {ref.read(bikesProvider).toggleSearch(true)},
+          actionFunction: () =>
+              {ref.read(carteBikeProvider).toggleSearch(true)},
           isLoading: false,
           iconButton: Icons.search),
-      bikes.searchText == ""
+      bikeMap.filter.searchText == ""
           ? const SizedBox(height: 0, width: 0)
           : Positioned(
               right: 3,
@@ -51,7 +55,7 @@ class SearchBarVelo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    textInputController.text = ref.read(bikesProvider).searchText;
+    textInputController.text = ref.read(carteBikeProvider).filter.searchText;
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
@@ -64,7 +68,8 @@ class SearchBarVelo extends ConsumerWidget {
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
-                onPressed: () => {ref.read(bikesProvider).toggleSearch(false)},
+                onPressed: () =>
+                    {ref.read(carteBikeProvider).toggleSearch(false)},
                 icon: const Icon(Icons.arrow_back_ios)),
             SizedBox(
               width: screenWidth * 0.5,
@@ -74,8 +79,9 @@ class SearchBarVelo extends ConsumerWidget {
                     border: InputBorder.none, hintText: "Rechercher un vélo"),
                 controller: textInputController,
                 onChanged: (value) => {
-                  ref.read(bikesProvider).searchText = value,
-                  ref.read(bikesProvider).bikesBySearch(),
+                  ref.read(carteBikeProvider).filter.searchText = value,
+                  ref.read(carteBikeProvider).fetch(
+                      ref.read(mapViewProvider).isMapOrList(MapOrList.list))
                 },
               ),
             ),
@@ -85,8 +91,10 @@ class SearchBarVelo extends ConsumerWidget {
                 IconButton(
                     onPressed: () => {
                           textInputController.text = "",
-                          ref.read(bikesProvider).searchText = "",
-                          ref.read(bikesProvider).bikesBySearch(),
+                          ref.read(carteBikeProvider).filter.searchText = "",
+                          ref.read(carteBikeProvider).fetch(ref
+                              .read(mapViewProvider)
+                              .isMapOrList(MapOrList.list))
                         },
                     icon: const Icon(Icons.close)),
               ],
@@ -101,11 +109,11 @@ class ButtonSearchHub extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HubsProvider hubs = ref.watch(hubsProvider);
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
 
     return Stack(children: [
       TopButton(
-          actionFunction: () => {ref.read(hubsProvider).toggleSearch(true)},
+          actionFunction: () => {ref.read(carteHubProvider).toggleSearch(true)},
           isLoading: false,
           iconButton: Icons.search),
       hubs.searchText == ""
@@ -134,7 +142,7 @@ class SearchBarHub extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HubsProvider hubs = ref.watch(hubsProvider);
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
     textInputController.text = hubs.searchText;
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
@@ -148,7 +156,8 @@ class SearchBarHub extends ConsumerWidget {
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
-                onPressed: () => {ref.read(hubsProvider).toggleSearch(false)},
+                onPressed: () =>
+                    {ref.read(carteHubProvider).toggleSearch(false)},
                 icon: const Icon(Icons.arrow_back_ios)),
             SizedBox(
               width: screenWidth * 0.5,
@@ -159,7 +168,8 @@ class SearchBarHub extends ConsumerWidget {
                 controller: textInputController,
                 onChanged: (value) => {
                   hubs.searchText = value,
-                  hubs.hubsBySearch(),
+                  hubs.fetch(
+                      ref.read(mapViewProvider).isMapOrList(MapOrList.list))
                 },
               ),
             ),
@@ -170,7 +180,7 @@ class SearchBarHub extends ConsumerWidget {
                     onPressed: () => {
                           textInputController.text = "",
                           hubs.searchText = "",
-                          hubs.hubsBySearch(),
+                          hubs.fetchHubMap()
                         },
                     icon: const Icon(Icons.close)),
               ],

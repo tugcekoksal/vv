@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/models/carte/bike_map_model.dart';
 
-import 'package:velyvelo/models/map/map_model.dart';
 import 'package:velyvelo/screens/views/bike_profile/bike_profile_view.dart';
 
 Future<void> goToBikeProfileFromMarker(
-    Marker marker, BikesProvider bikes) async {
-  MapModel bike = bikes.getBikeFromMarker(marker);
+    Marker marker, CarteBikeProvider bikeMap) async {
+  BikeMapModel bike = bikeMap.getBikeFromMarker(marker);
   Get.to(
       () => Scaffold(
           resizeToAvoidBottomInset: true,
           body: MyBikeView(
             isFromScan: false,
-            veloPk: bike.veloPk,
+            veloPk: bike.id ?? -1,
           )),
       transition: Transition.downToUp,
       duration: const Duration(milliseconds: 400));

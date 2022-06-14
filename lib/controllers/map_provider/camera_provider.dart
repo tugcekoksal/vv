@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
 // Handle camera and zoom position on the map
-final cameraProvider = ChangeNotifierProvider<CameraProvider>((ref) {
+final cameraProvider =
+    ChangeNotifierProvider.autoDispose<CameraProvider>((ref) {
   return CameraProvider();
 });
 
@@ -12,6 +13,7 @@ class CameraProvider extends ChangeNotifier {
   bool streetView = true;
   double oldZoom = 0;
   LatLng oldPosition = LatLng(0, 0);
+  bool firstTime = true;
 
   void toggleStreetView(bool view) {
     streetView = view;

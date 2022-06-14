@@ -26,6 +26,13 @@ double? getDoubleFromStringOrNull(dynamic elem) {
   return double.tryParse(elem);
 }
 
+double? getDoubleOrNull(dynamic elem) {
+  if (elem == null || elem.runtimeType != double) {
+    return null;
+  }
+  return elem;
+}
+
 class IdAndName {
   int? id;
   String? name;

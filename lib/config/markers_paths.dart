@@ -10,5 +10,6 @@ const Map markersPaths = {
 const Map markersColor = {
   "Volé": global_styles.orange,
   "Rangé": global_styles.green,
-  "Utilisé": global_styles.blue
+  "Utilisé": global_styles.blue,
+  "": global_styles.backgroundDarkGrey
 };

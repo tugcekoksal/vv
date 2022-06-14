@@ -1,28 +1,30 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Controllers
 import 'package:velyvelo/models/hubs/hub_map.dart';
 
 class HubPopup extends StatelessWidget {
-  final HubModel hub;
-
-  const HubPopup({Key? key, required this.hub}) : super(key: key);
+  final CarteHubProvider hubs;
+  const HubPopup({Key? key, required this.hubs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Flexible(
-          child: Text(hub.groupName ?? "Pas de nom de groupe",
+          child: Text(hubs.hubPopup?.name ?? "Pas de nom de groupe",
               overflow: TextOverflow.ellipsis,
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
       Text(
-        hub.clientName ?? "Pas de nom de client",
+        hubs.hubPopup?.clientName ?? "Pas de nom de client",
         style: const TextStyle(fontSize: 12),
       ),
       const SizedBox(
@@ -39,12 +41,13 @@ class HubPopup extends StatelessWidget {
           ),
           const SizedBox(width: 5),
           Flexible(
-              child: Text(hub.adresse == "" ? "Pas d'adresse" : hub.adresse,
+              child: Text(hubs.hubPopup?.adress ?? "Pas d'adresse",
                   overflow: TextOverflow.ellipsis)),
           GestureDetector(
             onTap: () => {
-              Clipboard.setData(ClipboardData(text: hub.adresse)).then(
-                  (value) => ScaffoldMessenger.of(context).showSnackBar(
+              Clipboard.setData(ClipboardData(
+                      text: hubs.hubPopup?.adress ?? "Pas d'adresse"))
+                  .then((value) => ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                           content:
                               Text("Adresse copiée dans le presse-papier."))))
@@ -67,12 +70,12 @@ class HubPopup extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            hub.reparations.toString(),
+            (hubs.hubPopup?.reparationsNb).toString(),
             style: const TextStyle(
                 fontWeight: FontWeight.bold, color: global_styles.yellow),
           ),
           const Text(
-            " réparations à effectuer.",
+            " réparations.",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
@@ -88,13 +91,13 @@ class HubPopup extends StatelessWidget {
             color: global_styles.greyText,
             size: 20,
           ),
-          Text(hub.users.toString()),
+          Text((hubs.hubPopup?.usersNb).toString()),
           Image.asset(
             "assets/pins/green_pin.png",
             width: 30,
           ),
           Text(
-            hub.bikeParked.toString(),
+            (hubs.hubPopup?.parkedNb).toString(),
             style: const TextStyle(color: global_styles.green),
           ),
           Image.asset(
@@ -102,7 +105,7 @@ class HubPopup extends StatelessWidget {
             width: 30,
           ),
           Text(
-            hub.bikeUsed.toString(),
+            (hubs.hubPopup?.usedNb).toString(),
             style: const TextStyle(color: global_styles.blue),
           ),
           Image.asset(
@@ -110,7 +113,7 @@ class HubPopup extends StatelessWidget {
             width: 30,
           ),
           Text(
-            hub.bikeRobbed.toString(),
+            (hubs.hubPopup?.robbedNb).toString(),
             style: const TextStyle(color: global_styles.orange),
           ),
         ],

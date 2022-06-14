@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Provider
-import 'package:velyvelo/controllers/bike_provider/bikes_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 class BuildButtonSelectedFilter extends StatelessWidget {
   final String text;
@@ -46,16 +47,61 @@ class BuildButtonSelectedFilter extends StatelessWidget {
   }
 }
 
+class PopUpFiltersBikeList extends ConsumerWidget {
+  const PopUpFiltersBikeList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
+    return Wrap(
+        spacing: 4.0,
+        direction: Axis.horizontal,
+        children: bikes.filter.selectedGroupsList.isEmpty
+            ? [const Text("Aucuns groupes séléctionnés")]
+            : bikes.filter.availableGroupsList
+                .map((filterLabel) =>
+                    bikes.filter.selectedGroupsList.contains(filterLabel)
+                        ? BuildButtonSelectedFilter(
+                            text: filterLabel, setFilters: bikes.setFilters)
+                        : const SizedBox(
+                            height: 0,
+                            width: 0,
+                          ))
+                .toList());
+  }
+}
+
+class PopUpFiltersBikeMap extends ConsumerWidget {
+  const PopUpFiltersBikeMap({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
+    return Wrap(
+        spacing: 4.0,
+        direction: Axis.horizontal,
+        children: bikes.filter.selectedGroupsList.isEmpty
+            ? [const Text("Aucuns groupes séléctionnés")]
+            : bikes.filter.availableGroupsList
+                .map((filterLabel) =>
+                    bikes.filter.selectedGroupsList.contains(filterLabel)
+                        ? BuildButtonSelectedFilter(
+                            text: filterLabel, setFilters: bikes.setFilters)
+                        : const SizedBox(
+                            height: 0,
+                            width: 0,
+                          ))
+                .toList());
+  }
+}
+
 class PopUpListFilters extends ConsumerWidget {
   final ScrollController scrollController = ScrollController();
-
   PopUpListFilters({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     double screenHeight = MediaQuery.of(context).size.height;
-    final BikesProvider bikes = ref.watch(bikesProvider);
-
     return Container(
         constraints: BoxConstraints(maxHeight: screenHeight * 0.15),
         child: Row(children: [
@@ -67,22 +113,9 @@ class PopUpListFilters extends ConsumerWidget {
               controller: scrollController,
               shrinkWrap: true,
               children: [
-                Wrap(
-                    spacing: 4.0,
-                    direction: Axis.horizontal,
-                    children: bikes.selectedFiltersList.isEmpty
-                        ? [const Text("Aucuns groupes séléctionnés")]
-                        : bikes.availableFiltersList
-                            .map((filterLabel) =>
-                                bikes.selectedFiltersList.contains(filterLabel)
-                                    ? BuildButtonSelectedFilter(
-                                        text: filterLabel,
-                                        setFilters: bikes.setFilters)
-                                    : const SizedBox(
-                                        height: 0,
-                                        width: 0,
-                                      ))
-                            .toList()),
+                ref.read(mapViewProvider).isMapOrList(MapOrList.list)
+                    ? const PopUpFiltersBikeList()
+                    : const PopUpFiltersBikeMap()
               ],
             ),
           ))

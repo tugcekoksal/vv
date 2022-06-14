@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/config/markers_paths.dart';
+import 'package:velyvelo/models/carte/hub_map_model.dart';
 
 // Controllers
 import 'package:velyvelo/models/hubs/hub_map.dart';
@@ -36,7 +37,7 @@ class Pin extends StatelessWidget {
 }
 
 class HubPin extends StatelessWidget {
-  final HubPinModel hub;
+  final HubMapModel hub;
 
   const HubPin({Key? key, required this.hub}) : super(key: key);
 
@@ -61,7 +62,7 @@ class HubPin extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Image.network(
-                HttpService.urlServer + hub.pictureUrl!,
+                HttpService.urlServer + (hub.pictureUrl ?? ""),
                 errorBuilder: (context, child, loadingProgress) => const Icon(
                   Icons.other_houses,
                   color: Colors.white,
