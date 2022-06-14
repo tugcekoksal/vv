@@ -54,7 +54,7 @@ class IncidentController extends GetxController {
       status: []).obs;
 
   var incidentsToFetch = RefreshIncidentModel(
-          statusList: ["Nouvelle", "En cours", "Terminé"],
+          statusList: ["Nouvelle", "Planifié", "Terminé"],
           newestId: null,
           count: null)
       .obs;
@@ -264,7 +264,7 @@ class IncidentController extends GetxController {
         count: incidentList.length);
 
     if (incidentFilters.isEmpty) {
-      incidentsToFetchFilter.statusList = ["Nouvelle", "En cours", "Terminé"];
+      incidentsToFetchFilter.statusList = ["Nouvelle", "Planifié", "Terminé"];
     }
     try {
       var incidents = await HttpService.fetchAllIncidents(
@@ -284,7 +284,7 @@ class IncidentController extends GetxController {
 
     if (incidentFilters.isEmpty) {
       incidentsToFetchFilter =
-          RefreshIncidentModel(statusList: ["Nouvelle", "En cours", "Terminé"]);
+          RefreshIncidentModel(statusList: ["Nouvelle", "Planifié", "Terminé"]);
     } else {
       incidentsToFetchFilter =
           RefreshIncidentModel(statusList: incidentFilters);

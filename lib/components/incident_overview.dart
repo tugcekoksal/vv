@@ -43,17 +43,17 @@ class IncidentsOverview extends StatelessWidget {
                 })),
             const SizedBox(width: 25.0),
             GestureDetector(
-                onTap: () => setFilterTab("En cours"),
+                onTap: () => setFilterTab("Planifié"),
                 child: Obx(() {
                   return Opacity(
                       opacity: incidentController.incidentFilters
-                              .contains("En cours")
+                              .contains("Planifié")
                           ? 1
                           : 0.5,
                       child: BuildStatus(
                           numberOfTile:
                               incidentController.nbOfProgressIncidents.value,
-                          title: "En cours",
+                          title: "Planifié",
                           backgroundColor: global_styles.yellow));
                 })),
             const SizedBox(width: 25.0),
