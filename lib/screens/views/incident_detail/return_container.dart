@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_provider/bike_profile_provider.dart';
-import 'package:velyvelo/screens/views/scanView.dart';
+import 'package:velyvelo/screens/views/scan_view.dart';
 
 const longText = 14;
 

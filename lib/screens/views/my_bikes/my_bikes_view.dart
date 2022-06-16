@@ -6,7 +6,6 @@ import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
 import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Global Styles like colors
-import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 

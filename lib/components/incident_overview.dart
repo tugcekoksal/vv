@@ -8,12 +8,14 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:velyvelo/controllers/login_controller.dart';
 
 class IncidentsOverview extends StatelessWidget {
   IncidentsOverview({Key? key, required this.setFilterTab}) : super(key: key);
 
   final Function setFilterTab;
   final IncidentController incidentController = Get.put(IncidentController());
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +44,22 @@ class IncidentsOverview extends StatelessWidget {
                           backgroundColor: global_styles.blue));
                 })),
             const SizedBox(width: 25.0),
-            GestureDetector(
-                onTap: () => setFilterTab("Planifié"),
-                child: Obx(() {
-                  return Opacity(
-                      opacity: incidentController.incidentFilters
-                              .contains("Planifié")
-                          ? 1
-                          : 0.5,
-                      child: BuildStatus(
-                          numberOfTile:
-                              incidentController.nbOfProgressIncidents.value,
-                          title: "Planifié",
-                          backgroundColor: global_styles.yellow));
-                })),
+            loginController.isTech.value
+                ? const SizedBox()
+                : GestureDetector(
+                    onTap: () => setFilterTab("Planifié"),
+                    child: Obx(() {
+                      return Opacity(
+                          opacity: incidentController.incidentFilters
+                                  .contains("Planifié")
+                              ? 1
+                              : 0.5,
+                          child: BuildStatus(
+                              numberOfTile: incidentController
+                                  .nbOfProgressIncidents.value,
+                              title: "Planifié",
+                              backgroundColor: global_styles.yellow));
+                    })),
             const SizedBox(width: 25.0),
             GestureDetector(
                 onTap: () => setFilterTab("Terminé"),

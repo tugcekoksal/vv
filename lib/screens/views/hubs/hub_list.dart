@@ -9,8 +9,6 @@ import 'package:velyvelo/helpers/logger.dart';
 
 // Globals styles
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
-import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 

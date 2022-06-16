@@ -9,7 +9,6 @@ import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
-import 'package:velyvelo/models/carte/bike_map_model.dart';
 
 class SwitchButton extends StatelessWidget {
   final String textButton;

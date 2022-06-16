@@ -5,6 +5,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
@@ -94,6 +95,8 @@ class IncidentDeclarationController extends GetxController {
   var veloFormNotCompleted = "".obs;
   var success = "".obs;
 
+  final log = logger(IncidentController);
+
   @override
   void onInit() {
     userToken = Get.find<LoginController>().userToken;
@@ -119,7 +122,6 @@ class IncidentDeclarationController extends GetxController {
 
   // Client DropDown - BEGIN //
   void fetchClientLabels() async {
-    print("Fetch");
     // Client labels are loading
     infosSelection.update((val) {
       val?.infoClient.isLoading = true;
@@ -144,7 +146,7 @@ class IncidentDeclarationController extends GetxController {
         val?.infoClient.listOptions = clientLabels;
       });
     } catch (e) {
-      print(e);
+      log.e(e.toString());
       // Message error from server / handle front error
     }
 
@@ -152,7 +154,6 @@ class IncidentDeclarationController extends GetxController {
     infosSelection.update((val) {
       val?.infoClient.isLoading = false;
     });
-    print("End Fetch");
   }
 
   void setClientLabel(String value) {
@@ -202,8 +203,7 @@ class IncidentDeclarationController extends GetxController {
         val?.infoGroup.listOptions = groupLabels;
       });
     } catch (e) {
-      print(e);
-      // Message error from server / handle front error
+      log.e(e.toString());
     }
 
     // Client labels finished loading
@@ -245,9 +245,8 @@ class IncidentDeclarationController extends GetxController {
       infosSelection.update((val) {
         val?.infoVelo.listOptions = veloLabels;
       });
-      // print(infosSelection.value.info);
     } catch (e) {
-      print(e);
+      log.e(e.toString());
       // Message error from server / handle front error
     }
 
@@ -285,7 +284,7 @@ class IncidentDeclarationController extends GetxController {
         val?.listOptions = incidentLabels;
       });
     } catch (e) {
-      print(e);
+      log.e(e.toString());
     }
     incidentTypeSelection.update((val) {
       val?.isLoading = false;
@@ -386,9 +385,8 @@ class IncidentDeclarationController extends GetxController {
             await HttpService.setIncident(incidentToSend, userToken);
         success.value = incidentSent;
         Get.find<IncidentController>().refreshIncidentsList();
-        print(incidentSent);
       } catch (e) {
-        print(e);
+        log.e(e.toString());
         return false;
       }
     }).toList();

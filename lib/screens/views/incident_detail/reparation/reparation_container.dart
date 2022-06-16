@@ -30,6 +30,8 @@ class ReparationContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget gotoWidget = SizedBox(height: 0, width: 0, key: keyWidget);
     incidentController.fetchPieceFromType();
+    bool disabled = loginController.isTech.value &&
+        incidentController.currentReparation.value.statusBike == "Terminé";
     // incidentController.currentReparation.refresh();
     return Obx(() {
       if (loginController.isAdminOrTech.value) {
@@ -51,14 +53,17 @@ class ReparationContainer extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
                 // Cause status of incident
-                CauseModif(incidentController: incidentController),
+                CauseModif(
+                    incidentController: incidentController, disabled: disabled),
                 const SizedBox(height: 25.0),
                 // Handler of photos adding and photos listing for the reparation
-                PhotosModif(incidentController: incidentController),
+                PhotosModif(
+                    incidentController: incidentController, disabled: disabled),
                 const SizedBox(height: 25.0),
                 // Handler of the selection of a piece for reparation
                 // and of the listing and deletion of selected pieces
-                PiecesModif(incidentController: incidentController),
+                PiecesModif(
+                    incidentController: incidentController, disabled: disabled),
                 const Text("Commentaire",
                     style: TextStyle(
                         color: global_styles.purple,
@@ -66,6 +71,7 @@ class ReparationContainer extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
                 TextField(
+                  enabled: !disabled,
                   onTap: () =>
                       {Scrollable.ensureVisible(keyWidget.currentContext!)},
                   controller:
@@ -101,16 +107,9 @@ class ReparationContainer extends StatelessWidget {
                 gotoWidget,
                 // Handler of is functionnal velo or status name of the velo
                 const SizedBox(height: 25.0),
-                StatutVeloModif(incidentController: incidentController),
+                StatutVeloModif(
+                    incidentController: incidentController, disabled: disabled),
                 const SizedBox(height: 25.0),
-
-                // Obx(() {
-                //   if (incidentController.error.value == "")
-                //     return SizedBox(
-                //       height: MediaQuery.of(context).viewInsets.bottom,
-                //     );
-                //   return SizedBox.expand();
-                // }),
               ],
             ));
       } else {

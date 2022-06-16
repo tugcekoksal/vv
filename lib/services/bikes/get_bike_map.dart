@@ -4,9 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';
 
-// Models
-import 'package:velyvelo/models/map/map_model.dart';
-
 Future<List<BikeMapModel>> fetchBikeMapService(
     String urlServer,
     List<String> filtersList,

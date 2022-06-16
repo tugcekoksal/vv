@@ -150,7 +150,6 @@ class LoginController extends GetxController {
     try {
       var userTypeFetched = await HttpService.fetchTypeUser(userToken);
 
-      print("USER FETCHED: " + userTypeFetched);
       if (userTypeFetched == "Client") {
         isClient(true);
         userType = "Client";
@@ -170,7 +169,7 @@ class LoginController extends GetxController {
       }
       isLogged(true);
     } catch (e) {
-      print(e);
+      log.e(e.toString());
     }
   }
 

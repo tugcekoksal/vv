@@ -24,7 +24,6 @@ Future<String> loginUserService(
   if (response.statusCode >= 400) {
     throw "Les informations fournies sont invalides";
   }
-  print(body);
   // If server valid response
   return loginModelFromJson(body).token;
 }

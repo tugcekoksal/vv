@@ -7,7 +7,6 @@ import 'package:velyvelo/config/markers_paths.dart';
 import 'package:velyvelo/models/carte/hub_map_model.dart';
 
 // Controllers
-import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class Pin extends StatelessWidget {

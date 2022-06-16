@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/helpers/logger.dart';
 
 class PickImage extends StatelessWidget {
   final Function setItem;
   final String text;
+  final log = logger(PickImage);
 
-  const PickImage({Key? key, required this.setItem, required this.text})
+  PickImage({Key? key, required this.setItem, required this.text})
       : super(key: key);
 
   Future<File?> pickImage(context) async {
@@ -37,7 +39,7 @@ class PickImage extends StatelessWidget {
       final imageTemporary = File(_currentImage.path);
       return imageTemporary;
     } catch (e) {
-      print('Failed to pick image: $e');
+      log.e(e.toString());
     }
     return null;
   }

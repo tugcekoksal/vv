@@ -9,7 +9,6 @@ import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';
-import 'package:velyvelo/screens/views/hubs/hub_popup.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';

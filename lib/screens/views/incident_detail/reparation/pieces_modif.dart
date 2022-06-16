@@ -12,8 +12,9 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 class PieceSelection extends StatelessWidget {
   final IncidentController incidentController;
   final ScrollController scrollController = ScrollController();
-
-  PieceSelection({Key? key, required this.incidentController})
+  final bool disabled;
+  PieceSelection(
+      {Key? key, required this.incidentController, required this.disabled})
       : super(key: key);
 
   @override
@@ -21,74 +22,86 @@ class PieceSelection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Séléctionner une pièce",
-            style: TextStyle(
-                color: global_styles.greyText,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w600)),
-        const SizedBox(height: 25.0),
-        Obx(() {
-          return Column(
-            children: [
-              DropDown(
-                placeholder: incidentController
-                        .currentReparation.value.typeIntervention.name ??
-                    "Error type intervention",
-                dropdownItemList: incidentController
-                    .currentReparation.value.typeInterventionList
-                    .map((intervention) =>
-                        intervention.name ?? "Error type intervention")
-                    .toList(),
-                setItem: incidentController.setTypeIntervention,
-              ),
-              const SizedBox(height: 10.0),
-              DropDown(
-                placeholder: incidentController
-                        .currentReparation.value.typeReparation.name ??
-                    "Error type reparation",
-                dropdownItemList: incidentController
-                    .currentReparation.value.typeReparationList
-                    .map((reparation) =>
-                        reparation.name ?? "Error type reparation")
-                    .toList(),
-                setItem: incidentController.setTypeReparation,
-              ),
-              const SizedBox(height: 10.0),
-              Obx(() {
-                return DropDown(
-                  placeholder: "Pièce",
-                  dropdownItemList: incidentController
-                      .currentReparation.value.piecesList
-                      .map((piece) => piece.name ?? "Error piece name")
-                      .toList(),
-                  setItem: incidentController.setPiece,
-                );
-              }),
-              const SizedBox(height: 25.0),
-              Center(
-                child: GestureDetector(
-                  onTap: () async {
-                    incidentController.addPiece();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: global_styles.blue,
+        disabled
+            ? const SizedBox()
+            : const Text("Séléctionner une pièce",
+                style: TextStyle(
+                    color: global_styles.greyText,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600)),
+        disabled ? const SizedBox() : const SizedBox(height: 25.0),
+        Column(
+          children: [
+            disabled
+                ? const SizedBox()
+                : Obx(() {
+                    return DropDown(
+                      placeholder: incidentController
+                              .currentReparation.value.typeIntervention.name ??
+                          "Error type intervention",
+                      dropdownItemList: incidentController
+                          .currentReparation.value.typeInterventionList
+                          .map((intervention) =>
+                              intervention.name ?? "Error type intervention")
+                          .toList(),
+                      setItem: incidentController.setTypeIntervention,
+                    );
+                  }),
+            disabled ? const SizedBox() : const SizedBox(height: 10.0),
+            disabled
+                ? const SizedBox()
+                : Obx(() {
+                    return DropDown(
+                      placeholder: incidentController
+                              .currentReparation.value.typeReparation.name ??
+                          "Error type reparation",
+                      dropdownItemList: incidentController
+                          .currentReparation.value.typeReparationList
+                          .map((reparation) =>
+                              reparation.name ?? "Error type reparation")
+                          .toList(),
+                      setItem: incidentController.setTypeReparation,
+                    );
+                  }),
+            disabled ? const SizedBox() : const SizedBox(height: 10.0),
+            disabled
+                ? const SizedBox()
+                : Obx(() {
+                    return DropDown(
+                      placeholder: "Pièce",
+                      dropdownItemList: incidentController
+                          .currentReparation.value.piecesList
+                          .map((piece) => piece.name ?? "Error piece name")
+                          .toList(),
+                      setItem: incidentController.setPiece,
+                    );
+                  }),
+            disabled ? const SizedBox() : const SizedBox(height: 25.0),
+            disabled
+                ? const SizedBox()
+                : Center(
+                    child: GestureDetector(
+                      onTap: () async {
+                        incidentController.addPiece();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: global_styles.blue,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 25.0, vertical: 12.0),
+                        child: const Text("Ajouter la pièce",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.w600)),
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 12.0),
-                    child: const Text("Ajouter la pièce",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.w600)),
                   ),
-                ),
-              ),
-            ],
-          );
-        }),
-        const SizedBox(height: 40),
+          ],
+        ),
+        disabled ? const SizedBox() : const SizedBox(height: 40),
         const Text("Mes pièces",
             style: TextStyle(
                 color: global_styles.greyText,
@@ -145,8 +158,10 @@ class PieceSelection extends StatelessWidget {
 
 class PiecesModif extends StatelessWidget {
   final IncidentController incidentController;
+  final bool disabled;
 
-  const PiecesModif({Key? key, required this.incidentController})
+  const PiecesModif(
+      {Key? key, required this.incidentController, required this.disabled})
       : super(key: key);
 
   @override
@@ -158,21 +173,25 @@ class PiecesModif extends StatelessWidget {
               fontSize: 17.0,
               fontWeight: FontWeight.w600)),
       const SizedBox(height: 10.0),
-      Obx(() {
-        return Row(
-          children: [
-            Checkbox(
-                value: incidentController.currentReparation.value.noPieces,
-                onChanged: (value) {
-                  incidentController.setNoPieces(value);
-                }),
-            const Text("Aucunes pièces utilisées")
-          ],
-        );
-      }),
+      disabled
+          ? const SizedBox()
+          : Obx(() {
+              return Row(
+                children: [
+                  Checkbox(
+                      value:
+                          incidentController.currentReparation.value.noPieces,
+                      onChanged: (value) {
+                        incidentController.setNoPieces(value);
+                      }),
+                  const Text("Aucunes pièces utilisées")
+                ],
+              );
+            }),
       Obx(() {
         if (incidentController.currentReparation.value.noPieces == false) {
-          return PieceSelection(incidentController: incidentController);
+          return PieceSelection(
+              incidentController: incidentController, disabled: disabled);
         }
         return const SizedBox();
       })

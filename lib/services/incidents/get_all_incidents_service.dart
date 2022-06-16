@@ -1,13 +1,17 @@
 // Vendor
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/helpers/logger.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
+import 'package:velyvelo/services/http_service.dart';
 
 Future fetchAllIncidentsService(String urlServer,
     RefreshIncidentModel incidentsToFetch, String userToken) async {
+  final log = logger(HttpService);
+
   var request = http.Request("GET", Uri.parse("$urlServer/api/listIncidents/"));
   var headers = {
     "Authorization": 'Token $userToken',
@@ -24,10 +28,10 @@ Future fetchAllIncidentsService(String urlServer,
     IncidentsModel incidents = incidentsModelFromJson(responseStr);
     return incidents;
   } else if (response.statusCode == 403) {
-    print(response.statusCode);
+    log.e(response.statusCode);
     throw Exception("No data currently available");
   } else {
-    print(response.statusCode);
+    log.e(response.statusCode);
     throw Exception("No data currently available s");
   }
 }
@@ -39,7 +43,6 @@ Future fetchIncidentService(
       headers: {"Authorization": "Token $userToken"});
 
   if (response.statusCode == 200) {
-    // print(response.body);
     return utf8.decode(response.bodyBytes);
   } else {
     throw Exception("Error getting reparation infos with pk");

@@ -1,12 +1,12 @@
 // Vendor
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';
 import 'package:velyvelo/models/carte/hub_list_model.dart';
 import 'package:velyvelo/models/carte/hub_map_model.dart';
-import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 // Models
@@ -40,6 +40,8 @@ class HttpService {
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
+    final log = logger(HttpService);
+
     String? userDeviceToken = await FirebaseMessaging.instance.getToken();
     var request =
         http.MultipartRequest('POST', Uri.parse("$urlServer/api/assignUID/"));
@@ -52,9 +54,9 @@ class HttpService {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print("Token successfully added");
+      log.d("Token successfully added");
     } else {
-      print('Token : error while adding to db');
+      log.e('Token : error while adding to db');
     }
   }
 

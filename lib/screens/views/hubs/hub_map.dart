@@ -1,17 +1,13 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Vendor
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as lat_long;
 import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
-import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/map_provider/camera_provider.dart';
-import 'package:velyvelo/models/carte/hub_map_model.dart';
 
 // Controllers
 import 'package:velyvelo/screens/views/hubs/hub_popup.dart';

@@ -9,6 +9,7 @@ import 'package:velyvelo/config/url_to_file.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
@@ -88,6 +89,7 @@ class IncidentController extends GetxController {
 
   RxBool displaySearch = false.obs;
   RxString searchText = "".obs;
+  final log = logger(IncidentController);
 
   void incidentsBySearch() {
     String theSearch = searchText.value.toUpperCase();
@@ -236,7 +238,7 @@ class IncidentController extends GetxController {
       error.value = "";
     } catch (e) {
       isLoading(false);
-      print("error incident $e");
+      log.e(e.toString());
       error.value =
           "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
     }
@@ -253,7 +255,7 @@ class IncidentController extends GetxController {
       }
       isLoadingDetailIncident(false);
     } catch (e) {
-      print(e);
+      log.e(e.toString());
     }
   }
 
@@ -273,7 +275,7 @@ class IncidentController extends GetxController {
         incidentList = incidentList + incidents.incidents;
       }
     } catch (e) {
-      print("error incident $e");
+      log.e(e.toString());
       error.value =
           "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
     }
@@ -331,6 +333,5 @@ class IncidentController extends GetxController {
     } catch (e) {
       error.value = e.toString();
     }
-    fetchReparation(currentIncidentId.value.toString());
   }
 }

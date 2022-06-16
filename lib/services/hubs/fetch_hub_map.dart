@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/models/carte/hub_list_model.dart';
 import 'package:velyvelo/models/carte/hub_map_model.dart';
-import 'package:velyvelo/models/hubs/hub_map.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 Future<List<HubMapModel>> fetchHubMapService(
@@ -23,6 +22,7 @@ Future<List<HubMapModel>> fetchHubMapService(
   if (response.statusCode >= 400) {
     String message =
         json.decode(response.body)["message"] ?? "No message from server";
+    log.e(message);
     throw Exception(message);
   }
   return hubMapModelFromJson(response.body);
@@ -44,6 +44,7 @@ Future<List<HubListModel>> fetchHubListService(
   if (response.statusCode >= 400) {
     String message =
         json.decode(response.body)["message"] ?? "No message from server";
+    log.e(message);
     throw Exception(message);
   }
   return hubListModelFromJson(response.body);

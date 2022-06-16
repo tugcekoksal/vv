@@ -20,7 +20,6 @@ class GroupDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(loginController.isUser.value);
     return Obx(() {
       // Simple user does not have access
       if (loginController.isUser.value) {

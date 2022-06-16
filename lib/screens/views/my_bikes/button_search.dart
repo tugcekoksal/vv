@@ -9,9 +9,7 @@ import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
 import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Components
-import 'package:velyvelo/controllers/hub_provider/hubs_provider.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
-import 'package:velyvelo/controllers/map_provider/camera_provider.dart';
 import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 // Controllers

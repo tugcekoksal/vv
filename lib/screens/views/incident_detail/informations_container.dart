@@ -76,7 +76,7 @@ class InformationsContainer extends StatelessWidget {
                           color: global_styles.backgroundLightGrey, width: 2.0),
                       borderRadius: BorderRadius.circular(10.0)),
                   child: IconButton(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       constraints: const BoxConstraints(),
                       onPressed: () {
                         Get.to(

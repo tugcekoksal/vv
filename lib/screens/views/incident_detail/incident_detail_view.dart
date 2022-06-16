@@ -89,7 +89,9 @@ class IncidentDetail extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        SaveButton(incidentController: incidentController)
+                        SaveButton(
+                            incidentController: incidentController,
+                            loginController: loginController)
                       ],
                     )
                 ]))));

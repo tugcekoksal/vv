@@ -1,15 +1,10 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
-
-// Controllers
-import 'package:velyvelo/models/hubs/hub_map.dart';
 
 class HubPopup extends StatelessWidget {
   final CarteHubProvider hubs;
