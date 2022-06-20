@@ -33,7 +33,10 @@
         44,
         35
     ],
-    "commentary": [
+    "commentary_admin": [
+        "null"
+    ],
+    "commentary_tech": [
         "null"
     ]
 }

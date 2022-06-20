@@ -64,5 +64,6 @@
             "name": "Petit Caisson de livraison 57x55x33"
         }
     ],
-    "commentary": "Un commentaire"
+    "commentary_admin": "Un commentaire ADMIN",
+    "commentary_tech": "Un commentaire TECH"
 }

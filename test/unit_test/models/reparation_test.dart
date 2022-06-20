@@ -39,7 +39,8 @@ void main() {
     // Given by the front, can t be null
     expect(incidentDetail.reparationPhotosList, []);
     // Never null because text controller put "" if null
-    expect(incidentDetail.commentary.text, "");
+    expect(incidentDetail.commentaryTech.text, "");
+    expect(incidentDetail.commentaryAdmin.text, "");
     // Filled only when the user select a piece in the dropdown
     isIdAndNameEmpty(incidentDetail.selectedPieceDropDown, true);
   });
@@ -64,7 +65,8 @@ void main() {
     // Given by the front, can t be null
     expect(incidentDetail.reparationPhotosList, []);
     // Never null because text controller put "" if null
-    expect(incidentDetail.commentary.text, "");
+    expect(incidentDetail.commentaryTech.text, "");
+    expect(incidentDetail.commentaryAdmin.text, "");
     // Filled only when the user select a piece in the dropdown
     isIdAndNameEmpty(incidentDetail.selectedPieceDropDown, true);
   });
@@ -89,7 +91,8 @@ void main() {
     // Given by the front, can t be null
     expect(incidentDetail.reparationPhotosList, []);
     // Never null because text controller put "" if null
-    expect(incidentDetail.commentary.text, isNot(""));
+    expect(incidentDetail.commentaryTech.text, isNot(""));
+    expect(incidentDetail.commentaryAdmin.text, isNot(""));
     // Filled only when the user select a piece in the dropdown
     isIdAndNameEmpty(incidentDetail.selectedPieceDropDown, true);
   });
