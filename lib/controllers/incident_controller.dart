@@ -67,22 +67,23 @@ class IncidentController extends GetxController {
   var currentIncidentId = 0.obs;
 
   var currentReparation = ReparationModel(
-          statusBike: "",
-          isBikeFunctional: true,
-          incidentPk: 0,
-          typeIntervention: IdAndName(id: 0, name: ""),
-          typeReparation: IdAndName(id: 0, name: ""),
-          cause: IdAndName(),
-          causelist: [],
-          reparationPhotosList: [],
-          typeInterventionList: [],
-          typeReparationList: [],
-          piecesList: [],
-          noPieces: false,
-          selectedPieces: [],
-          selectedPieceDropDown: IdAndName(id: 0, name: ""),
-          commentary: TextEditingController())
-      .obs;
+    statusBike: "",
+    isBikeFunctional: true,
+    incidentPk: 0,
+    typeIntervention: IdAndName(id: 0, name: ""),
+    typeReparation: IdAndName(id: 0, name: ""),
+    cause: IdAndName(),
+    causelist: [],
+    reparationPhotosList: [],
+    typeInterventionList: [],
+    typeReparationList: [],
+    piecesList: [],
+    noPieces: false,
+    selectedPieces: [],
+    selectedPieceDropDown: IdAndName(id: 0, name: ""),
+    commentaryTech: TextEditingController(),
+    commentaryAdmin: TextEditingController(),
+  ).obs;
 
   RxString actualTypeReparation = "".obs;
   RxList<String> dropDownItemIncidentTypeList = <String>[].obs;

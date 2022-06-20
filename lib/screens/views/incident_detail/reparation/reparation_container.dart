@@ -16,6 +16,64 @@ import 'package:velyvelo/screens/views/incident_detail/reparation/statut_velo_mo
 
 GlobalKey keyWidget = GlobalKey();
 
+class CommentaryModif extends StatelessWidget {
+  final bool disabled;
+  final IncidentController incidentController;
+  final bool isTech;
+
+  const CommentaryModif(
+      {Key? key,
+      required this.disabled,
+      required this.incidentController,
+      required this.isTech})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Commentaire " + (isTech ? "technicien" : "admin"),
+            style: const TextStyle(
+                color: global_styles.purple,
+                fontSize: 17.0,
+                fontWeight: FontWeight.w600)),
+        const SizedBox(height: 25.0),
+        TextField(
+          enabled: !disabled,
+          onTap: () => {Scrollable.ensureVisible(keyWidget.currentContext!)},
+          controller: isTech
+              ? incidentController.currentReparation.value.commentaryTech
+              : incidentController.currentReparation.value.commentaryAdmin,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          autofocus: false,
+          minLines: 5,
+          textAlignVertical: TextAlignVertical.top,
+          textAlign: TextAlign.start,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+                borderSide: const BorderSide(
+                    color: global_styles.backgroundLightGrey, width: 4.0),
+                borderRadius: BorderRadius.circular(15.0)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                    color: global_styles.backgroundLightGrey, width: 4.0),
+                borderRadius: BorderRadius.circular(15.0)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                    color: global_styles.backgroundLightGrey, width: 4.0),
+                borderRadius: BorderRadius.circular(15.0)),
+          ),
+          style: const TextStyle(
+              color: global_styles.greyTextInput,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w600),
+        ),
+      ],
+    );
+  }
+}
+
 class ReparationContainer extends StatelessWidget {
   final LoginController loginController;
   final IncidentController incidentController;
@@ -25,6 +83,13 @@ class ReparationContainer extends StatelessWidget {
       required this.loginController,
       required this.incidentController})
       : super(key: key);
+
+  String commentaryOrEmpty(String text) {
+    if (text == "") {
+      return "Pas de commentaire associé";
+    }
+    return text;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +117,21 @@ class ReparationContainer extends StatelessWidget {
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
+                Text(
+                    "Commentaire " +
+                        (loginController.isTech.value ? "admin" : "technicien"),
+                    style: const TextStyle(
+                        color: global_styles.purple,
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w600)),
+                const SizedBox(height: 25.0),
+                Text(loginController.isTech.value
+                    ? commentaryOrEmpty(incidentController
+                        .currentReparation.value.commentaryAdmin.text)
+                    : commentaryOrEmpty(incidentController
+                        .currentReparation.value.commentaryTech.text)),
+                const SizedBox(height: 25.0),
+
                 // Cause status of incident
                 CauseModif(
                     incidentController: incidentController, disabled: disabled),
@@ -64,45 +144,10 @@ class ReparationContainer extends StatelessWidget {
                 // and of the listing and deletion of selected pieces
                 PiecesModif(
                     incidentController: incidentController, disabled: disabled),
-                const Text("Commentaire",
-                    style: TextStyle(
-                        color: global_styles.purple,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600)),
-                const SizedBox(height: 25.0),
-                TextField(
-                  enabled: !disabled,
-                  onTap: () =>
-                      {Scrollable.ensureVisible(keyWidget.currentContext!)},
-                  controller:
-                      incidentController.currentReparation.value.commentary,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  autofocus: false,
-                  minLines: 5,
-                  textAlignVertical: TextAlignVertical.top,
-                  textAlign: TextAlign.start,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: global_styles.backgroundLightGrey,
-                            width: 4.0),
-                        borderRadius: BorderRadius.circular(15.0)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: global_styles.backgroundLightGrey,
-                            width: 4.0),
-                        borderRadius: BorderRadius.circular(15.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: global_styles.backgroundLightGrey,
-                            width: 4.0),
-                        borderRadius: BorderRadius.circular(15.0)),
-                  ),
-                  style: const TextStyle(
-                      color: global_styles.greyTextInput,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600),
+                CommentaryModif(
+                  disabled: disabled,
+                  incidentController: incidentController,
+                  isTech: loginController.isTech.value,
                 ),
                 gotoWidget,
                 // Handler of is functionnal velo or status name of the velo

@@ -25,7 +25,8 @@ Future<String> sendCurrentDetailBikeStatusService(
     ..fields["status_bike"] = reparation.statusBike ?? ""
     ..fields["pieces"] =
         json.encode(reparation.selectedPieces.map((elem) => elem.id).toList())
-    ..fields["commentary"] = reparation.commentary.value.text
+    ..fields["commentary_tech"] = reparation.commentaryTech.value.text
+    ..fields["commentary_admin"] = reparation.commentaryAdmin.value.text
     ..fields["cause"] = reparation.cause.name ?? ""
     ..fields["intervention_type_id"] = reparation.typeIntervention.id.toString()
     ..fields["reparation_type_id"] = reparation.typeReparation.id.toString();
