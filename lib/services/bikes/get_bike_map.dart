@@ -1,6 +1,8 @@
 // Vendor
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';
 
@@ -56,6 +58,7 @@ Future<List<BikeListModel>> fetchBikeListService(
     List<String> statusList,
     String searchText,
     bool hasGps,
+    ItemRefresher itemRefresher,
     String userToken) async {
   var request = http.Request("GET", Uri.parse("$urlServer/api/list/bike/"));
   var headers = {
@@ -67,7 +70,8 @@ Future<List<BikeListModel>> fetchBikeListService(
     "groups": filtersList,
     "status": statusList,
     "search": searchText,
-    "has_gps": hasGps
+    "has_gps": hasGps,
+    "refresh": itemRefresher.toJson()
   });
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();

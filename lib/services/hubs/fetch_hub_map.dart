@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/helpers/logger.dart';
+import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/carte/hub_list_model.dart';
 import 'package:velyvelo/models/carte/hub_map_model.dart';
 import 'package:velyvelo/services/http_service.dart';
@@ -28,15 +29,16 @@ Future<List<HubMapModel>> fetchHubMapService(
   return hubMapModelFromJson(response.body);
 }
 
-Future<List<HubListModel>> fetchHubListService(
-    String urlServer, String search, String userToken) async {
+Future<List<HubListModel>> fetchHubListService(String urlServer, String search,
+    ItemRefresher itemRefresher, String userToken) async {
   final log = logger(HttpService);
   var request = http.Request("GET", Uri.parse("$urlServer/api/list/hub/"));
   var headers = {
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
   };
-  request.body = json.encode({"search": search});
+  request.body =
+      json.encode({"search": search, "refresh": itemRefresher.toJson()});
   request.headers.addAll(headers);
   http.StreamedResponse streamResponse = await request.send();
   http.Response response = await http.Response.fromStream(streamResponse);

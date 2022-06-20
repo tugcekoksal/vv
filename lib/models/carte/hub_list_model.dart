@@ -9,7 +9,8 @@ List<HubListModel> hubListModelFromJson(String str) =>
 
 class HubListModel {
   HubListModel(
-      {this.name,
+      {this.id,
+      this.name,
       this.clientName,
       this.reparationsNb,
       this.usersNb,
@@ -18,6 +19,7 @@ class HubListModel {
       this.robbedNb,
       this.adress});
 
+  final int? id;
   final String? name;
   final String? clientName;
   final int? reparationsNb;
@@ -33,6 +35,7 @@ class HubListModel {
       adressOrNull = null;
     }
     return HubListModel(
+        id: getIntOrNull(json["id"]),
         name: getStringOrNull(json["name"]),
         clientName: getStringOrNull(json["client_name"]),
         reparationsNb: getIntOrNull(json["reparations"]),

@@ -173,17 +173,23 @@ class HubsList extends ConsumerWidget {
         child: FadeListView(
           child: SmartRefresher(
             enablePullDown: true,
-            enablePullUp: false,
+            enablePullUp: true,
             controller: refreshController,
             onRefresh: () {
               // Refresh incidents
-              hubs.fetchHubList();
+              ref.read(carteHubProvider).fetchHubList();
               refreshController.refreshCompleted();
             },
             onLoading: () {
               // Add new incidents in the list with newest_id and count
-              // incidentController.fetchNewIncidents();
-              refreshController.loadComplete();
+              ref.read(carteHubProvider).fetchNewHubList().then((isNotEmpty) {
+                if (isNotEmpty) {
+                  refreshController.loadComplete();
+                } else {
+                  refreshController.loadNoData();
+                }
+              });
+              // refreshController.loadNoData();
             },
             child: ListView.builder(
               padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),

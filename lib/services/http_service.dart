@@ -1,7 +1,9 @@
 // Vendor
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
+import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';
@@ -84,8 +86,8 @@ class HttpService {
 
   // Fetch the hubs for map
   static Future<List<HubListModel>> fetchHubList(
-      String search, String userToken) async {
-    return fetchHubListService(urlServer, search, userToken);
+      String search, ItemRefresher itemRefresher, String userToken) async {
+    return fetchHubListService(urlServer, search, itemRefresher, userToken);
   }
 
   // Fetch the user's type
@@ -132,9 +134,10 @@ class HttpService {
       List<String> statusList,
       String searchText,
       bool hasGps,
+      ItemRefresher itemRefresher,
       String userToken) async {
-    return fetchBikeListService(
-        urlServer, filtersList, statusList, searchText, hasGps, userToken);
+    return fetchBikeListService(urlServer, filtersList, statusList, searchText,
+        hasGps, itemRefresher, userToken);
   }
 
   // Fetch map's filters

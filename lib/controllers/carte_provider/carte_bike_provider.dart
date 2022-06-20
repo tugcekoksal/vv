@@ -1,4 +1,6 @@
 // Vendor
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +20,7 @@ final carteBikeProvider = ChangeNotifierProvider.autoDispose<CarteBikeProvider>(
 
 class CarteBikeProvider extends ChangeNotifier {
   BikeFilter filter = BikeFilter();
+  ItemRefresher itemRefresher = ItemRefresher();
 
   List<BikeMapModel> bikeMap = <BikeMapModel>[];
   List<BikeListModel> bikeList = <BikeListModel>[];
@@ -47,6 +50,7 @@ class CarteBikeProvider extends ChangeNotifier {
     messageError = '';
     isLoadingBikes = true;
     notifyListeners();
+    itemRefresher.actualize(null, null);
     try {
       List<String> listOfSelectedStatus =
           List<String>.from(filter.selectedStatusList);
@@ -58,15 +62,46 @@ class CarteBikeProvider extends ChangeNotifier {
       if (listOfSelectedStatus.isEmpty) {
         listOfSelectedStatus = ["Rangé", "Utilisé", "Volé"];
       }
-      log.d(listOfSelectedStatus);
-
-      bikeList = await HttpService.fetchBikeList(filter.selectedGroupsList,
-          listOfSelectedStatus, filter.searchText, hasGps, userToken);
+      bikeList = await HttpService.fetchBikeList(
+          filter.selectedGroupsList,
+          listOfSelectedStatus,
+          filter.searchText,
+          hasGps,
+          itemRefresher,
+          userToken);
     } catch (e) {
       log.d(e);
       messageError = e.toString();
     }
     isLoadingBikes = false;
+    notifyListeners();
+  }
+
+  void fetchNewBikeList() async {
+    itemRefresher.actualize(bikeList.first.id ?? -1, bikeList.length);
+    try {
+      List<String> listOfSelectedStatus =
+          List<String>.from(filter.selectedStatusList);
+      bool hasGps = true;
+      if (listOfSelectedStatus.contains("Pas de gps")) {
+        listOfSelectedStatus.remove("Pas de gps");
+        hasGps = false;
+      }
+      if (listOfSelectedStatus.isEmpty) {
+        listOfSelectedStatus = ["Rangé", "Utilisé", "Volé"];
+      }
+      var newList = await HttpService.fetchBikeList(
+          filter.selectedGroupsList,
+          listOfSelectedStatus,
+          filter.searchText,
+          hasGps,
+          itemRefresher,
+          userToken);
+      bikeList += newList;
+    } catch (e) {
+      log.d(e);
+      messageError = e.toString();
+    }
     notifyListeners();
   }
 

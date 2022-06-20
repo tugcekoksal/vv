@@ -17,7 +17,6 @@ Future fetchAllIncidentsService(String urlServer,
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
   };
-
   request.body = json.encode(incidentsToFetch.toJson());
 
   request.headers.addAll(headers);

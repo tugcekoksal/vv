@@ -125,15 +125,15 @@ class BikesList extends ConsumerWidget {
             child: FadeListView(
                 child: SmartRefresher(
                     enablePullDown: true,
-                    enablePullUp: false,
+                    enablePullUp: true,
                     controller: refreshController,
                     onRefresh: () {
-                      ref.read(carteBikeProvider).fetchBikeMap();
+                      ref.read(carteBikeProvider).fetchBikeList();
                       refreshController.refreshCompleted();
                     },
                     onLoading: () {
-                      // Add new incidents in the list with newest_id and count
-                      // incidentController.fetchNewIncidents();
+                      // Add new bikes in the list with newest_id and count
+                      ref.read(carteBikeProvider).fetchNewBikeList();
                       refreshController.loadComplete();
                     },
                     child: ListView.builder(

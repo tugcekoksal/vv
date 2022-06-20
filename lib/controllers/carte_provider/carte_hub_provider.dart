@@ -16,6 +16,8 @@ final carteHubProvider = ChangeNotifierProvider.autoDispose<CarteHubProvider>(
     (ref) => CarteHubProvider());
 
 class CarteHubProvider extends ChangeNotifier {
+  ItemRefresher itemRefresher = ItemRefresher();
+
   List<HubMapModel> hubMap = <HubMapModel>[];
   List<HubListModel> hubList = <HubListModel>[];
   HubListModel? hubPopup;
@@ -47,16 +49,34 @@ class CarteHubProvider extends ChangeNotifier {
     isLoadingHub = true;
 
     List<HubListModel> hubsRes = [];
-
+    itemRefresher.actualize(null, null);
     try {
-      hubsRes = await HttpService.fetchHubList(searchText, userToken);
+      hubsRes =
+          await HttpService.fetchHubList(searchText, itemRefresher, userToken);
+      hubList = hubsRes;
     } catch (e) {
       messageError = "Error loading hubs";
       log.e(e.toString());
     }
-    hubList = hubsRes;
     isLoadingHub = false;
     notifyListeners();
+  }
+
+  Future<bool> fetchNewHubList() async {
+    messageError = "";
+
+    List<HubListModel> hubsRes = [];
+    itemRefresher.actualize(hubList.first.id ?? -1, hubList.length);
+    try {
+      hubsRes =
+          await HttpService.fetchHubList(searchText, itemRefresher, userToken);
+      hubList += hubsRes;
+    } catch (e) {
+      messageError = "Error loading hubs";
+      log.e(e.toString());
+    }
+    notifyListeners();
+    return hubsRes.isNotEmpty;
   }
 
   Future<void> fetchHubMap() async {
