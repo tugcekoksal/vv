@@ -70,24 +70,27 @@ class ReparationModel {
 
   List<File> reparationPhotosList;
 
-  TextEditingController commentary;
+  TextEditingController commentaryTech;
+  TextEditingController commentaryAdmin;
 
-  ReparationModel(
-      {required this.statusBike,
-      required this.isBikeFunctional,
-      required this.incidentPk,
-      required this.noPieces,
-      required this.reparationPhotosList,
-      required this.typeIntervention,
-      required this.typeInterventionList,
-      required this.typeReparation,
-      required this.typeReparationList,
-      required this.cause,
-      required this.causelist,
-      required this.piecesList,
-      required this.selectedPieces,
-      required this.selectedPieceDropDown,
-      required this.commentary});
+  ReparationModel({
+    required this.statusBike,
+    required this.isBikeFunctional,
+    required this.incidentPk,
+    required this.noPieces,
+    required this.reparationPhotosList,
+    required this.typeIntervention,
+    required this.typeInterventionList,
+    required this.typeReparation,
+    required this.typeReparationList,
+    required this.cause,
+    required this.causelist,
+    required this.piecesList,
+    required this.selectedPieces,
+    required this.selectedPieceDropDown,
+    required this.commentaryTech,
+    required this.commentaryAdmin,
+  });
 
   factory ReparationModel.fromJson(Map<String, dynamic> jsonData,
       int? incidentPk, List<File> listPhotoFile) {
@@ -107,7 +110,9 @@ class ReparationModel {
         noPieces: false,
         selectedPieces: getListIdAndName(jsonData["pieces"]),
         selectedPieceDropDown: IdAndName(),
-        commentary: TextEditingController(
-            text: getStringOrNull(jsonData["commentary"])));
+        commentaryTech: TextEditingController(
+            text: getStringOrNull(jsonData["commentary_tech"])),
+        commentaryAdmin: TextEditingController(
+            text: getStringOrNull(jsonData["commentary_admin"])));
   }
 }
