@@ -49,8 +49,13 @@ class IncidentsList extends StatelessWidget {
         },
         onLoading: () {
           // Add new incidents in the list with newest_id and count
-          incidentController.fetchNewIncidents();
-          incidentController.refreshController.loadComplete();
+          incidentController.fetchNewIncidents().then((isNotEmpty) {
+            if (isNotEmpty) {
+              incidentController.refreshController.loadComplete();
+            } else {
+              incidentController.refreshController.loadNoData();
+            }
+          });
         },
         child: ListView.builder(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),

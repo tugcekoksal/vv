@@ -77,8 +77,9 @@ class CarteBikeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchNewBikeList() async {
+  Future<bool> fetchNewBikeList() async {
     itemRefresher.actualize(bikeList.first.id ?? -1, bikeList.length);
+    List<BikeListModel> newList = [];
     try {
       List<String> listOfSelectedStatus =
           List<String>.from(filter.selectedStatusList);
@@ -90,7 +91,7 @@ class CarteBikeProvider extends ChangeNotifier {
       if (listOfSelectedStatus.isEmpty) {
         listOfSelectedStatus = ["Rangé", "Utilisé", "Volé"];
       }
-      var newList = await HttpService.fetchBikeList(
+      newList = await HttpService.fetchBikeList(
           filter.selectedGroupsList,
           listOfSelectedStatus,
           filter.searchText,
@@ -103,6 +104,7 @@ class CarteBikeProvider extends ChangeNotifier {
       messageError = e.toString();
     }
     notifyListeners();
+    return newList.isNotEmpty;
   }
 
   // Provider functions

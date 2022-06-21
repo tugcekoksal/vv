@@ -260,7 +260,7 @@ class IncidentController extends GetxController {
     }
   }
 
-  Future<void> fetchNewIncidents() async {
+  Future<bool> fetchNewIncidents() async {
     final RefreshIncidentModel incidentsToFetchFilter = RefreshIncidentModel(
         statusList: incidentFilters,
         newestId: int.parse(incidentList.first.incidentPk),
@@ -270,16 +270,18 @@ class IncidentController extends GetxController {
       incidentsToFetchFilter.statusList = ["Nouvelle", "Planifié", "Terminé"];
     }
     try {
-      var incidents = await HttpService.fetchAllIncidents(
+      IncidentsModel incidents = await HttpService.fetchAllIncidents(
           incidentsToFetchFilter, userToken);
-      if (incidents != null && incidents.incidents.length != 0) {
+      if (incidents.incidents.isNotEmpty) {
         incidentList = incidentList + incidents.incidents;
+        return true;
       }
     } catch (e) {
       log.e(e.toString());
       error.value =
           "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
     }
+    return false;
   }
 
   Future<void> refreshIncidentsList() async {
@@ -320,13 +322,17 @@ class IncidentController extends GetxController {
   sendReparationUpdate() async {
     error.value = "";
 
+    if (currentReparation.value.cause.name == null) {
+      error.value = "Veuillez renseigner une cause";
+      return;
+    }
     if (currentReparation.value.noPieces) {
       currentReparation.value.selectedPieces = [];
     } else {
       if (currentReparation.value.selectedPieces.isEmpty) {
-        error.value =
-            "Selectionnez une pièce ou cochez la case 'Aucunes pièces utilisées'";
+        error.value = "Veuillez renseigner si des pièces ont été utilisées.";
       }
+      return;
     }
     try {
       await HttpService.sendCurrentDetailBikeStatus(

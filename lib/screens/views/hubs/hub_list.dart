@@ -189,7 +189,6 @@ class HubsList extends ConsumerWidget {
                   refreshController.loadNoData();
                 }
               });
-              // refreshController.loadNoData();
             },
             child: ListView.builder(
               padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
