@@ -28,12 +28,18 @@ Widget buttonPopup(BuildContext context, String text, Function ontap,
         Navigator.pop(context);
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+        width: MediaQuery.of(context).size.width * 0.35,
+        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
         decoration: BoxDecoration(
             color: backgroundColor,
-            border: Border.all(color: textColor, width: 2),
-            borderRadius: BorderRadius.circular(25.0)),
+            border: Border.all(
+                color: textColor != global_styles.greyText
+                    ? backgroundColor
+                    : textColor,
+                width: 2),
+            borderRadius: BorderRadius.circular(10.0)),
         child: Text(text,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 color: textColor, fontSize: 16.0, fontWeight: FontWeight.w700)),
       ));
@@ -60,30 +66,121 @@ void technicienPopup(BuildContext oldcontext, TechnicienPopupType typePopup,
                   child: Container(
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.height * 0.5,
+                      padding: const EdgeInsets.fromLTRB(30, 30, 30, 50),
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(50.0)),
+                          borderRadius: BorderRadius.circular(30.0)),
                       child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            if (typePopup != TechnicienPopupType.message)
-                              Icon(Icons.warning, color: popupColor, size: 100),
+                            Column(
+                              children: [
+                                Icon(Icons.warning_amber_outlined,
+                                    color: popupColor, size: 80),
+                                Text("Avertissement",
+                                    style: TextStyle(
+                                        color: popupColor, fontSize: 18))
+                              ],
+                            ),
                             if (typePopup == TechnicienPopupType.termine)
-                              const Text("MESSAGE TERMINE"),
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  text: 'Une fois la réparation enregistrée ',
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Terminé',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(text: ' , vous ne pourrez '),
+                                    const TextSpan(
+                                        text: 'plus',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    const TextSpan(text: ' apporter '),
+                                    const TextSpan(
+                                        text: 'de modifications.',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    if (typePopup !=
+                                        TechnicienPopupType.message)
+                                      const TextSpan(
+                                        text:
+                                            "\n\nÊtes-vous sûr de vouloir continuer ?",
+                                      ),
+                                  ],
+                                ),
+                              ),
                             if (typePopup == TechnicienPopupType.secondPassage)
-                              const Text("MESSAGE SECOND PASSAGE"),
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  text: 'Une fois la réparation enregistrée ',
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Second passage',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(text: ' , vous n\'aurez '),
+                                    const TextSpan(
+                                        text: 'plus',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    const TextSpan(text: ' accès à la '),
+                                    const TextSpan(
+                                        text: 'réparation',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    if (typePopup !=
+                                        TechnicienPopupType.message)
+                                      const TextSpan(
+                                        text:
+                                            "\n\nÊtes-vous sûr de vouloir continuer ?",
+                                      ),
+                                  ],
+                                ),
+                              ),
                             if (typePopup == TechnicienPopupType.message)
-                              const Text("MESSAGE ALERTE"),
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  text: 'Vous devez choisir le statut ',
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Terminé',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(text: ' ou '),
+                                    TextSpan(
+                                        text: 'Second passage',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(
+                                        text: ' pour votre réparation.'),
+                                  ],
+                                ),
+                              ),
                             if (typePopup == TechnicienPopupType.message)
-                              buttonPopup(context, "Annuler", () {},
+                              buttonPopup(context, "Retour", () {},
                                   Colors.white, global_styles.greyText)
                             else
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   buttonPopup(context, "Annuler", () {},
                                       Colors.white, global_styles.greyText),
-                                  const SizedBox(width: 50),
                                   buttonPopup(context, "Confirmer", () {
                                     sendReparation();
                                   }, popupColor, Colors.white)
