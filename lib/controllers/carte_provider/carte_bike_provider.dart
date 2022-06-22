@@ -54,21 +54,11 @@ class CarteBikeProvider extends ChangeNotifier {
     try {
       List<String> listOfSelectedStatus =
           List<String>.from(filter.selectedStatusList);
-      bool hasGps = true;
-      if (listOfSelectedStatus.contains("Pas de gps")) {
-        listOfSelectedStatus.remove("Pas de gps");
-        hasGps = false;
-      }
       if (listOfSelectedStatus.isEmpty) {
-        listOfSelectedStatus = ["Rangé", "Utilisé", "Volé"];
+        listOfSelectedStatus = ["Rangé", "Utilisé", "Volé", "Pas de gps"];
       }
-      bikeList = await HttpService.fetchBikeList(
-          filter.selectedGroupsList,
-          listOfSelectedStatus,
-          filter.searchText,
-          hasGps,
-          itemRefresher,
-          userToken);
+      bikeList = await HttpService.fetchBikeList(filter.selectedGroupsList,
+          listOfSelectedStatus, filter.searchText, itemRefresher, userToken);
     } catch (e) {
       log.d(e);
       messageError = e.toString();
@@ -83,21 +73,11 @@ class CarteBikeProvider extends ChangeNotifier {
     try {
       List<String> listOfSelectedStatus =
           List<String>.from(filter.selectedStatusList);
-      bool hasGps = true;
-      if (listOfSelectedStatus.contains("Pas de gps")) {
-        listOfSelectedStatus.remove("Pas de gps");
-        hasGps = false;
-      }
       if (listOfSelectedStatus.isEmpty) {
-        listOfSelectedStatus = ["Rangé", "Utilisé", "Volé"];
+        listOfSelectedStatus = ["Rangé", "Utilisé", "Volé", "Pas de gps"];
       }
-      newList = await HttpService.fetchBikeList(
-          filter.selectedGroupsList,
-          listOfSelectedStatus,
-          filter.searchText,
-          hasGps,
-          itemRefresher,
-          userToken);
+      newList = await HttpService.fetchBikeList(filter.selectedGroupsList,
+          listOfSelectedStatus, filter.searchText, itemRefresher, userToken);
       bikeList += newList;
     } catch (e) {
       log.d(e);
