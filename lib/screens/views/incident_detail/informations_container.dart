@@ -26,11 +26,40 @@ class InformationsContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Informations",
-              style: TextStyle(
-                  color: global_styles.purple,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w600)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Informations",
+                  style: TextStyle(
+                      color: global_styles.purple,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w600)),
+              GestureDetector(
+                onTap: () {
+                  Get.to(
+                      () => MyBikeView(
+                          isFromScan: false,
+                          veloPk: incidentController
+                                  .incidentDetailValue.value.velo.id ??
+                              0),
+                      transition: Transition.downToUp,
+                      duration: const Duration(milliseconds: 400));
+                },
+                child: Row(
+                  children: const [
+                    Icon(Icons.pedal_bike, color: global_styles.blue),
+                    SizedBox(width: 10),
+                    Text(
+                      "page vélo >>",
+                      style: TextStyle(
+                          color: global_styles.blue,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
           const SizedBox(height: 10.0),
           incidentController.incidentDetailValue.value.groupe == ""
               ? const SizedBox()
@@ -69,26 +98,6 @@ class InformationsContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 10),
-              Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: global_styles.backgroundLightGrey, width: 2.0),
-                      borderRadius: BorderRadius.circular(10.0)),
-                  child: IconButton(
-                      padding: const EdgeInsets.all(5),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        Get.to(
-                            () => MyBikeView(
-                                isFromScan: false,
-                                veloPk: incidentController
-                                        .incidentDetailValue.value.velo.id ??
-                                    0),
-                            transition: Transition.downToUp,
-                            duration: const Duration(milliseconds: 400));
-                      },
-                      icon: const Icon(Icons.pedal_bike))),
             ],
           )
         ],

@@ -58,11 +58,6 @@ class BikeFilter {
     if (!value) {
       selectedStatusList.remove(label);
     } else {
-      if (label == "Pas de gps") {
-        selectedStatusList.clear();
-      } else if (selectedStatusList.contains("Pas de gps")) {
-        selectedStatusList.remove("Pas de gps");
-      }
       selectedStatusList.add(label);
     }
   }

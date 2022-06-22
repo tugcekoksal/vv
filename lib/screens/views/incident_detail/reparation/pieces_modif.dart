@@ -184,10 +184,11 @@ class PiecesModif extends StatelessWidget {
                       onChanged: (value) {
                         incidentController.setNoPieces(value);
                       }),
-                  const Text("Aucunes pièces utilisées")
+                  const Text("Aucune pièce utilisée"),
                 ],
               );
             }),
+      const SizedBox(height: 10.0),
       Obx(() {
         if (incidentController.currentReparation.value.noPieces == false) {
           return PieceSelection(

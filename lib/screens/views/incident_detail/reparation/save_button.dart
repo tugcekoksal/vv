@@ -7,120 +7,186 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
+// RichText(
+//   text: TextSpan(
+//     text: 'Hello ',
+//     style: DefaultTextStyle.of(context).style,
+//     children: const <TextSpan>[
+//       TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
+//       TextSpan(text: ' world!'),
+//     ],
+//   ),
+// )
 
-Widget _buildConfirmationDialog(
-    BuildContext context, Function action, String message) {
-  return Container(
-    color: Colors.black38,
-    child: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Padding(
-          padding: const EdgeInsets.all(25),
-          child: Text(message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold))),
-      const SizedBox(height: 50),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              action();
-              Navigator.pop(context);
-            },
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 14.0),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25.0)),
-              child: const Text('Confirmer',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w700)),
-            ),
-          ),
-          const SizedBox(width: 50),
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 14.0),
-              decoration: BoxDecoration(
-                  color: Colors.white30,
-                  borderRadius: BorderRadius.circular(25.0)),
-              child: const Text('Annuler',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w700)),
-            ),
-          ),
-        ],
-      ),
-    ])),
-  );
+enum TechnicienPopupType { termine, secondPassage, message }
+
+Widget buttonPopup(BuildContext context, String text, Function ontap,
+    Color backgroundColor, Color textColor) {
+  return GestureDetector(
+      onTap: () {
+        ontap();
+        Navigator.pop(context);
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.35,
+        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
+        decoration: BoxDecoration(
+            color: backgroundColor,
+            border: Border.all(
+                color: textColor != global_styles.greyText
+                    ? backgroundColor
+                    : textColor,
+                width: 2),
+            borderRadius: BorderRadius.circular(10.0)),
+        child: Text(text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: textColor, fontSize: 16.0, fontWeight: FontWeight.w700)),
+      ));
 }
 
-void displayPopUpConfirmation(context, Function action, String message) {
-  showDialog(
-      useSafeArea: false,
-      context: context,
-      builder: (BuildContext context) =>
-          _buildConfirmationDialog(context, action, message));
-}
+void technicienPopup(BuildContext oldcontext, TechnicienPopupType typePopup,
+    Function sendReparation) {
+  Color popupColor = typePopup == TechnicienPopupType.termine
+      ? global_styles.green
+      : typePopup == TechnicienPopupType.secondPassage
+          ? global_styles.yellow
+          : global_styles.orange;
 
-void displayPopUpAlert(context, String message) {
   showDialog(
       useSafeArea: false,
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          color: Colors.black38,
-          child: Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: Text(message,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold))),
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15.0, vertical: 14.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white30,
-                            borderRadius: BorderRadius.circular(25.0)),
-                        child: const Text('Annuler',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w700)),
-                      ),
-                    ),
-                  ],
-                ),
-              ])),
-        );
-      });
+      context: oldcontext,
+      builder: (BuildContext context) => GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+              color: Colors.black38,
+              child: Center(
+                  child: Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      padding: const EdgeInsets.fromLTRB(30, 30, 30, 50),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30.0)),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Icon(Icons.warning_amber_outlined,
+                                    color: popupColor, size: 80),
+                                Text("Avertissement",
+                                    style: TextStyle(
+                                        color: popupColor, fontSize: 18))
+                              ],
+                            ),
+                            if (typePopup == TechnicienPopupType.termine)
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  text: 'Une fois la réparation enregistrée ',
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Terminé',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(text: ' , vous ne pourrez '),
+                                    const TextSpan(
+                                        text: 'plus',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    const TextSpan(text: ' apporter '),
+                                    const TextSpan(
+                                        text: 'de modifications.',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    if (typePopup !=
+                                        TechnicienPopupType.message)
+                                      const TextSpan(
+                                        text:
+                                            "\n\nÊtes-vous sûr de vouloir continuer ?",
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            if (typePopup == TechnicienPopupType.secondPassage)
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  text: 'Une fois la réparation enregistrée ',
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Second passage',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(text: ' , vous n\'aurez '),
+                                    const TextSpan(
+                                        text: 'plus',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    const TextSpan(text: ' accès à la '),
+                                    const TextSpan(
+                                        text: 'réparation',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                    if (typePopup !=
+                                        TechnicienPopupType.message)
+                                      const TextSpan(
+                                        text:
+                                            "\n\nÊtes-vous sûr de vouloir continuer ?",
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            if (typePopup == TechnicienPopupType.message)
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  text: 'Vous devez choisir le statut ',
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Terminé',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(text: ' ou '),
+                                    TextSpan(
+                                        text: 'Second passage',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: popupColor)),
+                                    const TextSpan(
+                                        text: ' pour votre réparation.'),
+                                  ],
+                                ),
+                              ),
+                            if (typePopup == TechnicienPopupType.message)
+                              buttonPopup(context, "Retour", () {},
+                                  Colors.white, global_styles.greyText)
+                            else
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  buttonPopup(context, "Annuler", () {},
+                                      Colors.white, global_styles.greyText),
+                                  buttonPopup(context, "Confirmer", () {
+                                    sendReparation();
+                                  }, popupColor, Colors.white)
+                                ],
+                              )
+                          ]))))));
 }
 
 class SaveButton extends StatelessWidget {
@@ -176,18 +242,18 @@ class SaveButton extends StatelessWidget {
               if (loginController.isTech.value) {
                 if (incidentController.currentReparation.value.statusBike ==
                     "Terminé") {
-                  displayPopUpConfirmation(context, () {
+                  technicienPopup(context, TechnicienPopupType.termine, () {
                     sendReparation(context);
-                  }, "Une réparation avec le statut Terminé ne sera plus modifiable.");
+                  });
                 } else if (incidentController
                         .currentReparation.value.statusBike ==
                     "Second passage") {
-                  displayPopUpConfirmation(context, () {
+                  technicienPopup(context, TechnicienPopupType.secondPassage,
+                      () {
                     sendReparation(context);
-                  }, "Une réparation avec le statut Second passage ne sera plus accessible.");
+                  });
                 } else {
-                  displayPopUpAlert(context,
-                      "Le statut doit être l'un des suivants : Terminé ou Second passage");
+                  technicienPopup(context, TechnicienPopupType.message, () {});
                 }
               } else {
                 sendReparation(context);

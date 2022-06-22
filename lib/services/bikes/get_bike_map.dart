@@ -57,7 +57,6 @@ Future<List<BikeListModel>> fetchBikeListService(
     List<String> filtersList,
     List<String> statusList,
     String searchText,
-    bool hasGps,
     ItemRefresher itemRefresher,
     String userToken) async {
   var request = http.Request("GET", Uri.parse("$urlServer/api/list/bike/"));
@@ -70,7 +69,6 @@ Future<List<BikeListModel>> fetchBikeListService(
     "groups": filtersList,
     "status": statusList,
     "search": searchText,
-    "has_gps": hasGps,
     "refresh": itemRefresher.toJson()
   });
   request.headers.addAll(headers);

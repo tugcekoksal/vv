@@ -133,8 +133,16 @@ class BikesList extends ConsumerWidget {
                     },
                     onLoading: () {
                       // Add new bikes in the list with newest_id and count
-                      ref.read(carteBikeProvider).fetchNewBikeList();
-                      refreshController.loadComplete();
+                      ref
+                          .read(carteBikeProvider)
+                          .fetchNewBikeList()
+                          .then((isNotEmpty) {
+                        if (isNotEmpty) {
+                          refreshController.loadComplete();
+                        } else {
+                          refreshController.loadNoData();
+                        }
+                      });
                     },
                     child: ListView.builder(
                       padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),

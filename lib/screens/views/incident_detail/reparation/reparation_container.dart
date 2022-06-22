@@ -31,8 +31,10 @@ class CommentaryModif extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Commentaire " + (isTech ? "technicien" : "admin"),
+            textAlign: TextAlign.left,
             style: const TextStyle(
                 color: global_styles.purple,
                 fontSize: 17.0,
@@ -118,6 +120,7 @@ class ReparationContainer extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
                 Text(
+                    textAlign: TextAlign.left,
                     "Commentaire " +
                         (loginController.isTech.value ? "admin" : "technicien"),
                     style: const TextStyle(

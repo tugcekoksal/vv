@@ -133,11 +133,10 @@ class HttpService {
       List<String> filtersList,
       List<String> statusList,
       String searchText,
-      bool hasGps,
       ItemRefresher itemRefresher,
       String userToken) async {
     return fetchBikeListService(urlServer, filtersList, statusList, searchText,
-        hasGps, itemRefresher, userToken);
+        itemRefresher, userToken);
   }
 
   // Fetch map's filters
