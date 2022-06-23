@@ -321,19 +321,6 @@ class IncidentController extends GetxController {
 
   sendReparationUpdate() async {
     error.value = "";
-
-    if (currentReparation.value.cause.name == null) {
-      error.value = "Veuillez renseigner une cause";
-      return;
-    }
-    if (currentReparation.value.noPieces) {
-      currentReparation.value.selectedPieces = [];
-    } else {
-      if (currentReparation.value.selectedPieces.isEmpty) {
-        error.value = "Veuillez renseigner si des pièces ont été utilisées.";
-      }
-      return;
-    }
     try {
       await HttpService.sendCurrentDetailBikeStatus(
           currentReparation.value, userToken);

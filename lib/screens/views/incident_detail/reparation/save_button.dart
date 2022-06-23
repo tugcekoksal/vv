@@ -239,6 +239,33 @@ class SaveButton extends StatelessWidget {
             onTap: () async {
               FocusManager.instance.primaryFocus?.unfocus();
 
+              incidentController.error.value = "";
+              if (incidentController.currentReparation.value.cause.name ==
+                  null) {
+                incidentController.error.value =
+                    "Veuillez renseigner une cause";
+                var snackBar = SnackBar(
+                  content: Text(incidentController.error.value),
+                  backgroundColor: global_styles.orange,
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                return;
+              }
+              if (incidentController.currentReparation.value.noPieces) {
+                incidentController.currentReparation.value.selectedPieces = [];
+              } else {
+                if (incidentController
+                    .currentReparation.value.selectedPieces.isEmpty) {
+                  incidentController.error.value =
+                      "Veuillez renseigner si des pièces ont été utilisées.";
+                  var snackBar = SnackBar(
+                    content: Text(incidentController.error.value),
+                    backgroundColor: global_styles.orange,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  return;
+                }
+              }
               if (loginController.isTech.value) {
                 if (incidentController.currentReparation.value.statusBike ==
                     "Terminé") {
@@ -253,7 +280,7 @@ class SaveButton extends StatelessWidget {
                     sendReparation(context);
                   });
                 } else {
-                  technicienPopup(context, TechnicienPopupType.message, () {});
+                  sendReparation(context);
                 }
               } else {
                 sendReparation(context);
