@@ -12,7 +12,7 @@ class HubPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       Flexible(
           child: Text(hubs.hubPopup?.name ?? "Pas de nom de groupe",
               overflow: TextOverflow.ellipsis,
@@ -26,15 +26,15 @@ class HubPopup extends StatelessWidget {
         height: 10,
       ),
       Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Icon(
-            Icons.location_pin,
-            color: global_styles.greyText,
-            size: 20,
-          ),
-          const SizedBox(width: 5),
+          const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Icon(
+                Icons.location_pin,
+                color: global_styles.greyText,
+                size: 20,
+              )),
           Flexible(
               child: Text(hubs.hubPopup?.adress ?? "Pas d'adresse",
                   overflow: TextOverflow.ellipsis)),
@@ -47,10 +47,13 @@ class HubPopup extends StatelessWidget {
                           content:
                               Text("Adresse copiée dans le presse-papier."))))
             },
-            child: const Icon(
-              Icons.copy,
-              color: global_styles.greyText,
-              size: 20,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Icon(
+                Icons.copy,
+                color: global_styles.greyText,
+                size: 20,
+              ),
             ),
           )
         ],
@@ -59,6 +62,7 @@ class HubPopup extends StatelessWidget {
         height: 5,
       ),
       Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
             "Vous avez ",
@@ -113,6 +117,7 @@ class HubPopup extends StatelessWidget {
           ),
         ],
       ),
+      const SizedBox(height: 20)
     ]);
   }
 }

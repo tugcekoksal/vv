@@ -76,7 +76,7 @@ class SubTitleIncidents extends StatelessWidget {
       case 1:
         return "1 filtre appliqué";
       case 2:
-        return "2 filtre appliqué";
+        return "2 filtres appliqués";
       case 3:
         return "Tout";
       default:

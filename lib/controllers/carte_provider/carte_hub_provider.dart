@@ -36,7 +36,7 @@ class CarteHubProvider extends ChangeNotifier {
   // Initialisation
   CarteHubProvider() {
     getTokenFromSharedPref()
-        .then((token) => {userToken = token, fetchHubMap()});
+        .then((token) => {userToken = token, fetchHubMap(), fetchHubList()});
   }
 
   void cleanPopup() {

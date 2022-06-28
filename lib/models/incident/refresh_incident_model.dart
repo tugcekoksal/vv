@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-String refreshIncidentModelToJson(RefreshIncidentModel data) =>
-    json.encode(data.toJson());
+// String refreshIncidentModelToJson(RefreshIncidentModel data) =>
+//     json.encode(data.toJson());
 
 class RefreshIncidentModel {
   RefreshIncidentModel({
@@ -18,9 +18,10 @@ class RefreshIncidentModel {
   final int? newestId;
   final int? count;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson(String search) => {
         "status_list": List<dynamic>.from(statusList.map((x) => x)),
+        "search": search,
         if (newestId != null) "newest_id": newestId,
-        if (count != null) "count": count
+        if (count != null) "count": count,
       };
 }

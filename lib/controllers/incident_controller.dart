@@ -92,18 +92,18 @@ class IncidentController extends GetxController {
   RxString searchText = "".obs;
   final log = logger(IncidentController);
 
-  void incidentsBySearch() {
-    String theSearch = searchText.value.toUpperCase();
-    if (searchText.value != "") {
-      incidentList.value = storedIncidents.where((element) {
-        return element.reparationNumber.contains(theSearch) ||
-            element.veloName.contains(theSearch);
-      }).toList();
-      incidentList.refresh();
-    } else {
-      incidentList.value = storedIncidents;
-    }
-  }
+  // void incidentsBySearch() {
+  //   String theSearch = searchText.value.toUpperCase();
+  //   if (searchText.value != "") {
+  //     incidentList.value = storedIncidents.where((element) {
+  //       return element.reparationNumber.contains(theSearch) ||
+  //           element.veloName.contains(theSearch);
+  //     }).toList();
+  //     incidentList.refresh();
+  //   } else {
+  //     incidentList.value = storedIncidents;
+  //   }
+  // }
 
   void fetchIncidentTypeList() async {
     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
@@ -223,8 +223,8 @@ class IncidentController extends GetxController {
     noIncidentsToShow(false);
     try {
       isLoading(true);
-      var incidents =
-          await HttpService.fetchAllIncidents(incidentsToFetch, userToken);
+      var incidents = await HttpService.fetchAllIncidents(
+          incidentsToFetch, searchText.value, userToken);
       if (incidents != null && incidents.incidents.length != 0) {
         incidentList.value = incidents.incidents;
         storedIncidents = incidents.incidents;
@@ -271,7 +271,7 @@ class IncidentController extends GetxController {
     }
     try {
       IncidentsModel incidents = await HttpService.fetchAllIncidents(
-          incidentsToFetchFilter, userToken);
+          incidentsToFetchFilter, searchText.value, userToken);
       if (incidents.incidents.isNotEmpty) {
         incidentList = incidentList + incidents.incidents;
         return true;

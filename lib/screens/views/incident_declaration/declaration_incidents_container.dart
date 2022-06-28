@@ -78,7 +78,7 @@ class DeclarationIncidentsContainer extends StatelessWidget {
               child: Container(
                   padding: const EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
                   decoration: BoxDecoration(
-                      color: global_styles.backgroundDarkGrey,
+                      color: global_styles.blue,
                       borderRadius: BorderRadius.circular(30.0)),
                   child: const Icon(Icons.add, color: Colors.white)),
             ),

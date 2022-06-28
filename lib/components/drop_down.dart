@@ -68,27 +68,10 @@ class DropDown extends StatelessWidget {
                 )
               ],
             )),
-            popupSelectionWidget:
-                (BuildContext context, String item, bool isSelected) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: !isSelected
-                    ? null
-                    : BoxDecoration(
-                        // border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(5),
-                        // color: Colors.white,
-                        color: global_styles.backgroundLightGrey),
-                child: ListTile(
-                  // selected: isSelected,
-                  title: Text(item,
-                      style:
-                          const TextStyle(color: global_styles.greyTextInput)),
-                ),
-              );
-            },
             searchFieldProps: const TextFieldProps(
+              maxLength: 100,
               decoration: InputDecoration(
+                counterText: '',
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     borderSide: BorderSide(

@@ -57,44 +57,48 @@ class HubCard extends ConsumerWidget {
             height: 10,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(
-                Icons.location_pin,
-                color: global_styles.greyText,
-                size: 20,
-              ),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Icon(
+                    Icons.location_pin,
+                    color: global_styles.greyText,
+                    size: 20,
+                  )),
               Flexible(
                   child: Text(
                       ref.read(carteHubProvider).hubList[index].adress ??
                           "Pas d'adresse",
                       overflow: TextOverflow.ellipsis)),
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => {
-                  Clipboard.setData(ClipboardData(
-                          text: ref
-                                  .read(carteHubProvider)
-                                  .hubList[index]
-                                  .adress ??
-                              "Pas d'adresse"))
-                      .then((value) => ScaffoldMessenger.of(context)
-                          .showSnackBar(const SnackBar(
-                              content: Text(
-                                  "Adresse copiée dans le presse-papier."))))
-                },
-                icon: const Icon(
-                  Icons.copy,
-                  color: global_styles.greyText,
-                  size: 20,
-                ),
-              )
+              GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(
+                            text: ref
+                                    .read(carteHubProvider)
+                                    .hubList[index]
+                                    .adress ??
+                                "Pas d'adresse"))
+                        .then((value) => ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                                content: Text(
+                                    "Adresse copiée dans le presse-papier."))));
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Icon(
+                      Icons.copy,
+                      color: global_styles.greyText,
+                      size: 20,
+                    ),
+                  )),
             ],
           ),
           const SizedBox(
-            height: 5,
+            height: 10,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
                 "Vous avez ",
@@ -217,7 +221,6 @@ class HubsListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // need change to hubLIstprovider
     final CarteHubProvider hubs = ref.watch(carteHubProvider);
-    log.d("REBUILD VIEW");
     return Container(
         height: MediaQuery.of(context).size.height,
         color: global_styles.backgroundLightGrey,

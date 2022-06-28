@@ -38,7 +38,7 @@ class CarteBikeProvider extends ChangeNotifier {
   // Initialisation
   CarteBikeProvider() {
     getTokenFromSharedPref()
-        .then((token) => {userToken = token, fetchBikeMap()});
+        .then((token) => {userToken = token, fetchBikeMap(), fetchBikeList()});
   }
   void cleanPopup() {
     bikePopup = null;

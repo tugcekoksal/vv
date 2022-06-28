@@ -73,18 +73,35 @@ class LoginView extends StatelessWidget {
                     placeholder: "Mot de passe",
                     isPassword: true,
                     onChanged: loginController.onChangedPassword),
-                const SizedBox(height: 5.0),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: InkWell(
-                    onTap: () => launch(
-                        'https://dms.velyvelo.com/accounts/password/reset/'),
-                    child: const Text("Mot de passe oublié ?",
-                        style: TextStyle(
-                            color: global_styles.purple,
-                            fontSize: 11.0,
-                            fontWeight: FontWeight.w500)),
-                  ),
+                const SizedBox(height: 15.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: () =>
+                            launch('https://dms.velyvelo.com/delete_account/'),
+                        child: const Text("Supprimer mon compte",
+                            style: TextStyle(
+                                color: global_styles.orange,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: () => launch(
+                            'https://dms.velyvelo.com/accounts/password/reset/'),
+                        child: const Text("Mot de passe oublié ?",
+                            style: TextStyle(
+                                color: global_styles.purple,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                    ),
+                  ],
                 ),
                 Obx(() {
                   return Padding(
@@ -198,12 +215,14 @@ class _BuildInputLoginState extends State<BuildInputLogin> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      maxLength: 100,
       key: Key(widget.keyLabel),
       autocorrect: false,
       obscureText: widget.isPassword ? _isObscure : false,
       autofocus: false,
-      onChanged: (e) => widget.onChanged(e),
+      onChanged: (e) => {widget.onChanged(e)},
       decoration: InputDecoration(
+        counterText: '',
         filled: true,
         fillColor: Colors.white,
         hintText: widget.placeholder,

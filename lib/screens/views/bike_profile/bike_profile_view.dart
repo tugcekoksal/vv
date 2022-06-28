@@ -116,309 +116,276 @@ class MyBikeView extends ConsumerWidget {
     });
 
     return Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: global_styles.backgroundLightGrey,
         body: ColorfulSafeArea(
             color: Colors.white,
             child: Stack(children: [
-              Container(
-                  color: global_styles.backgroundLightGrey,
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 65, 0, 0),
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.only(bottom: 80, top: 20),
-                        child: Container(
-                          color: global_styles.backgroundLightGrey,
-                          child: Column(
-                            children: [
-                              bikeProfile.isLoading
-                                  ? LoadingBox(
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 30.0, vertical: 20.0),
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 20.0, vertical: 8.0),
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(25))),
-                                        height: screenHeight * 0.25,
-                                      ),
-                                    )
-                                  : Container(
-                                      width: double.infinity,
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(25))),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20.0),
-                                      child: Image.network(
-                                        bikeProfile.userBike.pictureUrl != ""
-                                            ? HttpService.urlServer +
-                                                bikeProfile.userBike.pictureUrl
-                                            : "https://velyvelo.com/static/vitrine/gif/hp_cycliste_coursier.gif",
-                                        height: screenHeight * 0.15,
-                                      ),
-                                    ),
-                              const SizedBox(height: 10.0),
-                              // If the bike view is loading
-                              bikeProfile.isLoading
-                                  ? LoadingBox(
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 30.0, vertical: 20.0),
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 20.0, vertical: 8.0),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(20.0)),
-                                        height: 150,
-                                      ),
-                                    )
-                                  // If the there is an error laoding the bike view
-                                  : bikeProfile.messageError != ''
-                                      ? Center(
-                                          child: Text(bikeProfile.messageError,
-                                              style: const TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600)))
-                                      // If bike views datas area well loaded
-                                      : Container(
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 30.0, vertical: 20.0),
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 20.0, vertical: 8.0),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text("Informations",
-                                                  style: TextStyle(
-                                                      color:
-                                                          global_styles.purple,
-                                                      fontSize: 17.0,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                              const SizedBox(height: 5.0),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Groupe ',
-                                                  style: const TextStyle(
-                                                      color: global_styles
-                                                          .greyText,
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: bikeProfile
-                                                            .userBike
-                                                            .groupeName,
-                                                        style: const TextStyle(
-                                                            color: global_styles
-                                                                .lightGreyText)),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5.0),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Kilométrage ',
-                                                  style: const TextStyle(
-                                                      color: global_styles
-                                                          .greyText,
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: bikeProfile
-                                                            .userBike
-                                                            .kilometrage
-                                                            .toString(),
-                                                        style: const TextStyle(
-                                                            color: global_styles
-                                                                .lightGreyText)),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5.0),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Client ',
-                                                  style: const TextStyle(
-                                                      color: global_styles
-                                                          .greyText,
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: bikeProfile
-                                                            .userBike
-                                                            .clientName,
-                                                        style: const TextStyle(
-                                                            color: global_styles
-                                                                .lightGreyText)),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5.0),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Numéro Cadre ',
-                                                  style: const TextStyle(
-                                                      color: global_styles
-                                                          .greyText,
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: bikeProfile
-                                                            .userBike
-                                                            .numeroCadran,
-                                                        style: const TextStyle(
-                                                            color: global_styles
-                                                                .lightGreyText)),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5.0),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Date de création ',
-                                                  style: const TextStyle(
-                                                      color: global_styles
-                                                          .greyText,
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: bikeProfile
-                                                            .userBike
-                                                            .dateCreation,
-                                                        style: const TextStyle(
-                                                            color: global_styles
-                                                                .lightGreyText)),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                              const SizedBox(height: 20.0),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () => Get.to(
-                                    // Préremplir les champs
-                                    () => IncidentDeclaration(
-                                        infoContainer:
-                                            infoDeclarationFromBikeController(
-                                                ref
-                                                    .read(bikeProfileProvider)
-                                                    .userBike)),
-                                    transition: Transition.downToUp,
-                                    duration:
-                                        const Duration(milliseconds: 400)),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      color: global_styles.blue,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 25.0, vertical: 15.0),
-                                    child: const Text("Déclarer un incident",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 17.0,
-                                            fontWeight: FontWeight.w600))),
-                              )),
-                              const SizedBox(height: 20.0),
-                              // Display title & list of current incidents
-                              const IncidentInProgress(),
-                              const SizedBox(height: 10.0),
-                              // Button & list of passed incidents
-                              const IncidentHistoryContainer(),
-                              Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.only(
-                                        left: 30.0,
-                                        right: 30.0,
-                                        top: 20,
-                                        bottom: 50.0),
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 20.0, vertical: 20.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(20.0)),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Text("Que faire en cas de vol ?",
-                                            style: TextStyle(
-                                                color: global_styles.purple,
-                                                fontSize: 17.0,
-                                                fontWeight: FontWeight.w600)),
-                                        SizedBox(height: 10.0),
-                                        Text(
-                                            "Votre vélo a été volé ? Déclarez-le sur l'application à l'aide du bouton ci-dessous",
-                                            style: TextStyle(
-                                                color: global_styles.purple,
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.w400))
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    child: GestureDetector(
-                                      onTap: () => showConfirmStolenBikeDialog(
-                                          context,
-                                          ref.read(bikeProfileProvider)),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          color: bikeProfile.userBike.isStolen
-                                              ? const Color(0xff46b594)
-                                              : global_styles.orange,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20.0, vertical: 18.0),
-                                        child: Text(
-                                            bikeProfile.userBike.isStolen
-                                                ? "Mon vélo a été retrouvé"
-                                                : "Déclarer mon vélo comme volé",
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 17.0,
-                                                fontWeight: FontWeight.w600)),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 85, 0, 60),
+                  child: Column(
+                    children: [
+                      bikeProfile.isLoading
+                          ? LoadingBox(
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0, vertical: 20.0),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 8.0),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
+                                height: screenHeight * 0.25,
                               ),
-                              const SizedBox(
-                                height: 50,
-                              )
-                            ],
+                            )
+                          : Container(
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25))),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 20.0),
+                              child: Image.network(
+                                bikeProfile.userBike.pictureUrl != ""
+                                    ? HttpService.urlServer +
+                                        bikeProfile.userBike.pictureUrl
+                                    : "https://velyvelo.com/static/vitrine/gif/hp_cycliste_coursier.gif",
+                                height: screenHeight * 0.15,
+                              ),
+                            ),
+                      const SizedBox(height: 10.0),
+                      // If the bike view is loading
+                      bikeProfile.isLoading
+                          ? LoadingBox(
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0, vertical: 20.0),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 8.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                height: 150,
+                              ),
+                            )
+                          // If the there is an error laoding the bike view
+                          : bikeProfile.messageError != ''
+                              ? Center(
+                                  child: Text(bikeProfile.messageError,
+                                      style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600)))
+                              // If bike views datas area well loaded
+                              : Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30.0, vertical: 20.0),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 8.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text("Informations",
+                                          style: TextStyle(
+                                              color: global_styles.purple,
+                                              fontSize: 17.0,
+                                              fontWeight: FontWeight.w600)),
+                                      const SizedBox(height: 5.0),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Groupe ',
+                                          style: const TextStyle(
+                                              color: global_styles.greyText,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: bikeProfile
+                                                    .userBike.groupeName,
+                                                style: const TextStyle(
+                                                    color: global_styles
+                                                        .lightGreyText)),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5.0),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Kilométrage ',
+                                          style: const TextStyle(
+                                              color: global_styles.greyText,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: bikeProfile
+                                                    .userBike.kilometrage
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: global_styles
+                                                        .lightGreyText)),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5.0),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Client ',
+                                          style: const TextStyle(
+                                              color: global_styles.greyText,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: bikeProfile
+                                                    .userBike.clientName,
+                                                style: const TextStyle(
+                                                    color: global_styles
+                                                        .lightGreyText)),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5.0),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Numéro Cadre ',
+                                          style: const TextStyle(
+                                              color: global_styles.greyText,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: bikeProfile
+                                                    .userBike.numeroCadran,
+                                                style: const TextStyle(
+                                                    color: global_styles
+                                                        .lightGreyText)),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5.0),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: 'Date de création ',
+                                          style: const TextStyle(
+                                              color: global_styles.greyText,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: bikeProfile
+                                                    .userBike.dateCreation,
+                                                style: const TextStyle(
+                                                    color: global_styles
+                                                        .lightGreyText)),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                      const SizedBox(height: 20.0),
+                      Center(
+                          child: GestureDetector(
+                        onTap: () => Get.to(
+                            // Préremplir les champs
+                            () => IncidentDeclaration(
+                                infoContainer:
+                                    infoDeclarationFromBikeController(ref
+                                        .read(bikeProfileProvider)
+                                        .userBike)),
+                            transition: Transition.downToUp,
+                            duration: const Duration(milliseconds: 400)),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: global_styles.blue,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 25.0, vertical: 15.0),
+                            child: const Text("Déclarer un incident",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w600))),
+                      )),
+                      const SizedBox(height: 20.0),
+                      // Display title & list of current incidents
+                      const IncidentInProgress(),
+                      const SizedBox(height: 10.0),
+                      // Button & list of passed incidents
+                      const IncidentHistoryContainer(),
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(
+                                left: 30.0, right: 30.0, top: 20, bottom: 50.0),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 20.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text("Que faire en cas de vol ?",
+                                    style: TextStyle(
+                                        color: global_styles.purple,
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.w600)),
+                                SizedBox(height: 10.0),
+                                Text(
+                                    "Votre vélo a été volé ? Déclarez-le sur l'application à l'aide du bouton ci-dessous",
+                                    style: TextStyle(
+                                        color: global_styles.purple,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400))
+                              ],
+                            ),
                           ),
-                        ),
-                      ))),
+                          Positioned(
+                            child: GestureDetector(
+                              onTap: () => showConfirmStolenBikeDialog(
+                                  context, ref.read(bikeProfileProvider)),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  color: bikeProfile.userBike.isStolen
+                                      ? const Color(0xff46b594)
+                                      : global_styles.orange,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0, vertical: 18.0),
+                                child: Text(
+                                    bikeProfile.userBike.isStolen
+                                        ? "Mon vélo a été retrouvé"
+                                        : "Déclarer mon vélo comme volé",
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               // Return Bar
               (!isFromScan
                   ? ReturnBar(text: bikeProfile.userBike.bikeName)

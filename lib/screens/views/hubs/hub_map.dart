@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Vendor
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart' as lat_long;
@@ -150,7 +150,7 @@ class HubMap extends ConsumerWidget {
                 width: 20,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: Colors.black, width: 2.0),
+                    border: Border.all(color: global_styles.purple, width: 2.0),
                     borderRadius: BorderRadius.circular(20.0)),
                 alignment: Alignment.center,
                 child: Text(markers.length.toString(),
@@ -171,7 +171,7 @@ class HubMap extends ConsumerWidget {
                     clipper: PopUpClipper(),
                     child: Container(
                       width: 300,
-                      height: 175,
+                      height: MediaQuery.of(context).size.height * 0.25,
                       padding: const EdgeInsets.all(15.0),
                       decoration: BoxDecoration(
                           color: Colors.white,

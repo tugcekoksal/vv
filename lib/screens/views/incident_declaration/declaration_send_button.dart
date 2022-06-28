@@ -18,12 +18,17 @@ class DeclarationSendButton extends ConsumerWidget {
       onTap: () async {
         // Dismiss keyboard on button click
         FocusManager.instance.primaryFocus?.unfocus();
+        ScaffoldMessenger.of(context).clearSnackBars();
 
         if (declarationController.infosSelection.value.infoVelo.selected ==
             null) {
           declarationController.errors.update((val) {
             val?.veloError = "Le champ vélo n'est pas renseigné";
           });
+          const snackBar = SnackBar(
+              content: Text('Certains champs requis ne sont pas remplis.'),
+              backgroundColor: Colors.red);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
           return;
         } else {
           declarationController.errors.update((val) {
@@ -40,12 +45,13 @@ class DeclarationSendButton extends ConsumerWidget {
           } catch (e) {
             log.e(e);
           }
-          Future.delayed(
-              const Duration(milliseconds: 200),
-              () => {
-                    // Get.delete<IncidentDeclarationController>(),
-                    Navigator.of(context).pop()
-                  });
+          Future.delayed(const Duration(milliseconds: 200),
+              () => {Navigator.of(context).pop()});
+        } else {
+          const snackBar = SnackBar(
+              content: Text('Certains champs requis ne sont pas remplis.'),
+              backgroundColor: Colors.red);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       child: SafeArea(

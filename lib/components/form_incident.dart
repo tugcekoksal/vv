@@ -63,9 +63,9 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
                     child: Container(
                         padding: const EdgeInsetsDirectional.fromSTEB(
                             10, 10, 10, 10),
-                        margin: const EdgeInsets.only(left: 5.0, bottom: 10.0),
+                        margin: const EdgeInsets.only(bottom: 20.0),
                         decoration: BoxDecoration(
-                            color: global_styles.backgroundDarkGrey,
+                            color: global_styles.orange,
                             borderRadius: BorderRadius.circular(30.0)),
                         child: const Icon(Icons.remove, color: Colors.white)),
                   )
@@ -107,14 +107,17 @@ class _BuildFormIncidentState extends State<BuildFormIncident> {
         }),
         const SizedBox(height: 10.0),
         TextField(
+          maxLength: 500,
           keyboardType: TextInputType.multiline,
           maxLines: null,
           autofocus: false,
           minLines: 5,
           textAlignVertical: TextAlignVertical.top,
           textAlign: TextAlign.start,
-          onChanged: (e) => incidentDeclarationController
-              .setIncidentCommentValue(e, widget.indexIncident),
+          onChanged: (e) => {
+            incidentDeclarationController.setIncidentCommentValue(
+                e, widget.indexIncident)
+          },
           decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderSide: const BorderSide(

@@ -8,8 +8,11 @@ import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
-Future fetchAllIncidentsService(String urlServer,
-    RefreshIncidentModel incidentsToFetch, String userToken) async {
+Future fetchAllIncidentsService(
+    String urlServer,
+    RefreshIncidentModel incidentsToFetch,
+    String searchText,
+    String userToken) async {
   final log = logger(HttpService);
 
   var request = http.Request("GET", Uri.parse("$urlServer/api/listIncidents/"));
@@ -17,7 +20,7 @@ Future fetchAllIncidentsService(String urlServer,
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
   };
-  request.body = json.encode(incidentsToFetch.toJson());
+  request.body = json.encode(incidentsToFetch.toJson(searchText));
 
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();

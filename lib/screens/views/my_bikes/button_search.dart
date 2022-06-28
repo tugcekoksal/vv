@@ -72,9 +72,12 @@ class SearchBarVelo extends ConsumerWidget {
             SizedBox(
               width: screenWidth * 0.5,
               child: TextField(
+                maxLength: 100,
                 autocorrect: false,
                 decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: "Rechercher un vélo"),
+                    counterText: '',
+                    border: InputBorder.none,
+                    hintText: "Rechercher un vélo"),
                 controller: textInputController,
                 onChanged: (value) => {
                   ref.read(carteBikeProvider).filter.searchText = value,
@@ -86,15 +89,20 @@ class SearchBarVelo extends ConsumerWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                    onPressed: () => {
-                          textInputController.text = "",
-                          ref.read(carteBikeProvider).filter.searchText = "",
-                          ref.read(carteBikeProvider).fetch(ref
-                              .read(mapViewProvider)
-                              .isMapOrList(MapOrList.list))
-                        },
-                    icon: const Icon(Icons.close)),
+                Opacity(
+                  opacity: ref.watch(carteBikeProvider).filter.searchText != ""
+                      ? 1
+                      : 0,
+                  child: IconButton(
+                      onPressed: () => {
+                            textInputController.text = "",
+                            ref.read(carteBikeProvider).filter.searchText = "",
+                            ref.read(carteBikeProvider).fetch(ref
+                                .read(mapViewProvider)
+                                .isMapOrList(MapOrList.list))
+                          },
+                      icon: const Icon(Icons.close)),
+                )
               ],
             )
           ]),
@@ -160,9 +168,12 @@ class SearchBarHub extends ConsumerWidget {
             SizedBox(
               width: screenWidth * 0.5,
               child: TextField(
+                maxLength: 100,
                 autocorrect: false,
                 decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: "Rechercher un hub"),
+                    counterText: '',
+                    border: InputBorder.none,
+                    hintText: "Rechercher un hub"),
                 controller: textInputController,
                 onChanged: (value) => {
                   hubs.searchText = value,
@@ -174,13 +185,16 @@ class SearchBarHub extends ConsumerWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                    onPressed: () => {
-                          textInputController.text = "",
-                          hubs.searchText = "",
-                          hubs.fetchHubMap()
-                        },
-                    icon: const Icon(Icons.close)),
+                Opacity(
+                  opacity: hubs.searchText != "" ? 1 : 0,
+                  child: IconButton(
+                      onPressed: () => {
+                            textInputController.text = "",
+                            hubs.searchText = "",
+                            hubs.fetchHubMap()
+                          },
+                      icon: const Icon(Icons.close)),
+                )
               ],
             )
           ]),
@@ -250,27 +264,34 @@ class SearchBarIncident extends StatelessWidget {
             SizedBox(
               width: screenWidth * 0.5,
               child: TextField(
+                maxLength: 100,
                 autocorrect: false,
                 decoration: const InputDecoration(
+                    counterText: '',
                     border: InputBorder.none,
                     hintText: "Rechercher un incident"),
                 controller: textInputController,
                 onChanged: (value) => {
                   incidentController.searchText.value = value,
-                  incidentController.incidentsBySearch(),
+                  incidentController.fetchAllIncidents(
+                      incidentController.incidentsToFetch.value),
                 },
               ),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                    onPressed: () => {
-                          textInputController.text = "",
-                          incidentController.searchText.value = "",
-                          incidentController.incidentsBySearch(),
-                        },
-                    icon: const Icon(Icons.close)),
+                Opacity(
+                  opacity: textInputController.text != "" ? 1 : 0,
+                  child: IconButton(
+                      onPressed: () => {
+                            textInputController.text = "",
+                            incidentController.searchText.value = "",
+                            incidentController.fetchAllIncidents(
+                                incidentController.incidentsToFetch.value),
+                          },
+                      icon: const Icon(Icons.close)),
+                )
               ],
             )
           ]),

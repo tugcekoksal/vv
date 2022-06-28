@@ -37,7 +37,7 @@ import 'package:velyvelo/services/hubs/fetch_hub_map.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
-  // static String urlServer = "http://192.168.10.103:8000";
+  // static String urlServer = "http://192.168.10.119:8000";
   static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
@@ -96,9 +96,10 @@ class HttpService {
   }
 
   // Fetch All the incidents
-  static Future fetchAllIncidents(
-      RefreshIncidentModel incidentsToFetch, String userToken) async {
-    return fetchAllIncidentsService(urlServer, incidentsToFetch, userToken);
+  static Future fetchAllIncidents(RefreshIncidentModel incidentsToFetch,
+      String searchText, String userToken) async {
+    return fetchAllIncidentsService(
+        urlServer, incidentsToFetch, searchText, userToken);
   }
 
   // Fetch informations about a specific reparation
