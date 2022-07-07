@@ -12,7 +12,7 @@ import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Helpers
-import 'package:velyvelo/helpers/statusColorBasedOnStatus.dart';
+import 'package:velyvelo/helpers/status_color_based_on_status.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
@@ -28,7 +28,9 @@ class IncidentsList extends StatelessWidget {
     incidentController.currentIncidentId.value = incidentID;
     await incidentController.fetchIncidentById(incidentID);
 
-    Get.to(() => IncidentDetail(incident: data));
+    Get.to(() => IncidentDetail(incident: data),
+        transition: Transition.downToUp,
+        duration: const Duration(milliseconds: 400));
   }
 
   @override
@@ -47,8 +49,13 @@ class IncidentsList extends StatelessWidget {
         },
         onLoading: () {
           // Add new incidents in the list with newest_id and count
-          incidentController.fetchNewIncidents();
-          incidentController.refreshController.loadComplete();
+          incidentController.fetchNewIncidents().then((isNotEmpty) {
+            if (isNotEmpty) {
+              incidentController.refreshController.loadComplete();
+            } else {
+              incidentController.refreshController.loadNoData();
+            }
+          });
         },
         child: ListView.builder(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),

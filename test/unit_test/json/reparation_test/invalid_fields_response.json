@@ -1,0 +1,42 @@
+{
+    "photos": {
+        "photozes": 23
+    },
+    "is_bike_functional": "urluberlu",
+    "status_bike": [],
+    "cause": {
+        "name": 34
+    },
+    "list_cause": "blip blop",
+    "type_intervention": [
+        {
+            "id": 0,
+            "name": "Type intervention"
+        }
+    ],
+    "list_type_intervention": [
+        {
+            "id": 2,
+            "name": 9
+        }
+    ],
+    "type_reparation": {
+        "id": "",
+        "name": 3
+    },
+    "list_type_reparation": [
+        "BLABLA",
+        3
+    ],
+    "pieces": [
+        4,
+        44,
+        35
+    ],
+    "commentary_admin": [
+        "null"
+    ],
+    "commentary_tech": [
+        "null"
+    ]
+}

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final incidentsModel = incidentsModelFromJson(jsonString);
-
 import 'dart:convert';
 
 IncidentsModel incidentsModelFromJson(String str) =>
@@ -84,13 +80,13 @@ class NbIncidents {
 
   factory NbIncidents.fromJson(Map<String, dynamic> json) => NbIncidents(
         nouvelle: json["Nouvelle"],
-        enCours: json["En cours"],
-        termine: json["Termine"],
+        enCours: json["Planifié"],
+        termine: json["Terminé"],
       );
 
   Map<String, dynamic> toJson() => {
         "Nouvelle": nouvelle,
-        "En cours": enCours,
-        "Termine": termine,
+        "Planifié": enCours,
+        "Terminé": termine,
       };
 }

@@ -1,15 +1,11 @@
 // Vendor
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/bike_controller.dart';
 import 'package:velyvelo/controllers/bike_scan_controller.dart';
-import 'package:velyvelo/controllers/hub_controller.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
-import 'package:velyvelo/controllers/map_controller.dart';
 import 'package:velyvelo/controllers/navigation_controller.dart';
 import 'package:velyvelo/helpers/logger.dart';
 
@@ -20,7 +16,7 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 class LoginController extends GetxController {
-  Logger log = getLogger(LoginController);
+  final log = logger(LoginController);
 
   var isLoading = false.obs;
   var login = ''.obs;
@@ -109,12 +105,12 @@ class LoginController extends GetxController {
     try {
       token = await HttpService.loginUser(login.value, password.value);
     } catch (e) {
-      log.w(e);
+      log.e(e.toString());
       error.value = e.toString();
       return;
     }
 
-    // Update shared preferences.
+    // Update shared preferences
     setUsername(prefs, login.value);
     setToken(prefs, token);
 
@@ -143,10 +139,7 @@ class LoginController extends GetxController {
     prefs.remove("username");
 
     Get.delete<IncidentController>();
-    Get.delete<BikeController>();
     Get.delete<BikeScanController>();
-    Get.delete<HubController>();
-    Get.delete<MapBikesController>();
     Get.delete<IncidentDeclarationController>();
 
     NavigationController navigationController = Get.put(NavigationController());
@@ -157,14 +150,12 @@ class LoginController extends GetxController {
     try {
       var userTypeFetched = await HttpService.fetchTypeUser(userToken);
 
-      print("USER FETCHED: " + userTypeFetched);
       if (userTypeFetched == "Client") {
         isClient(true);
         userType = "Client";
       } else if (userTypeFetched == "Utilisateur") {
         isUser(true);
         userType = "User";
-        fetchBikeIDIfUser();
       } else if (userTypeFetched == "SuperUser") {
         isSuperUser(true);
         userType = "SuperUser";
@@ -178,23 +169,7 @@ class LoginController extends GetxController {
       }
       isLogged(true);
     } catch (e) {
-      print(e);
-    }
-  }
-
-  void fetchBikeIDIfUser() async {
-    try {
-      isLoading(true);
-      var bikeID = await HttpService.fetchBikeIDUser(userToken);
-      if (bikeID != null) {
-        userBikeID.value = bikeID[0].veloPk;
-
-        // Get the bike of the user
-        Get.find<BikeController>().fetchUserBike(userBikeID.value);
-      }
-      isLoading(false);
-    } catch (e) {
-      print(e);
+      log.e(e.toString());
     }
   }
 

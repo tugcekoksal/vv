@@ -1,16 +1,26 @@
 // Vendor
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/helpers/logger.dart';
+import 'package:velyvelo/helpers/usefull.dart';
+import 'package:velyvelo/models/bike/user_bike_model.dart';
+import 'package:velyvelo/models/carte/bike_list_model.dart';
+import 'package:velyvelo/models/carte/bike_map_model.dart';
+import 'package:velyvelo/models/carte/hub_list_model.dart';
+import 'package:velyvelo/models/carte/hub_map_model.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 // Models
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
+import 'package:velyvelo/models/map/map_filter_model.dart';
 
 // Services
 import 'package:velyvelo/services/bikes/bike_id_user_service.dart';
 import 'package:velyvelo/services/bikes/bike_user_service.dart';
-import 'package:velyvelo/services/bikes/get_all_bikes_service.dart';
+import 'package:velyvelo/services/bikes/get_bike_map.dart';
 import 'package:velyvelo/services/bikes/send_bike_status_service.dart';
 import 'package:velyvelo/services/bikes/set_bike_robbed_service.dart';
 import 'package:velyvelo/services/incidents/get_all_incidents_service.dart';
@@ -23,14 +33,17 @@ import 'package:velyvelo/services/labels/get_incident_labels_service.dart';
 import 'package:velyvelo/services/login/login_user_service.dart';
 import 'package:velyvelo/services/login/type_user_service.dart';
 import 'package:velyvelo/services/map/get_map_filters_service.dart';
-import 'package:velyvelo/services/hubs/fetch_all_hubs.dart';
+import 'package:velyvelo/services/hubs/fetch_hub_map.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
+  // static String urlServer = "http://192.168.10.119:8000";
   static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
+    final log = logger(HttpService);
+
     String? userDeviceToken = await FirebaseMessaging.instance.getToken();
     var request =
         http.MultipartRequest('POST', Uri.parse("$urlServer/api/assignUID/"));
@@ -43,9 +56,9 @@ class HttpService {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print("Token successfully added");
+      log.d("Token successfully added");
     } else {
-      print('Token : error while adding to db');
+      log.e('Token : error while adding to db');
     }
   }
 
@@ -60,18 +73,21 @@ class HttpService {
   }
 
   // Fetch the user's bike
-  static Future fetchUserBike(int veloPk, String userToken) async {
+  static Future<UserBikeModel> fetchUserBike(
+      int veloPk, String userToken) async {
     return fetchUserBikeService(urlServer, veloPk, userToken);
   }
 
   // Fetch the hubs for map
-  static Future fetchHubs(String userToken) async {
-    return fetchHubsService(urlServer, userToken);
+  static Future<List<HubMapModel>> fetchHubMap(
+      String search, String userToken) async {
+    return fetchHubMapService(urlServer, search, userToken);
   }
 
-  // Fetch one hub for map popup
-  static Future fetchOneHub(int groupPk, String userToken) async {
-    return fetchOneHubService(urlServer, groupPk, userToken);
+  // Fetch the hubs for map
+  static Future<List<HubListModel>> fetchHubList(
+      String search, ItemRefresher itemRefresher, String userToken) async {
+    return fetchHubListService(urlServer, search, itemRefresher, userToken);
   }
 
   // Fetch the user's type
@@ -80,14 +96,15 @@ class HttpService {
   }
 
   // Fetch All the incidents
-  static Future fetchAllIncidents(
-      RefreshIncidentModel incidentsToFetch, String userToken) async {
-    return fetchAllIncidentsService(urlServer, incidentsToFetch, userToken);
+  static Future fetchAllIncidents(RefreshIncidentModel incidentsToFetch,
+      String searchText, String userToken) async {
+    return fetchAllIncidentsService(
+        urlServer, incidentsToFetch, searchText, userToken);
   }
 
   // Fetch informations about a specific reparation
-  static Future fetchReparationByPk(String incidentPk, String userToken) {
-    return fetchReparationByPkService(urlServer, incidentPk, userToken);
+  static Future fetchIncident(String incidentPk, String userToken) {
+    return fetchIncidentService(urlServer, incidentPk, userToken);
   }
 
   // Fetch an incident by id
@@ -95,15 +112,37 @@ class HttpService {
     return fetchIncidentByIdService(urlServer, id, userToken);
   }
 
-  // Fetch All bikes
-  static Future fetchAllBikes(
-      List filtersList, List statusList, String userToken) async {
-    return fetchAllBikesService(urlServer, filtersList, statusList, userToken);
+  // Fetch Bike Pos on Map view velo
+  static Future<List<BikeMapModel>> fetchBikeMap(List<String> filtersList,
+      List<String> statusList, String searchText, String userToken) async {
+    return fetchBikeMapService(
+        urlServer, filtersList, statusList, searchText, userToken);
+  }
+
+  // Fetch Bike Popup on Map view velo
+  static Future<BikePopupModel> fetchBikePopup(int id, String userToken) async {
+    return fetchBikePopupService(urlServer, id, userToken);
+  }
+
+  // Fetch Bike Popup on Map view velo
+  static Future<HubListModel> fetchHubPopup(int id, String userToken) async {
+    return fetchHubPopupService(urlServer, id, userToken);
+  }
+
+  // Fetch Bike card list info on list view velo
+  static Future<List<BikeListModel>> fetchBikeList(
+      List<String> filtersList,
+      List<String> statusList,
+      String searchText,
+      ItemRefresher itemRefresher,
+      String userToken) async {
+    return fetchBikeListService(urlServer, filtersList, statusList, searchText,
+        itemRefresher, userToken);
   }
 
   // Fetch map's filters
-  static Future fetchMapfilters(String userToken) async {
-    return fetchMapfiltersService(urlServer, userToken);
+  static Future<GroupFilterModel> fetchGroupFilters(String userToken) async {
+    return fetchGroupFilterService(urlServer, userToken);
   }
 
   // Fetch all the client labels
@@ -137,15 +176,15 @@ class HttpService {
   }
 
   // Set a bike on robbed status
-  static Future setBikeRobbed(int id, bool robbed, String userToken) async {
+  static Future<String> setBikeRobbed(
+      int id, bool robbed, String userToken) async {
     return setBikeRobbedService(urlServer, id, robbed, userToken);
   }
 
   // Set a bike status in detail page
   static Future<String> sendCurrentDetailBikeStatus(
-      Reparation reparation, String causeIncident, String userToken) async {
-    return sendCurrentDetailBikeStatusService(
-        urlServer, reparation, causeIncident, userToken);
+      ReparationModel reparation, String userToken) async {
+    return sendCurrentDetailBikeStatusService(urlServer, reparation, userToken);
   }
 
   static Future fetchPieceFromType(

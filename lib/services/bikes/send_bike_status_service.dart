@@ -4,24 +4,30 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 List<int> listIdFromListIdAndName(List<IdAndName> theList) {
-  return theList.map((elem) => elem.id).toList();
+  return theList.map((elem) => elem.id ?? -1).toList();
 }
 
-Future<String> sendCurrentDetailBikeStatusService(String urlServer,
-    Reparation reparation, String causeIncident, String userToken) async {
+Future<String> sendCurrentDetailBikeStatusService(
+    String urlServer, ReparationModel reparation, String userToken) async {
+  String isBikeFunctionnal = reparation.isBikeFunctional == null
+      ? ""
+      : reparation.isBikeFunctional!
+          ? "True"
+          : "False";
   var request = http.MultipartRequest(
       'POST', Uri.parse('$urlServer/api/updateIncident/'));
   request
     ..fields["incident_pk"] = json.encode(reparation.incidentPk)
-    ..fields["is_bike_functional"] =
-        reparation.isBikeFunctional ? "True" : "False"
-    ..fields["status_bike"] = reparation.statusBike
+    ..fields["is_bike_functional"] = isBikeFunctionnal
+    ..fields["status_bike"] = reparation.statusBike ?? ""
     ..fields["pieces"] =
         json.encode(reparation.selectedPieces.map((elem) => elem.id).toList())
-    ..fields["commentary"] = reparation.commentary.value.text
-    ..fields["cause"] = causeIncident
+    ..fields["commentary_tech"] = reparation.commentaryTech.value.text
+    ..fields["commentary_admin"] = reparation.commentaryAdmin.value.text
+    ..fields["cause"] = reparation.cause.name ?? ""
     ..fields["intervention_type_id"] = reparation.typeIntervention.id.toString()
     ..fields["reparation_type_id"] = reparation.typeReparation.id.toString();
 
@@ -46,7 +52,7 @@ Future<String> sendCurrentDetailBikeStatusService(String urlServer,
       json.decode(response.body)["message"] ?? "No message from server";
 
   if (response.statusCode >= 400) {
-    throw Exception(message);
+    throw (message);
   }
   // The status is OK : We give a success phrase from the server
   return message;

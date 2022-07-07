@@ -1,12 +1,13 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
+// Provider
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 class BuildButtonSelectedFilter extends StatelessWidget {
   final String text;
@@ -46,50 +47,75 @@ class BuildButtonSelectedFilter extends StatelessWidget {
   }
 }
 
-class PopUpListFilters extends StatelessWidget {
-  final MapBikesController mapBikesController;
-  final ScrollController scrollController = ScrollController();
-
-  PopUpListFilters({Key? key, required this.mapBikesController})
-      : super(key: key);
+class PopUpFiltersBikeList extends ConsumerWidget {
+  const PopUpFiltersBikeList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
+    return Wrap(
+        spacing: 4.0,
+        direction: Axis.horizontal,
+        children: bikes.filter.selectedGroupsList.isEmpty
+            ? [const Text("Aucuns groupes séléctionnés")]
+            : bikes.filter.availableGroupsList
+                .map((filterLabel) =>
+                    bikes.filter.selectedGroupsList.contains(filterLabel)
+                        ? BuildButtonSelectedFilter(
+                            text: filterLabel, setFilters: bikes.setFilters)
+                        : const SizedBox(
+                            height: 0,
+                            width: 0,
+                          ))
+                .toList());
+  }
+}
 
+class PopUpFiltersBikeMap extends ConsumerWidget {
+  const PopUpFiltersBikeMap({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
+    return Wrap(
+        spacing: 4.0,
+        direction: Axis.horizontal,
+        children: bikes.filter.selectedGroupsList.isEmpty
+            ? [const Text("Aucuns groupes séléctionnés")]
+            : bikes.filter.availableGroupsList
+                .map((filterLabel) =>
+                    bikes.filter.selectedGroupsList.contains(filterLabel)
+                        ? BuildButtonSelectedFilter(
+                            text: filterLabel, setFilters: bikes.setFilters)
+                        : const SizedBox(
+                            height: 0,
+                            width: 0,
+                          ))
+                .toList());
+  }
+}
+
+class PopUpListFilters extends ConsumerWidget {
+  final ScrollController scrollController = ScrollController();
+  PopUpListFilters({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Container(
         constraints: BoxConstraints(maxHeight: screenHeight * 0.15),
         child: Row(children: [
           Expanded(
               child: Scrollbar(
             controller: scrollController,
-            isAlwaysShown: true,
+            thumbVisibility: true,
             child: ListView(
               controller: scrollController,
               shrinkWrap: true,
               children: [
-                Obx(
-                  (() => Wrap(
-                      spacing: 4.0,
-                      direction: Axis.horizontal,
-                      children: mapBikesController.selectedFiltersList.isEmpty
-                          ? [const Text("Aucuns groupes séléctionnés")]
-                          : mapBikesController.availableFiltersList
-                              .map((filterLabel) => Obx(() {
-                                    if (mapBikesController.selectedFiltersList
-                                        .contains(filterLabel)) {
-                                      return BuildButtonSelectedFilter(
-                                          text: filterLabel,
-                                          setFilters:
-                                              mapBikesController.setFilters);
-                                    }
-                                    return const SizedBox(
-                                      height: 0,
-                                      width: 0,
-                                    );
-                                  }))
-                              .toList())),
-                )
+                ref.read(mapViewProvider).isMapOrList(MapOrList.list)
+                    ? const PopUpFiltersBikeList()
+                    : const PopUpFiltersBikeMap()
               ],
             ),
           ))

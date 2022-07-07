@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
       Get.put(NavigationController());
   final LoginController loginController = Get.put(LoginController());
   final PageController _pageController = Get.put(PageController());
-  final log = getLogger(HomeScreen);
+  final log = logger(HomeScreen);
 
   showDeclarationIncidentPage() {
     Get.to(() => const IncidentDeclaration(),
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   children: <Widget>[
                     IncidentsView(),
-                    const MyBikesView(),
+                    MyBikesView(),
                   ],
                 );
               } else {

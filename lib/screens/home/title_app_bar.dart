@@ -68,7 +68,7 @@ class SubTitleIncidents extends StatelessWidget {
     int count = 0;
 
     count += incidentController.incidentFilters.contains("Nouvelle") ? 1 : 0;
-    count += incidentController.incidentFilters.contains("En cours") ? 1 : 0;
+    count += incidentController.incidentFilters.contains("Planifié") ? 1 : 0;
     count += incidentController.incidentFilters.contains("Terminé") ? 1 : 0;
     switch (count) {
       case 0:
@@ -76,7 +76,7 @@ class SubTitleIncidents extends StatelessWidget {
       case 1:
         return "1 filtre appliqué";
       case 2:
-        return "2 filtre appliqué";
+        return "2 filtres appliqués";
       case 3:
         return "Tout";
       default:

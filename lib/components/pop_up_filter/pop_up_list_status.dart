@@ -1,12 +1,13 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/color_status_typology.dart';
 
-// Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
+// Provider
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 class BuildButtonStatus extends StatelessWidget {
   const BuildButtonStatus(
@@ -27,44 +28,70 @@ class BuildButtonStatus extends StatelessWidget {
         labelPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
         label: Text(label,
             style: TextStyle(
-                color: isSelected ? Colors.white : colorStatusTypology[label],
+                color: isSelected ? Colors.white : colorStatusTypology(label),
                 fontSize: 12.0,
                 fontWeight: FontWeight.w600)),
         backgroundColor: Colors.white,
         shape: StadiumBorder(
-            side: BorderSide(color: colorStatusTypology[label], width: 1.5)),
+            side: BorderSide(color: colorStatusTypology(label), width: 1.5)),
         onSelected: (bool value) => setFilters(value, label),
-        checkmarkColor: colorStatusTypology[label],
+        checkmarkColor: colorStatusTypology(label),
         showCheckmark: false,
         selected: isSelected,
-        selectedColor: colorStatusTypology[label],
+        selectedColor: colorStatusTypology(label),
         pressElevation: 0.0);
   }
 }
 
-class PopUpStatusList extends StatelessWidget {
-  final MapBikesController mapBikesController;
-  const PopUpStatusList({Key? key, required this.mapBikesController})
-      : super(key: key);
+class PopUpStatusBikeList extends ConsumerWidget {
+  const PopUpStatusBikeList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
+    return Wrap(
+        spacing: 4.0,
+        direction: Axis.horizontal,
+        children: bikes.filter.availableStatus.map((statusLabel) {
+          return BuildButtonStatus(
+            label: statusLabel,
+            setFilters: bikes.setStatus,
+            isSelected: bikes.filter.selectedStatusList.contains(statusLabel),
+          );
+        }).toList());
+  }
+}
+
+class PopUpStatusBikeMap extends ConsumerWidget {
+  const PopUpStatusBikeMap({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikes = ref.watch(carteBikeProvider);
+    return Wrap(
+        spacing: 4.0,
+        direction: Axis.horizontal,
+        children: bikes.filter.availableStatus.map((statusLabel) {
+          return BuildButtonStatus(
+            label: statusLabel,
+            setFilters: bikes.setStatus,
+            isSelected: bikes.filter.selectedStatusList.contains(statusLabel),
+          );
+        }).toList());
+  }
+}
+
+class PopUpStatusList extends ConsumerWidget {
+  const PopUpStatusList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Wrap(
-            spacing: 4.0,
-            direction: Axis.horizontal,
-            children: mapBikesController.availableStatus
-                .map((statusLabel) => Obx(() {
-                      return BuildButtonStatus(
-                        label: statusLabel,
-                        setFilters: mapBikesController.setStatus,
-                        isSelected: mapBikesController.selectedStatusList
-                            .contains(statusLabel),
-                      );
-                    }))
-                .toList()),
+        ref.read(mapViewProvider).isMapOrList(MapOrList.list)
+            ? const PopUpStatusBikeList()
+            : const PopUpStatusBikeMap()
       ],
     );
   }

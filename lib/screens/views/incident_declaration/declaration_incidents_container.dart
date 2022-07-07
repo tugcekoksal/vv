@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/components/forn_incident.dart';
+import 'package:velyvelo/components/form_incident.dart';
 import 'package:velyvelo/components/forms_divider.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
@@ -78,7 +78,7 @@ class DeclarationIncidentsContainer extends StatelessWidget {
               child: Container(
                   padding: const EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
                   decoration: BoxDecoration(
-                      color: global_styles.backgroundDarkGrey,
+                      color: global_styles.blue,
                       borderRadius: BorderRadius.circular(30.0)),
                   child: const Icon(Icons.add, color: Colors.white)),
             ),

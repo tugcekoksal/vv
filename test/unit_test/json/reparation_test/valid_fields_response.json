@@ -1,0 +1,69 @@
+{
+    "photos": [
+        "/media/reparations/scaled_9f5b6361-26dc-4986-a260-4a6e19bc00e78034672734393686071.jpg"
+    ],
+    "is_bike_functional": false,
+    "status_bike": "Demande en cours de traitement",
+    "cause": {
+        "id": 6,
+        "name": "Coupure"
+    },
+    "list_cause": [
+        {
+            "id": 1,
+            "name": "Casse"
+        },
+        {
+            "id": 5,
+            "name": "D\u00e9branchement"
+        },
+        {
+            "id": 4,
+            "name": "D\u00e9connexion"
+        }
+    ],
+    "type_intervention": {
+        "id": 0,
+        "name": "Type intervention"
+    },
+    "list_type_intervention": [
+        {
+            "id": 2,
+            "name": "Intervention type"
+        }
+    ],
+    "type_reparation": {
+        "id": 62,
+        "name": "Caisson"
+    },
+    "list_type_reparation": [
+        {
+            "id": 17,
+            "name": "Autre"
+        },
+        {
+            "id": 32,
+            "name": "B\u00e9quille"
+        },
+        {
+            "id": 62,
+            "name": "Caisson"
+        },
+        {
+            "id": 86,
+            "name": "Vol"
+        }
+    ],
+    "pieces": [
+        {
+            "id": 193,
+            "name": "Caisson de livraison 57x54x44"
+        },
+        {
+            "id": 194,
+            "name": "Petit Caisson de livraison 57x55x33"
+        }
+    ],
+    "commentary_admin": "Un commentaire ADMIN",
+    "commentary_tech": "Un commentaire TECH"
+}

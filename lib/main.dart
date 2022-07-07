@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velyvelo/my_app.dart';
 
 //FIREBASE
@@ -32,8 +33,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
 
-// void main({bool testing = false}) async {
-void main() async {
+Future<void> commonSetUp() async {
+  // Always first
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -47,11 +54,24 @@ void main() async {
 
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = MyHttpOverrides();
-  WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  // Allow IOS Notification when application is in foreground
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
   );
+}
+
+// void main({bool testing = false}) async {
+void main() async {
+  // Common test and normal launch setup
+  await commonSetUp();
 
   // Still no solutions to accept those terms with the test integration suite
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -65,19 +85,7 @@ void main() async {
     sound: true,
   );
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-  // Allow IOS Notification when application is in foreground
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
   // Run the App after all is well initialized
   // Normal app launch
-  runApp(const MaterialApp(home: MyApp()));
+  runApp(const ProviderScope(child: MaterialApp(home: MyApp())));
 }

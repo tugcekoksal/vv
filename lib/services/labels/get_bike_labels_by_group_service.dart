@@ -1,7 +1,7 @@
 // Vendor
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 Future<List<IdAndName>> fetchBikeLabelsByGroupService(
     String urlServer, int groupPk, int clientPk, String userToken) async {

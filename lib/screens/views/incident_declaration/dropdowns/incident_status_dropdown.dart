@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/components/disabled_drop_down.dart';
 import 'package:velyvelo/components/drop_down.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 class IncidentStatusDropDown extends StatelessWidget {
   final IncidentDeclarationController declarationController;
@@ -27,7 +27,7 @@ class IncidentStatusDropDown extends StatelessWidget {
         placeholder: "Client",
         dropdownItemList: declarationController
             .infosSelection.value.infoClient.listOptions
-            .map((e) => e.name)
+            .map((e) => e.name ?? "Erreur nom de groupe")
             .toList(),
         setItem: (value) => {declarationController.setClientLabel(value)},
       );

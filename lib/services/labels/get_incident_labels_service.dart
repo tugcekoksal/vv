@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 Future<List<IdAndName>> fetchIncidentLabelsService(
     String urlServer, String userToken) async {
@@ -15,5 +15,5 @@ Future<List<IdAndName>> fetchIncidentLabelsService(
         json.decode(body)["message"] ?? "Pas de message du serveur";
     throw Exception(message);
   }
-  return jsonListToIdAndNameList(json.decode(body));
+  return getListIdAndName(json.decode(body));
 }

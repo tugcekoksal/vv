@@ -4,7 +4,7 @@ import 'package:velyvelo/components/disabled_drop_down.dart';
 import 'package:velyvelo/components/drop_down.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 class GroupDropDown extends StatelessWidget {
   final LoginController loginController;
@@ -20,7 +20,6 @@ class GroupDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(loginController.isUser.value);
     return Obx(() {
       // Simple user does not have access
       if (loginController.isUser.value) {
@@ -29,7 +28,8 @@ class GroupDropDown extends StatelessWidget {
 
       // If the group is already selected
       if (group != null) {
-        return DisabledDropDown(placeholder: group!.name);
+        return DisabledDropDown(
+            placeholder: group!.name ?? "Erreur nom de groupe");
       }
 
       // If group is loading OR client is not selected
@@ -43,7 +43,7 @@ class GroupDropDown extends StatelessWidget {
         placeholder: "Groupe",
         dropdownItemList: declarationController
             .infosSelection.value.infoGroup.listOptions
-            .map((e) => e.name)
+            .map((e) => e.name ?? "Erreur nom groupe")
             .toList(),
         setItem: (value) => {declarationController.setGroupLabel(value)},
       );

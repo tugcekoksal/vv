@@ -1,9 +1,12 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/bike_controller.dart';
+import 'package:velyvelo/controllers/bike_provider/bike_profile_provider.dart';
+import 'package:velyvelo/screens/views/scan_view.dart';
 
 const longText = 14;
 
@@ -78,19 +81,24 @@ class ReturnContainer extends StatelessWidget {
   }
 }
 
-class ReturnContainerToScan extends StatelessWidget {
+class ReturnContainerToScan extends ConsumerWidget {
   final String text;
-  final BikeController bikeController;
 
-  const ReturnContainerToScan(
-      {Key? key, required this.bikeController, required this.text})
-      : super(key: key);
+  const ReturnContainerToScan({Key? key, required this.text}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-        onTap: (() =>
-            {bikeController.isViewingScanPage(false), Navigator.pop(context)}),
+        onTap: (() => {
+              ref.read(bikeProfileProvider).isViewingScanPage = false,
+              Get.off(
+                  () => const Scaffold(
+                      resizeToAvoidBottomInset: true,
+                      backgroundColor: Colors.transparent,
+                      body: ScanView()),
+                  transition: Transition.downToUp,
+                  duration: const Duration(milliseconds: 400))
+            }),
         child: ReturnStyled(text: text));
   }
 }
@@ -126,11 +134,8 @@ class ReturnBar extends StatelessWidget {
 
 class ReturnBarScan extends StatelessWidget {
   final String text;
-  final BikeController bikeController;
 
-  const ReturnBarScan(
-      {Key? key, required this.text, required this.bikeController})
-      : super(key: key);
+  const ReturnBarScan({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +154,7 @@ class ReturnBarScan extends StatelessWidget {
               bottomRight: Radius.circular(25.0),
               bottomLeft: Radius.circular(25.0))),
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: ReturnContainerToScan(text: text, bikeController: bikeController),
+      child: ReturnContainerToScan(text: text),
     );
   }
 }

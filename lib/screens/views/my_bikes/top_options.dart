@@ -1,12 +1,14 @@
 // Vendor
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 class SwitchButton extends StatelessWidget {
   final String textButton;
@@ -38,19 +40,15 @@ class SwitchButton extends StatelessWidget {
   }
 }
 
-class TopSwitch extends StatelessWidget {
+class TopSwitch extends ConsumerWidget {
   final bool mapActive = true;
   final bool listActive = false;
 
-  final MapBikesController mapBikesController;
-  final Function changeMapView;
-
-  const TopSwitch(
-      {Key? key, required this.mapBikesController, required this.changeMapView})
-      : super(key: key);
+  const TopSwitch({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MapViewProvider view = ref.watch(mapViewProvider);
     return (Container(
         decoration: BoxDecoration(
           color: global_styles.backgroundDarkGrey,
@@ -70,17 +68,26 @@ class TopSwitch extends StatelessWidget {
           children: [
             GestureDetector(
                 onTap: () {
-                  if (!mapBikesController.isMapView) changeMapView();
+                  if (ref.read(mapViewProvider).isMapOrList(MapOrList.list)) {
+                    ref.read(carteBikeProvider).fetch(false);
+                    ref.read(carteHubProvider).fetch(false);
+                    ref.read(mapViewProvider).toggleMapOrList(MapOrList.map);
+                  }
                 },
                 child: SwitchButton(
-                    textButton: "Map", isActive: mapBikesController.isMapView)),
+                    textButton: "Map",
+                    isActive: view.isMapOrList(MapOrList.map))),
             GestureDetector(
                 onTap: () {
-                  if (mapBikesController.isMapView) changeMapView();
+                  if (ref.read(mapViewProvider).isMapOrList(MapOrList.map)) {
+                    ref.read(carteBikeProvider).fetch(true);
+                    ref.read(carteHubProvider).fetch(true);
+                    ref.read(mapViewProvider).toggleMapOrList(MapOrList.list);
+                  }
                 },
                 child: SwitchButton(
                     textButton: "Liste",
-                    isActive: !mapBikesController.isMapView)),
+                    isActive: view.isMapOrList(MapOrList.list))),
           ],
         )));
   }
@@ -147,17 +154,8 @@ class _TopButtonState extends State<TopButton> {
 }
 
 // unused ??
-class TopOptions extends StatelessWidget {
-  final MapBikesController mapBikesController;
-  final Function changeMapView;
-  final Function changeMapStyle;
-
-  const TopOptions(
-      {Key? key,
-      required this.mapBikesController,
-      required this.changeMapView,
-      required this.changeMapStyle})
-      : super(key: key);
+class TopOptions extends ConsumerWidget {
+  const TopOptions({Key? key}) : super(key: key);
 
   // Method to instantiate the filter's page
   Future<void> showFilters() async {
@@ -187,7 +185,9 @@ class TopOptions extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikeMap = ref.watch(carteBikeProvider);
+
     return (Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
@@ -196,11 +196,7 @@ class TopOptions extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(children: [
-                    TopSwitch(
-                        mapBikesController: mapBikesController,
-                        changeMapView: changeMapView)
-                  ]),
+                  Row(children: const [TopSwitch()]),
                   Row(
                     children: [
                       TopButton(
@@ -209,13 +205,11 @@ class TopOptions extends StatelessWidget {
                         actionFunction: () {},
                       ),
                       const SizedBox(width: 10.0),
-                      Obx(() {
-                        return TopButton(
-                          isLoading: mapBikesController.isLoadingFilters.value,
-                          iconButton: Icons.filter_list_outlined,
-                          actionFunction: showFilters,
-                        );
-                      }),
+                      TopButton(
+                        isLoading: bikeMap.filter.isLoadingGroups,
+                        iconButton: Icons.filter_list_outlined,
+                        actionFunction: showFilters,
+                      ),
                       const SizedBox(width: 10.0),
                       TopButton(
                         isLoading: false,

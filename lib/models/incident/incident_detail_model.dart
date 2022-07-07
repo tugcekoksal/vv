@@ -1,16 +1,15 @@
-// To parse this JSON data, do
-//
-//     final incidentDetailModel = incidentDetailModelFromJson(jsonString);
-
+// Vendor
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 
 // Helpers
-import 'package:flutter/material.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 
 IncidentDetailModel incidentDetailModelFromJson(String str) =>
     IncidentDetailModel.fromJson(json.decode(str));
 
+// Data used to the incident infos on top of incident detail page (all users can view)
 class IncidentDetailModel {
   IncidentDetailModel({
     required this.groupe,
@@ -24,7 +23,7 @@ class IncidentDetailModel {
   });
 
   final String groupe;
-  final String velo;
+  final IdAndName velo;
   final String typeIncident;
   final String commentaire;
   final List<String> photos;
@@ -35,7 +34,7 @@ class IncidentDetailModel {
   factory IncidentDetailModel.fromJson(Map<String, dynamic> json) =>
       IncidentDetailModel(
         groupe: json["groupe"] ?? "Pas de nom de groupe",
-        velo: json["velo"] ?? "Pas de nom de vélo",
+        velo: getIdAndNameOrEmpty(json["velo"]),
         typeIncident: json["type_incident"] ?? "Pas de type d'incident",
         commentaire: json["commentaire"] ?? "Pas de commentaire",
         photos: json["photos"] == null
@@ -49,70 +48,71 @@ class IncidentDetailModel {
       );
 }
 
-class IdAndName {
-  int id;
-  String name;
+// Data concerning the reparation under the detail of incidents (thecnician and admin view)
+class ReparationModel {
+  String? statusBike;
+  bool? isBikeFunctional;
+  int? incidentPk;
+  bool noPieces = false;
 
-  IdAndName({required this.id, required this.name});
+  IdAndName cause;
+  List<IdAndName> causelist;
 
-  factory IdAndName.fromJson(Map<String, dynamic> json) =>
-      IdAndName(id: json["id"] ?? 0, name: json["name"] ?? "error");
-}
-
-List<IdAndName> jsonListToIdAndNameList(jsonList) {
-  List<IdAndName> resList = [];
-
-  if (jsonList != null) {
-    for (var obj in jsonList) {
-      resList.add(IdAndName.fromJson(obj));
-    }
-  }
-  return resList;
-}
-
-class Reparation {
-  String statusBike;
-  bool isBikeFunctional;
-  int incidentPk;
-  List<File> reparationPhotosList;
   IdAndName typeIntervention;
-  IdAndName typeReparation;
   List<IdAndName> typeInterventionList;
+
+  IdAndName typeReparation;
   List<IdAndName> typeReparationList;
+
+  IdAndName selectedPieceDropDown;
   List<IdAndName> piecesList;
   List<IdAndName> selectedPieces;
-  IdAndName selectedPieceDropDown;
-  TextEditingController commentary;
 
-  Reparation(
-      {required this.statusBike,
-      required this.isBikeFunctional,
-      required this.incidentPk,
-      required this.reparationPhotosList,
-      required this.typeIntervention,
-      required this.typeInterventionList,
-      required this.typeReparation,
-      required this.typeReparationList,
-      required this.piecesList,
-      required this.selectedPieces,
-      required this.selectedPieceDropDown,
-      required this.commentary});
+  List<File> reparationPhotosList;
 
-  factory Reparation.fromJson(Map<String, dynamic> json, int incidentPk,
-          List<File> listPhotoFile) =>
-      Reparation(
-          statusBike: json["status_bike"],
-          isBikeFunctional: json["is_bike_functional"],
-          incidentPk: incidentPk,
-          reparationPhotosList: listPhotoFile,
-          typeIntervention: IdAndName.fromJson(json["type_intervention"]),
-          typeReparation: IdAndName.fromJson(json["type_reparation"]),
-          typeInterventionList:
-              jsonListToIdAndNameList(json["list_type_intervention"]),
-          typeReparationList:
-              jsonListToIdAndNameList(json["list_type_reparation"]),
-          piecesList: [],
-          selectedPieces: jsonListToIdAndNameList(json["pieces"]),
-          selectedPieceDropDown: IdAndName(id: 0, name: ""),
-          commentary: TextEditingController(text: json["commentary"] ?? ""));
+  TextEditingController commentaryTech;
+  TextEditingController commentaryAdmin;
+
+  ReparationModel({
+    required this.statusBike,
+    required this.isBikeFunctional,
+    required this.incidentPk,
+    required this.noPieces,
+    required this.reparationPhotosList,
+    required this.typeIntervention,
+    required this.typeInterventionList,
+    required this.typeReparation,
+    required this.typeReparationList,
+    required this.cause,
+    required this.causelist,
+    required this.piecesList,
+    required this.selectedPieces,
+    required this.selectedPieceDropDown,
+    required this.commentaryTech,
+    required this.commentaryAdmin,
+  });
+
+  factory ReparationModel.fromJson(Map<String, dynamic> jsonData,
+      int? incidentPk, List<File> listPhotoFile) {
+    return ReparationModel(
+        statusBike: getStringOrNull(jsonData["status_bike"]),
+        isBikeFunctional: getBoolOrNull(jsonData["is_bike_functional"]),
+        incidentPk: getIntOrNull(incidentPk),
+        reparationPhotosList: listPhotoFile,
+        cause: getIdAndNameOrEmpty(jsonData["cause"]),
+        causelist: getListIdAndName(jsonData["list_cause"]),
+        typeIntervention: getIdAndNameOrEmpty(jsonData["type_intervention"]),
+        typeReparation: getIdAndNameOrEmpty(jsonData["type_reparation"]),
+        typeInterventionList:
+            getListIdAndName(jsonData["list_type_intervention"]),
+        typeReparationList: getListIdAndName(jsonData["list_type_reparation"]),
+        piecesList: [],
+        noPieces: false,
+        selectedPieces: getListIdAndName(jsonData["pieces"]),
+        selectedPieceDropDown: IdAndName(),
+        commentaryTech: TextEditingController(
+            text: getStringOrNull(jsonData["commentary_tech"])),
+        commentaryAdmin: TextEditingController(
+            text: getStringOrNull(jsonData["commentary_admin"])));
+  }
 }

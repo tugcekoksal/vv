@@ -14,8 +14,9 @@ import 'package:velyvelo/components/slider_show_full_images.dart';
 
 class PhotosModif extends StatelessWidget {
   final IncidentController incidentController;
-
-  const PhotosModif({Key? key, required this.incidentController})
+  final bool disabled;
+  const PhotosModif(
+      {Key? key, required this.incidentController, required this.disabled})
       : super(key: key);
 
   @override
@@ -30,10 +31,12 @@ class PhotosModif extends StatelessWidget {
       Obx(() {
         if (incidentController
             .currentReparation.value.reparationPhotosList.isEmpty) {
-          return PickImage(
-            incidentController: incidentController,
-            text: "Prendre une photo",
-          );
+          return disabled
+              ? const Text("Aucunes photos")
+              : PickImage(
+                  setItem: incidentController.setReparationsPhotosValue,
+                  text: "Prendre une photo",
+                );
         } else {
           return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -51,10 +54,12 @@ class PhotosModif extends StatelessWidget {
                 if (incidentController
                         .currentReparation.value.reparationPhotosList.length ==
                     index) {
-                  return PickImage(
-                    incidentController: incidentController,
-                    text: "Ajouter d'autres photos",
-                  );
+                  return disabled
+                      ? const SizedBox()
+                      : PickImage(
+                          setItem: incidentController.setReparationsPhotosValue,
+                          text: "Ajouter d'autres photos",
+                        );
                 } else {
                   return Obx(() {
                     return Row(children: [

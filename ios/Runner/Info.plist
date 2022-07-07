@@ -30,6 +30,8 @@
 	<string>Nous avons besoin d'accéder à votre appareil photo pour vous permettre de prendre vos incidents en photo !</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Nous avons besoin d'accéder à votre galerie de photos pour vous permettre de fournir des photos de vos incidents !</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>your usage description here</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

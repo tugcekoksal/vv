@@ -1,62 +1,59 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 // Components
-import 'package:velyvelo/controllers/hub_controller.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 // Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
 import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
 
-class ButtonSearchVelo extends StatelessWidget {
-  final MapBikesController mapBikesController;
-
-  const ButtonSearchVelo({Key? key, required this.mapBikesController})
-      : super(key: key);
+class ButtonSearchVelo extends ConsumerWidget {
+  const ButtonSearchVelo({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return Stack(children: [
-        TopButton(
-            actionFunction: () =>
-                {mapBikesController.displaySearch.value = true},
-            isLoading: false,
-            iconButton: Icons.search),
-        mapBikesController.searchText.value == ""
-            ? const SizedBox(height: 0, width: 0)
-            : Positioned(
-                right: 3,
-                top: 3,
-                child: Container(
-                    padding: const EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        color: global_styles.blue,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: const Icon(
-                      Icons.warning,
-                      color: Colors.white,
-                      size: 10,
-                    )))
-      ]);
-    });
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteBikeProvider bikeMap = ref.watch(carteBikeProvider);
+    return Stack(children: [
+      TopButton(
+          actionFunction: () =>
+              {ref.read(carteBikeProvider).toggleSearch(true)},
+          isLoading: false,
+          iconButton: Icons.search),
+      bikeMap.filter.searchText == ""
+          ? const SizedBox(height: 0, width: 0)
+          : Positioned(
+              right: 3,
+              top: 3,
+              child: Container(
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      color: global_styles.blue,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: const Icon(
+                    Icons.warning,
+                    color: Colors.white,
+                    size: 10,
+                  )))
+    ]);
   }
 }
 
-class SearchBarVelo extends StatelessWidget {
+class SearchBarVelo extends ConsumerWidget {
   final textInputController = TextEditingController();
-  final MapBikesController mapBikeController = Get.put(MapBikesController());
 
   SearchBarVelo({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    textInputController.text = mapBikeController.searchText.value;
+  Widget build(BuildContext context, WidgetRef ref) {
+    textInputController.text = ref.read(carteBikeProvider).filter.searchText;
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
@@ -70,31 +67,42 @@ class SearchBarVelo extends StatelessWidget {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
                 onPressed: () =>
-                    {mapBikeController.displaySearch.value = false},
+                    {ref.read(carteBikeProvider).toggleSearch(false)},
                 icon: const Icon(Icons.arrow_back_ios)),
             SizedBox(
               width: screenWidth * 0.5,
               child: TextField(
+                maxLength: 100,
                 autocorrect: false,
                 decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: "Rechercher un vélo"),
+                    counterText: '',
+                    border: InputBorder.none,
+                    hintText: "Rechercher un vélo"),
                 controller: textInputController,
                 onChanged: (value) => {
-                  mapBikeController.searchText.value = value,
-                  mapBikeController.bikesBySearch(),
+                  ref.read(carteBikeProvider).filter.searchText = value,
+                  ref.read(carteBikeProvider).fetch(
+                      ref.read(mapViewProvider).isMapOrList(MapOrList.list))
                 },
               ),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                    onPressed: () => {
-                          textInputController.text = "",
-                          mapBikeController.searchText.value = "",
-                          mapBikeController.bikesBySearch(),
-                        },
-                    icon: const Icon(Icons.close)),
+                Opacity(
+                  opacity: ref.watch(carteBikeProvider).filter.searchText != ""
+                      ? 1
+                      : 0,
+                  child: IconButton(
+                      onPressed: () => {
+                            textInputController.text = "",
+                            ref.read(carteBikeProvider).filter.searchText = "",
+                            ref.read(carteBikeProvider).fetch(ref
+                                .read(mapViewProvider)
+                                .isMapOrList(MapOrList.list))
+                          },
+                      icon: const Icon(Icons.close)),
+                )
               ],
             )
           ]),
@@ -102,49 +110,46 @@ class SearchBarVelo extends StatelessWidget {
   }
 }
 
-class ButtonSearchHub extends StatelessWidget {
-  final HubController hubController;
-
-  const ButtonSearchHub({Key? key, required this.hubController})
-      : super(key: key);
+class ButtonSearchHub extends ConsumerWidget {
+  const ButtonSearchHub({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return Stack(children: [
-        TopButton(
-            actionFunction: () => {hubController.displaySearch.value = true},
-            isLoading: false,
-            iconButton: Icons.search),
-        hubController.searchText.value == ""
-            ? const SizedBox(height: 0, width: 0)
-            : Positioned(
-                right: 3,
-                top: 3,
-                child: Container(
-                    padding: const EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        color: global_styles.blue,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: const Icon(
-                      Icons.warning,
-                      color: Colors.white,
-                      size: 10,
-                    )))
-      ]);
-    });
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
+
+    return Stack(children: [
+      TopButton(
+          actionFunction: () => {ref.read(carteHubProvider).toggleSearch(true)},
+          isLoading: false,
+          iconButton: Icons.search),
+      hubs.searchText == ""
+          ? const SizedBox(height: 0, width: 0)
+          : Positioned(
+              right: 3,
+              top: 3,
+              child: Container(
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      color: global_styles.blue,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: const Icon(
+                    Icons.warning,
+                    color: Colors.white,
+                    size: 10,
+                  )))
+    ]);
   }
 }
 
-class SearchBarHub extends StatelessWidget {
+class SearchBarHub extends ConsumerWidget {
   final textInputController = TextEditingController();
-  final HubController hubController = Get.put(HubController());
 
   SearchBarHub({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    textInputController.text = hubController.searchText.value;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CarteHubProvider hubs = ref.watch(carteHubProvider);
+    textInputController.text = hubs.searchText;
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
@@ -157,31 +162,39 @@ class SearchBarHub extends StatelessWidget {
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
-                onPressed: () => {hubController.displaySearch.value = false},
+                onPressed: () =>
+                    {ref.read(carteHubProvider).toggleSearch(false)},
                 icon: const Icon(Icons.arrow_back_ios)),
             SizedBox(
               width: screenWidth * 0.5,
               child: TextField(
+                maxLength: 100,
                 autocorrect: false,
                 decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: "Rechercher un hub"),
+                    counterText: '',
+                    border: InputBorder.none,
+                    hintText: "Rechercher un hub"),
                 controller: textInputController,
                 onChanged: (value) => {
-                  hubController.searchText.value = value,
-                  hubController.hubsBySearch(),
+                  hubs.searchText = value,
+                  hubs.fetch(
+                      ref.read(mapViewProvider).isMapOrList(MapOrList.list))
                 },
               ),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                    onPressed: () => {
-                          textInputController.text = "",
-                          hubController.searchText.value = "",
-                          hubController.hubsBySearch(),
-                        },
-                    icon: const Icon(Icons.close)),
+                Opacity(
+                  opacity: hubs.searchText != "" ? 1 : 0,
+                  child: IconButton(
+                      onPressed: () => {
+                            textInputController.text = "",
+                            hubs.searchText = "",
+                            hubs.fetchHubMap()
+                          },
+                      icon: const Icon(Icons.close)),
+                )
               ],
             )
           ]),
@@ -251,26 +264,34 @@ class SearchBarIncident extends StatelessWidget {
             SizedBox(
               width: screenWidth * 0.5,
               child: TextField(
+                maxLength: 100,
                 autocorrect: false,
                 decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: "Rechercher un hub"),
+                    counterText: '',
+                    border: InputBorder.none,
+                    hintText: "Rechercher un incident"),
                 controller: textInputController,
                 onChanged: (value) => {
                   incidentController.searchText.value = value,
-                  incidentController.incidentsBySearch(),
+                  incidentController.fetchAllIncidents(
+                      incidentController.incidentsToFetch.value),
                 },
               ),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                    onPressed: () => {
-                          textInputController.text = "",
-                          incidentController.searchText.value = "",
-                          incidentController.incidentsBySearch(),
-                        },
-                    icon: const Icon(Icons.close)),
+                Opacity(
+                  opacity: textInputController.text != "" ? 1 : 0,
+                  child: IconButton(
+                      onPressed: () => {
+                            textInputController.text = "",
+                            incidentController.searchText.value = "",
+                            incidentController.fetchAllIncidents(
+                                incidentController.incidentsToFetch.value),
+                          },
+                      icon: const Icon(Icons.close)),
+                )
               ],
             )
           ]),

@@ -2,26 +2,25 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/incident_controller.dart';
+import 'package:velyvelo/helpers/logger.dart';
 
 class PickImage extends StatelessWidget {
-  final IncidentController incidentController;
+  final Function setItem;
   final String text;
+  final log = logger(PickImage);
 
-  const PickImage(
-      {Key? key, required this.incidentController, required this.text})
+  PickImage({Key? key, required this.setItem, required this.text})
       : super(key: key);
 
-  Future pickImage(context) async {
+  Future<File?> pickImage(context) async {
     try {
       showDialog(
-          barrierColor: Colors.transparent,
+          barrierColor: Colors.black45,
           barrierDismissible: false,
-          // useSafeArea: true,
+          useRootNavigator: false, //this property needs to be added
           context: context,
           builder: (BuildContext context) {
             return Center(
@@ -35,20 +34,26 @@ class PickImage extends StatelessWidget {
           maxHeight: 500,
           maxWidth: 500);
       Navigator.pop(context);
-      if (_currentImage == null) return;
+      if (_currentImage == null) return null;
 
       final imageTemporary = File(_currentImage.path);
-
-      incidentController.setReparationsPhotosValue(imageTemporary);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      return imageTemporary;
+    } catch (e) {
+      log.e(e.toString());
     }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {pickImage(context)},
+      onTap: () {
+        pickImage(context).then((newImage) {
+          if (newImage != null) {
+            setItem(newImage);
+          }
+        });
+      },
       child: DottedBorder(
         color: global_styles.backgroundLightGrey,
         strokeWidth: 3,

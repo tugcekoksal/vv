@@ -14,19 +14,25 @@ class StatutButton extends StatelessWidget {
   final bool status;
   final bool isActive;
   final String text;
+  final bool disabled;
 
   const StatutButton(
       {Key? key,
       required this.incidentController,
       required this.status,
       required this.isActive,
-      required this.text})
+      required this.text,
+      this.disabled = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => incidentController.setCurrentDetailBikeStatus(status),
+      onTap: () {
+        if (!disabled) {
+          incidentController.setCurrentDetailBikeStatus(status);
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         decoration: BoxDecoration(
@@ -35,8 +41,10 @@ class StatutButton extends StatelessWidget {
             border: Border.all(
                 color: global_styles.backgroundLightGrey, width: 3.0)),
         child: Text(text,
-            style: const TextStyle(
-                color: global_styles.greyText,
+            style: TextStyle(
+                color: disabled
+                    ? global_styles.lightGreyText
+                    : global_styles.greyText,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w600)),
       ),
@@ -46,8 +54,10 @@ class StatutButton extends StatelessWidget {
 
 class StatutVeloModif extends StatelessWidget {
   final IncidentController incidentController;
+  final bool disabled;
 
-  const StatutVeloModif({Key? key, required this.incidentController})
+  const StatutVeloModif(
+      {Key? key, required this.incidentController, required this.disabled})
       : super(key: key);
 
   @override
@@ -68,25 +78,46 @@ class StatutVeloModif extends StatelessWidget {
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 20.0),
         Obx(() {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+          if (disabled) {
+            return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               StatutButton(
                 incidentController: incidentController,
                 status: true,
-                isActive:
-                    incidentController.currentReparation.value.isBikeFunctional,
-                text: "Oui",
-              ),
-              StatutButton(
-                incidentController: incidentController,
-                status: false,
-                isActive: !incidentController
-                    .currentReparation.value.isBikeFunctional,
-                text: "Non",
-              ),
-            ],
-          );
+                isActive: true,
+                text: (incidentController
+                            .currentReparation.value.isBikeFunctional ??
+                        false)
+                    ? "Oui"
+                    : "Non",
+                disabled: disabled,
+              )
+            ]);
+          } else {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                StatutButton(
+                  incidentController: incidentController,
+                  status: true,
+                  isActive: incidentController
+                          .currentReparation.value.isBikeFunctional ??
+                      false,
+                  text: "Oui",
+                ),
+                StatutButton(
+                  incidentController: incidentController,
+                  status: false,
+                  isActive: incidentController
+                              .currentReparation.value.isBikeFunctional ==
+                          null
+                      ? false
+                      : !incidentController
+                          .currentReparation.value.isBikeFunctional!,
+                  text: "Non",
+                ),
+              ],
+            );
+          }
         }),
         const SizedBox(height: 25.0),
         const Text("Séléctionner le statut de la réparation",
@@ -95,7 +126,8 @@ class StatutVeloModif extends StatelessWidget {
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600)),
         const SizedBox(height: 20.0),
-        StatusVeloDropDown(incidentController: incidentController),
+        StatusVeloDropDown(
+            incidentController: incidentController, disabled: disabled),
       ],
     );
   }

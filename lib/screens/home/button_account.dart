@@ -38,21 +38,27 @@ class ButtonAccount extends StatelessWidget {
                 GestureDetector(
                     onTap: () =>
                         {loginController.logoutUser(), Navigator.pop(context)},
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.logout,
-                            size: 40,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: 10),
-                          Text("Se déconnecter",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold))
-                        ]))
+                    child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(15, 255, 255, 255),
+                            border: Border.all(color: Colors.white, width: 1),
+                            borderRadius: BorderRadius.circular(25)),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.logout,
+                                size: 40,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 10),
+                              Text("Se déconnecter",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))
+                            ])))
               ])),
         ));
   }
@@ -71,42 +77,3 @@ class ButtonAccount extends StatelessWidget {
         iconButton: Icons.person);
   }
 }
-
-    //     onSelected: (result) {
-    //       if (result == 1) loginController.logoutUser();
-    //     },
-    //     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-    //       PopupMenuItem(
-    //         child: Row(
-    //           children: [
-    //             Icon(
-    //               Icons.person,
-    //               color: global_styles.purple,
-    //               size: 20,
-    //             ),
-    //             SizedBox(
-    //               width: 10,
-    //             ),
-    //             Text(loginController.userName),
-    //           ],
-    //         ),
-    //       ),
-    //       PopupMenuItem(
-    //         onTap: () => {loginController.logoutUser(), Navigator.pop(context)},
-    //         child: Row(
-    //           children: [
-    //             Icon(
-    //               Icons.logout,
-    //               color: global_styles.greyTitle,
-    //               size: 20,
-    //             ),
-    //             SizedBox(
-    //               width: 10,
-    //             ),
-    //             Text("Se déconnecter"),
-    //           ],
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );

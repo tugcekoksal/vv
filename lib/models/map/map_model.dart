@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:velyvelo/models/json_usefull.dart';
+
 List<MapModel> mapModelFromJson(String str) =>
     List<MapModel>.from(json.decode(str).map((x) => MapModel.fromJson(x)));
 
@@ -49,9 +51,8 @@ class Pos {
 
   factory Pos.fromJson(Map<String, dynamic> json) => Pos(
         deviceId: json["device_id"],
-        latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
-        longitude:
-            json["longitude"] == null ? null : json["longitude"].toDouble(),
+        latitude: getDoubleOrNull(json["latitude"]),
+        longitude: getDoubleOrNull(json["longitude"]),
         timestamp: json["timestamp"],
         message: json["message"],
       );

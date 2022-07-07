@@ -1,41 +1,60 @@
 // Vendor
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Components
 import 'package:velyvelo/components/pop_up_filter/pop_up_filters.dart';
+import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
+import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
+import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 // Controllers
-import 'package:velyvelo/controllers/map_controller.dart';
 import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
 
-class ButtonFilter extends StatelessWidget {
-  final MapBikesController mapBikesController;
+Future<void> displayFilters(context, WidgetRef ref) async {
+  ref
+      .read(carteBikeProvider)
+      .fetchFilters(ref.read(mapViewProvider).isMapOrList(MapOrList.list));
 
-  const ButtonFilter({Key? key, required this.mapBikesController})
-      : super(key: key);
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const PopUpFilters();
+      }).then((value) {
+    //
+    ref
+        .read(carteBikeProvider)
+        .fetch(ref.read(mapViewProvider).isMapOrList(MapOrList.list));
+  });
+}
 
-  Future<void> displayFilters(context) async {
-    mapBikesController.isFiltersChanged(false);
-    mapBikesController.fetchFilters();
-
-    return showDialog(
-        // barrierDismissible: false,
-        // useSafeArea: true,
-        context: context,
-        builder: (BuildContext context) {
-          return PopUpFilters();
-        }).then((value) {
-      // Check if filters have changed and fire the fetch of bikes if true
-      mapBikesController.onChangeFilters();
-      // If fetchAllBikes() gets no bikes then show it to the user
-    });
-  }
+class ButtonFilter extends ConsumerWidget {
+  const ButtonFilter({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return TopButton(
-        actionFunction: () => displayFilters(context),
-        isLoading: false,
-        iconButton: Icons.filter_list_outlined);
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Stack(children: [
+      TopButton(
+          actionFunction: () {
+            displayFilters(context, ref);
+          },
+          isLoading: false,
+          iconButton: Icons.filter_list_outlined),
+      ref.watch(carteBikeProvider).filter.isEmpty()
+          ? const SizedBox(height: 0, width: 0)
+          : Positioned(
+              right: 3,
+              top: 3,
+              child: Container(
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      color: global_styles.blue,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: const Icon(
+                    Icons.warning,
+                    color: Colors.white,
+                    size: 10,
+                  )))
+    ]);
   }
 }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 import 'package:velyvelo/screens/views/incident_declaration/dropdowns/client_dropdown.dart';
 import 'package:velyvelo/screens/views/incident_declaration/dropdowns/group_dropdown.dart';
 import 'package:velyvelo/screens/views/incident_declaration/tech_checkbox.dart';
