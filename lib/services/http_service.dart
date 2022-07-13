@@ -67,6 +67,11 @@ class HttpService {
     return loginUserService(urlServer, login, password);
   }
 
+  // Delete account
+  static Future<String> deleteUser(String token, String password) async {
+    return deleteUserService(urlServer, token, password);
+  }
+
   // Fetch the user's bike id
   static Future fetchBikeIDUser(String userToken) async {
     return fetchBikeIDUserService(urlServer, userToken);
