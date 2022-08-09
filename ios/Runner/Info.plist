@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Accès à la localisation de vos vélos</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -28,10 +28,12 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Nous avons besoin d'accéder à votre appareil photo pour vous permettre de prendre vos incidents en photo !</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Nous avons besoin d'accéder à votre galerie de photos pour vous permettre de fournir des photos de vos incidents !</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Accès à la localisation de vos vélos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>your usage description here</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Nous avons besoin d'accéder à votre galerie de photos pour vous permettre de fournir des photos de vos incidents !</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -59,8 +61,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
-	<true/>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 </dict>
 </plist>
