@@ -53,8 +53,10 @@ class SearchBarVelo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    textInputController.text = ref.read(carteBikeProvider).filter.searchText;
     double screenWidth = MediaQuery.of(context).size.width;
+    textInputController.text = ref.read(carteBikeProvider).filter.searchText;
+    textInputController.selection = TextSelection.fromPosition(
+        TextPosition(offset: textInputController.text.length));
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
         child: Container(
@@ -150,6 +152,8 @@ class SearchBarHub extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final CarteHubProvider hubs = ref.watch(carteHubProvider);
     textInputController.text = hubs.searchText;
+    textInputController.selection = TextSelection.fromPosition(
+        TextPosition(offset: textInputController.text.length));
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
@@ -246,6 +250,8 @@ class SearchBarIncident extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     textInputController.text = incidentController.searchText.value;
+    textInputController.selection = TextSelection.fromPosition(
+        TextPosition(offset: textInputController.text.length));
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),

@@ -23,7 +23,7 @@ class TechCheckbox extends StatelessWidget {
                     value: declarationController.selfAttribute.value,
                     onChanged: (value) => {
                           declarationController.selfAttribute(value),
-                        }), // ICI
+                        }),
                 const Text("Attribuer l'incident à mon profil")
               ],
             );

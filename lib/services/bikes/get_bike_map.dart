@@ -28,6 +28,7 @@ Future<List<BikeMapModel>> fetchBikeMapService(
     String message = jsonDecode(body)["message"] ?? "Pas de message du serveur";
     throw (message);
   }
+
   return bikeMapModelFromJson(body);
 }
 

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 // Components
 import 'package:velyvelo/components/incident_overview.dart';
+import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
@@ -14,6 +15,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/screens/views/incidents_view/button_filter.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
@@ -22,6 +24,8 @@ class IncidentsView extends StatelessWidget {
   IncidentsView({Key? key}) : super(key: key);
 
   final IncidentController incidentController = Get.put(IncidentController());
+  final LoginController loginController = Get.put(LoginController());
+
   final log = logger(IncidentsView);
 
   @override
@@ -41,7 +45,15 @@ class IncidentsView extends StatelessWidget {
                       ButtonSearchIncident(
                           incidentController: incidentController),
                     ]),
-                    const ButtonScan(),
+                    Row(children: [
+                      !loginController.isUser.value
+                          ? ButtonFilter()
+                          : const SizedBox(),
+                      !loginController.isUser.value
+                          ? const SizedBox(width: 5)
+                          : const SizedBox(),
+                      const ButtonScan(),
+                    ]),
                   ])),
           Padding(
               padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),

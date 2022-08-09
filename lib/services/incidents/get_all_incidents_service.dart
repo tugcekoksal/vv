@@ -50,3 +50,13 @@ Future fetchIncidentService(
     throw Exception("Error getting reparation infos with pk");
   }
 }
+
+Future fetchIncidentFiltersService(String urlServer, String userToken) async {
+  var response = await http.get(Uri.parse("$urlServer/api/incidentFilters/"),
+      headers: {"Authorization": "Token $userToken"});
+
+  if (response.statusCode >= 400) {
+    throw Exception("Error server fetch filters");
+  }
+  return json.decode(response.body);
+}

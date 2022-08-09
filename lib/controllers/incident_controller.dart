@@ -56,9 +56,15 @@ class IncidentController extends GetxController {
 
   var incidentsToFetch = RefreshIncidentModel(
           statusList: ["Nouvelle", "Planifié", "Terminé"],
+          clientList: [],
+          groupList: [],
           newestId: null,
           count: null)
       .obs;
+
+  var groupListFilter = [].obs;
+
+  var clientListFilter = [].obs;
 
   var currentImageIndexInViewer = 0.obs;
 
@@ -92,18 +98,49 @@ class IncidentController extends GetxController {
   RxString searchText = "".obs;
   final log = logger(IncidentController);
 
-  // void incidentsBySearch() {
-  //   String theSearch = searchText.value.toUpperCase();
-  //   if (searchText.value != "") {
-  //     incidentList.value = storedIncidents.where((element) {
-  //       return element.reparationNumber.contains(theSearch) ||
-  //           element.veloName.contains(theSearch);
-  //     }).toList();
-  //     incidentList.refresh();
-  //   } else {
-  //     incidentList.value = storedIncidents;
-  //   }
-  // }
+  Future<void> fetchIncidentFilters() async {
+    try {
+      var response = await HttpService.fetchIncidentFilters(userToken);
+      clientListFilter.value = jsonListToIdAndNameList(response["client_list"]);
+      groupListFilter.value = jsonListToIdAndNameList(response["group_list"]);
+      groupListFilter.add(IdAndName(id: -1, name: "Pas de groupe"));
+    } catch (e) {
+      print(e.toString());
+    }
+    clientListFilter.refresh();
+    groupListFilter.refresh();
+    incidentsToFetch.refresh();
+  }
+
+  void setClientFilter(value, label) {
+    IdAndName selected = clientListFilter.where((theGroup) {
+      return theGroup.name == label;
+    }).first;
+    if (!value) {
+      incidentsToFetch.value.clientList
+          .removeWhere((selected) => selected.name == label);
+    } else {
+      if (!incidentsToFetch.value.clientList.contains(selected)) {
+        incidentsToFetch.value.clientList.add(selected);
+      }
+    }
+    incidentsToFetch.refresh();
+  }
+
+  void setGroupFilter(value, label) {
+    IdAndName selected = groupListFilter.where((theClient) {
+      return theClient.name == label;
+    }).first;
+    if (!value) {
+      incidentsToFetch.value.groupList
+          .removeWhere((selected) => selected.name == label);
+    } else {
+      if (!incidentsToFetch.value.groupList.contains(selected)) {
+        incidentsToFetch.value.groupList.add(selected);
+      }
+    }
+    incidentsToFetch.refresh();
+  }
 
   void fetchIncidentTypeList() async {
     var incidentLabels = await HttpService.fetchIncidentLabels(userToken);
@@ -261,17 +298,16 @@ class IncidentController extends GetxController {
   }
 
   Future<bool> fetchNewIncidents() async {
-    final RefreshIncidentModel incidentsToFetchFilter = RefreshIncidentModel(
-        statusList: incidentFilters,
-        newestId: int.parse(incidentList.first.incidentPk),
-        count: incidentList.length);
+    incidentsToFetch.value.newestId = int.parse(incidentList.first.incidentPk);
+    incidentsToFetch.value.count = incidentList.length;
 
-    if (incidentFilters.isEmpty) {
-      incidentsToFetchFilter.statusList = ["Nouvelle", "Planifié", "Terminé"];
-    }
+    incidentsToFetch.value.statusList = incidentFilters.isEmpty
+        ? ["Nouvelle", "Planifié", "Terminé"]
+        : incidentFilters;
+
     try {
       IncidentsModel incidents = await HttpService.fetchAllIncidents(
-          incidentsToFetchFilter, searchText.value, userToken);
+          incidentsToFetch.value, searchText.value, userToken);
       if (incidents.incidents.isNotEmpty) {
         incidentList = incidentList + incidents.incidents;
         return true;
@@ -285,16 +321,12 @@ class IncidentController extends GetxController {
   }
 
   Future<void> refreshIncidentsList() async {
-    final RefreshIncidentModel incidentsToFetchFilter;
-
     if (incidentFilters.isEmpty) {
-      incidentsToFetchFilter =
-          RefreshIncidentModel(statusList: ["Nouvelle", "Planifié", "Terminé"]);
+      incidentsToFetch.value.statusList = ["Nouvelle", "Planifié", "Terminé"];
     } else {
-      incidentsToFetchFilter =
-          RefreshIncidentModel(statusList: incidentFilters);
+      incidentsToFetch.value.statusList = incidentFilters;
     }
-    await fetchAllIncidents(incidentsToFetchFilter);
+    await fetchAllIncidents(incidentsToFetch.value);
   }
 
   setStatusToDisplay(filter) async {

@@ -112,6 +112,11 @@ class HttpService {
     return fetchIncidentService(urlServer, incidentPk, userToken);
   }
 
+  // Fetch filters for incident page (group + client filters)
+  static Future fetchIncidentFilters(String userToken) {
+    return fetchIncidentFiltersService(urlServer, userToken);
+  }
+
   // Fetch an incident by id
   static Future fetchIncidentById(int id, String userToken) async {
     return fetchIncidentByIdService(urlServer, id, userToken);
