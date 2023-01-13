@@ -59,7 +59,7 @@ class IncidentsList extends StatelessWidget {
           });
         },
         child: ListView.builder(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
             itemCount: incidentController.incidentList.length,
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -97,7 +97,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
             children: [
               // first line top left
               Expanded(
-                child: Text(data.incidentTypeReparation,
+                child: Text(data.clientName + " - " + data.veloGroup,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
@@ -128,7 +128,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
           Row(
             children: [
               Flexible(
-                child: Text(data.veloName + " / " + data.veloGroup,
+                child: Text(data.incidentTypeReparation,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
@@ -141,7 +141,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(data.dateCreation,
+              Text(data.veloName,
                   style: const TextStyle(
                       color: global_styles.green,
                       fontSize: 17.0,
