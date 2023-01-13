@@ -73,6 +73,25 @@ class PopUpClientList extends StatelessWidget {
 
   PopUpClientList({Key? key}) : super(key: key);
 
+  filtersContainer() {
+    return Obx(() {
+      return Wrap(
+          spacing: 4.0,
+          direction: Axis.horizontal,
+          children: incidentController.clientListFilter.isEmpty
+              ? const [Text("Aucun filtre disponible")]
+              : incidentController.clientListFilter.map((client) {
+                  return BuildButtonGroup(
+                      label: client.name ?? "Erreur",
+                      setFilters: incidentController.setClientFilter,
+                      isSelected: incidentController
+                          .incidentsToFetch.value.clientList
+                          .map((item) => item.id)
+                          .contains(client.id));
+                }).toList());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -81,24 +100,7 @@ class PopUpClientList extends StatelessWidget {
       thumbVisibility: true,
       child: ListView(
         controller: scrollController,
-        children: [
-          Obx(() {
-            return Wrap(
-                spacing: 4.0,
-                direction: Axis.horizontal,
-                children: incidentController.clientListFilter.isEmpty
-                    ? const [Text("Aucun filtre disponible")]
-                    : incidentController.clientListFilter.map((client) {
-                        return BuildButtonGroup(
-                            label: client.name ?? "Erreur",
-                            setFilters: incidentController.setClientFilter,
-                            isSelected: incidentController
-                                .incidentsToFetch.value.clientList
-                                .map((item) => item.id)
-                                .contains(client.id));
-                      }).toList());
-          })
-        ],
+        children: [filtersContainer()],
       ),
     ));
   }
@@ -110,6 +112,25 @@ class PopUpGroupList extends StatelessWidget {
 
   PopUpGroupList({Key? key}) : super(key: key);
 
+  filtersContainer() {
+    return Obx(() {
+      return Wrap(
+          spacing: 4.0,
+          direction: Axis.horizontal,
+          children: incidentController.groupListFilter.isEmpty
+              ? const [Text("Aucun filtre disponible")]
+              : incidentController.groupListFilter.map((group) {
+                  return BuildButtonGroup(
+                      label: group.name ?? "Erreur",
+                      setFilters: incidentController.setGroupFilter,
+                      isSelected: incidentController
+                          .incidentsToFetch.value.groupList
+                          .map((item) => item.id)
+                          .contains(group.id));
+                }).toList());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -118,24 +139,7 @@ class PopUpGroupList extends StatelessWidget {
       thumbVisibility: true,
       child: ListView(
         controller: scrollController,
-        children: [
-          Obx(() {
-            return Wrap(
-                spacing: 4.0,
-                direction: Axis.horizontal,
-                children: incidentController.groupListFilter.isEmpty
-                    ? const [Text("Aucun filtre disponible")]
-                    : incidentController.groupListFilter.map((group) {
-                        return BuildButtonGroup(
-                            label: group.name ?? "Erreur",
-                            setFilters: incidentController.setGroupFilter,
-                            isSelected: incidentController
-                                .incidentsToFetch.value.groupList
-                                .map((item) => item.id)
-                                .contains(group.id));
-                      }).toList());
-          })
-        ],
+        children: [filtersContainer()],
       ),
     ));
   }
@@ -160,9 +164,10 @@ class PopUpFilters extends StatelessWidget {
         children: [
           Container(
             constraints: BoxConstraints(
-                maxHeight: loginController.isAdminOrTech.value
+                maxHeight: loginController.isAdminOrTech.value &&
+                        loginController.isTech.value == false
                     ? screenHeight * 0.7
-                    : screenHeight * 0.4),
+                    : screenHeight * 0.5),
             width: screenWidth,
             decoration: const BoxDecoration(
                 borderRadius:

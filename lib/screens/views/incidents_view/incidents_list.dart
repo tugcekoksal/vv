@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 // Components
 import 'package:velyvelo/components/fade_list_view.dart';
+import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
 
@@ -74,8 +75,9 @@ class IncidentsList extends StatelessWidget {
 
 class BuildIncidentHistoricTile extends StatelessWidget {
   final Incident data;
+  final LoginController loginController = Get.put(LoginController());
 
-  const BuildIncidentHistoricTile({
+  BuildIncidentHistoricTile({
     Key? key,
     required this.data,
   }) : super(key: key);
@@ -109,7 +111,8 @@ class BuildIncidentHistoricTile extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: colorBasedOnIncidentStatus(data.incidentStatus),
+                      color: colorBasedOnIncidentStatus(data.incidentStatus,
+                          isTechnicien: loginController.isTech.value),
                       borderRadius: BorderRadius.circular(12.5),
                     ),
                     child: Text(data.reparationNumber,
