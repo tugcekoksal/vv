@@ -108,7 +108,8 @@ class ReparationContainer extends StatelessWidget {
     Widget gotoWidget = SizedBox(height: 0, width: 0, key: keyWidget);
     incidentController.fetchPieceFromType();
     bool disabled = loginController.isTech.value &&
-        incidentController.currentReparation.value.statusBike == "Terminé";
+        (incidentController.currentReparation.value.statusBike == "Terminé" ||
+            incidentController.currentReparation.value.statusBike == "Clôturé");
     // incidentController.currentReparation.refresh();
     return Obx(() {
       if (loginController.isAdminOrTech.value) {
