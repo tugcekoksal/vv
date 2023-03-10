@@ -12,7 +12,7 @@ class ButtonScan extends StatelessWidget {
   const ButtonScan({Key? key}) : super(key: key);
 
   Future<void> displayScan() async {
-    Get.to(() => const Scaffold(
+    Get.to(() => Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.transparent,
         body: ScanView()));

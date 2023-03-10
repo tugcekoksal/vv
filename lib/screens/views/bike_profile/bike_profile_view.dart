@@ -109,7 +109,7 @@ class MyBikeView extends ConsumerWidget {
     final BikeProfileProvider bikeProfile = ref.watch(bikeProfileProvider);
     Future(() {
       if (!isFromScan) {
-        bikeProfile.fetchUserBike(veloPk);
+        bikeProfile.fetchUserBike(veloPk: veloPk);
       }
       // bikeProfile.isViewingScanPage = false;
       // ref.read(qrCodeProvider).setCanScan(true);

@@ -80,8 +80,8 @@ class HttpService {
 
   // Fetch the user's bike
   static Future<UserBikeModel> fetchUserBike(
-      int veloPk, String userToken) async {
-    return fetchUserBikeService(urlServer, veloPk, userToken);
+      int? veloPk, String? nomVelo, String userToken) async {
+    return fetchUserBikeService(urlServer, veloPk, nomVelo, userToken);
   }
 
   // Fetch the hubs for map

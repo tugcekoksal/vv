@@ -92,7 +92,7 @@ class ReturnContainerToScan extends ConsumerWidget {
         onTap: (() => {
               ref.read(bikeProfileProvider).isViewingScanPage = false,
               Get.off(
-                  () => const Scaffold(
+                  () => Scaffold(
                       resizeToAvoidBottomInset: true,
                       backgroundColor: Colors.transparent,
                       body: ScanView()),

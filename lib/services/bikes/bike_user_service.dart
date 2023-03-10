@@ -7,15 +7,19 @@ import 'package:velyvelo/models/bike/user_bike_model.dart';
 import 'package:velyvelo/models/bike/bike_id_to_send_model.dart';
 
 Future<UserBikeModel> fetchUserBikeService(
-    String urlServer, int veloPk, String userToken) async {
+    String urlServer, int? veloPk, String? nomVelo, String userToken) async {
   var request = http.Request("POST", Uri.parse("$urlServer/api/profilVelo/"));
   var headers = {
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
   };
-  UserBikeIdToSend bikeIdTosend = UserBikeIdToSend(veloPk: veloPk);
 
-  request.body = json.encode(bikeIdTosend.toJson());
+  if (nomVelo != null) {
+    request.body = json.encode({"nom_velo": nomVelo});
+  }
+  if (veloPk != null) {
+    request.body = json.encode({"velo_pk": veloPk});
+  }
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();

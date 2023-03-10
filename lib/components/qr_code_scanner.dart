@@ -13,7 +13,7 @@ import 'package:velyvelo/screens/views/bike_detail_scan.dart';
 
 showBikeDetailScanPage(int id, QrCodeProvider qrCode,
     BikeProfileProvider bikeProfile, BuildContext context) async {
-  bikeProfile.fetchUserBike(id).then((value) {
+  bikeProfile.fetchUserBike(veloPk: id).then((value) {
     if (bikeProfile.messageError == "") {
       bikeProfile.isViewingScanPage = true;
       Get.off(() => const BikeDetailScan(),

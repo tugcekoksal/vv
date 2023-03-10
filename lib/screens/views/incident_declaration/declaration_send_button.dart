@@ -39,9 +39,10 @@ class DeclarationSendButton extends ConsumerWidget {
         bool isSent = await declarationController.sendIncident(null);
         if (isSent) {
           try {
-            ref.read(bikeProfileProvider).fetchUserBike(declarationController
-                    .infosSelection.value.infoVelo.selected!.id ??
-                -1);
+            ref.read(bikeProfileProvider).fetchUserBike(
+                veloPk: declarationController
+                        .infosSelection.value.infoVelo.selected!.id ??
+                    -1);
           } catch (e) {
             log.e(e);
           }
