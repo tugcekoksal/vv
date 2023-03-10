@@ -48,6 +48,24 @@ class IncidentDetailModel {
       );
 }
 
+List<ReparationModel> jsonToListReparationModel(Map<String, dynamic> listJson) {
+  List<ReparationModel> listRep = [];
+  for (Map<String, dynamic> json in listJson["queue"]) {
+    listRep.add(ReparationModel.fromJson(json, []));
+  }
+  return listRep;
+}
+
+Map<String, dynamic> listReparationModelToListJson(
+    List<ReparationModel> listRep) {
+  List<Map<String, dynamic>> listJson = [];
+  for (ReparationModel repUpdate in listRep) {
+    listJson.add(repUpdate.toJson());
+    listJson.add(repUpdate.toJson());
+  }
+  return {"queue": listJson};
+}
+
 // Data concerning the reparation under the detail of incidents (thecnician and admin view)
 class ReparationModel {
   String? statusBike;
@@ -92,12 +110,12 @@ class ReparationModel {
     required this.commentaryAdmin,
   });
 
-  factory ReparationModel.fromJson(Map<String, dynamic> jsonData,
-      int? incidentPk, List<File> listPhotoFile) {
+  factory ReparationModel.fromJson(
+      Map<String, dynamic> jsonData, List<File> listPhotoFile) {
     return ReparationModel(
         statusBike: getStringOrNull(jsonData["status_bike"]),
         isBikeFunctional: getBoolOrNull(jsonData["is_bike_functional"]),
-        incidentPk: getIntOrNull(incidentPk),
+        incidentPk: getIntOrNull(jsonData["incident_pk"]),
         reparationPhotosList: listPhotoFile,
         cause: getIdAndNameOrEmpty(jsonData["cause"]),
         causelist: getListIdAndName(jsonData["list_cause"]),
@@ -115,4 +133,23 @@ class ReparationModel {
         commentaryAdmin: TextEditingController(
             text: getStringOrNull(jsonData["commentary_admin"])));
   }
+
+  Map<String, dynamic> toJson() => {
+        "status_bike": statusBike,
+        "is_bike_functional": isBikeFunctional,
+        "incident_pk": incidentPk,
+        // list photo file
+        "cause": cause.toJson(),
+        "list_cause": idAndNameListToJson(causelist),
+        "type_intervention": typeIntervention.toJson(),
+        "type_reparation": typeReparation.toJson(),
+        "list_type_intervention": idAndNameListToJson(typeInterventionList),
+        "list_type_reparation": idAndNameListToJson(typeReparationList),
+        // list pieces (model ?)
+        // no pieces
+        "pieces": idAndNameListToJson(selectedPieces),
+        // selected piece dropdown
+        "commentary_tech": commentaryTech.text,
+        "commentary_admin": commentaryAdmin.text,
+      };
 }

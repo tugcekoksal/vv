@@ -60,13 +60,13 @@ class IncidentsList extends StatelessWidget {
         },
         child: ListView.builder(
             padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-            itemCount: incidentController.incidentList.length,
+            itemCount: incidentController.incidentsList.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () => showIncidentDetailPage(
-                      incidentController.incidentList[index]),
+                      incidentController.incidentsList[index]),
                   child: BuildIncidentHistoricTile(
-                      data: incidentController.incidentList[index]));
+                      data: incidentController.incidentsList[index]));
             }),
       )));
     });

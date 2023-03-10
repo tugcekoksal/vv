@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 const String pathToListIncidents = "listIncidents";
+const String pathToQueueUpdateIncidents = "queueUpdateIncidents";
 final log = logger(File);
 
 Future<String> get _localPath async {
@@ -18,6 +20,12 @@ Future<File> get _listIncidentsFile async {
   return File('$path/$pathToListIncidents.txt');
 }
 
+Future<File> get _queueUpdateIncidentsFile async {
+  final path = await _localPath;
+  return File('$path/$pathToQueueUpdateIncidents.txt');
+}
+
+// Reading incidents
 Future<File> writeListIncidents(IncidentsModel incidents) async {
   final file = await _listIncidentsFile;
 
@@ -36,7 +44,32 @@ Future<IncidentsModel> readListIncidents() async {
     return incidents;
   } catch (e) {
     // If encountering an error, return nothing
-    log.e(e.toString());
+    log.e("readListIncidents: " + e.toString());
     return IncidentsModel.empty();
+  }
+}
+
+// Updating incidents
+Future<void> writeUpdateIncident(List<ReparationModel> reparationsQueue) async {
+  final file = await _queueUpdateIncidentsFile;
+
+  // Write the file
+  file.writeAsString(
+      json.encode(listReparationModelToListJson(reparationsQueue)),
+      flush: true);
+}
+
+Future<List<ReparationModel>> readUpdateIncident() async {
+  final file = await _queueUpdateIncidentsFile;
+  try {
+    // Read the file
+    final stringContent = await file.readAsString();
+    final jsonContent = json.decode(stringContent);
+    final reparations = jsonToListReparationModel(jsonContent);
+    return reparations;
+  } catch (e) {
+    // If encountering an error, return nothing
+    log.e("readUpdateIncident:" + e.toString());
+    return [];
   }
 }

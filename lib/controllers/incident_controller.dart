@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/config/caching_data.dart';
 import 'package:velyvelo/config/url_to_file.dart';
+import 'package:velyvelo/controllers/fetch_queue_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -14,6 +15,7 @@ import 'package:velyvelo/helpers/logger.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incident_model.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/models/json_usefull.dart';
@@ -34,11 +36,8 @@ class IncidentController extends GetxController {
   var isLoading = true.obs;
   var isLoadingDetailIncident = true.obs;
 
-  var incidentList = <Incident>[].obs;
-
-  var nbOfNewIncidents = 0.obs;
-  var nbOfProgressIncidents = 0.obs;
-  var nbOfFinishedIncidents = 0.obs;
+  RxList<Incident> incidentsList = <Incident>[].obs;
+  Rx<NbIncidents> nbIncidents = NbIncidents.empty().obs;
 
   var incidentFilters = <String>[].obs;
 
@@ -188,8 +187,8 @@ class IncidentController extends GetxController {
       var photoFile = await urlToFile(HttpService.urlServer + photo);
       listPhotoFile.add(photoFile);
     }
-    currentReparation.value = ReparationModel.fromJson(
-        infosReparation, currentIncidentId.value, listPhotoFile);
+    currentReparation.value =
+        ReparationModel.fromJson(infosReparation, listPhotoFile);
     currentReparation.refresh();
     actualTypeReparation.value =
         currentReparation.value.typeReparation.name ?? "Error type reparation";
@@ -256,34 +255,41 @@ class IncidentController extends GetxController {
 
   // Observable getter
   RxBool get isIncidentListEmpty {
-    return RxBool(nbOfFinishedIncidents.value == 0 &&
-        nbOfNewIncidents.value == 0 &&
-        nbOfProgressIncidents.value == 0);
+    // return RxBool(nbOfFinishedIncidents.value == 0 &&
+    //     nbOfNewIncidents.value == 0 &&
+    //     nbOfProgressIncidents.value == 0);
+
+    return RxBool(nbIncidents.value.enCours == 0 &&
+        nbIncidents.value.nouvelle == 0 &&
+        nbIncidents.value.termine == 0);
   }
 
   Future<void> fetchAllIncidents(incidentsToFetch) async {
     isLoading.value = true;
-    try {
-      IncidentsModel incidents = await HttpService.fetchAllIncidents(
-          incidentsToFetch, searchText.value, userToken);
-      incidentList.value = incidents.incidents;
-      nbOfNewIncidents.value = incidents.nbIncidents.nouvelle;
-      nbOfProgressIncidents.value = incidents.nbIncidents.enCours;
-      nbOfFinishedIncidents.value = incidents.nbIncidents.termine;
+    error.value = "";
 
-      error.value = "";
-      await writeListIncidents(incidents);
+    try {
+      // IncidentsModel incidents = await HttpService.fetchAllIncidents(
+      //     incidentsToFetch, searchText.value, userToken);
+      // incidentList.value = incidents.incidents;
+      // nbOfNewIncidents.value = incidents.nbIncidents.nouvelle;
+      // nbOfProgressIncidents.value = incidents.nbIncidents.enCours;
+      // nbOfFinishedIncidents.value = incidents.nbIncidents.termine;
+      IncidentsModel incidentsModel = await HttpService.fetchAllIncidents(
+          incidentsToFetch, searchText.value, userToken);
+
+      incidentsList.value = incidentsModel.incidents;
+      nbIncidents.value = incidentsModel.nbIncidents;
+
+      await writeListIncidents(incidentsModel);
       // Here we write the datas in a json file to keep them offline
     } catch (e) {
       try {
         // Here we use the datas in the json file that we previously stored for offline purposes
-        IncidentsModel incidents = await readListIncidents();
-        incidentList.value = incidents.incidents;
-        nbOfNewIncidents.value = incidents.nbIncidents.nouvelle;
-        nbOfProgressIncidents.value = incidents.nbIncidents.enCours;
-        nbOfFinishedIncidents.value = incidents.nbIncidents.termine;
+        IncidentsModel incidentsModel = await readListIncidents();
 
-        print(incidents.incidents.length);
+        incidentsList.value = incidentsModel.incidents;
+        nbIncidents.value = incidentsModel.nbIncidents;
       } catch (e) {
         // If there is nothing in the file we return an error
         log.e(e.toString());
@@ -310,8 +316,8 @@ class IncidentController extends GetxController {
   }
 
   Future<bool> fetchNewIncidents() async {
-    incidentsToFetch.value.newestId = int.parse(incidentList.first.incidentPk);
-    incidentsToFetch.value.count = incidentList.length;
+    incidentsToFetch.value.newestId = int.parse(incidentsList.first.incidentPk);
+    incidentsToFetch.value.count = incidentsList.length;
 
     incidentsToFetch.value.statusList = incidentFilters.isEmpty
         ? ["Nouvelle", "Planifié", "Terminé"]
@@ -321,7 +327,7 @@ class IncidentController extends GetxController {
       IncidentsModel incidents = await HttpService.fetchAllIncidents(
           incidentsToFetch.value, searchText.value, userToken);
       if (incidents.incidents.isNotEmpty) {
-        incidentList = incidentList + incidents.incidents;
+        incidentsList.value += incidents.incidents;
         return true;
       }
     } catch (e) {
@@ -369,7 +375,14 @@ class IncidentController extends GetxController {
       await HttpService.sendCurrentDetailBikeStatus(
           currentReparation.value, userToken);
     } catch (e) {
-      error.value = e.toString();
+      try {
+        fetchQueueProvider.updateQueue = await readUpdateIncident();
+        fetchQueueProvider.updateQueue.add(currentReparation.value);
+        writeUpdateIncident(fetchQueueProvider.updateQueue);
+        fetchQueueProvider.cronJob(userToken);
+      } catch (e) {
+        error.value = e.toString();
+      }
     }
   }
 }

@@ -39,7 +39,7 @@ class IncidentsOverview extends StatelessWidget {
                           : 0.5,
                       child: BuildStatus(
                           numberOfTile:
-                              incidentController.nbOfNewIncidents.value,
+                              incidentController.nbIncidents.value.nouvelle,
                           title: "Nouveau",
                           backgroundColor: global_styles.blue));
                 })),
@@ -55,8 +55,8 @@ class IncidentsOverview extends StatelessWidget {
                               ? 1
                               : 0.5,
                           child: BuildStatus(
-                              numberOfTile: incidentController
-                                  .nbOfProgressIncidents.value,
+                              numberOfTile:
+                                  incidentController.nbIncidents.value.enCours,
                               title: "Planifié",
                               backgroundColor: global_styles.yellow));
                     })),
@@ -71,7 +71,7 @@ class IncidentsOverview extends StatelessWidget {
                               : 0.5,
                       child: BuildStatus(
                           numberOfTile:
-                              incidentController.nbOfFinishedIncidents.value,
+                              incidentController.nbIncidents.value.termine,
                           title: "Terminé",
                           backgroundColor: global_styles.green));
                 })),
