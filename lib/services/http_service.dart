@@ -10,6 +10,7 @@ import 'package:velyvelo/models/carte/bike_map_model.dart';
 import 'package:velyvelo/models/carte/hub_list_model.dart';
 import 'package:velyvelo/models/carte/hub_map_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incidents_model.dart';
 
 // Models
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
@@ -96,13 +97,15 @@ class HttpService {
   }
 
   // Fetch the user's type
-  static Future fetchTypeUser(String userToken) async {
+  static Future<String> fetchTypeUser(String userToken) async {
     return fetchTypeUserService(urlServer, userToken);
   }
 
   // Fetch All the incidents
-  static Future fetchAllIncidents(RefreshIncidentModel incidentsToFetch,
-      String searchText, String userToken) async {
+  static Future<IncidentsModel> fetchAllIncidents(
+      RefreshIncidentModel incidentsToFetch,
+      String searchText,
+      String userToken) async {
     return fetchAllIncidentsService(
         urlServer, incidentsToFetch, searchText, userToken);
   }

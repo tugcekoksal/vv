@@ -8,7 +8,7 @@ import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/services/http_service.dart';
 
-Future fetchAllIncidentsService(
+Future<IncidentsModel> fetchAllIncidentsService(
     String urlServer,
     RefreshIncidentModel incidentsToFetch,
     String searchText,

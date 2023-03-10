@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:velyvelo/config/caching_data.dart';
 import 'package:velyvelo/config/url_to_file.dart';
 
 // Controllers
@@ -31,12 +32,9 @@ class IncidentController extends GetxController {
   // length of the incident list that I currently have or 0 if first call
 
   var isLoading = true.obs;
-  var noIncidentsToShow = false.obs;
   var isLoadingDetailIncident = true.obs;
 
   var incidentList = <Incident>[].obs;
-  var storedIncidents = <Incident>[];
-  // var incidentDetail;
 
   var nbOfNewIncidents = 0.obs;
   var nbOfProgressIncidents = 0.obs;
@@ -105,7 +103,7 @@ class IncidentController extends GetxController {
       groupListFilter.value = jsonListToIdAndNameList(response["group_list"]);
       groupListFilter.add(IdAndName(id: -1, name: "Pas de groupe"));
     } catch (e) {
-      print(e.toString());
+      log.e(e.toString());
     }
     clientListFilter.refresh();
     groupListFilter.refresh();
@@ -256,30 +254,44 @@ class IncidentController extends GetxController {
     }
   }
 
+  // Observable getter
+  RxBool get isIncidentListEmpty {
+    return RxBool(nbOfFinishedIncidents.value == 0 &&
+        nbOfNewIncidents.value == 0 &&
+        nbOfProgressIncidents.value == 0);
+  }
+
   Future<void> fetchAllIncidents(incidentsToFetch) async {
-    noIncidentsToShow(false);
+    isLoading.value = true;
     try {
-      isLoading(true);
-      var incidents = await HttpService.fetchAllIncidents(
+      IncidentsModel incidents = await HttpService.fetchAllIncidents(
           incidentsToFetch, searchText.value, userToken);
-      if (incidents != null && incidents.incidents.length != 0) {
+      incidentList.value = incidents.incidents;
+      nbOfNewIncidents.value = incidents.nbIncidents.nouvelle;
+      nbOfProgressIncidents.value = incidents.nbIncidents.enCours;
+      nbOfFinishedIncidents.value = incidents.nbIncidents.termine;
+
+      error.value = "";
+      await writeListIncidents(incidents);
+      // Here we write the datas in a json file to keep them offline
+    } catch (e) {
+      try {
+        // Here we use the datas in the json file that we previously stored for offline purposes
+        IncidentsModel incidents = await readListIncidents();
         incidentList.value = incidents.incidents;
-        storedIncidents = incidents.incidents;
         nbOfNewIncidents.value = incidents.nbIncidents.nouvelle;
         nbOfProgressIncidents.value = incidents.nbIncidents.enCours;
         nbOfFinishedIncidents.value = incidents.nbIncidents.termine;
-        isLoading(false);
-      } else if (incidents.incidents.length == 0) {
-        isLoading(false);
-        noIncidentsToShow(true);
+
+        print(incidents.incidents.length);
+      } catch (e) {
+        // If there is nothing in the file we return an error
+        log.e(e.toString());
+        error.value =
+            "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
       }
-      error.value = "";
-    } catch (e) {
-      isLoading(false);
-      log.e(e.toString());
-      error.value =
-          "Il y a une erreur avec les données. Excusez-nous de la gêne occasionnée.";
     }
+    isLoading.value = false;
   }
 
   Future<void> fetchIncidentById(int id) async {

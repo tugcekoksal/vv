@@ -94,6 +94,15 @@ class LoginController extends GetxController {
     }
   }
 
+  void setTypeUser(SharedPreferences prefs, String? typeUser) async {
+    if (typeUser != null) {
+      await prefs.setString('typeUser', typeUser);
+      userType = typeUser;
+    } else {
+      userType = prefs.getString("typeUser") ?? "No type user";
+    }
+  }
+
   // Login the user with login and password
   Future loginUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -147,29 +156,38 @@ class LoginController extends GetxController {
   }
 
   void fetchTypeUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userTypeFetched;
+
+    // Fetch type user, if no connexion try get the last user type in prefs
     try {
-      var userTypeFetched = await HttpService.fetchTypeUser(userToken);
-      if (userTypeFetched == "Client") {
-        isClient(true);
-        userType = "Client";
-      } else if (userTypeFetched == "Utilisateur") {
-        isUser(true);
-        userType = "User";
-      } else if (userTypeFetched == "SuperUser") {
-        isSuperUser(true);
-        userType = "SuperUser";
-      } else if (userTypeFetched == "Admin" ||
-          userTypeFetched == "Technicien") {
-        isAdminOrTech(true);
-        userType = "AdminOrTechnician";
-        if (userTypeFetched == "Technicien") {
-          isTech(true);
-        }
-      }
-      isLogged(true);
+      userTypeFetched = await HttpService.fetchTypeUser(userToken);
     } catch (e) {
       log.e(e.toString());
+      userTypeFetched = prefs.getString("typeUser") ?? "";
     }
+
+    if (userTypeFetched == "Client") {
+      isClient(true);
+      setTypeUser(prefs, "Client");
+    } else if (userTypeFetched == "Utilisateur") {
+      isUser(true);
+      setTypeUser(prefs, "User");
+    } else if (userTypeFetched == "SuperUser") {
+      isSuperUser(true);
+      setTypeUser(prefs, "SuperUser");
+    } else if (userTypeFetched == "Admin" || userTypeFetched == "Technicien") {
+      isAdminOrTech(true);
+      setTypeUser(prefs, "AdminOrTechnician");
+      if (userTypeFetched == "Technicien") {
+        setTypeUser(prefs, "Technicien");
+        isTech(true);
+      }
+    } else {
+      isLogged.value = false;
+      return;
+    }
+    isLogged(true);
   }
 
   void onChangedPassword(value) {

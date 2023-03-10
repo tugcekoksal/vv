@@ -91,7 +91,7 @@ class IncidentsView extends StatelessWidget {
               } else if (incidentController.error.value != '') {
                 return IncidentListError(
                     incidentController: incidentController);
-              } else if (incidentController.noIncidentsToShow.value) {
+              } else if (incidentController.isIncidentListEmpty.value) {
                 return IncidentListEmpty(
                     incidentController: incidentController);
               } else {
