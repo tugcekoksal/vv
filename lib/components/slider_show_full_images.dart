@@ -83,19 +83,19 @@ class _SliderShowFullImagesState extends State<SliderShowFullImages> {
                                   ? Image.network(
                                       HttpService.urlServer + url,
                                       fit: BoxFit.fill,
-                                      height: 400.0,
+                                      height: 500.0,
                                     )
                                   : widget.mode == "File"
                                       ? Image.file(
                                           url,
                                           fit: BoxFit.fill,
-                                          height: 400.0,
+                                          height: 500.0,
                                         )
                                       : widget.mode == "Asset"
                                           ? Image.asset(
                                               url,
                                               fit: BoxFit.fill,
-                                              height: 400.0,
+                                              height: 500.0,
                                             )
                                           : const SizedBox())
                         ]);
