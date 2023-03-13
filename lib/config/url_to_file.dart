@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 Future<File> urlToFile(String imageUrl) async {
   var rng = Random();
@@ -25,14 +26,17 @@ Future<String?> saveImageFromUrl(String imageUrl) async {
   String imagePath = docDirectory.path + "/velyvelo";
   String imagePathAndName = imagePath + "/" + imageUrl.split("/").last;
   try {
+    // var response = await get(Uri.parse(imageUrl));
+    // await Directory(imagePath).create(recursive: true); // <-- 1
+    // File file2 = File(imagePathAndName); // <-- 2
+    // file2.writeAsBytesSync(response.bodyBytes);
+    // print(imagePathAndName);
     var response = await get(Uri.parse(imageUrl));
-    await Directory(imagePath).create(recursive: true); // <-- 1
-    File file2 = File(imagePathAndName); // <-- 2
-    file2.writeAsBytesSync(response.bodyBytes);
-    print(imagePathAndName);
+    final result = await ImageGallerySaver.saveImage(response.bodyBytes);
   } catch (e) {
     print("Error saving url");
+    print(e.toString());
     return null;
   }
-  return imagePathAndName;
+  return "Enregistré dans la galerie";
 }

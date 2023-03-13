@@ -103,6 +103,9 @@ class _SliderShowFullImagesState extends State<SliderShowFullImages> {
                 ),
                 GestureDetector(
                     onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Téléchargement...'),
+                          backgroundColor: Colors.blue));
                       saveImageFromUrl(HttpService.urlServer +
                               widget.listImagesModel[_current])
                           .then((value) => {
@@ -112,15 +115,14 @@ class _SliderShowFullImagesState extends State<SliderShowFullImages> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                             content: Text(
-                                                'La photo n\'a pas été téléchargée'),
+                                                'La photo n\'a pas été téléchargé'),
                                             backgroundColor: Colors.red)),
                                   }
                                 else
                                   {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
-                                            content:
-                                                Text('Téléchargée : ' + value),
+                                            content: Text(value),
                                             backgroundColor: Colors.green)),
                                   }
                               });

@@ -38,8 +38,8 @@ import 'package:velyvelo/services/hubs/fetch_hub_map.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
-  // static String urlServer = "http://192.168.10.119:8000";
-  static String urlServer = "http://localhost:8000";
+  static String urlServer = "http://192.168.1.37:8000";
+  // static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
