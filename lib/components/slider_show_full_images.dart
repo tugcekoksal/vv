@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/config/url_to_file.dart';
 
 // Url server
 import 'package:velyvelo/services/http_service.dart';
@@ -61,7 +62,7 @@ class _SliderShowFullImagesState extends State<SliderShowFullImages> {
                 CarouselSlider(
                   options: CarouselOptions(
                       autoPlay: false,
-                      height: MediaQuery.of(context).size.height / 1.3,
+                      height: MediaQuery.of(context).size.height / 1.4,
                       viewportFraction: 1.0,
                       onPageChanged: (index, data) {
                         setState(() {
@@ -100,6 +101,48 @@ class _SliderShowFullImagesState extends State<SliderShowFullImages> {
                         ]);
                   }),
                 ),
+                GestureDetector(
+                    onTap: () {
+                      saveImageFromUrl(HttpService.urlServer +
+                              widget.listImagesModel[_current])
+                          .then((value) => {
+                                ScaffoldMessenger.of(context).clearSnackBars(),
+                                if (value == null)
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'La photo n\'a pas été téléchargée'),
+                                            backgroundColor: Colors.red)),
+                                  }
+                                else
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text('Téléchargée : ' + value),
+                                            backgroundColor: Colors.green)),
+                                  }
+                              });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Télécharger la photo",
+                          style: TextStyle(
+                              color: global_styles.black75,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(width: 10),
+                        Icon(
+                          Icons.download,
+                          size: 30,
+                        )
+                      ],
+                    )),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: map<Widget>(widget.listImagesModel, (index, url) {

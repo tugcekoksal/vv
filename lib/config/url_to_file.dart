@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'dart:math';
 
+import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,4 +18,21 @@ Future<File> urlToFile(String imageUrl) async {
   http.Response response = await http.get(Uri.parse(imageUrl));
   await file.writeAsBytes(response.bodyBytes);
   return file;
+}
+
+Future<String?> saveImageFromUrl(String imageUrl) async {
+  var docDirectory = await getApplicationDocumentsDirectory();
+  String imagePath = docDirectory.path + "/velyvelo";
+  String imagePathAndName = imagePath + "/" + imageUrl.split("/").last;
+  try {
+    var response = await get(Uri.parse(imageUrl));
+    await Directory(imagePath).create(recursive: true); // <-- 1
+    File file2 = File(imagePathAndName); // <-- 2
+    file2.writeAsBytesSync(response.bodyBytes);
+    print(imagePathAndName);
+  } catch (e) {
+    print("Error saving url");
+    return null;
+  }
+  return imagePathAndName;
 }
