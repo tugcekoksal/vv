@@ -255,10 +255,6 @@ class IncidentController extends GetxController {
 
   // Observable getter
   RxBool get isIncidentListEmpty {
-    // return RxBool(nbOfFinishedIncidents.value == 0 &&
-    //     nbOfNewIncidents.value == 0 &&
-    //     nbOfProgressIncidents.value == 0);
-
     return RxBool(nbIncidents.value.enCours == 0 &&
         nbIncidents.value.nouvelle == 0 &&
         nbIncidents.value.termine == 0);
@@ -269,12 +265,6 @@ class IncidentController extends GetxController {
     error.value = "";
 
     try {
-      // IncidentsModel incidents = await HttpService.fetchAllIncidents(
-      //     incidentsToFetch, searchText.value, userToken);
-      // incidentList.value = incidents.incidents;
-      // nbOfNewIncidents.value = incidents.nbIncidents.nouvelle;
-      // nbOfProgressIncidents.value = incidents.nbIncidents.enCours;
-      // nbOfFinishedIncidents.value = incidents.nbIncidents.termine;
       IncidentsModel incidentsModel = await HttpService.fetchAllIncidents(
           incidentsToFetch, searchText.value, userToken);
 

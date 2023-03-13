@@ -4,12 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
+import 'package:velyvelo/components/list_is_loading.dart';
 import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
 
 // Globals styles
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 
 class PurpleText extends StatelessWidget {

@@ -92,25 +92,3 @@ class ListIncidentIsLoading extends StatelessWidget {
             }));
   }
 }
-
-class ListIsLoading extends StatelessWidget {
-  const ListIsLoading({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return LoadingBox(
-            child: Container(
-                padding: const EdgeInsets.all(20.0),
-                margin:
-                    const EdgeInsets.only(bottom: 8.0, left: 20.0, right: 20.0),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20.0)),
-                height: 100),
-          );
-        });
-  }
-}

@@ -15,10 +15,13 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/screens/views/incidents_view/button_filter.dart';
-import 'package:velyvelo/screens/views/incidents_view/incidents_list.dart';
-import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
+
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
+
+// My components
+import 'package:velyvelo/screens/views/old_incident_view/button_filter.dart';
+import 'package:velyvelo/screens/views/old_incident_view/incidents_list.dart';
+import 'package:velyvelo/screens/views/old_incident_view/incidents_list_info.dart';
 
 class IncidentsView extends StatelessWidget {
   IncidentsView({Key? key}) : super(key: key);
@@ -34,27 +37,27 @@ class IncidentsView extends StatelessWidget {
         color: global_styles.backgroundLightGrey,
         // APP BAR
         child: Stack(alignment: Alignment.topCenter, children: [
-          Padding(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(children: [
-                      ButtonAccount(),
-                      const SizedBox(width: 5),
-                      ButtonSearchIncident(
-                          incidentController: incidentController),
-                    ]),
-                    Row(children: [
-                      !loginController.isUser.value
-                          ? ButtonFilter()
-                          : const SizedBox(),
-                      !loginController.isUser.value
-                          ? const SizedBox(width: 5)
-                          : const SizedBox(),
-                      const ButtonScan(),
-                    ]),
-                  ])),
+          // Padding(
+          //     padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+          //     child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: [
+          //           Row(children: [
+          //             ButtonAccount(),
+          //             const SizedBox(width: 5),
+          //             ButtonSearchIncident(
+          //                 incidentController: incidentController),
+          //           ]),
+          //           Row(children: [
+          //             !loginController.isUser.value
+          //                 ? ButtonFilter()
+          //                 : const SizedBox(),
+          //             !loginController.isUser.value
+          //                 ? const SizedBox(width: 5)
+          //                 : const SizedBox(),
+          //             const ButtonScan(),
+          //           ]),
+          //         ])),
           Padding(
               padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
               child: GestureDetector(
@@ -65,7 +68,7 @@ class IncidentsView extends StatelessWidget {
                       onTransparentBackground: false,
                       title: "Incidents",
                     ),
-                    SubTitleIncidents(incidentController: incidentController)
+                    // SubTitleIncidents(incidentController: incidentController)
                   ]))),
           // Search bar
           Column(
