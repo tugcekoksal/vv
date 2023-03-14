@@ -6,6 +6,7 @@ import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/group_card_model.dart';
+import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 import 'package:velyvelo/services/http_service.dart';
 
@@ -25,6 +26,10 @@ class IncidentsProvider extends ChangeNotifier {
   // List groups
   ClientCardModel selectedClient = ClientCardModel.empty();
   List<GroupCardModel> groupCards = [];
+
+  // List reparations
+  GroupCardModel selectedGroup = GroupCardModel.empty();
+  List<IncidentCardModel> incidentCards = [];
 
   final log = logger(IncidentsProvider);
 
@@ -64,6 +69,25 @@ class IncidentsProvider extends ChangeNotifier {
     try {
       groupCards =
           await HttpService.fetchGroupCards(selectedClient.id, userToken);
+    } catch (e) {
+      log.e(e.toString());
+    }
+    notifyListeners();
+  }
+
+  void selectGroup(int index) {
+    selectedGroup = groupCards[index];
+    view = View.listIncident;
+    title = selectedGroup.name;
+    fetchListReparation();
+    notifyListeners();
+  }
+
+  void fetchListReparation() async {
+    try {
+      incidentCards = await HttpService.fetchIncidentCards(
+          selectedGroup.id, selectedClient.id, userToken);
+      print(incidentCards.length);
     } catch (e) {
       log.e(e.toString());
     }

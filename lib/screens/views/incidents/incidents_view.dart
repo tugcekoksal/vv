@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Usefull
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
+import 'package:velyvelo/screens/views/incidents/components/list_incident.dart';
 import 'package:velyvelo/screens/views/incidents/components/top/app_bar_incidents.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_client.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_group.dart';
@@ -28,7 +29,9 @@ class IncidentsView extends ConsumerWidget {
               ? ListClient()
               : wProvider.view == View.listGroup
                   ? ListGroup()
-                  : const SizedBox()
+                  : wProvider.view == View.listIncident
+                      ? ListIncident()
+                      : const SizedBox()
         ]));
   }
 }

@@ -6,11 +6,12 @@ import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/screens/views/incidents/components/client_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
+import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
 
-class ListGroup extends ConsumerWidget {
+class ListIncident extends ConsumerWidget {
   final refreshController = RefreshController();
 
-  ListGroup({Key? key}) : super(key: key);
+  ListIncident({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,16 +42,15 @@ class ListGroup extends ConsumerWidget {
                     padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),
                     child: Column(
                       children: [
-                        ClientCard(
-                            client: wProvider.selectedClient,
-                            isTech: wProvider.loginController.isTech()),
+                        GroupCard(group: wProvider.selectedGroup),
+                        const SizedBox(height: 20),
+                        // test
                         for (var index = 0;
-                            index < wProvider.groupCards.length;
+                            index < wProvider.incidentCards.length;
                             index++)
                           GestureDetector(
-                            child: GroupCard(
-                              group: wProvider.groupCards[index],
-                            ),
+                            child: IncidentCard(
+                                incident: wProvider.incidentCards[index]),
                             onTap: () {
                               wProvider.selectGroup(index);
                             },
