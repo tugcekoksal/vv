@@ -9,6 +9,7 @@ import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';
 import 'package:velyvelo/models/carte/hub_list_model.dart';
 import 'package:velyvelo/models/carte/hub_map_model.dart';
+import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
@@ -25,6 +26,7 @@ import 'package:velyvelo/services/bikes/get_bike_map.dart';
 import 'package:velyvelo/services/bikes/send_bike_status_service.dart';
 import 'package:velyvelo/services/bikes/set_bike_robbed_service.dart';
 import 'package:velyvelo/services/incidents/get_all_incidents_service.dart';
+import 'package:velyvelo/services/incidents/get_client_cards.dart';
 import 'package:velyvelo/services/incidents/get_incident_by_id_service.dart';
 import 'package:velyvelo/services/incidents/set_incident_service.dart';
 import 'package:velyvelo/services/labels/get_bike_labels_by_group_service.dart';
@@ -99,6 +101,12 @@ class HttpService {
   // Fetch the user's type
   static Future<String> fetchTypeUser(String userToken) async {
     return fetchTypeUserService(urlServer, userToken);
+  }
+
+  // Fetch list of client cards
+  static Future<List<ClientCardModel>> fetchClientCards(
+      String userToken) async {
+    return fetchClientCardsService(urlServer, userToken);
   }
 
   // Fetch All the incidents

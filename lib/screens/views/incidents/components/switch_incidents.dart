@@ -52,10 +52,17 @@ class SwitchIncidents extends ConsumerWidget {
                 onTap: () {
                   rProvider.swapView(View.listClient);
                 },
-                child: Expanded(
-                    child: SwitchStyle(
-                        text: "Mes incidents",
-                        isActive: wProvider.view == View.listClient))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        height: 30,
+                        child: Expanded(
+                            child: SwitchStyle(
+                                text: "Mes incidents",
+                                isActive: wProvider.view == View.listClient)))
+                  ],
+                )),
             GestureDetector(
                 onTap: () {
                   rProvider.swapView(View.historicIncident);

@@ -12,9 +12,9 @@ import 'package:velyvelo/helpers/logger.dart';
 // Components
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
+import 'package:velyvelo/screens/views/incidents/components/button_filter.dart';
+import 'package:velyvelo/screens/views/incidents/components/button_search_incident.dart';
 import 'package:velyvelo/screens/views/incidents/incidents_view.dart';
-import 'package:velyvelo/screens/views/my_bikes/button_filter.dart';
-import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 
 class AppBarIncidents extends StatelessWidget {
   final IncidentController incidentController = Get.put(IncidentController());
@@ -36,9 +36,7 @@ class AppBarIncidents extends StatelessWidget {
             ButtonSearchIncident(incidentController: incidentController),
           ]),
           Row(children: [
-            !loginController.isUser.value
-                ? const ButtonFilter()
-                : const SizedBox(),
+            !loginController.isUser.value ? ButtonFilter() : const SizedBox(),
             !loginController.isUser.value
                 ? const SizedBox(width: 5)
                 : const SizedBox(),
