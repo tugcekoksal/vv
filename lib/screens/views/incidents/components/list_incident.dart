@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
+import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/models/incident/client_card_model.dart';
+import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
 import 'package:velyvelo/screens/views/incidents/components/client_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
 
 class ListIncident extends ConsumerWidget {
   final refreshController = RefreshController();
+  final IncidentController incidentController = Get.put(IncidentController());
 
   ListIncident({Key? key}) : super(key: key);
+
+  showIncidentDetailPage(data) async {
+    int incidentID = int.parse(data.incidentPk);
+    incidentController.currentIncidentId.value = incidentID;
+    await incidentController.fetchIncidentById(incidentID);
+
+    Get.to(() => IncidentDetail(incident: data),
+        transition: Transition.downToUp,
+        duration: const Duration(milliseconds: 400));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,7 +66,8 @@ class ListIncident extends ConsumerWidget {
                             child: IncidentCard(
                                 incident: wProvider.incidentCards[index]),
                             onTap: () {
-                              wProvider.selectGroup(index);
+                              showIncidentDetailPage(
+                                  incidentController.incidentsList[index]);
                             },
                           )
                       ],

@@ -15,7 +15,7 @@ final incidentsProvider = ChangeNotifierProvider.autoDispose<IncidentsProvider>(
 
 class IncidentsProvider extends ChangeNotifier {
   String userToken = "";
-  View view = View.historicIncident;
+  View view = View.listClient;
   String title = "";
 
   LoginController loginController = Get.put(LoginController());
@@ -87,7 +87,6 @@ class IncidentsProvider extends ChangeNotifier {
     try {
       incidentCards = await HttpService.fetchIncidentCards(
           selectedGroup.id, selectedClient.id, userToken);
-      print(incidentCards.length);
     } catch (e) {
       log.e(e.toString());
     }
