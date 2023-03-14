@@ -23,16 +23,21 @@ class ListClient extends ConsumerWidget {
             controller: refreshController,
             onRefresh: () {
               // Refresh incidents
-              refreshController.refreshCompleted();
+              wProvider.fetchListClient().then((value) {
+                if (wProvider.error != "") {
+                  refreshController.refreshFailed();
+                } else {
+                  refreshController.refreshCompleted();
+                }
+              }).catchError((e) {});
             },
             onLoading: () {
               // Add new incidents in the list with newest_id and count
-              bool isNotEmpty = true;
-              if (isNotEmpty) {
-                refreshController.loadComplete();
-              } else {
-                refreshController.loadNoData();
-              }
+              // if (wProvider.error == "") {
+              //   refreshController.loadComplete();
+              // } else {
+              //   refreshController.loadFailed();
+              // }
             },
             child: ListView.builder(
               padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),

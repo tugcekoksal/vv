@@ -17,6 +17,7 @@ class IncidentsProvider extends ChangeNotifier {
   String userToken = "";
   View view = View.listClient;
   String title = "";
+  String error = "";
 
   LoginController loginController = Get.put(LoginController());
 
@@ -48,10 +49,12 @@ class IncidentsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchListClient() async {
+  Future fetchListClient() async {
+    error = "";
     try {
       clientCards = await HttpService.fetchClientCards(userToken);
     } catch (e) {
+      error = "Erreur chargement des données clients";
       log.e(e.toString());
     }
     notifyListeners();
@@ -65,11 +68,13 @@ class IncidentsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchListGroup() async {
+  Future fetchListGroup() async {
+    error = "";
     try {
       groupCards =
           await HttpService.fetchGroupCards(selectedClient.id, userToken);
     } catch (e) {
+      error = "Erreur chargement des données groupes clients";
       log.e(e.toString());
     }
     notifyListeners();
@@ -83,11 +88,13 @@ class IncidentsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchListReparation() async {
+  Future fetchListReparation() async {
+    error = "";
     try {
       incidentCards = await HttpService.fetchIncidentCards(
           selectedGroup.id, selectedClient.id, userToken);
     } catch (e) {
+      error = "Erreur chargement des données réparations";
       log.e(e.toString());
     }
     notifyListeners();

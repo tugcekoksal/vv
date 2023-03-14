@@ -40,16 +40,22 @@ class ListIncident extends ConsumerWidget {
               controller: refreshController,
               onRefresh: () {
                 // Refresh incidents
-                refreshController.refreshCompleted();
+                wProvider.fetchListReparation().then((value) {
+                  if (wProvider.error != "") {
+                    refreshController.refreshFailed();
+                  } else {
+                    refreshController.refreshCompleted();
+                  }
+                });
               },
               onLoading: () {
                 // Add new incidents in the list with newest_id and count
-                bool isNotEmpty = true;
-                if (isNotEmpty) {
-                  refreshController.loadComplete();
-                } else {
-                  refreshController.loadNoData();
-                }
+                // bool isNotEmpty = true;
+                // if (isNotEmpty) {
+                //   refreshController.loadComplete();
+                // } else {
+                //   refreshController.loadNoData();
+                // }
               },
               child: ListView(children: [
                 Padding(
