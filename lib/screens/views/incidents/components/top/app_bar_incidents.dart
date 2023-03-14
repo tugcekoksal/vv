@@ -12,8 +12,8 @@ import 'package:velyvelo/helpers/logger.dart';
 // Components
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
-import 'package:velyvelo/screens/views/incidents/components/button_filter.dart';
-import 'package:velyvelo/screens/views/incidents/components/button_search_incident.dart';
+import 'package:velyvelo/screens/views/incidents/components/top/button_filter.dart';
+import 'package:velyvelo/screens/views/incidents/components/top/button_search_incident.dart';
 import 'package:velyvelo/screens/views/incidents/incidents_view.dart';
 
 class AppBarIncidents extends StatelessWidget {

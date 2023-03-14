@@ -41,7 +41,7 @@ class SwitchIncidents extends ConsumerWidget {
     IncidentsProvider wProvider = ref.watch(incidentsProvider);
 
     return Positioned(
-        top: 100,
+        top: 110,
         child: Container(
           height: 40,
           width: MediaQuery.of(context).size.width * 0.9,
@@ -52,16 +52,16 @@ class SwitchIncidents extends ConsumerWidget {
                 onTap: () {
                   rProvider.swapView(View.listClient);
                 },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        height: 30,
-                        child: Expanded(
+                child: SizedBox(
+                  height: 30,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
                             child: SwitchStyle(
                                 text: "Mes incidents",
-                                isActive: wProvider.view == View.listClient)))
-                  ],
+                                isActive: wProvider.view == View.listClient))
+                      ]),
                 )),
             GestureDetector(
                 onTap: () {

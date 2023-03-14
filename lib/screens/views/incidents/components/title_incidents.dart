@@ -10,17 +10,23 @@ class TitleIncidents extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     IncidentsProvider provider = ref.watch(incidentsProvider);
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 60, 20, 0),
-        child: GestureDetector(
-            // fetch on tap
-            // onTap: () => incidentController
-            //     .fetchAllIncidents(incidentController.incidentsToFetch.value),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-          TitleAppBar(
-            onTransparentBackground: false,
-            title: provider.title,
-          ),
-        ])));
+    return GestureDetector(
+        // fetch on tap
+        // onTap: () => incidentController
+        //     .fetchAllIncidents(incidentController.incidentsToFetch.value),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+          Container(
+            height: 100,
+            padding: const EdgeInsets.fromLTRB(115, 40, 115, 0),
+            child: Center(
+                child: TitleAppBar(
+              onTransparentBackground: false,
+              title: provider.title,
+            )),
+          )
+        ]));
   }
 }

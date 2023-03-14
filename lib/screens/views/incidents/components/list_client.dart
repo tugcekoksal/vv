@@ -15,7 +15,7 @@ class ListClient extends ConsumerWidget {
     IncidentsProvider wProvider = ref.watch(incidentsProvider);
 
     return Padding(
-        padding: const EdgeInsets.only(top: 140, bottom: 60),
+        padding: const EdgeInsets.only(top: 155, bottom: 60),
         child: FadeListView(
           child: SmartRefresher(
             enablePullDown: true,
@@ -35,15 +35,15 @@ class ListClient extends ConsumerWidget {
               }
             },
             child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+              padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),
               itemCount: wProvider.clientCards.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   child: ClientCard(
                       client: wProvider.clientCards[index],
                       isTech: wProvider.loginController.isTech()),
-                  onTap: () => {
-                    // Go to Hub profile ?
+                  onTap: () {
+                    ref.read(incidentsProvider).selectClient(index);
                   },
                 );
               },

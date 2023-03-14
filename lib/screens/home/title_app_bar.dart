@@ -41,6 +41,7 @@ class TitleAppBar extends StatelessWidget {
                   children: [
                     Text(
                       loginController.isLogged.value ? title : "VelyVelo",
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           color: global_styles.backgroundDarkGrey,
@@ -54,6 +55,8 @@ class TitleAppBar extends StatelessWidget {
                   color: global_styles.backgroundDarkGrey,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w700),
+              maxLines: 2,
+              textAlign: TextAlign.center,
             ),
     );
   }
