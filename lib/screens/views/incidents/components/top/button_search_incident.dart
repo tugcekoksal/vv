@@ -15,8 +15,10 @@ class ButtonSearchIncident extends StatelessWidget {
     return Obx(() {
       return Stack(children: [
         TopButton(
-            actionFunction: () =>
-                {incidentController.displaySearch.value = true},
+            actionFunction: () => {
+                  print("CLIQUE"),
+                  incidentController.displaySearch.value = true
+                },
             isLoading: false,
             iconButton: Icons.search),
         incidentController.searchText.value == ""

@@ -6,6 +6,9 @@ import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/models/incident/client_card_model.dart';
+import 'package:velyvelo/models/incident/incident_card_model.dart';
+import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
 import 'package:velyvelo/screens/views/incidents/components/client_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
@@ -17,12 +20,11 @@ class ListIncident extends ConsumerWidget {
 
   ListIncident({Key? key}) : super(key: key);
 
-  showIncidentDetailPage(data) async {
-    int incidentID = int.parse(data.incidentPk);
-    incidentController.currentIncidentId.value = incidentID;
-    await incidentController.fetchIncidentById(incidentID);
+  showIncidentDetailPage(IncidentCardModel incident) async {
+    incidentController.currentIncidentId.value = int.parse(incident.incidentPk);
+    await incidentController.fetchIncidentById(int.parse(incident.incidentPk));
 
-    Get.to(() => IncidentDetail(incident: data),
+    Get.to(() => IncidentDetail(incident: incident),
         transition: Transition.downToUp,
         duration: const Duration(milliseconds: 400));
   }
@@ -73,7 +75,7 @@ class ListIncident extends ConsumerWidget {
                                 incident: wProvider.incidentCards[index]),
                             onTap: () {
                               showIncidentDetailPage(
-                                  incidentController.incidentsList[index]);
+                                  wProvider.incidentCards[index]);
                             },
                           )
                       ],

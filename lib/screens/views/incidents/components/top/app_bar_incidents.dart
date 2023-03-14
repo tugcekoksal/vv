@@ -15,6 +15,7 @@ import 'package:velyvelo/screens/home/button_scan.dart';
 import 'package:velyvelo/screens/views/incidents/components/top/button_filter.dart';
 import 'package:velyvelo/screens/views/incidents/components/top/button_search_incident.dart';
 import 'package:velyvelo/screens/views/incidents/incidents_view.dart';
+import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 
 class AppBarIncidents extends StatelessWidget {
   final IncidentController incidentController = Get.put(IncidentController());

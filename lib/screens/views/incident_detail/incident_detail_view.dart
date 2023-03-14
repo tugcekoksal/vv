@@ -9,6 +9,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 // Controllers
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
+import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/header_container.dart';
 import 'package:velyvelo/screens/views/incident_detail/informations_container.dart';
@@ -23,7 +24,7 @@ var dropdownItemList = <String>["Rangé", "Utilisé", "Volé"];
 class IncidentDetail extends StatelessWidget {
   IncidentDetail({Key? key, required this.incident}) : super(key: key);
 
-  final Incident incident;
+  final IncidentCardModel incident;
 
   final IncidentController incidentController = Get.put(IncidentController());
   final LoginController loginController = Get.put(LoginController());

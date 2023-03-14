@@ -43,10 +43,22 @@ class IncidentsProvider extends ChangeNotifier {
     title = titlePage[view]!;
   }
 
+  void resetData() {
+    // List groups
+    selectedClient = ClientCardModel.empty();
+    groupCards = [];
+
+    // List reparations
+    selectedGroup = GroupCardModel.empty();
+    incidentCards = [];
+  }
+
   void swapView(View newView) {
     view = newView;
     title = titlePage[view]!;
+    resetData();
     notifyListeners();
+    fetchListClient();
   }
 
   Future fetchListClient() async {

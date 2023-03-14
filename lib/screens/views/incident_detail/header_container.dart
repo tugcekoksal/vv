@@ -8,12 +8,13 @@ import 'package:get/get.dart';
 
 // Helpers
 import 'package:velyvelo/helpers/status_color_based_on_status.dart';
+import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 class HeaderContainer extends StatelessWidget {
   final IncidentController incidentController = Get.put(IncidentController());
 
-  final Incident incident;
+  final IncidentCardModel incident;
   HeaderContainer({Key? key, required this.incident}) : super(key: key);
 
   @override

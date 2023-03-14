@@ -1,9 +1,11 @@
 // Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 // Usefull
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
+import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_incident.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_past_incidents.dart';
@@ -12,9 +14,12 @@ import 'package:velyvelo/screens/views/incidents/components/list_client.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_group.dart';
 import 'package:velyvelo/screens/views/incidents/components/switch_incidents.dart';
 import 'package:velyvelo/screens/views/incidents/components/title_incidents.dart';
+import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 
 class IncidentsView extends ConsumerWidget {
-  const IncidentsView({Key? key}) : super(key: key);
+  final IncidentController incidentController = Get.put(IncidentController());
+
+  IncidentsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,7 +39,19 @@ class IncidentsView extends ConsumerWidget {
                       ? ListIncident()
                       : wProvider.view == View.historicIncident
                           ? ListPastIncident()
-                          : const SizedBox()
+                          : const SizedBox(),
+          // Search bar
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Obx(() {
+                return incidentController.displaySearch.value
+                    ? SearchBarIncident()
+                    : const SizedBox();
+              }),
+              const SizedBox(),
+            ],
+          ),
         ]));
   }
 }
