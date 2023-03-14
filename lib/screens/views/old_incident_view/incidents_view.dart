@@ -19,7 +19,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 
 // My components
-import 'package:velyvelo/screens/views/old_incident_view/button_filter.dart';
+import 'package:velyvelo/screens/views/incidents/components/button_filter.dart';
 import 'package:velyvelo/screens/views/old_incident_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/old_incident_view/incidents_list_info.dart';
 
