@@ -195,7 +195,7 @@ class HttpService {
   }
 
   // Fetch all the bike labels
-  static Future<List<IdAndName>> fetchBikeLabelsByGroup(
+  static Future<Map<String, List<IdAndName>>> fetchBikeLabelsByGroup(
       int groupPk, int clientPk, String userToken) async {
     return fetchBikeLabelsByGroupService(
         urlServer, groupPk, clientPk, userToken);
