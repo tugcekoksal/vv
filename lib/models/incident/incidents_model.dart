@@ -14,6 +14,9 @@ class IncidentsModel {
   final NbIncidents nbIncidents;
   final List<Incident> incidents;
 
+  factory IncidentsModel.empty() =>
+      IncidentsModel(nbIncidents: NbIncidents.empty(), incidents: []);
+
   factory IncidentsModel.fromJson(Map<String, dynamic> json) => IncidentsModel(
         nbIncidents: NbIncidents.fromJson(json["nb_incidents"]),
         incidents: List<Incident>.from(
@@ -22,7 +25,8 @@ class IncidentsModel {
 
   Map<String, dynamic> toJson() => {
         "nb_incidents": nbIncidents.toJson(),
-        "incidents": List<dynamic>.from(incidents.map((x) => x.toJson())),
+        "incidents":
+            List<Map<String, dynamic>>.from(incidents.map((x) => x.toJson())),
       };
 }
 
@@ -63,10 +67,13 @@ class Incident {
   Map<String, dynamic> toJson() => {
         "incident_type_reparation": incidentTypeReparation,
         "incident_status": incidentStatus,
+        "incident_pk": incidentPk,
         "velo_group": veloGroup,
         "velo_name": veloName,
+        "client_name": clientName,
         "date_creation": dateCreation,
-        "intervention_time": interventionTime
+        "intervention_time": interventionTime,
+        "numero_reparation": reparationNumber
       };
 }
 
@@ -77,14 +84,17 @@ class NbIncidents {
     required this.termine,
   });
 
-  final int? nouvelle;
-  final int? enCours;
-  final int? termine;
+  final int nouvelle;
+  final int enCours;
+  final int termine;
+
+  factory NbIncidents.empty() =>
+      NbIncidents(nouvelle: 0, enCours: 0, termine: 0);
 
   factory NbIncidents.fromJson(Map<String, dynamic> json) => NbIncidents(
-        nouvelle: json["Nouvelle"],
-        enCours: json["Planifié"],
-        termine: json["Terminé"],
+        nouvelle: json["Nouvelle"] ?? 0,
+        enCours: json["Planifié"] ?? 0,
+        termine: json["Terminé"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,27 +1,22 @@
-// Vendor
 import 'package:flutter/material.dart';
-
-// Global Styles like colors
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/incident_controller.dart';
-import 'package:get/get.dart';
-
-// Helpers
+import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/helpers/status_color_based_on_status.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/models/incident/incidents_model.dart';
 
-class HeaderContainer extends StatelessWidget {
-  final IncidentController incidentController = Get.put(IncidentController());
-
+class IncidentCard extends ConsumerWidget {
   final IncidentCardModel incident;
-  HeaderContainer({Key? key, required this.incident}) : super(key: key);
+
+  const IncidentCard({Key? key, required this.incident}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    IncidentsProvider wProvider = ref.watch(incidentsProvider);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
-      margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+      padding: const EdgeInsets.all(20.0),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(20.0)),
       child: Column(
@@ -30,27 +25,25 @@ class HeaderContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Type reparation
-              Obx(() {
-                return Expanded(
-                  child: Text(incidentController.actualTypeReparation.value,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: global_styles.purple,
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w600)),
-                );
-              }),
-              // Little top right colored box indicating the reparation number
+              // first line top left
+              Expanded(
+                child: Text(incident.clientName + " - " + incident.veloGroup,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: global_styles.purple,
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w600)),
+              ),
+              // Little colored hint top right corner of incident card tile
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 100),
                 child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color:
-                          colorBasedOnIncidentStatus(incident.incidentStatus),
-                      borderRadius: BorderRadius.circular(10.0),
+                      color: colorBasedOnIncidentStatus(incident.incidentStatus,
+                          isTechnicien: wProvider.loginController.isTech()),
+                      borderRadius: BorderRadius.circular(12.5),
                     ),
                     child: Text(incident.reparationNumber,
                         overflow: TextOverflow.ellipsis,
@@ -65,33 +58,20 @@ class HeaderContainer extends StatelessWidget {
           Row(
             children: [
               Flexible(
-                child: Text(incident.veloGroup,
+                child: Text(incident.incidentTypeReparation,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
               ),
-              const Text(" - ",
-                  style: TextStyle(
-                      color: global_styles.purple,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w600)),
-              Flexible(
-                child: Text(incident.veloName,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        color: global_styles.purple,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.w600)),
-              )
             ],
           ),
           const SizedBox(height: 7.5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(incident.dateCreation,
+              Text(incident.veloName,
                   style: const TextStyle(
                       color: global_styles.green,
                       fontSize: 17.0,

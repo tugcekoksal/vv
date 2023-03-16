@@ -22,7 +22,7 @@ void main() {
     final jsonData =
         await jsonFileToJson("reparation_test/missing_fields_response.json");
     final ReparationModel incidentDetail =
-        ReparationModel.fromJson(jsonData, null, []);
+        ReparationModel.fromJson(jsonData, []);
     expect(incidentDetail.statusBike, null);
     expect(incidentDetail.isBikeFunctional, null);
     expect(incidentDetail.incidentPk, null);
@@ -48,7 +48,7 @@ void main() {
     final jsonData =
         await jsonFileToJson("reparation_test/invalid_fields_response.json");
     final ReparationModel incidentDetail =
-        ReparationModel.fromJson(jsonData, null, []);
+        ReparationModel.fromJson(jsonData, []);
     expect(incidentDetail.statusBike, null);
     expect(incidentDetail.isBikeFunctional, null);
     expect(incidentDetail.incidentPk, null);
@@ -74,7 +74,7 @@ void main() {
     final jsonData =
         await jsonFileToJson("reparation_test/valid_fields_response.json");
     final ReparationModel incidentDetail =
-        ReparationModel.fromJson(jsonData, 0, []);
+        ReparationModel.fromJson(jsonData, []);
     expect(incidentDetail.statusBike, isNot(null));
     expect(incidentDetail.isBikeFunctional, isNot(null));
     expect(incidentDetail.incidentPk, isNot(null));

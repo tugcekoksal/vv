@@ -9,7 +9,11 @@ import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';
 import 'package:velyvelo/models/carte/hub_list_model.dart';
 import 'package:velyvelo/models/carte/hub_map_model.dart';
+import 'package:velyvelo/models/incident/client_card_model.dart';
+import 'package:velyvelo/models/incident/group_card_model.dart';
+import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incidents_model.dart';
 
 // Models
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
@@ -24,7 +28,10 @@ import 'package:velyvelo/services/bikes/get_bike_map.dart';
 import 'package:velyvelo/services/bikes/send_bike_status_service.dart';
 import 'package:velyvelo/services/bikes/set_bike_robbed_service.dart';
 import 'package:velyvelo/services/incidents/get_all_incidents_service.dart';
+import 'package:velyvelo/services/incidents/get_client_cards.dart';
+import 'package:velyvelo/services/incidents/get_group_cards.dart';
 import 'package:velyvelo/services/incidents/get_incident_by_id_service.dart';
+import 'package:velyvelo/services/incidents/get_incident_cards.dart';
 import 'package:velyvelo/services/incidents/set_incident_service.dart';
 import 'package:velyvelo/services/labels/get_bike_labels_by_group_service.dart';
 import 'package:velyvelo/services/labels/get_client_labels_by_user_service.dart';
@@ -37,7 +44,7 @@ import 'package:velyvelo/services/hubs/fetch_hub_map.dart';
 
 class HttpService {
   // static String urlServer = "https://dms.velyvelo.com";
-  // static String urlServer = "http://192.168.10.119:8000";
+  // static String urlServer = "http://192.168.1.37:8000";
   static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
@@ -79,8 +86,8 @@ class HttpService {
 
   // Fetch the user's bike
   static Future<UserBikeModel> fetchUserBike(
-      int veloPk, String userToken) async {
-    return fetchUserBikeService(urlServer, veloPk, userToken);
+      int? veloPk, String? nomVelo, String userToken) async {
+    return fetchUserBikeService(urlServer, veloPk, nomVelo, userToken);
   }
 
   // Fetch the hubs for map
@@ -96,13 +103,33 @@ class HttpService {
   }
 
   // Fetch the user's type
-  static Future fetchTypeUser(String userToken) async {
+  static Future<String> fetchTypeUser(String userToken) async {
     return fetchTypeUserService(urlServer, userToken);
   }
 
+  // Fetch list of client cards
+  static Future<List<ClientCardModel>> fetchClientCards(
+      String userToken) async {
+    return fetchClientCardsService(urlServer, userToken);
+  }
+
+  // Fetch list of client cards
+  static Future<List<GroupCardModel>> fetchGroupCards(
+      int idClient, String userToken) async {
+    return fetchGroupCardsService(idClient, urlServer, userToken);
+  }
+
+  // Fetch list of client cards
+  static Future<List<IncidentCardModel>> fetchIncidentCards(
+      int idGroup, int idClient, String userToken) async {
+    return fetchIncidentCardsService(idGroup, idClient, urlServer, userToken);
+  }
+
   // Fetch All the incidents
-  static Future fetchAllIncidents(RefreshIncidentModel incidentsToFetch,
-      String searchText, String userToken) async {
+  static Future<IncidentsModel> fetchAllIncidents(
+      RefreshIncidentModel incidentsToFetch,
+      String searchText,
+      String userToken) async {
     return fetchAllIncidentsService(
         urlServer, incidentsToFetch, searchText, userToken);
   }

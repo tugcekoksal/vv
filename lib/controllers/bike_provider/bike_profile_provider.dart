@@ -41,14 +41,14 @@ class BikeProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchUserBike(int veloPk) async {
+  Future<void> fetchUserBike({int? veloPk, String? nomVelo}) async {
     messageError = "";
     isLoading = true;
     if (userToken == "") {
       userToken = await getTokenFromSharedPref();
     }
     try {
-      userBike = await HttpService.fetchUserBike(veloPk, userToken);
+      userBike = await HttpService.fetchUserBike(veloPk, nomVelo, userToken);
     } catch (e) {
       log.e(e);
       messageError =

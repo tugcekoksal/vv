@@ -43,6 +43,19 @@ class IdAndName {
     return IdAndName(
         id: getIntOrNull(json["id"]), name: getStringOrNull(json["name"]));
   }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+      };
+}
+
+List<Map<String, dynamic>> idAndNameListToJson(List<IdAndName> list) {
+  List<Map<String, dynamic>> newList = [];
+  for (var idandname in list) {
+    newList.add(idandname.toJson());
+  }
+  return newList;
 }
 
 List<IdAndName> jsonListToIdAndNameList(jsonList) {

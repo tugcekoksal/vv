@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
+import 'package:velyvelo/components/list_is_loading.dart';
 
 // Globals styles
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
-import 'package:velyvelo/screens/views/incidents_view/incidents_list_info.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
 class TitleText extends StatelessWidget {

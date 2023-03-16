@@ -41,6 +41,7 @@ class TitleAppBar extends StatelessWidget {
                   children: [
                     Text(
                       loginController.isLogged.value ? title : "VelyVelo",
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           color: global_styles.backgroundDarkGrey,
@@ -54,39 +55,9 @@ class TitleAppBar extends StatelessWidget {
                   color: global_styles.backgroundDarkGrey,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w700),
+              maxLines: 2,
+              textAlign: TextAlign.center,
             ),
     );
-  }
-}
-
-class SubTitleIncidents extends StatelessWidget {
-  final IncidentController incidentController;
-
-  const SubTitleIncidents({Key? key, required this.incidentController})
-      : super(key: key);
-  String getSubtitleIncident() {
-    int count = 0;
-
-    count += incidentController.incidentFilters.contains("Nouvelle") ? 1 : 0;
-    count += incidentController.incidentFilters.contains("Planifié") ? 1 : 0;
-    count += incidentController.incidentFilters.contains("Terminé") ? 1 : 0;
-    switch (count) {
-      case 0:
-        return "Pas de filtre";
-      case 1:
-        return "1 filtre appliqué";
-      case 2:
-        return "2 filtres appliqués";
-      case 3:
-        return "Tout";
-      default:
-        return "";
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(getSubtitleIncident(),
-        style: const TextStyle(color: global_styles.greyText, fontSize: 10));
   }
 }

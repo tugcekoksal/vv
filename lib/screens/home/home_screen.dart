@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/helpers/logger.dart';
+import 'package:velyvelo/screens/views/incidents/incidents_view.dart';
 
 // Views
-import 'package:velyvelo/screens/views/incidents_view/incidents_view.dart';
 import 'package:velyvelo/screens/views/login_view.dart';
 import 'package:velyvelo/screens/views/my_bikes/my_bikes_view.dart';
 import 'package:velyvelo/screens/views/incident_declaration/incident_declaration_view.dart';

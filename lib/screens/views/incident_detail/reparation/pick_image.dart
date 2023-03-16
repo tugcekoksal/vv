@@ -28,11 +28,8 @@ class PickImage extends StatelessWidget {
                   Container(height: 300, width: 300, color: Colors.transparent),
             );
           });
-      final _currentImage = await ImagePicker().pickImage(
-          source: ImageSource.camera,
-          imageQuality: 50,
-          maxHeight: 500,
-          maxWidth: 500);
+      final _currentImage = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 80);
       Navigator.pop(context);
       if (_currentImage == null) return null;
 

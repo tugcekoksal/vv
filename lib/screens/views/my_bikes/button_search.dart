@@ -206,41 +206,6 @@ class SearchBarHub extends ConsumerWidget {
   }
 }
 
-class ButtonSearchIncident extends StatelessWidget {
-  final IncidentController incidentController;
-
-  const ButtonSearchIncident({Key? key, required this.incidentController})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return Stack(children: [
-        TopButton(
-            actionFunction: () =>
-                {incidentController.displaySearch.value = true},
-            isLoading: false,
-            iconButton: Icons.search),
-        incidentController.searchText.value == ""
-            ? const SizedBox(height: 0, width: 0)
-            : Positioned(
-                right: 3,
-                top: 3,
-                child: Container(
-                    padding: const EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        color: global_styles.blue,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: const Icon(
-                      Icons.warning,
-                      color: Colors.white,
-                      size: 10,
-                    )))
-      ]);
-    });
-  }
-}
-
 class SearchBarIncident extends StatelessWidget {
   final textInputController = TextEditingController();
   final IncidentController incidentController = Get.put(IncidentController());
