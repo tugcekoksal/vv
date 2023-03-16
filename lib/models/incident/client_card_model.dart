@@ -1,7 +1,14 @@
+import 'package:http/http.dart';
+
 List<ClientCardModel> clientCardsListFromJson(List json) {
   List<ClientCardModel> likesList =
       json.map((e) => ClientCardModel.fromJson(e)).toList();
   return likesList;
+}
+
+List<Map<String, dynamic>> clientCardsToJson(
+    List<ClientCardModel> clientCards) {
+  return clientCards.map((elem) => elem.toJson()).toList();
 }
 
 class ClientCardModel {
@@ -33,5 +40,11 @@ class ClientCardModel {
           address: json["adresse_enseigne"] ?? "Pas d'adresse",
           nbReparation: json["nb_reparation"] ?? 0);
 
-  Map<String, dynamic> toJson() => {};
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "enseigne": name,
+        "denomination_social": label,
+        "adresse_enseigne": address,
+        "nb_reparation": nbReparation,
+      };
 }

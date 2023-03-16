@@ -271,15 +271,15 @@ class IncidentController extends GetxController {
       incidentsList.value = incidentsModel.incidents;
       nbIncidents.value = incidentsModel.nbIncidents;
 
-      await writeListIncidents(incidentsModel);
+      // await writeListIncidents(incidentsModel);
       // Here we write the datas in a json file to keep them offline
     } catch (e) {
       try {
         // Here we use the datas in the json file that we previously stored for offline purposes
-        IncidentsModel incidentsModel = await readListIncidents();
+        // IncidentsModel incidentsModel = await readListIncidents();
 
-        incidentsList.value = incidentsModel.incidents;
-        nbIncidents.value = incidentsModel.nbIncidents;
+        // incidentsList.value = incidentsModel.incidents;
+        // nbIncidents.value = incidentsModel.nbIncidents;
       } catch (e) {
         // If there is nothing in the file we return an error
         log.e(e.toString());

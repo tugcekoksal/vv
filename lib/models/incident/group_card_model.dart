@@ -7,6 +7,16 @@ List<GroupCardModel> groupCardsListFromJson(Map<String, dynamic> json) {
   return groupList;
 }
 
+List<GroupCardModel> groupCardsListCacheFromJson(List<dynamic> jsonGroups) {
+  List<GroupCardModel> groupList =
+      jsonGroups.map((e) => GroupCardModel.fromJson(e)).toList();
+  return groupList;
+}
+
+List<Map<String, dynamic>> groupCardsToJson(List<GroupCardModel> groupCards) {
+  return groupCards.map((elem) => elem.toJson()).toList();
+}
+
 class GroupCardModel {
   final int id;
   final String name;
@@ -28,5 +38,10 @@ class GroupCardModel {
       nbReparation: json["nb_reparation"] ?? 0,
       nbVelo: json["nb_velo"] ?? 0);
 
-  Map<String, dynamic> toJson() => {};
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "nb_reparation": nbReparation,
+        "nb_velo": nbVelo,
+      };
 }

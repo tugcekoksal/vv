@@ -4,6 +4,11 @@ List<IncidentCardModel> incidentCardsListFromJson(List json) {
   return likesList;
 }
 
+List<Map<String, dynamic>> incidentCardsToJson(
+    List<IncidentCardModel> incidentCards) {
+  return incidentCards.map((elem) => elem.toJson()).toList();
+}
+
 class IncidentCardModel {
   IncidentCardModel(
       {required this.incidentTypeReparation,
