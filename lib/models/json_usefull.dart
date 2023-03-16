@@ -100,3 +100,17 @@ List<IdAndName> getListIdAndName(dynamic jsonData) {
   }
   return resList;
 }
+
+List<Map<String, dynamic>> getJsonListFromListIdAndName(
+    List<IdAndName> listIdAndName) {
+  List<Map<String, dynamic>> listJson =
+      listIdAndName.map((e) => e.toJson()).toList();
+  return listJson;
+}
+
+List<IdAndName> getListIdAndNameFromListJson(List<dynamic> jsonList) {
+  List<IdAndName> resList = jsonList.map((e) {
+    return IdAndName.fromJson(e);
+  }).toList();
+  return resList;
+}

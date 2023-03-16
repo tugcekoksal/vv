@@ -6,14 +6,20 @@ import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/group_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incident_pieces.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
+import 'package:velyvelo/models/json_usefull.dart';
 import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
+import 'package:velyvelo/services/bikes/send_bike_status_service.dart';
 
 const String pathToListClientIncidents = "listClientIncidents";
 const String pathToListGroupIncidents = "listGroupIncidents";
 const String pathToListIncidents = "listIncidents";
 
 const String pathToQueueUpdateIncidents = "queueUpdateIncidents";
+
+const String pathToIncidentPieces = "incidentPieces";
+
 final log = logger(File);
 
 Future<String> get _localPath async {
@@ -42,16 +48,23 @@ Future<File> get _queueUpdateIncidentsFile async {
   return File('$path/$pathToQueueUpdateIncidents.txt');
 }
 
+Future<File> get _incidentPiecesFile async {
+  final path = await _localPath;
+  return File('$path/$pathToIncidentPieces.txt');
+}
+
 Future<void> initCacheFiles() async {
   final file1 = await _listClientIncidentsFile;
   final file2 = await _listGroupIncidentsFile;
   final file3 = await _listIncidentsFile;
   final file4 = await _queueUpdateIncidentsFile;
+  final file5 = await _incidentPiecesFile;
 
   file1.create(recursive: true);
   file2.create(recursive: true);
   file3.create(recursive: true);
   file4.create(recursive: true);
+  file5.create(recursive: true);
 }
 
 Future<void> writeListClientIncidents(List<ClientCardModel> clientCards) async {
@@ -202,6 +215,33 @@ Future<List<ReparationModel>> readUpdateIncident() async {
   } catch (e) {
     // If encountering an error, return nothing
     log.e("readUpdateIncident:" + e.toString());
+    return [];
+  }
+}
+
+Future<void> writeIncidentPieces(List<IncidentPieces> incidentPieces) async {
+  final file = await _incidentPiecesFile;
+
+  // Write the file
+  try {
+    file.writeAsString(
+        json.encode(listIncidentPiecesToListJson(incidentPieces)));
+  } catch (e) {
+    file.writeAsString("");
+  }
+}
+
+Future<List<IncidentPieces>> readIncidentPieces() async {
+  final file = await _incidentPiecesFile;
+  try {
+    // Read the file
+    final stringContent = await file.readAsString();
+    final jsonContent = json.decode(stringContent);
+    final incidentPieces = jsonToListIncidentPieces(jsonContent);
+    return incidentPieces;
+  } catch (e) {
+    // If encountering an error, return nothing
+    log.e("readIncidentPieces:" + e.toString());
     return [];
   }
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incident_pieces.dart';
 import 'package:velyvelo/models/json_usefull.dart';
 
 List<int> listIdFromListIdAndName(List<IdAndName> theList) {
@@ -19,6 +20,7 @@ Future<String> sendCurrentDetailBikeStatusService(
           : "False";
   var request = http.MultipartRequest(
       'POST', Uri.parse('$urlServer/api/updateIncident/'));
+
   request
     ..fields["incident_pk"] = json.encode(reparation.incidentPk)
     ..fields["is_bike_functional"] = isBikeFunctionnal
@@ -58,13 +60,18 @@ Future<String> sendCurrentDetailBikeStatusService(
   return message;
 }
 
-Future fetchPieceFromTypeService(String urlServer, int interventionType,
-    int reparationType, String userToken) async {
-  var body = {
-    "reparation_type_id": jsonEncode(reparationType),
-    "intervention_type_id": jsonEncode(interventionType)
+Future<List<IncidentPieces>> fetchPiecesService(
+    String urlServer, String userToken) async {
+  var request = http.Request("GET", Uri.parse("$urlServer/api/piecesInfos/"));
+  var headers = {
+    "Authorization": 'Token $userToken',
+    "Content-Type": "application/json"
   };
-  var response = await http.post(Uri.parse("$urlServer/api/piecesInfos/"),
-      body: body, headers: {"Authorization": "Token $userToken"});
-  return utf8.decode(response.bodyBytes);
+
+  request.headers.addAll(headers);
+  http.StreamedResponse streamedResponse = await request.send();
+  http.Response response = await http.Response.fromStream(streamedResponse);
+
+  // print(json.decode(utf8.decode(response.bodyBytes)).runtimeType);
+  return jsonToListIncidentPieces(json.decode(utf8.decode(response.bodyBytes)));
 }

@@ -13,6 +13,7 @@ import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/group_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incident_pieces.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 // Models
@@ -224,9 +225,7 @@ class HttpService {
     return sendCurrentDetailBikeStatusService(urlServer, reparation, userToken);
   }
 
-  static Future fetchPieceFromType(
-      int interventionType, int reparationType, String userToken) async {
-    return fetchPieceFromTypeService(
-        urlServer, interventionType, reparationType, userToken);
+  static Future<List<IncidentPieces>> fetchPieces(String userToken) async {
+    return fetchPiecesService(urlServer, userToken);
   }
 }

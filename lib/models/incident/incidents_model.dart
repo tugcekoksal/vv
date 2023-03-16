@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:velyvelo/models/incident/incident_card_model.dart';
+
 IncidentsModel incidentsModelFromJson(String str) =>
     IncidentsModel.fromJson(json.decode(str));
 
@@ -12,15 +14,15 @@ class IncidentsModel {
   });
 
   final NbIncidents nbIncidents;
-  final List<Incident> incidents;
+  final List<IncidentCardModel> incidents;
 
   factory IncidentsModel.empty() =>
       IncidentsModel(nbIncidents: NbIncidents.empty(), incidents: []);
 
   factory IncidentsModel.fromJson(Map<String, dynamic> json) => IncidentsModel(
         nbIncidents: NbIncidents.fromJson(json["nb_incidents"]),
-        incidents: List<Incident>.from(
-            json["incidents"].map((x) => Incident.fromJson(x))),
+        incidents: List<IncidentCardModel>.from(
+            json["incidents"].map((x) => IncidentCardModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
