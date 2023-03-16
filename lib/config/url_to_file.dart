@@ -26,11 +26,6 @@ Future<String?> saveImageFromUrl(String imageUrl) async {
   String imagePath = docDirectory.path + "/velyvelo";
   String imagePathAndName = imagePath + "/" + imageUrl.split("/").last;
   try {
-    // var response = await get(Uri.parse(imageUrl));
-    // await Directory(imagePath).create(recursive: true); // <-- 1
-    // File file2 = File(imagePathAndName); // <-- 2
-    // file2.writeAsBytesSync(response.bodyBytes);
-    // print(imagePathAndName);
     var response = await get(Uri.parse(imageUrl));
     final result = await ImageGallerySaver.saveImage(response.bodyBytes);
   } catch (e) {

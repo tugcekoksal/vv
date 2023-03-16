@@ -72,6 +72,5 @@ Future<List<IncidentPieces>> fetchPiecesService(
   http.StreamedResponse streamedResponse = await request.send();
   http.Response response = await http.Response.fromStream(streamedResponse);
 
-  // print(json.decode(utf8.decode(response.bodyBytes)).runtimeType);
   return jsonToListIncidentPieces(json.decode(utf8.decode(response.bodyBytes)));
 }

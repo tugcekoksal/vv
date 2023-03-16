@@ -17,12 +17,11 @@ class FetchQueue {
     timer = null;
     if (userToken == null) return;
     timer = Timer.periodic(
-        const Duration(seconds: 1), (Timer t) => fetchQueueQueries());
+        const Duration(seconds: 10), (Timer t) => fetchQueueQueries());
   }
 
   void fetchQueueQueries() async {
     if (userToken == null) return;
-    print(updateQueue.length);
     for (ReparationModel rep in updateQueue) {
       try {
         await HttpService.sendCurrentDetailBikeStatus(rep, userToken!);

@@ -183,7 +183,6 @@ void technicienPopup(BuildContext oldcontext, TechnicienPopupType typePopup,
                                       Colors.white, global_styles.greyText),
                                   buttonPopup(context, "Confirmer", () {
                                     sendReparation();
-                                    print("SEND CONFIRMER");
                                   }, popupColor, Colors.white)
                                 ],
                               )
@@ -272,7 +271,6 @@ class SaveButton extends StatelessWidget {
                     "Terminé") {
                   technicienPopup(context, TechnicienPopupType.termine, () {
                     sendReparation(context);
-                    print("SEND TERMINE");
                   });
                 } else if (incidentController
                         .currentReparation.value.statusBike ==
@@ -280,15 +278,12 @@ class SaveButton extends StatelessWidget {
                   technicienPopup(context, TechnicienPopupType.secondPassage,
                       () {
                     sendReparation(context);
-                    print("SEND SECOND PASSAGE");
                   });
                 } else {
                   sendReparation(context);
-                  print("SEND ELSE1");
                 }
               } else {
                 sendReparation(context);
-                print("SEND ELSE2");
               }
             },
             child: Container(

@@ -226,7 +226,6 @@ class IncidentController extends GetxController {
           });
         }
       }
-      print(currentReparation.value.typeReparation.name);
     } catch (e) {
       log.e(e.toString());
     }
@@ -373,7 +372,6 @@ class IncidentController extends GetxController {
   }
 
   sendReparationUpdate() async {
-    print("Send rep upd");
     error.value = "";
     if (currentReparation.value.cause.name == "Casse" &&
         currentReparation.value.reparationPhotosList.isEmpty) {
@@ -382,7 +380,6 @@ class IncidentController extends GetxController {
     }
 
     try {
-      print(currentReparation.value.typeReparation.name);
       await HttpService.sendCurrentDetailBikeStatus(
           currentReparation.value, userToken);
     } on SocketException {
