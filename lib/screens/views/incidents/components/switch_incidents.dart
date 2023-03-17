@@ -47,7 +47,8 @@ class SwitchIncidents extends ConsumerWidget {
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(20)),
-          child: Row(children: [
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             GestureDetector(
                 onTap: () {
                   rProvider.swapView(View.listClient);
@@ -60,16 +61,25 @@ class SwitchIncidents extends ConsumerWidget {
                         Expanded(
                             child: SwitchStyle(
                                 text: "Mes incidents",
-                                isActive: wProvider.view == View.listClient))
+                                isActive:
+                                    wProvider.view != View.historicIncident))
                       ]),
                 )),
             GestureDetector(
                 onTap: () {
                   rProvider.swapView(View.historicIncident);
                 },
-                child: SwitchStyle(
-                    text: "Historique des incidents",
-                    isActive: wProvider.view == View.historicIncident)),
+                child: SizedBox(
+                    height: 30,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: SwitchStyle(
+                                  text: "Historique des incidents",
+                                  isActive:
+                                      wProvider.view == View.historicIncident))
+                        ]))),
           ]),
         ));
   }
