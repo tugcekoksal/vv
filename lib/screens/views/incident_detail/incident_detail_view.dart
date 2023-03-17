@@ -2,6 +2,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
@@ -83,6 +84,19 @@ class IncidentDetail extends StatelessWidget {
                       )),
                   ReturnBar(
                       text: "Détails de l'incident",
+                      rightIcon: GestureDetector(
+                          onTap: () {
+                            final Uri _url = Uri.parse(
+                                'https://calendly.com/velyvelo/rdv-atelier');
+                            launchUrl(_url);
+                          },
+                          child: SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: Image.asset(
+                                "assets/calendly-logo.png",
+                                fit: BoxFit.contain,
+                              ))),
                       optionalFunction: () =>
                           incidentController.fetchAllIncidents(
                               incidentController.incidentsToFetch.value)),
