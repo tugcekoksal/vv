@@ -70,6 +70,10 @@ class HttpService {
     }
   }
 
+  static Future testConnexion() async {
+    await http.get(Uri.parse("https://gooogle.com"));
+  }
+
   // Login the user
   static Future<String> loginUser(String login, String password) async {
     return loginUserService(urlServer, login, password);
