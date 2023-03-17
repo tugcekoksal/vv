@@ -1,7 +1,6 @@
 // Vendor
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
-import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/bike/user_bike_model.dart';

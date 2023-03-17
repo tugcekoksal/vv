@@ -2,13 +2,11 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/bike_scan_controller.dart';
-import 'package:velyvelo/controllers/fetch_queue_controller.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 import 'package:velyvelo/controllers/navigation_controller.dart';
@@ -195,7 +193,6 @@ class LoginController extends GetxController {
       log.e("Error fetch type user: " + e.toString());
       userTypeFetched = prefs.getString("typeUser") ?? "";
     }
-    print(userTypeFetched);
 
     if (userTypeFetched == "Client") {
       isClient(true);

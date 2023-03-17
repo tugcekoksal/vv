@@ -11,7 +11,6 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/header_container.dart';
 import 'package:velyvelo/screens/views/incident_detail/informations_container.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_container.dart';

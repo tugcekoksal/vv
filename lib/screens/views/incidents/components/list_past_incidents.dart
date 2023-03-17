@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:velyvelo/components/fade_list_view.dart';
-import 'package:velyvelo/components/incident_overview.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
-import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
-import 'package:velyvelo/models/incident/client_card_model.dart';
-import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
-import 'package:velyvelo/screens/views/incidents/components/client_card.dart';
-import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
-import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
 import 'package:velyvelo/screens/views/old_incident_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/old_incident_view/incidents_list_info.dart';
 

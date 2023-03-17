@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 // Usefull
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
-import 'package:velyvelo/controllers/fetch_queue_controller.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -41,14 +40,14 @@ class ConnexionInfoContainer extends StatelessWidget {
         const SizedBox(height: 1),
         Text(
           text,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         GestureDetector(
             onTap: () {
               loginController.isDismiss.value = true;
             },
             child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.white)),

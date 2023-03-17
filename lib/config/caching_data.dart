@@ -7,10 +7,6 @@ import 'package:velyvelo/models/incident/group_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
 import 'package:velyvelo/models/incident/incident_pieces.dart';
-import 'package:velyvelo/models/incident/incidents_model.dart';
-import 'package:velyvelo/models/json_usefull.dart';
-import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
-import 'package:velyvelo/services/bikes/send_bike_status_service.dart';
 
 const String pathToListClientIncidents = "listClientIncidents";
 const String pathToListGroupIncidents = "listGroupIncidents";

@@ -22,15 +22,10 @@ Future<File> urlToFile(String imageUrl) async {
 }
 
 Future<String?> saveImageFromUrl(String imageUrl) async {
-  var docDirectory = await getApplicationDocumentsDirectory();
-  String imagePath = docDirectory.path + "/velyvelo";
-  String imagePathAndName = imagePath + "/" + imageUrl.split("/").last;
   try {
     var response = await get(Uri.parse(imageUrl));
-    final result = await ImageGallerySaver.saveImage(response.bodyBytes);
+    await ImageGallerySaver.saveImage(response.bodyBytes);
   } catch (e) {
-    print("Error saving url");
-    print(e.toString());
     return null;
   }
   return "Enregistré dans la galerie";

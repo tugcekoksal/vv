@@ -18,7 +18,8 @@ import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 class InputNumeroCadran extends StatelessWidget {
   final TextEditingController controller;
 
-  InputNumeroCadran({Key? key, required this.controller}) : super(key: key);
+  const InputNumeroCadran({Key? key, required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

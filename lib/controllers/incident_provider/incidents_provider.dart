@@ -8,7 +8,6 @@ import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/group_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 final incidentsProvider = ChangeNotifierProvider.autoDispose<IncidentsProvider>(

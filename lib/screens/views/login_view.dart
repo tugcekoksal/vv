@@ -80,8 +80,8 @@ class LoginView extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
-                        onTap: () =>
-                            launch('https://dms.velyvelo.com/delete_account/'),
+                        onTap: () => launchUrl(Uri.parse(
+                            'https://dms.velyvelo.com/delete_account/')),
                         child: const Text("Supprimer mon compte",
                             style: TextStyle(
                                 color: global_styles.orange,
@@ -92,8 +92,8 @@ class LoginView extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: InkWell(
-                        onTap: () => launch(
-                            'https://dms.velyvelo.com/accounts/password/reset/'),
+                        onTap: () => launchUrl(Uri.parse(
+                            'https://dms.velyvelo.com/accounts/password/reset/')),
                         child: const Text("Mot de passe oublié ?",
                             style: TextStyle(
                                 color: global_styles.purple,
@@ -140,7 +140,8 @@ class LoginView extends StatelessWidget {
                 ),
                 SizedBox(height: screenHeight * 0.03),
                 InkWell(
-                  onTap: () => launch('https://dms.velyvelo.com/signup_apple/'),
+                  onTap: () => launchUrl(
+                      Uri.parse('https://dms.velyvelo.com/signup_apple/')),
                   child: const Text(
                       "Vous n'avez pas encore de compte chez nous ? Cliquez ici",
                       textAlign: TextAlign.center,

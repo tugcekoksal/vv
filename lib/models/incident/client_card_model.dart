@@ -1,5 +1,3 @@
-import 'package:http/http.dart';
-
 List<ClientCardModel> clientCardsListFromJson(List json) {
   List<ClientCardModel> likesList =
       json.map((e) => ClientCardModel.fromJson(e)).toList();

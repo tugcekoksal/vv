@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:velyvelo/controllers/login_controller.dart';
 
 // Components
 import 'package:velyvelo/screens/home/home_screen.dart';

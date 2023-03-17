@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 
 // Models
 import 'package:velyvelo/models/bike/user_bike_model.dart';
-import 'package:velyvelo/models/bike/bike_id_to_send_model.dart';
 
 Future<UserBikeModel> fetchUserBikeService(
     String urlServer, int? veloPk, String? nomVelo, String userToken) async {

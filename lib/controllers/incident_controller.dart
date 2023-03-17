@@ -16,7 +16,6 @@ import 'package:velyvelo/models/incident/incident_card_model.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
-import 'package:velyvelo/models/incident/incident_model.dart';
 import 'package:velyvelo/models/incident/incident_pieces.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';

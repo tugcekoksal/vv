@@ -7,7 +7,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
 
 // Controllers
