@@ -18,5 +18,5 @@ Future<List<IdAndName>> fetchClientLabelsByUserService(
     throw Exception(message);
   }
   // The status is OK : we give the data from the server
-  return jsonListToIdAndNameList(json.decode(response.body));
+  return getListIdAndNameFromListJson(json.decode(response.body));
 }

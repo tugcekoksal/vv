@@ -6,12 +6,8 @@ import 'package:velyvelo/components/fade_list_view.dart';
 import 'package:velyvelo/components/list_empty.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
-import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
-import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
-import 'package:velyvelo/screens/views/incidents/components/client_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
 

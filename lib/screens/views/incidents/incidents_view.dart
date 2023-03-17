@@ -105,15 +105,16 @@ class IncidentsView extends ConsumerWidget {
             AppBarIncidents(),
             const TitleIncidents(),
             const SwitchIncidents(),
-            wProvider.view == View.listClient
-                ? ListClient()
-                : wProvider.view == View.listGroup
-                    ? ListGroup()
-                    : wProvider.view == View.listIncident
-                        ? ListIncident()
-                        : wProvider.view == View.historicIncident
-                            ? ListPastIncident()
-                            : const SizedBox(),
+            Container(
+                child: wProvider.view == View.listClient
+                    ? ListClient()
+                    : wProvider.view == View.listGroup
+                        ? ListGroup()
+                        : wProvider.view == View.listIncident
+                            ? ListIncident()
+                            : wProvider.view == View.historicIncident
+                                ? ListPastIncident()
+                                : const SizedBox()),
             // Search bar
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

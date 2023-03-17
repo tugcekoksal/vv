@@ -130,13 +130,14 @@ class IncidentDeclarationController extends GetxController {
       List<IdAndName> clientLabels =
           await HttpService.fetchClientLabelsByUser(userToken);
       // Data received / valid request to server
-      if (userType != "AdminOrTechnician") {
+      if (userType != "AdminOrTechnician" && userType != "Technicien") {
         infosSelection.update((val) {
           val?.infoClient.selected = clientLabels[0];
         });
         // Simulate the selection of client
         infosSelection.update((val) {
           val?.infoClient.selected = infosSelection.value.infoClient.selected;
+          val?.infoClient.isLoading = false;
         });
         fetchGroupLabels();
         return;
