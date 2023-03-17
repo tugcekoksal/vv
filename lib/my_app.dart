@@ -19,42 +19,37 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  Widget build(BuildContext context) {
-    if (widget.showAlert) {
-      advancedStatusCheck(NewVersion newVersion) async {
-        final status = await newVersion.getVersionStatus();
-        if (status != null) {
-          debugPrint(status.releaseNotes);
-          debugPrint(status.appStoreLink);
-          debugPrint(status.localVersion);
-          debugPrint(status.storeVersion);
-          debugPrint(status.canUpdate.toString());
-          newVersion.showUpdateDialog(
-            context: context,
-            versionStatus: status,
-            dialogTitle: 'Mise à jour',
-            dialogText: 'Une mise à jour est disponible',
-          );
-        }
-      }
+  void initState() {
+    super.initState();
 
-      @override
-      void initState() {
-        super.initState();
+    // Instantiate NewVersion manager object (Using GCP Console app as example)
+    final newVersion = NewVersion(
+      iOSId: 'com.grafenit.velyvelo',
+      androidId: 'com.grafenit.velyvelo',
+    );
 
-        // Instantiate NewVersion manager object (Using GCP Console app as example)
-        final newVersion = NewVersion(
-          iOSId: 'com.grafenit.velyvelo',
-          androidId: 'com.grafenit.velyvelo',
+    // You can let the plugin handle fetching the status and showing a dialog,
+    // or you can fetch the status and display your own dialog, or no dialog.
+    advancedStatusCheck(newVersion);
+  }
+
+  advancedStatusCheck(NewVersion newVersion) async {
+    final status = await newVersion.getVersionStatus();
+    if (status != null) {
+      if (status.canUpdate) {
+        newVersion.showUpdateDialog(
+          context: context,
+          versionStatus: status,
+          allowDismissal: false,
+          dialogTitle: 'Mise à jour',
+          dialogText: 'Une mise à jour est disponible',
         );
-
-        // You can let the plugin handle fetching the status and showing a dialog,
-        // or you can fetch the status and display your own dialog, or no dialog.
-
-        advancedStatusCheck(newVersion);
       }
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
