@@ -3,6 +3,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:velyvelo/components/safe_image_network.dart';
 
 // Global Styles like colors
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
@@ -93,27 +94,33 @@ void showConfirmStolenBikeDialog(
   );
 }
 
-class MyBikeView extends ConsumerWidget {
+class MyBikeView extends ConsumerStatefulWidget {
   final bool isFromScan;
   final int veloPk;
 
-  MyBikeView({Key? key, required this.isFromScan, this.veloPk = 0})
+  const MyBikeView({Key? key, required this.isFromScan, this.veloPk = 0})
       : super(key: key);
 
+  @override
+  ConsumerState<MyBikeView> createState() => _MyBikeViewState();
+}
+
+class _MyBikeViewState extends ConsumerState<MyBikeView> {
   final IncidentDeclarationController declarationController =
       Get.put(IncidentDeclarationController());
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    if (!widget.isFromScan) {
+      ref.read(bikeProfileProvider).fetchUserBike(veloPk: widget.veloPk);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     final BikeProfileProvider bikeProfile = ref.watch(bikeProfileProvider);
-    Future(() {
-      if (!isFromScan) {
-        bikeProfile.fetchUserBike(veloPk: veloPk);
-      }
-      // bikeProfile.isViewingScanPage = false;
-      // ref.read(qrCodeProvider).setCanScan(true);
-    });
 
     return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -149,13 +156,10 @@ class MyBikeView extends ConsumerWidget {
                                       BorderRadius.all(Radius.circular(25))),
                               padding:
                                   const EdgeInsets.symmetric(vertical: 20.0),
-                              child: Image.network(
-                                bikeProfile.userBike.pictureUrl != ""
-                                    ? HttpService.urlServer +
-                                        bikeProfile.userBike.pictureUrl
-                                    : "https://velyvelo.com/static/vitrine/gif/hp_cycliste_coursier.gif",
-                                height: screenHeight * 0.15,
-                              ),
+                              child: SafeImageNetwork(
+                                  url: HttpService.urlServer +
+                                      bikeProfile.userBike.pictureUrl,
+                                  height: screenHeight * 0.15),
                             ),
                       const SizedBox(height: 10.0),
                       // If the bike view is loading
@@ -387,7 +391,7 @@ class MyBikeView extends ConsumerWidget {
                 ),
               ),
               // Return Bar
-              (!isFromScan
+              (!widget.isFromScan
                   ? ReturnBar(text: bikeProfile.userBike.bikeName)
                   : ReturnBarScan(text: bikeProfile.userBike.bikeName))
             ])));

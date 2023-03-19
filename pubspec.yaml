@@ -48,6 +48,7 @@ dependencies:
   qr_flutter: ^4.0.0
   camera: ^0.9.7+1
   image_gallery_saver: ^1.7.1
+  cached_network_image: ^3.2.1
   
 dev_dependencies:
   integration_test:

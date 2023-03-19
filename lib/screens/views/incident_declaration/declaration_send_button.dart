@@ -21,7 +21,13 @@ class DeclarationSendButton extends ConsumerWidget {
         ScaffoldMessenger.of(context).clearSnackBars();
 
         if (declarationController.infosSelection.value.infoVelo.selected ==
-            null) {
+                null ||
+            declarationController
+                    .infosSelection.value.infoVelo.selected!.name ==
+                "--Velos--" ||
+            declarationController
+                    .infosSelection.value.infoVelo.selected!.name ==
+                "--Batteries--") {
           declarationController.errors.update((val) {
             val?.veloError = "Le champ vélo n'est pas renseigné";
           });

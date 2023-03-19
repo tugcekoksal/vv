@@ -43,7 +43,7 @@ Future<String> deleteUserService(
       headers: {"Authorization": 'Token $token'},
       body: {"password": password});
 
-  String body = utf8.decode(response.bodyBytes);
+  // String body = utf8.decode(response.bodyBytes);
 
   // If server response error
   if (response.statusCode >= 400) {

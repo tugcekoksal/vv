@@ -1,4 +1,7 @@
 // Vendor
+import 'dart:async';
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +20,10 @@ import 'package:velyvelo/services/http_service.dart';
 
 class LoginController extends GetxController {
   final log = logger(LoginController);
+
+  Timer? checkConnexionTimer;
+  var hasConnexion = true.obs;
+  var isDismiss = false.obs;
 
   var isLoading = false.obs;
   var login = ''.obs;
@@ -60,6 +67,26 @@ class LoginController extends GetxController {
       isLoading(false);
       isLogged(true);
       tokenAndNameAuth();
+    }
+
+    checkConnexionTimer = null;
+    checkConnexionTimer = Timer.periodic(
+        const Duration(seconds: 1), (Timer t) => checkConnexion());
+  }
+
+  void checkConnexion() async {
+    try {
+      await HttpService.testConnexion();
+    } on SocketException {
+      if (hasConnexion.value == true) {
+        isDismiss.value = false;
+      }
+      hasConnexion.value = false;
+    } catch (e) {
+      if (hasConnexion.value == false) {
+        isDismiss.value = false;
+      }
+      hasConnexion.value = true;
     }
   }
 
@@ -114,7 +141,7 @@ class LoginController extends GetxController {
     try {
       token = await HttpService.loginUser(login.value, password.value);
     } catch (e) {
-      log.e(e.toString());
+      log.e("Error login: " + e.toString());
       error.value = e.toString();
       return;
     }
@@ -163,7 +190,7 @@ class LoginController extends GetxController {
     try {
       userTypeFetched = await HttpService.fetchTypeUser(userToken);
     } catch (e) {
-      log.e(e.toString());
+      log.e("Error fetch type user: " + e.toString());
       userTypeFetched = prefs.getString("typeUser") ?? "";
     }
 
@@ -183,6 +210,9 @@ class LoginController extends GetxController {
         setTypeUser(prefs, "Technicien");
         isTech(true);
       }
+    } else if (userTypeFetched == "AdminOrTechnician") {
+      isAdminOrTech(true);
+      setTypeUser(prefs, "AdminOrTechnician");
     } else {
       isLogged.value = false;
       return;

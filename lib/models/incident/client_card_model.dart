@@ -4,6 +4,11 @@ List<ClientCardModel> clientCardsListFromJson(List json) {
   return likesList;
 }
 
+List<Map<String, dynamic>> clientCardsToJson(
+    List<ClientCardModel> clientCards) {
+  return clientCards.map((elem) => elem.toJson()).toList();
+}
+
 class ClientCardModel {
   final int id;
   final String name;
@@ -33,5 +38,11 @@ class ClientCardModel {
           address: json["adresse_enseigne"] ?? "Pas d'adresse",
           nbReparation: json["nb_reparation"] ?? 0);
 
-  Map<String, dynamic> toJson() => {};
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "enseigne": name,
+        "denomination_social": label,
+        "adresse_enseigne": address,
+        "nb_reparation": nbReparation,
+      };
 }

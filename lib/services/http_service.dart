@@ -1,7 +1,6 @@
 // Vendor
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
-import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/bike/user_bike_model.dart';
@@ -13,6 +12,7 @@ import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/group_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
+import 'package:velyvelo/models/incident/incident_pieces.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 
 // Models
@@ -67,6 +67,10 @@ class HttpService {
     } else {
       log.e('Token : error while adding to db');
     }
+  }
+
+  static Future testConnexion() async {
+    await http.get(Uri.parse("https://gooogle.com"));
   }
 
   // Login the user
@@ -195,7 +199,7 @@ class HttpService {
   }
 
   // Fetch all the bike labels
-  static Future<List<IdAndName>> fetchBikeLabelsByGroup(
+  static Future<Map<String, List<IdAndName>>> fetchBikeLabelsByGroup(
       int groupPk, int clientPk, String userToken) async {
     return fetchBikeLabelsByGroupService(
         urlServer, groupPk, clientPk, userToken);
@@ -224,9 +228,7 @@ class HttpService {
     return sendCurrentDetailBikeStatusService(urlServer, reparation, userToken);
   }
 
-  static Future fetchPieceFromType(
-      int interventionType, int reparationType, String userToken) async {
-    return fetchPieceFromTypeService(
-        urlServer, interventionType, reparationType, userToken);
+  static Future<List<IncidentPieces>> fetchPieces(String userToken) async {
+    return fetchPiecesService(urlServer, userToken);
   }
 }

@@ -3,14 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/components/fade_list_view.dart';
+import 'package:velyvelo/components/list_empty.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
-import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
-import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
-import 'package:velyvelo/screens/views/incidents/components/client_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
 
@@ -59,28 +56,38 @@ class ListIncident extends ConsumerWidget {
                 //   refreshController.loadNoData();
                 // }
               },
-              child: ListView(children: [
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),
-                    child: Column(
-                      children: [
-                        GroupCard(group: wProvider.selectedGroup),
-                        const SizedBox(height: 20),
-                        // test
-                        for (var index = 0;
-                            index < wProvider.incidentCards.length;
-                            index++)
-                          GestureDetector(
-                            child: IncidentCard(
-                                incident: wProvider.incidentCards[index]),
-                            onTap: () {
-                              showIncidentDetailPage(
-                                  wProvider.incidentCards[index]);
-                            },
-                          )
-                      ],
-                    )),
-              ])),
+              child: wProvider.incidentCards.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),
+                      child: Column(
+                        children: [
+                          GroupCard(group: wProvider.selectedGroup),
+                          const SizedBox(height: 20),
+                          const ListEmpty(text: "Aucuns incidents")
+                        ],
+                      ))
+                  : ListView(children: [
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),
+                          child: Column(
+                            children: [
+                              GroupCard(group: wProvider.selectedGroup),
+                              const SizedBox(height: 20),
+                              // test
+                              for (var index = 0;
+                                  index < wProvider.incidentCards.length;
+                                  index++)
+                                GestureDetector(
+                                  child: IncidentCard(
+                                      incident: wProvider.incidentCards[index]),
+                                  onTap: () {
+                                    showIncidentDetailPage(
+                                        wProvider.incidentCards[index]);
+                                  },
+                                )
+                            ],
+                          )),
+                    ])),
         ));
   }
 }

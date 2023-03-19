@@ -34,7 +34,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // navigationController.currentIndex.value = 0;
     return Container(
         color: Colors.transparent,
         child: Scaffold(

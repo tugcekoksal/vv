@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velyvelo/helpers/usefull.dart';
-import 'package:velyvelo/models/incident/incident_detail_model.dart';
 
 final incidentDetailProvider =
     ChangeNotifierProvider.autoDispose<IncidentDetailProvider>(

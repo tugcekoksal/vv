@@ -12,10 +12,11 @@ import 'package:velyvelo/controllers/fetch_queue_controller.dart';
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/helpers/logger.dart';
+import 'package:velyvelo/models/incident/incident_card_model.dart';
 
 // Models
 import 'package:velyvelo/models/incident/incident_detail_model.dart';
-import 'package:velyvelo/models/incident/incident_model.dart';
+import 'package:velyvelo/models/incident/incident_pieces.dart';
 import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/models/json_usefull.dart';
@@ -36,7 +37,9 @@ class IncidentController extends GetxController {
   var isLoading = true.obs;
   var isLoadingDetailIncident = true.obs;
 
-  RxList<Incident> incidentsList = <Incident>[].obs;
+  List<IncidentPieces> listIncidentPieces = [];
+
+  RxList<IncidentCardModel> incidentsList = <IncidentCardModel>[].obs;
   Rx<NbIncidents> nbIncidents = NbIncidents.empty().obs;
 
   var incidentFilters = <String>[].obs;
@@ -94,6 +97,14 @@ class IncidentController extends GetxController {
   RxBool displaySearch = false.obs;
   RxString searchText = "".obs;
   final log = logger(IncidentController);
+
+  @override
+  void onInit() {
+    userToken = Get.find<LoginController>().userToken;
+    fetchAllIncidents(incidentsToFetch.value);
+    fetchIncidentPieces();
+    super.onInit();
+  }
 
   Future<void> fetchIncidentFilters() async {
     try {
@@ -158,13 +169,6 @@ class IncidentController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    userToken = Get.find<LoginController>().userToken;
-    fetchAllIncidents(incidentsToFetch.value);
-    super.onInit();
-  }
-
   void setReparationsPhotosValue(File imageTemporary) {
     currentReparation.update((reparation) {
       reparation!.reparationPhotosList.add(imageTemporary);
@@ -200,22 +204,30 @@ class IncidentController extends GetxController {
         orElse: (() => IdAndName(id: -1, name: "")));
   }
 
+  Future<void> fetchIncidentPieces() async {
+    try {
+      listIncidentPieces = await HttpService.fetchPieces(userToken);
+      await writeIncidentPieces(listIncidentPieces);
+    } catch (e) {
+      log.e(e.toString());
+    }
+  }
+
   Future<void> fetchPieceFromType() async {
-    // get selected intervention type
-    IdAndName interventionType = currentReparation.value.typeIntervention;
-    // get selected reparation type
-    IdAndName reparationType = currentReparation.value.typeReparation;
+    try {
+      List<IncidentPieces> incidentPieces = await readIncidentPieces();
 
-    // ask the server for the relatives pieces from those filters
-    var response = await HttpService.fetchPieceFromType(
-        interventionType.id ?? -1, reparationType.id ?? -1, userToken);
-    response = jsonDecode(response);
-    var listPieces = jsonListToIdAndNameList(response["pieces"]);
-
-    // update the list of availables pieces widget for selection
-    currentReparation.update((reparation) {
-      reparation!.piecesList = listPieces;
-    });
+      for (int i = 0; i < incidentPieces.length; i++) {
+        if (incidentPieces[i].reparationId ==
+            currentReparation.value.typeReparation.id) {
+          currentReparation.update((reparation) {
+            reparation!.piecesList = incidentPieces[i].pieces;
+          });
+        }
+      }
+    } catch (e) {
+      log.e(e.toString());
+    }
   }
 
   setTypeIntervention(value) {
@@ -271,15 +283,15 @@ class IncidentController extends GetxController {
       incidentsList.value = incidentsModel.incidents;
       nbIncidents.value = incidentsModel.nbIncidents;
 
-      await writeListIncidents(incidentsModel);
+      // await writeListIncidents(incidentsModel);
       // Here we write the datas in a json file to keep them offline
     } catch (e) {
       try {
         // Here we use the datas in the json file that we previously stored for offline purposes
-        IncidentsModel incidentsModel = await readListIncidents();
+        // IncidentsModel incidentsModel = await readListIncidents();
 
-        incidentsList.value = incidentsModel.incidents;
-        nbIncidents.value = incidentsModel.nbIncidents;
+        // incidentsList.value = incidentsModel.incidents;
+        // nbIncidents.value = incidentsModel.nbIncidents;
       } catch (e) {
         // If there is nothing in the file we return an error
         log.e(e.toString());
@@ -360,10 +372,16 @@ class IncidentController extends GetxController {
 
   sendReparationUpdate() async {
     error.value = "";
+    if (currentReparation.value.cause.name == "Casse" &&
+        currentReparation.value.reparationPhotosList.isEmpty) {
+      error.value = "Si la cause est 'Casse' une photo est requise";
+      return;
+    }
+
     try {
       await HttpService.sendCurrentDetailBikeStatus(
           currentReparation.value, userToken);
-    } catch (e) {
+    } on SocketException {
       try {
         fetchQueueProvider.updateQueue = await readUpdateIncident();
         fetchQueueProvider.updateQueue.add(currentReparation.value);
@@ -372,6 +390,8 @@ class IncidentController extends GetxController {
       } catch (e) {
         error.value = e.toString();
       }
+    } catch (e) {
+      error.value = e.toString();
     }
   }
 }

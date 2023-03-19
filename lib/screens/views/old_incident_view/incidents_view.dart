@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:velyvelo/components/incident_overview.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/helpers/logger.dart';
-import 'package:velyvelo/screens/home/button_account.dart';
-import 'package:velyvelo/screens/home/button_scan.dart';
 import 'package:velyvelo/screens/home/title_app_bar.dart';
 
 // Controllers
@@ -19,7 +17,6 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 
 // My components
-import 'package:velyvelo/screens/views/incidents/components/top/button_filter.dart';
 import 'package:velyvelo/screens/views/old_incident_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/old_incident_view/incidents_list_info.dart';
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:velyvelo/config/caching_data.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/incident/client_card_model.dart';
 import 'package:velyvelo/models/incident/group_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 import 'package:velyvelo/services/http_service.dart';
 
 final incidentsProvider = ChangeNotifierProvider.autoDispose<IncidentsProvider>(
@@ -36,6 +36,7 @@ class IncidentsProvider extends ChangeNotifier {
 
   // Initialisation
   IncidentsProvider() {
+    initCacheFiles();
     getTokenFromSharedPref().then((token) {
       userToken = token;
       fetchListClient();
@@ -65,9 +66,14 @@ class IncidentsProvider extends ChangeNotifier {
     error = "";
     try {
       clientCards = await HttpService.fetchClientCards(userToken);
+      await writeListClientIncidents(clientCards);
     } catch (e) {
-      error = "Erreur chargement des données clients";
-      log.e(e.toString());
+      try {
+        clientCards = await readListClientIncidents();
+      } catch (e) {
+        log.e(e.toString());
+        error = "Erreur chargement des données clients";
+      }
     }
     notifyListeners();
   }
@@ -85,9 +91,14 @@ class IncidentsProvider extends ChangeNotifier {
     try {
       groupCards =
           await HttpService.fetchGroupCards(selectedClient.id, userToken);
+      await writeListGroupIncidents(groupCards, selectedClient.id);
     } catch (e) {
-      error = "Erreur chargement des données groupes clients";
-      log.e(e.toString());
+      try {
+        groupCards = await readListGroupIncidents(selectedClient.id);
+      } catch (e) {
+        log.e(e.toString());
+        error = "Erreur chargement des données groupes clients";
+      }
     }
     notifyListeners();
   }
@@ -105,9 +116,14 @@ class IncidentsProvider extends ChangeNotifier {
     try {
       incidentCards = await HttpService.fetchIncidentCards(
           selectedGroup.id, selectedClient.id, userToken);
+      await writeListIncidents(incidentCards, selectedGroup.id);
     } catch (e) {
-      error = "Erreur chargement des données réparations";
-      log.e(e.toString());
+      try {
+        incidentCards = await readListIncidents(selectedGroup.id);
+      } catch (e) {
+        log.e(e.toString());
+        error = "Erreur chargement des données incidents";
+      }
     }
     notifyListeners();
   }

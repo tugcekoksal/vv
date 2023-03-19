@@ -1,7 +1,6 @@
 // Vendor
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:velyvelo/controllers/carte_provider/carte_bike_provider.dart';
 import 'package:velyvelo/helpers/usefull.dart';
 import 'package:velyvelo/models/carte/bike_list_model.dart';
 import 'package:velyvelo/models/carte/bike_map_model.dart';

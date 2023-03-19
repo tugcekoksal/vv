@@ -14,7 +14,7 @@ class BikeDetailScan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: global_styles.backgroundLightGrey,
         body: MyBikeView(

@@ -16,7 +16,6 @@ class ButtonSearchIncident extends StatelessWidget {
       return Stack(children: [
         TopButton(
             actionFunction: () => {
-                  print("CLIQUE"),
                   incidentController.displaySearch.value = true
                 },
             isLoading: false,

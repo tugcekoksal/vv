@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/models/json_usefull.dart';
 
-Future<List<IdAndName>> fetchBikeLabelsByGroupService(
+Future<Map<String, List<IdAndName>>> fetchBikeLabelsByGroupService(
     String urlServer, int groupPk, int clientPk, String userToken) async {
   var headers = {
     'Authorization': 'Token $userToken',
@@ -24,5 +24,8 @@ Future<List<IdAndName>> fetchBikeLabelsByGroupService(
         json.decode(body)["message"] ?? "Pas de message du serveur";
     throw Exception(message);
   }
-  return jsonListToIdAndNameList(json.decode(body));
+  return {
+    "velos": jsonListToIdAndNameList(json.decode(body)[0]["velos"]),
+    "batteries": jsonListToIdAndNameList(json.decode(body)[0]["batteries"])
+  };
 }

@@ -2,10 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:velyvelo/helpers/logger.dart';
-import 'package:velyvelo/models/incident/client_card_model.dart';
-import 'package:velyvelo/models/incident/group_card_model.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
-import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 
 // Models
 import 'package:velyvelo/services/http_service.dart';

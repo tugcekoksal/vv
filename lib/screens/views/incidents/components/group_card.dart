@@ -38,6 +38,10 @@ class GroupCard extends StatelessWidget {
             ],
           ),
           Text(
+            group.adresse,
+            style: const TextStyle(fontSize: 12),
+          ),
+          Text(
             group.nbVelo.toString() + " vélos à réparer",
             style: const TextStyle(fontSize: 12),
           ),

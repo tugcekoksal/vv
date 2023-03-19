@@ -47,9 +47,9 @@ class ButtonAccount extends StatelessWidget {
                               Navigator.pop(context)
                             },
                         child: Container(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(15, 255, 255, 255),
+                                color: const Color.fromARGB(15, 255, 255, 255),
                                 border:
                                     Border.all(color: Colors.white, width: 1),
                                 borderRadius: BorderRadius.circular(25)),
@@ -78,7 +78,7 @@ class ButtonAccount extends StatelessWidget {
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold)),
                           const SizedBox(height: 10),
-                          Container(
+                          SizedBox(
                               width: MediaQuery.of(context).size.width * 0.75,
                               child: BuildInputLogin(
                                   keyLabel: "",
@@ -109,11 +109,11 @@ class ButtonAccount extends StatelessWidget {
                                                 Text(
                                                   onError,
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 20,
                                                       color: Colors.white),
                                                 ),
-                                                Text(
+                                                const Text(
                                                   "Attention supprimer son compte est définitif !",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(

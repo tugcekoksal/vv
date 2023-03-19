@@ -1,13 +1,4 @@
-// To parse this JSON data, do
-//
-//     final refreshIncidentModel = refreshIncidentModelFromJson(jsonString);
-
-import 'dart:convert';
-
 import 'package:velyvelo/models/json_usefull.dart';
-
-// String refreshIncidentModelToJson(RefreshIncidentModel data) =>
-//     json.encode(data.toJson());
 
 class RefreshIncidentModel {
   RefreshIncidentModel({

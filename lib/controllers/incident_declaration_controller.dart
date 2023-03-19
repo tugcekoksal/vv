@@ -130,13 +130,14 @@ class IncidentDeclarationController extends GetxController {
       List<IdAndName> clientLabels =
           await HttpService.fetchClientLabelsByUser(userToken);
       // Data received / valid request to server
-      if (userType != "AdminOrTechnician") {
+      if (userType != "AdminOrTechnician" && userType != "Technicien") {
         infosSelection.update((val) {
           val?.infoClient.selected = clientLabels[0];
         });
         // Simulate the selection of client
         infosSelection.update((val) {
           val?.infoClient.selected = infosSelection.value.infoClient.selected;
+          val?.infoClient.isLoading = false;
         });
         fetchGroupLabels();
         return;
@@ -237,13 +238,19 @@ class IncidentDeclarationController extends GetxController {
       val?.infoVelo.isLoading = true;
     });
     try {
-      List<IdAndName> veloLabels = await HttpService.fetchBikeLabelsByGroup(
-          infosSelection.value.infoGroup.selected!.id ?? -1,
-          infosSelection.value.infoClient.selected!.id ?? -1,
-          userToken);
+      Map<String, List<IdAndName>> equipementsLabels =
+          await HttpService.fetchBikeLabelsByGroup(
+              infosSelection.value.infoGroup.selected!.id ?? -1,
+              infosSelection.value.infoClient.selected!.id ?? -1,
+              userToken);
+
       // Data received / valid request to server
       infosSelection.update((val) {
-        val?.infoVelo.listOptions = veloLabels;
+        val?.infoVelo.listOptions = [];
+        val?.infoVelo.listOptions.add(IdAndName(id: -1, name: "--Velos--"));
+        val?.infoVelo.listOptions += equipementsLabels["velos"] ?? [];
+        val?.infoVelo.listOptions.add(IdAndName(id: -1, name: "--Batteries--"));
+        val?.infoVelo.listOptions += equipementsLabels["batteries"] ?? [];
       });
     } catch (e) {
       log.e(e.toString());
@@ -343,7 +350,7 @@ class IncidentDeclarationController extends GetxController {
     // Check if informations are complete
     if (incidentTypeList.contains("")) {
       indexWhereFormIsNotCompleted.value =
-          incidentTypeList.indexWhere((element) => element == "").toString();
+          incidentTypeList.indexWhere((element) => (element == "")).toString();
       isFormUncompleted.value = "Un champ n'est pas spécifié.";
       return false;
     } else {
