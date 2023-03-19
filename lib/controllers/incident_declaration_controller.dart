@@ -247,9 +247,7 @@ class IncidentDeclarationController extends GetxController {
       // Data received / valid request to server
       infosSelection.update((val) {
         val?.infoVelo.listOptions = [];
-        val?.infoVelo.listOptions.add(IdAndName(id: -1, name: "--Velos--"));
         val?.infoVelo.listOptions += equipementsLabels["velos"] ?? [];
-        val?.infoVelo.listOptions.add(IdAndName(id: -1, name: "--Batteries--"));
         val?.infoVelo.listOptions += equipementsLabels["batteries"] ?? [];
       });
     } catch (e) {

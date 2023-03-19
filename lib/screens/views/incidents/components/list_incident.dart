@@ -63,7 +63,7 @@ class ListIncident extends ConsumerWidget {
                         children: [
                           GroupCard(group: wProvider.selectedGroup),
                           const SizedBox(height: 20),
-                          const ListEmpty(text: "Aucuns incidents")
+                          const ListEmpty(text: "Aucun incident")
                         ],
                       ))
                   : ListView(children: [

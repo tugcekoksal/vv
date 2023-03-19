@@ -20,14 +20,7 @@ class DeclarationSendButton extends ConsumerWidget {
         FocusManager.instance.primaryFocus?.unfocus();
         ScaffoldMessenger.of(context).clearSnackBars();
 
-        if (declarationController.infosSelection.value.infoVelo.selected ==
-                null ||
-            declarationController
-                    .infosSelection.value.infoVelo.selected!.name ==
-                "--Velos--" ||
-            declarationController
-                    .infosSelection.value.infoVelo.selected!.name ==
-                "--Batteries--") {
+        if (declarationController.infosSelection.value.infoVelo.selected == null) {
           declarationController.errors.update((val) {
             val?.veloError = "Le champ vélo n'est pas renseigné";
           });
