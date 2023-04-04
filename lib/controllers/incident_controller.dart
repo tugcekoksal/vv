@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:velyvelo/config/api_request.dart';
 import 'package:velyvelo/config/caching_data.dart';
 import 'package:velyvelo/config/url_to_file.dart';
 import 'package:velyvelo/controllers/fetch_queue_controller.dart';
@@ -383,10 +384,9 @@ class IncidentController extends GetxController {
           currentReparation.value, userToken);
     } on SocketException {
       try {
-        fetchQueueProvider.updateQueue = await readUpdateIncident();
-        fetchQueueProvider.updateQueue.add(currentReparation.value);
-        writeUpdateIncident(fetchQueueProvider.updateQueue);
-        fetchQueueProvider.cronJob(userToken);
+        failedRequestFunctions.add(() =>
+            HttpService.sendCurrentDetailBikeStatus(
+                currentReparation.value, userToken));
       } catch (e) {
         error.value = e.toString();
       }

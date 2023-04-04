@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:velyvelo/config/storage_util.dart';
 import 'package:velyvelo/my_app.dart';
 
 //FIREBASE
@@ -84,6 +85,8 @@ void main() async {
     provisional: false,
     sound: true,
   );
+  await StorageUtil
+      .init(); // initialisation SharePreferences pour le stockage en local
 
   // Run the App after all is well initialized
   // Normal app launch

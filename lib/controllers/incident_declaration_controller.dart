@@ -1,6 +1,8 @@
 // Vendor
 import 'dart:io';
 import 'package:get/get.dart';
+import 'package:velyvelo/config/api_request.dart';
+import 'package:velyvelo/config/storage_util.dart';
 import 'package:velyvelo/controllers/incident_controller.dart';
 
 // Controllers
@@ -126,9 +128,18 @@ class IncidentDeclarationController extends GetxController {
     infosSelection.update((val) {
       val?.infoClient.isLoading = true;
     });
+    List<IdAndName> clientLabels = [];
     try {
-      List<IdAndName> clientLabels =
-          await HttpService.fetchClientLabelsByUser(userToken);
+      clientLabels = await HttpService.fetchClientLabelsByUser(userToken);
+      await StorageUtil.saveIdAndNameList(
+          "clientLabels", clientLabels); // save client IDs to local
+    } on SocketException {
+      clientLabels = StorageUtil.loadIdAndNameList("clientLabels");
+    } catch (e) {
+      log.e(e.toString());
+      // Message error from server / handle front error
+    }
+    try {
       // Data received / valid request to server
       if (userType != "AdminOrTechnician" && userType != "Technicien") {
         infosSelection.update((val) {
@@ -143,13 +154,13 @@ class IncidentDeclarationController extends GetxController {
         return;
         // End simulation and return
       }
-      infosSelection.update((val) {
-        val?.infoClient.listOptions = clientLabels;
-      });
     } catch (e) {
       log.e(e.toString());
-      // Message error from server / handle front error
     }
+
+    infosSelection.update((val) {
+      val?.infoClient.listOptions = clientLabels;
+    });
 
     // Client labels finished loading
     infosSelection.update((val) {
@@ -183,9 +194,17 @@ class IncidentDeclarationController extends GetxController {
     infosSelection.update((val) {
       val?.infoGroup.isLoading = true;
     });
+    List<IdAndName> groupLabels = [];
     try {
-      List<IdAndName> groupLabels = await HttpService.fetchGroupLabelsByClient(
+      groupLabels = await HttpService.fetchGroupLabelsByClient(
           infosSelection.value.infoClient.selected!.id ?? -1, userToken);
+      await StorageUtil.saveIdAndNameList("groupLabels", groupLabels);
+    } on SocketException {
+      groupLabels = StorageUtil.loadIdAndNameList("groupLabels");
+    } catch (e) {
+      log.e(e.toString());
+    }
+    try {
       if (userType == "User") {
         infosSelection.update((val) {
           val?.infoGroup.selected = groupLabels[0];
@@ -390,10 +409,19 @@ class IncidentDeclarationController extends GetxController {
             await HttpService.setIncident(incidentToSend, userToken);
         success.value = incidentSent;
         Get.find<IncidentController>().refreshIncidentsList();
+      } on SocketException {
+        try {
+          failedRequestFunctions
+              .add(() => HttpService.setIncident(incidentToSend, userToken));
+        } catch (e) {
+          log.e(e.toString());
+          return false;
+        }
       } catch (e) {
         log.e(e.toString());
         return false;
       }
+      return false;
     }).toList();
     return true;
   }
