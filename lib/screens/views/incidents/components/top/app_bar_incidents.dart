@@ -36,7 +36,7 @@ class AppBarIncidents extends StatelessWidget {
             ButtonSearchIncident(incidentController: incidentController),
           ]),
           Row(children: [
-            !loginController.isUser.value ? ButtonFilter() : const SizedBox(),
+            // !loginController.isUser.value ? ButtonFilter() : const SizedBox(),
             !loginController.isUser.value
                 ? const SizedBox(width: 5)
                 : const SizedBox(),
