@@ -12,7 +12,7 @@ const longText = 14;
 
 class ReturnStyled extends StatelessWidget {
   final String text;
-  final Widget rightIcon;
+  final Widget? rightIcon;
 
   const ReturnStyled({Key? key, required this.text, required this.rightIcon})
       : super(key: key);
@@ -62,22 +62,24 @@ class ReturnStyled extends StatelessWidget {
                                   fontWeight: FontWeight.w700))),
                     ],
                   )),
-              Positioned(
-                  right: 0,
-                  child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 3,
-                            blurRadius: 3,
+              rightIcon != null
+                  ? Positioned(
+                      right: 0,
+                      child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 3,
+                                blurRadius: 3,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      child: rightIcon)),
+                          child: rightIcon))
+                  : const SizedBox(),
             ]));
   }
 }
@@ -85,7 +87,7 @@ class ReturnStyled extends StatelessWidget {
 class ReturnContainer extends StatelessWidget {
   final String text;
   final Function? optionalFunction;
-  final Widget rightIcon;
+  final Widget? rightIcon;
 
   const ReturnContainer(
       {Key? key,
@@ -133,13 +135,10 @@ class ReturnContainerToScan extends ConsumerWidget {
 class ReturnBar extends StatelessWidget {
   final String text;
   final Function? optionalFunction;
-  final Widget rightIcon;
+  final Widget? rightIcon;
 
   const ReturnBar(
-      {Key? key,
-      required this.text,
-      this.rightIcon = const SizedBox(),
-      this.optionalFunction})
+      {Key? key, required this.text, this.rightIcon, this.optionalFunction})
       : super(key: key);
 
   @override
