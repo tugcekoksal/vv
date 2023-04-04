@@ -40,18 +40,21 @@ class InformationsContainer extends StatelessWidget {
                       () => MyBikeView(
                           isFromScan: false,
                           veloPk: incidentController
-                                  .incidentDetailValue.value.velo.id ??
+                                  .incidentDetailValue.value.equipement.id ??
                               0),
                       transition: Transition.downToUp,
                       duration: const Duration(milliseconds: 400));
                 },
                 child: Row(
-                  children: const [
-                    Icon(Icons.pedal_bike, color: global_styles.blue),
-                    SizedBox(width: 10),
+                  children: [
+                    const Icon(Icons.pedal_bike, color: global_styles.blue),
+                    const SizedBox(width: 10),
                     Text(
-                      "page vélo >>",
-                      style: TextStyle(
+                      "page " +
+                          incidentController
+                              .incidentDetailValue.value.typeEquipement +
+                          " >>",
+                      style: const TextStyle(
                           color: global_styles.blue,
                           fontWeight: FontWeight.bold),
                     )
@@ -84,7 +87,9 @@ class InformationsContainer extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                  text: 'Vélo ',
+                  text: incidentController
+                          .incidentDetailValue.value.typeEquipement +
+                      ' ',
                   style: const TextStyle(
                       color: global_styles.greyText,
                       fontSize: 16.0,
@@ -92,7 +97,7 @@ class InformationsContainer extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(
                         text: incidentController
-                            .incidentDetailValue.value.velo.name,
+                            .incidentDetailValue.value.equipement.name,
                         style: const TextStyle(
                             color: global_styles.lightGreyText)),
                   ],

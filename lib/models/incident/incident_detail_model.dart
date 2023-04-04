@@ -13,8 +13,9 @@ IncidentDetailModel incidentDetailModelFromJson(String str) =>
 class IncidentDetailModel {
   IncidentDetailModel({
     required this.groupe,
-    required this.velo,
+    required this.equipement,
     required this.typeIncident,
+    required this.typeEquipement,
     required this.commentaire,
     required this.photos,
     required this.isFunctional,
@@ -23,8 +24,9 @@ class IncidentDetailModel {
   });
 
   final String groupe;
-  final IdAndName velo;
+  final IdAndName equipement;
   final String typeIncident;
+  final String typeEquipement;
   final String commentaire;
   final List<String> photos;
   final bool isFunctional;
@@ -34,8 +36,9 @@ class IncidentDetailModel {
   factory IncidentDetailModel.fromJson(Map<String, dynamic> json) =>
       IncidentDetailModel(
         groupe: json["groupe"] ?? "Pas de nom de groupe",
-        velo: getIdAndNameOrEmpty(json["velo"]),
+        equipement: getIdAndNameOrEmpty(json["equipement"]),
         typeIncident: json["type_incident"] ?? "Pas de type d'incident",
+        typeEquipement: json["type_equipement"] ?? "Erreur",
         commentaire: json["commentaire"] ?? "Pas de commentaire",
         photos: json["photos"] == null
             ? []

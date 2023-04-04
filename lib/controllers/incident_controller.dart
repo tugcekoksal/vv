@@ -47,8 +47,9 @@ class IncidentController extends GetxController {
 
   var incidentDetailValue = IncidentDetailModel(
       groupe: "",
-      velo: IdAndName(id: -1, name: ""),
+      equipement: IdAndName(id: -1, name: ""),
       typeIncident: "",
+      typeEquipement: "",
       commentaire: "",
       photos: [],
       isFunctional: false,
