@@ -40,7 +40,13 @@ class ButtonAccount extends StatelessWidget {
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold))
                         ]),
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 30),
+                    Text(loginController.userTypeFetched.userType,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 40),
                     GestureDetector(
                         onTap: () => {
                               loginController.logoutUser(),

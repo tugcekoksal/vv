@@ -14,13 +14,13 @@ import 'package:velyvelo/helpers/logger.dart';
 
 // Models
 import 'package:velyvelo/models/bike/user_bike_model.dart';
+import 'package:velyvelo/models/login/user_type_model.dart';
 
 // Services
 import 'package:velyvelo/services/http_service.dart';
 
 class LoginController extends GetxController {
   final log = logger(LoginController);
-
   Timer? checkConnexionTimer;
   var hasConnexion = true.obs;
   var isDismiss = false.obs;
@@ -40,6 +40,8 @@ class LoginController extends GetxController {
   String userName = "";
 
   var userType = "";
+
+  UserType userTypeFetched = UserType(userType: "");
 
   var userBikeID = 0.obs;
   var userBike = UserBikeModel(
@@ -67,26 +69,6 @@ class LoginController extends GetxController {
       isLoading(false);
       isLogged(true);
       tokenAndNameAuth();
-    }
-
-    checkConnexionTimer = null;
-    checkConnexionTimer = Timer.periodic(
-        const Duration(seconds: 1), (Timer t) => checkConnexion());
-  }
-
-  void checkConnexion() async {
-    try {
-      await HttpService.testConnexion();
-    } on SocketException {
-      if (hasConnexion.value == true) {
-        isDismiss.value = false;
-      }
-      hasConnexion.value = false;
-    } catch (e) {
-      if (hasConnexion.value == false) {
-        isDismiss.value = false;
-      }
-      hasConnexion.value = true;
     }
   }
 
@@ -184,33 +166,33 @@ class LoginController extends GetxController {
 
   void fetchTypeUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userTypeFetched;
 
     // Fetch type user, if no connexion try get the last user type in prefs
     try {
       userTypeFetched = await HttpService.fetchTypeUser(userToken);
     } catch (e) {
       log.e("Error fetch type user: " + e.toString());
-      userTypeFetched = prefs.getString("typeUser") ?? "";
+      userTypeFetched = UserType(userType: prefs.getString("typeUser") ?? "");
     }
 
-    if (userTypeFetched == "Client") {
+    if (userTypeFetched.userType == "Client") {
       isClient(true);
       setTypeUser(prefs, "Client");
-    } else if (userTypeFetched == "Utilisateur") {
+    } else if (userTypeFetched.userType == "Utilisateur") {
       isUser(true);
       setTypeUser(prefs, "User");
-    } else if (userTypeFetched == "SuperUser") {
+    } else if (userTypeFetched.userType == "SuperUser") {
       isSuperUser(true);
       setTypeUser(prefs, "SuperUser");
-    } else if (userTypeFetched == "Admin" || userTypeFetched == "Technicien") {
+    } else if (userTypeFetched.userType == "Admin" ||
+        userTypeFetched.userType == "Technicien") {
       isAdminOrTech(true);
       setTypeUser(prefs, "AdminOrTechnician");
-      if (userTypeFetched == "Technicien") {
+      if (userTypeFetched.userType == "Technicien") {
         setTypeUser(prefs, "Technicien");
         isTech(true);
       }
-    } else if (userTypeFetched == "AdminOrTechnician") {
+    } else if (userTypeFetched.userType == "AdminOrTechnician") {
       isAdminOrTech(true);
       setTypeUser(prefs, "AdminOrTechnician");
     } else {

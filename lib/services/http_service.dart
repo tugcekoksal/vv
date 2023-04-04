@@ -19,6 +19,7 @@ import 'package:velyvelo/models/incident/incidents_model.dart';
 import 'package:velyvelo/models/incident/refresh_incident_model.dart';
 import 'package:velyvelo/models/incident/incident_to_send_model.dart';
 import 'package:velyvelo/models/json_usefull.dart';
+import 'package:velyvelo/models/login/user_type_model.dart';
 import 'package:velyvelo/models/map/map_filter_model.dart';
 
 // Services
@@ -107,7 +108,7 @@ class HttpService {
   }
 
   // Fetch the user's type
-  static Future<String> fetchTypeUser(String userToken) async {
+  static Future<UserType> fetchTypeUser(String userToken) async {
     return fetchTypeUserService(urlServer, userToken);
   }
 
@@ -223,7 +224,7 @@ class HttpService {
   }
 
   // Set a bike status in detail page
-  static Future<String> sendCurrentDetailBikeStatus(
+  static Future<void> sendCurrentDetailBikeStatus(
       ReparationModel reparation, String userToken) async {
     return sendCurrentDetailBikeStatusService(urlServer, reparation, userToken);
   }

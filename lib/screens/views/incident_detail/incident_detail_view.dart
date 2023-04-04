@@ -83,19 +83,24 @@ class IncidentDetail extends StatelessWidget {
                       )),
                   ReturnBar(
                       text: "Détails de l'incident",
-                      rightIcon: GestureDetector(
-                          onTap: () {
-                            final Uri _url = Uri.parse(
-                                'https://calendly.com/velyvelo/rdv-atelier');
-                            launchUrl(_url);
-                          },
-                          child: SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: Image.asset(
-                                "assets/calendly-logo.png",
-                                fit: BoxFit.contain,
-                              ))),
+                      rightIcon: loginController.userTypeFetched.clientType ==
+                                  "Particulier" ||
+                              loginController.userTypeFetched.clientType ==
+                                  "Auto-entrepeneur"
+                          ? GestureDetector(
+                              onTap: () {
+                                final Uri _url = Uri.parse(
+                                    'https://calendly.com/velyvelo/rdv-atelier');
+                                launchUrl(_url);
+                              },
+                              child: SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: Image.asset(
+                                    "assets/calendly-logo.png",
+                                    fit: BoxFit.contain,
+                                  )))
+                          : null,
                       optionalFunction: () =>
                           incidentController.fetchAllIncidents(
                               incidentController.incidentsToFetch.value)),
