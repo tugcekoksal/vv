@@ -18,6 +18,7 @@ class IncidentsProvider extends ChangeNotifier {
   View view = View.listClient;
   String title = "";
   String error = "";
+  int index_client = 0;
 
   LoginController loginController = Get.put(LoginController());
 
@@ -84,6 +85,7 @@ class IncidentsProvider extends ChangeNotifier {
     title = selectedClient.name;
     fetchListGroup();
     notifyListeners();
+    index_client = index;
   }
 
   Future fetchListGroup() async {

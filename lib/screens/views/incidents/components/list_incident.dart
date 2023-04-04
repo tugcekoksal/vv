@@ -68,11 +68,36 @@ class ListIncident extends ConsumerWidget {
                       ))
                   : ListView(children: [
                       Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),
+                          padding: const EdgeInsets.fromLTRB(0, 6.0, 0, 20.0),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              GestureDetector(
+                                onTap: () => ref
+                                    .read(incidentsProvider)
+                                    .selectClient(wProvider.index_client),
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      bottom: 4.0, left: 20.0, right: 20.0),
+                                  alignment: Alignment.center,
+                                  width: 60,
+                                  height: 20,
+                                  child: const Text(
+                                    "Retour",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                ),
+                              ),
                               GroupCard(group: wProvider.selectedGroup),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
                               // test
                               for (var index = 0;
                                   index < wProvider.incidentCards.length;
