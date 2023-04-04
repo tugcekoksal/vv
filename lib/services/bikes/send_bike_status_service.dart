@@ -11,7 +11,7 @@ List<int> listIdFromListIdAndName(List<IdAndName> theList) {
   return theList.map((elem) => elem.id ?? -1).toList();
 }
 
-Future<String> sendCurrentDetailBikeStatusService(
+Future<void> sendCurrentDetailBikeStatusService(
     String urlServer, ReparationModel reparation, String userToken) async {
   String isBikeFunctionnal = reparation.isBikeFunctional == null
       ? ""
@@ -57,7 +57,6 @@ Future<String> sendCurrentDetailBikeStatusService(
     throw (message);
   }
   // The status is OK : We give a success phrase from the server
-  return message;
 }
 
 Future<List<IncidentPieces>> fetchPiecesService(
