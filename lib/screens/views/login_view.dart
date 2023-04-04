@@ -10,6 +10,7 @@ import 'package:velyvelo/controllers/login_controller.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velyvelo/controllers/navigation_controller.dart';
+import 'package:velyvelo/screens/home/connexion_status.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
@@ -188,7 +189,8 @@ class LoginView extends StatelessWidget {
                             )
                           ])
                     ],
-                  )))
+                  ))),
+          const ConnexionStatus(),
         ]));
   }
 }

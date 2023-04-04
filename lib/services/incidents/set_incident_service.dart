@@ -12,7 +12,7 @@ Future<String> setIncidentService(
     'Authorization': 'Token $userToken',
     'Content-Type': 'application/json'
   };
-  var request = http.MultipartRequest(
+  http.MultipartRequest request = http.MultipartRequest(
       'POST', Uri.parse('$urlServer/api/declareIncident/'));
   request
     ..fields["velo_pk"] = incident.veloPk

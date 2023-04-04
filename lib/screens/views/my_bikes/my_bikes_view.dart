@@ -14,6 +14,7 @@ import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/home/button_account.dart';
 import 'package:velyvelo/screens/home/button_scan.dart';
+import 'package:velyvelo/screens/home/connexion_status.dart';
 import 'package:velyvelo/screens/home/title_app_bar.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_filter.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
@@ -175,7 +176,8 @@ class MyBikesView extends ConsumerWidget {
                   : const SizedBox(),
           const SizedBox(),
         ],
-      )
+      ),
+      const ConnexionStatus(),
     ]);
   }
 }
