@@ -150,7 +150,8 @@ class HttpService {
   }
 
   // Fetch an incident by id
-  static Future fetchIncidentById(int id, String userToken) async {
+  static Future<IncidentDetailModel> fetchIncidentById(
+      int id, String userToken) async {
     return fetchIncidentByIdService(urlServer, id, userToken);
   }
 

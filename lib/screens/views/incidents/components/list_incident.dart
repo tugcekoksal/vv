@@ -8,6 +8,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/models/incident/incident_card_model.dart';
 import 'package:velyvelo/screens/views/incident_detail/incident_detail_view.dart';
+import 'package:velyvelo/screens/views/incidents/components/back_button.dart';
 import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 import 'package:velyvelo/screens/views/incidents/components/incident_card.dart';
 
@@ -31,7 +32,7 @@ class ListIncident extends ConsumerWidget {
     IncidentsProvider wProvider = ref.watch(incidentsProvider);
 
     return Padding(
-        padding: const EdgeInsets.only(top: 155, bottom: 60),
+        padding: const EdgeInsets.only(top: 100, bottom: 60),
         child: FadeListView(
           child: SmartRefresher(
               enablePullDown: true,
@@ -61,6 +62,11 @@ class ListIncident extends ConsumerWidget {
                       padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 20.0),
                       child: Column(
                         children: [
+                          GoBackButton(
+                            onTap: () => ref
+                                .read(incidentsProvider)
+                                .selectClient(wProvider.index_client),
+                          ),
                           GroupCard(group: wProvider.selectedGroup),
                           const SizedBox(height: 20),
                           const ListEmpty(text: "Aucun incident")
@@ -72,29 +78,10 @@ class ListIncident extends ConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              GestureDetector(
+                              GoBackButton(
                                 onTap: () => ref
                                     .read(incidentsProvider)
                                     .selectClient(wProvider.index_client),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      bottom: 4.0, left: 20.0, right: 20.0),
-                                  alignment: Alignment.center,
-                                  width: 60,
-                                  height: 20,
-                                  child: const Text(
-                                    "Retour",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                  ),
-                                ),
                               ),
                               GroupCard(group: wProvider.selectedGroup),
                               const SizedBox(height: 10),

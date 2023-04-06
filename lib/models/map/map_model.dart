@@ -30,7 +30,7 @@ class MapModel {
       statut: json["statut"] == null ? null : Statut.fromJson(json["statut"]),
       pos: json["pos"] == null ? null : Pos.fromJson(json["pos"]),
       name: json["name"] ?? "Pas de nom",
-      group: json["group"] ?? "Pas de groupe",
+      group: json["group"] ?? "Sans groupe",
       mapStatus: json["map_status"] ?? "Pas de status");
 }
 

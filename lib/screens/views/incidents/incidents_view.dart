@@ -34,7 +34,7 @@ class IncidentsView extends ConsumerWidget {
         child: Stack(alignment: Alignment.topCenter, children: [
           AppBarIncidents(),
           const TitleIncidents(),
-          const SwitchIncidents(),
+          // const SwitchIncidents(),
           wProvider.view == View.listClient
               ? ListClient()
               : wProvider.view == View.listGroup

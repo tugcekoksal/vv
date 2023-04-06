@@ -15,7 +15,7 @@ class ListClient extends ConsumerWidget {
     IncidentsProvider wProvider = ref.watch(incidentsProvider);
 
     return Padding(
-        padding: const EdgeInsets.only(top: 155, bottom: 60),
+        padding: const EdgeInsets.only(top: 100, bottom: 60),
         child: FadeListView(
           child: SmartRefresher(
             enablePullDown: true,

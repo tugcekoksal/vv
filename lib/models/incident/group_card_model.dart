@@ -1,9 +1,12 @@
 List<GroupCardModel> groupCardsListFromJson(Map<String, dynamic> json) {
-  GroupCardModel noGroup = GroupCardModel.fromJson(json["no_group"]);
   List<dynamic> jsonGroups = json["groups"];
   List<GroupCardModel> groupList =
       jsonGroups.map((e) => GroupCardModel.fromJson(e)).toList();
-  groupList.insert(0, noGroup);
+  if (json.containsKey("no_group")) {
+    GroupCardModel noGroup = GroupCardModel.fromJson(json["no_group"]);
+    groupList.insert(0, noGroup);
+  }
+
   return groupList;
 }
 

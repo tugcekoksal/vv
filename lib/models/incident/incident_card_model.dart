@@ -37,7 +37,7 @@ class IncidentCardModel {
               json["incident_type_reparation"] ?? "Pas de type de réparation",
           incidentStatus: json["incident_status"] ?? "Pas de status d'incident",
           incidentPk: json["incident_pk"] ?? "-1",
-          veloGroup: json["velo_group"] ?? "Pas de groupe",
+          veloGroup: json["velo_group"] ?? "Sans groupe",
           veloName: json["velo_name"] ?? "Pas de nom de vélo",
           clientName: json["client_name"] ?? "Pas de nom de client",
           dateCreation: json["date_creation"] ?? "Pas de date de création",

@@ -101,7 +101,7 @@ class VeloCard extends StatelessWidget {
             Row(
               children: [
                 TitleText(
-                    text: group == "" ? "Pas de groupe" : group,
+                    text: group == "" ? "Sans groupe" : group,
                     color: global_styles.greyBottomBarText)
               ],
             )

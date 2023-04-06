@@ -217,7 +217,7 @@ class IncidentDeclarationController extends GetxController {
         return;
         // End simulation and return
       }
-      groupLabels.insert(0, IdAndName(id: -1, name: "Pas de groupe"));
+      groupLabels.insert(0, IdAndName(id: -1, name: "Sans groupe"));
       // Data received / valid request to server
       infosSelection.update((val) {
         val?.infoGroup.listOptions = groupLabels;

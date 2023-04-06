@@ -113,7 +113,7 @@ class IncidentController extends GetxController {
       var response = await HttpService.fetchIncidentFilters(userToken);
       clientListFilter.value = jsonListToIdAndNameList(response["client_list"]);
       groupListFilter.value = jsonListToIdAndNameList(response["group_list"]);
-      groupListFilter.add(IdAndName(id: -1, name: "Pas de groupe"));
+      groupListFilter.add(IdAndName(id: -1, name: "Sans groupe"));
     } catch (e) {
       log.e(e.toString());
     }
@@ -307,13 +307,16 @@ class IncidentController extends GetxController {
   Future<void> fetchIncidentById(int id) async {
     try {
       isLoadingDetailIncident(true);
-      var incidentByID = await HttpService.fetchIncidentById(id, userToken);
+      IncidentDetailModel incidentByID =
+          await HttpService.fetchIncidentById(id, userToken);
       if (incidentByID != null) {
         incidentDetailValue.value = incidentByID;
         currentReparation.value.isBikeFunctional = incidentByID.isFunctional;
         currentReparation.value.statusBike = incidentByID.actualStatus;
       }
       isLoadingDetailIncident(false);
+    } on SocketException {
+      // TODO : handle when no internet
     } catch (e) {
       log.e(e.toString());
     }
