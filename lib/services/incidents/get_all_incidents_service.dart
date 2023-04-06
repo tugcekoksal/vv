@@ -15,7 +15,8 @@ Future<IncidentsModel> fetchAllIncidentsService(
     String userToken) async {
   final log = logger(HttpService);
 
-  var request = http.Request("GET", Uri.parse("$urlServer/api/listIncidents/"));
+  var request =
+      http.Request("GET", Uri.parse("$urlServer/api/listIncidents/v2/"));
   var headers = {
     "Authorization": 'Token $userToken',
     "Content-Type": "application/json"
