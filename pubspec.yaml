@@ -1,7 +1,7 @@
 name: velyvelo
 description: VelyVelo is a French company that offers electric bike rental.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.2.0+12
+version: 2.3.2+15
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -24,9 +24,9 @@ dependencies:
   sentry_flutter: ^6.5.1
   path_provider: ^2.0.8
   shared_preferences: ^2.0.13
-  firebase_messaging: ^11.2.12
+  firebase_messaging: ^14.3.0
   url_launcher: ^6.0.20
-  firebase_core: ^1.13.1
+  firebase_core: ^2.8.0
   logger: ^1.1.0
 
   # Flutter actions
@@ -49,6 +49,7 @@ dependencies:
   camera: ^0.9.7+1
   image_gallery_saver: ^1.7.1
   cached_network_image: ^3.2.1
+
   
 dev_dependencies:
   integration_test:
