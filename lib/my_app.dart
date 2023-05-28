@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
           allowDismissal: false,
           dialogTitle: 'Mise à jour',
           dialogText: 'Une mise à jour est disponible',
+          updateButtonText: 'Mettre à jour',
         );
       }
     }
