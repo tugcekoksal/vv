@@ -90,7 +90,7 @@ class IncidentDetail extends StatelessWidget {
                           ? GestureDetector(
                               onTap: () {
                                 final Uri _url = Uri.parse(
-                                    'https://calendly.com/velyvelo/rdv-atelier');
+                                    'https://calendly.com/velyvelo/rdv-atelier?email=${loginController.userTypeFetched.email}&first_name=${loginController.userTypeFetched.firstName}&last_name=${loginController.userTypeFetched.lastName}&a1=33${loginController.userTypeFetched.phone}&a2=${incidentController.currentReparation.value.numeroCadran}&a3=${incidentController.currentReparation.value.typeContrat}&a4=${incident.reparationNumber}&a5=${incident.incidentTypeReparation}');
                                 launchUrl(_url);
                               },
                               child: SizedBox(

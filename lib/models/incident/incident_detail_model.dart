@@ -94,6 +94,9 @@ class ReparationModel {
   TextEditingController commentaryTech;
   TextEditingController commentaryAdmin;
 
+  String numeroCadran;
+  String typeContrat;
+
   ReparationModel({
     required this.statusBike,
     required this.isBikeFunctional,
@@ -111,6 +114,8 @@ class ReparationModel {
     required this.selectedPieceDropDown,
     required this.commentaryTech,
     required this.commentaryAdmin,
+    required this.numeroCadran,
+    required this.typeContrat,
   });
 
   factory ReparationModel.fromJson(
@@ -134,7 +139,10 @@ class ReparationModel {
         commentaryTech: TextEditingController(
             text: getStringOrNull(jsonData["commentary_tech"])),
         commentaryAdmin: TextEditingController(
-            text: getStringOrNull(jsonData["commentary_admin"])));
+            text: getStringOrNull(jsonData["commentary_admin"])),
+        numeroCadran: jsonData["numero_cadran"] ?? "",
+        typeContrat: jsonData["type_contrat"] ?? "",
+        );
   }
 
   Map<String, dynamic> toJson() => {
@@ -154,5 +162,7 @@ class ReparationModel {
         // selected piece dropdown
         "commentary_tech": commentaryTech.text,
         "commentary_admin": commentaryAdmin.text,
+        "type_contrat": typeContrat,
+        "numero_cadran": numeroCadran
       };
 }

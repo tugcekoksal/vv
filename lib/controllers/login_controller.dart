@@ -41,7 +41,7 @@ class LoginController extends GetxController {
 
   var userType = "";
 
-  UserType userTypeFetched = UserType(userType: "");
+  UserType userTypeFetched = UserType(userType: "", firstName: "", lastName: "", email: "");
 
   var userBikeID = 0.obs;
   var userBike = UserBikeModel(
@@ -112,6 +112,50 @@ class LoginController extends GetxController {
     }
   }
 
+  void saveUserDataToSharedPreferences(SharedPreferences sharedPreferences, Map<String, dynamic> userData) {
+  
+  userType = userData['user_type'];
+
+  switch (userType) {
+    case "Client":
+      isClient(true);
+      break;
+      
+    case "Utilisateur":
+      isUser(true);
+      break;
+      
+    case "SuperUser":
+      isSuperUser(true);
+      break;
+      
+    case "Admin":
+      isAdminOrTech(true);
+      break;
+
+    case "Technicien":
+      isTech(true);
+      break;
+      
+    default:
+      isLogged.value = false;
+      return;
+  }
+  
+  sharedPreferences.setString('typeUser', userType);
+  sharedPreferences.setString('first_name', userData['first_name']);
+  sharedPreferences.setString('last_name', userData['last_name']);
+  sharedPreferences.setString('email', userData['email']);
+  if (userData.containsKey('phone')) {
+    sharedPreferences.setString('phone', userData['phone']);
+  }
+
+  if (userData.containsKey('client_type')) {
+    sharedPreferences.setString('client_type', userData['client_type']);
+  }
+}
+
+
   // Login the user with login and password
   Future loginUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -172,33 +216,14 @@ class LoginController extends GetxController {
       userTypeFetched = await HttpService.fetchTypeUser(userToken);
     } catch (e) {
       log.e("Error fetch type user: " + e.toString());
-      userTypeFetched = UserType(userType: prefs.getString("typeUser") ?? "");
+      userTypeFetched = UserType(
+        userType: prefs.getString("typeUser") ?? "",
+        firstName: prefs.getString("firstName") ?? "",
+        lastName: prefs.getString("lastName") ?? "",
+        email: prefs.getString("email") ?? "",
+        );
     }
 
-    if (userTypeFetched.userType == "Client") {
-      isClient(true);
-      setTypeUser(prefs, "Client");
-    } else if (userTypeFetched.userType == "Utilisateur") {
-      isUser(true);
-      setTypeUser(prefs, "User");
-    } else if (userTypeFetched.userType == "SuperUser") {
-      isSuperUser(true);
-      setTypeUser(prefs, "SuperUser");
-    } else if (userTypeFetched.userType == "Admin" ||
-        userTypeFetched.userType == "Technicien") {
-      isAdminOrTech(true);
-      setTypeUser(prefs, "AdminOrTechnician");
-      if (userTypeFetched.userType == "Technicien") {
-        setTypeUser(prefs, "Technicien");
-        isTech(true);
-      }
-    } else if (userTypeFetched.userType == "AdminOrTechnician") {
-      isAdminOrTech(true);
-      setTypeUser(prefs, "AdminOrTechnician");
-    } else {
-      isLogged.value = false;
-      return;
-    }
     isLogged(true);
   }
 

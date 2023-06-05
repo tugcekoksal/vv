@@ -91,6 +91,8 @@ class IncidentController extends GetxController {
     selectedPieceDropDown: IdAndName(id: 0, name: ""),
     commentaryTech: TextEditingController(),
     commentaryAdmin: TextEditingController(),
+    numeroCadran: "",
+    typeContrat: "",
   ).obs;
 
   RxString actualTypeReparation = "".obs;
