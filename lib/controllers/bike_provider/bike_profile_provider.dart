@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'dart:io';
+import 'package:velyvelo/config/api_request.dart';
+
 // Controllers
 import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/helpers/usefull.dart';
@@ -68,11 +71,17 @@ class BikeProfileProvider extends ChangeNotifier {
       String messageBikeRobbed =
           await HttpService.setBikeRobbed(veloPk, isRobbed, userToken);
       log.d(messageBikeRobbed);
-    } catch (e) {
-      log.e(e);
+    } on SocketException {
+      try {
+        failedRequestFunctions.add(() =>
+            HttpService.setBikeRobbed(veloPk, isRobbed, userToken));
+      } catch (e) {
+        log.e(e);
+      }
     }
     notifyListeners();
   }
+
 
   void fetchBikeIDIfUser() async {
     isLoading = true;
