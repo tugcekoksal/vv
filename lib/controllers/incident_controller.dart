@@ -379,9 +379,8 @@ class IncidentController extends GetxController {
 
   sendReparationUpdate() async {
     error.value = "";
-    if (currentReparation.value.cause.name == "Casse" &&
-        currentReparation.value.reparationPhotosList.isEmpty) {
-      error.value = "Si la cause est 'Casse' une photo est requise";
+    if (currentReparation.value.reparationPhotosList.isEmpty) {
+      error.value = "Une photo est requise";
       return;
     }
 
