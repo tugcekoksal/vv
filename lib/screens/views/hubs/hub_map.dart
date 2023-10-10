@@ -15,7 +15,7 @@ import 'package:velyvelo/screens/views/my_bikes/pin.dart';
 
 // Parameters mapbox
 const streetsIntegrationUrl =
-    "https://api.mapbox.com/styles/v1/alexis-merck/ckzo13nez002c15r07s9ps7ys/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYWxleGlzLW1lcmNrIiwiYSI6ImNrenF3MGlrcDBldGgyd211YmQ5dWx4bXMifQ.DQkl2yEVn4jMmr-_WwBkdQ";
+    "https://api.mapbox.com/styles/v1/alexgrafenit/clnk7edj2000501qw894p9evg/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYWxleGlzLW1lcmNrIiwiYSI6ImNrenF3MGlrcDBldGgyd211YmQ5dWx4bXMifQ.DQkl2yEVn4jMmr-_WwBkdQ";
 const satteliteIntegrationUrl =
     "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYWxleGlzLW1lcmNrIiwiYSI6ImNrenF3MGlrcDBldGgyd211YmQ5dWx4bXMifQ.DQkl2yEVn4jMmr-_WwBkdQ";
 
