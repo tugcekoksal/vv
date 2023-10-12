@@ -42,16 +42,7 @@ Future<void> commonSetUp() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://8c020d0b25804516a3f61ecad3ce0859@o916392.ingest.sentry.io/6417938';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(const MyApp()),
-  );
+
 
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = MyHttpOverrides();
