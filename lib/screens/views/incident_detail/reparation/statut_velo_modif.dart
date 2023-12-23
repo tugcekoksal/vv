@@ -17,13 +17,12 @@ class StatutButton extends StatelessWidget {
   final bool disabled;
 
   const StatutButton(
-      {Key? key,
+      {super.key,
       required this.incidentController,
       required this.status,
       required this.isActive,
       required this.text,
-      this.disabled = false})
-      : super(key: key);
+      this.disabled = false});
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +56,7 @@ class StatutVeloModif extends StatelessWidget {
   final bool disabled;
 
   const StatutVeloModif(
-      {Key? key, required this.incidentController, required this.disabled})
-      : super(key: key);
+      {super.key, required this.incidentController, required this.disabled});
 
   @override
   Widget build(BuildContext context) {

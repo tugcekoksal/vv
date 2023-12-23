@@ -34,7 +34,7 @@ const accesToken =
 
 class MyBikesView extends ConsumerWidget {
   final log = logger(MyBikesView);
-  MyBikesView({Key? key}) : super(key: key);
+  MyBikesView({super.key});
 
   final LoginController loginController = Get.put(LoginController());
 
@@ -116,7 +116,7 @@ class MyBikesView extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       if (loginController.isAdminOrTech.value)
-                        Row(children: const [
+                        const Row(children: [
                           ButtonTypeMapElem(
                             whichView: WhichMapView.bikeView,
                           ),

@@ -29,7 +29,7 @@ Future<void> displayFilters(context, WidgetRef ref) async {
 }
 
 class ButtonFilter extends ConsumerWidget {
-  const ButtonFilter({Key? key}) : super(key: key);
+  const ButtonFilter({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

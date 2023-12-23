@@ -12,7 +12,7 @@ import 'package:velyvelo/services/http_service.dart';
 class Pin extends StatelessWidget {
   final String status;
 
-  const Pin({Key? key, required this.status}) : super(key: key);
+  const Pin({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class Pin extends StatelessWidget {
 class HubPin extends StatelessWidget {
   final HubMapModel hub;
 
-  const HubPin({Key? key, required this.hub}) : super(key: key);
+  const HubPin({super.key, required this.hub});
 
   @override
   Widget build(BuildContext context) {

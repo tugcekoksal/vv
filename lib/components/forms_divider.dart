@@ -6,8 +6,8 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 class FormsDivider extends StatelessWidget {
   const FormsDivider({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

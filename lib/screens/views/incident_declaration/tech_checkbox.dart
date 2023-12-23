@@ -8,10 +8,9 @@ class TechCheckbox extends StatelessWidget {
   final IncidentDeclarationController declarationController;
 
   const TechCheckbox(
-      {Key? key,
+      {super.key,
       required this.loginController,
-      required this.declarationController})
-      : super(key: key);
+      required this.declarationController});
 
   @override
   Widget build(BuildContext context) {

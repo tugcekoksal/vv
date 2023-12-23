@@ -99,7 +99,7 @@ Future<void> writeListGroupIncidents(
     file.writeAsString(json.encode(jsonContent));
   } catch (e) {
     file.writeAsString(json.encode(""));
-    log.e("writeListGroupIncidents: " + e.toString());
+    log.e("writeListGroupIncidents: $e");
   }
 }
 
@@ -128,7 +128,7 @@ Future<void> writeListIncidents(
     file.writeAsString(json.encode(jsonContent));
   } catch (e) {
     file.writeAsString(json.encode(""));
-    log.e("writeListIncidents: " + e.toString());
+    log.e("writeListIncidents: $e");
   }
 }
 
@@ -143,7 +143,7 @@ Future<List<ClientCardModel>> readListClientIncidents() async {
     return clientIncidents;
   } catch (e) {
     // If encountering an error, return nothing
-    log.e("readListClientIncidents: " + e.toString());
+    log.e("readListClientIncidents: $e");
     return [];
   }
 }
@@ -164,7 +164,7 @@ Future<List<GroupCardModel>> readListGroupIncidents(int idClient) async {
     return [];
   } catch (e) {
     // If encountering an error, return nothing
-    log.e("readListGroupIncidents: " + e.toString());
+    log.e("readListGroupIncidents: $e");
     return [];
   }
 }
@@ -185,7 +185,7 @@ Future<List<IncidentCardModel>> readListIncidents(int idGroup) async {
     return [];
   } catch (e) {
     // If encountering an error, return nothing
-    log.e("readListIncidents: " + e.toString());
+    log.e("readListIncidents: $e");
     return [];
   }
 }
@@ -210,7 +210,7 @@ Future<List<ReparationModel>> readUpdateIncident() async {
     return reparations;
   } catch (e) {
     // If encountering an error, return nothing
-    log.e("readUpdateIncident:" + e.toString());
+    log.e("readUpdateIncident:$e");
     return [];
   }
 }
@@ -237,7 +237,7 @@ Future<List<IncidentPieces>> readIncidentPieces() async {
     return incidentPieces;
   } catch (e) {
     // If encountering an error, return nothing
-    log.e("readIncidentPieces:" + e.toString());
+    log.e("readIncidentPieces:$e");
     return [];
   }
 }

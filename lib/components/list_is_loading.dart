@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'loading_box.dart';
 
 class ListIsLoading extends StatelessWidget {
-  const ListIsLoading({Key? key}) : super(key: key);
+  const ListIsLoading({super.key});
 
   @override
   Widget build(BuildContext context) {

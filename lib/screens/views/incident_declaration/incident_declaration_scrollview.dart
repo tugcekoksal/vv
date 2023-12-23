@@ -6,8 +6,7 @@ import 'package:velyvelo/screens/views/incident_declaration/declaration_informat
 class IncidentDeclarationScrollview extends StatelessWidget {
   final DeclarationInfoContainer? infoContainer;
 
-  const IncidentDeclarationScrollview({Key? key, this.infoContainer})
-      : super(key: key);
+  const IncidentDeclarationScrollview({super.key, this.infoContainer});
 
   @override
   Widget build(BuildContext context) {

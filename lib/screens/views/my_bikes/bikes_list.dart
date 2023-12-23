@@ -14,8 +14,7 @@ class TitleText extends StatelessWidget {
   final String text;
   final Color color;
 
-  const TitleText({Key? key, required this.text, required this.color})
-      : super(key: key);
+  const TitleText({super.key, required this.text, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class TitleText extends StatelessWidget {
 
 class MapStatusVelo extends StatelessWidget {
   final String text;
-  const MapStatusVelo({Key? key, required this.text}) : super(key: key);
+  const MapStatusVelo({super.key, required this.text});
 
   Color colorBasedOnVeloMapStatus(String status) {
     switch (status) {
@@ -69,11 +68,11 @@ class VeloCard extends StatelessWidget {
   final String mapStatus;
 
   const VeloCard({
-    Key? key,
+    super.key,
     required this.name,
     required this.group,
     required this.mapStatus,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +112,7 @@ class VeloCard extends StatelessWidget {
 class BikesList extends ConsumerWidget {
   final RefreshController refreshController = RefreshController();
 
-  BikesList({Key? key}) : super(key: key);
+  BikesList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -175,8 +174,7 @@ class InfoEmpty extends StatelessWidget {
   final String text;
 
   const InfoEmpty(
-      {Key? key, required this.icon, required this.color, required this.text})
-      : super(key: key);
+      {super.key, required this.icon, required this.color, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -205,12 +203,11 @@ class InfoError extends StatelessWidget {
   final Function action;
 
   const InfoError(
-      {Key? key,
+      {super.key,
       required this.icon,
       required this.color,
       required this.text,
-      required this.action})
-      : super(key: key);
+      required this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -220,8 +217,8 @@ class InfoError extends StatelessWidget {
         const SizedBox(height: 25),
         GestureDetector(
             onTap: () => {action()},
-            child: Column(
-              children: const [Icon(Icons.refresh), Text("Recharger")],
+            child: const Column(
+              children: [Icon(Icons.refresh), Text("Recharger")],
             ))
       ]),
     );
@@ -229,7 +226,7 @@ class InfoError extends StatelessWidget {
 }
 
 class BikesListView extends ConsumerWidget {
-  const BikesListView({Key? key}) : super(key: key);
+  const BikesListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

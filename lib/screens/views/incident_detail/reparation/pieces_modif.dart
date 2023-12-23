@@ -14,8 +14,7 @@ class PieceSelection extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
   final bool disabled;
   PieceSelection(
-      {Key? key, required this.incidentController, required this.disabled})
-      : super(key: key);
+      {super.key, required this.incidentController, required this.disabled});
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +122,7 @@ class PieceSelection extends StatelessWidget {
                     : 240,
                 child: Scrollbar(
                     thumbVisibility: true,
-                    showTrackOnHover: true,
+                    trackVisibility: true,
                     controller: scrollController,
                     child: ListView.builder(
                       controller: scrollController,
@@ -161,8 +160,7 @@ class PiecesModif extends StatelessWidget {
   final bool disabled;
 
   const PiecesModif(
-      {Key? key, required this.incidentController, required this.disabled})
-      : super(key: key);
+      {super.key, required this.incidentController, required this.disabled});
 
   @override
   Widget build(BuildContext context) {

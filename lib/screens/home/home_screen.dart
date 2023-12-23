@@ -18,7 +18,7 @@ import 'package:velyvelo/controllers/navigation_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({super.key});
 
   final NavigationController navigationController =
       Get.put(NavigationController());

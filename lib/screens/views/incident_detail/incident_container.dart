@@ -16,8 +16,7 @@ import 'package:velyvelo/components/slider_show_full_images.dart';
 
 class IncidentContainer extends StatelessWidget {
   final IncidentController incidentController;
-  const IncidentContainer({Key? key, required this.incidentController})
-      : super(key: key);
+  const IncidentContainer({super.key, required this.incidentController});
 
   @override
   Widget build(BuildContext context) {

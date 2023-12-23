@@ -16,7 +16,7 @@ import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
 
 class ButtonSearchVelo extends ConsumerWidget {
-  const ButtonSearchVelo({Key? key}) : super(key: key);
+  const ButtonSearchVelo({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +49,7 @@ class ButtonSearchVelo extends ConsumerWidget {
 class SearchBarVelo extends ConsumerWidget {
   final textInputController = TextEditingController();
 
-  SearchBarVelo({Key? key}) : super(key: key);
+  SearchBarVelo({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -113,7 +113,7 @@ class SearchBarVelo extends ConsumerWidget {
 }
 
 class ButtonSearchHub extends ConsumerWidget {
-  const ButtonSearchHub({Key? key}) : super(key: key);
+  const ButtonSearchHub({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -146,7 +146,7 @@ class ButtonSearchHub extends ConsumerWidget {
 class SearchBarHub extends ConsumerWidget {
   final textInputController = TextEditingController();
 
-  SearchBarHub({Key? key}) : super(key: key);
+  SearchBarHub({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -210,7 +210,7 @@ class SearchBarIncident extends StatelessWidget {
   final textInputController = TextEditingController();
   final IncidentController incidentController = Get.put(IncidentController());
 
-  SearchBarIncident({Key? key}) : super(key: key);
+  SearchBarIncident({super.key});
 
   @override
   Widget build(BuildContext context) {

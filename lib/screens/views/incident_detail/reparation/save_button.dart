@@ -194,10 +194,9 @@ class SaveButton extends StatelessWidget {
   final LoginController loginController;
 
   const SaveButton(
-      {Key? key,
+      {super.key,
       required this.incidentController,
-      required this.loginController})
-      : super(key: key);
+      required this.loginController});
 
   void sendReparation(context) async {
     var snackBar = const SnackBar(

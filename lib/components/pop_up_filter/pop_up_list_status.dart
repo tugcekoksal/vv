@@ -11,11 +11,10 @@ import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 class BuildButtonStatus extends StatelessWidget {
   const BuildButtonStatus(
-      {Key? key,
+      {super.key,
       required this.label,
       required this.setFilters,
-      required this.isSelected})
-      : super(key: key);
+      required this.isSelected});
 
   final String label;
   final Function setFilters;
@@ -44,7 +43,7 @@ class BuildButtonStatus extends StatelessWidget {
 }
 
 class PopUpStatusBikeList extends ConsumerWidget {
-  const PopUpStatusBikeList({Key? key}) : super(key: key);
+  const PopUpStatusBikeList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +62,7 @@ class PopUpStatusBikeList extends ConsumerWidget {
 }
 
 class PopUpStatusBikeMap extends ConsumerWidget {
-  const PopUpStatusBikeMap({Key? key}) : super(key: key);
+  const PopUpStatusBikeMap({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,7 +81,7 @@ class PopUpStatusBikeMap extends ConsumerWidget {
 }
 
 class PopUpStatusList extends ConsumerWidget {
-  const PopUpStatusList({Key? key}) : super(key: key);
+  const PopUpStatusList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

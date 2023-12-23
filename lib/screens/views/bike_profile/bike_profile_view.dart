@@ -76,8 +76,7 @@ void showConfirmStolenBikeDialog(
               await bikeProfile.setBikeToNewRobbedStatus(
                   bikeProfile.userBike.isStolen, bikeProfile.userBike.veloPk);
               final snackBar = SnackBar(
-                content: Text('Votre vélo a bien été déclaré comme ' +
-                    (bikeProfile.userBike.isStolen ? 'volé !' : 'retrouvé !')),
+                content: Text('Votre vélo a bien été déclaré comme ${bikeProfile.userBike.isStolen ? 'volé !' : 'retrouvé !'}'),
                 backgroundColor: const Color(0xff46b594),
               );
 
@@ -98,8 +97,7 @@ class MyBikeView extends ConsumerStatefulWidget {
   final bool isFromScan;
   final int veloPk;
 
-  const MyBikeView({Key? key, required this.isFromScan, this.veloPk = 0})
-      : super(key: key);
+  const MyBikeView({super.key, required this.isFromScan, this.veloPk = 0});
 
   @override
   ConsumerState<MyBikeView> createState() => _MyBikeViewState();
@@ -342,9 +340,9 @@ class _MyBikeViewState extends ConsumerState<MyBikeView> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20.0)),
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text("Que faire en cas de vol ?",
                                     style: TextStyle(
                                         color: global_styles.purple,

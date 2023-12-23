@@ -8,7 +8,7 @@ import 'package:velyvelo/screens/views/incidents/components/client_card.dart';
 class ListClient extends ConsumerWidget {
   final refreshController = RefreshController();
 
-  ListClient({Key? key}) : super(key: key);
+  ListClient({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

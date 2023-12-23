@@ -17,7 +17,7 @@ class PopUpActiveFilters extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
   final IncidentController incidentController = Get.put(IncidentController());
 
-  PopUpActiveFilters({Key? key}) : super(key: key);
+  PopUpActiveFilters({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class PopUpClientList extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
   final IncidentController incidentController = Get.put(IncidentController());
 
-  PopUpClientList({Key? key}) : super(key: key);
+  PopUpClientList({super.key});
 
   filtersContainer() {
     return Obx(() {
@@ -110,7 +110,7 @@ class PopUpGroupList extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
   final IncidentController incidentController = Get.put(IncidentController());
 
-  PopUpGroupList({Key? key}) : super(key: key);
+  PopUpGroupList({super.key});
 
   filtersContainer() {
     return Obx(() {
@@ -148,7 +148,7 @@ class PopUpGroupList extends StatelessWidget {
 class PopUpFilters extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
 
-  PopUpFilters({Key? key}) : super(key: key);
+  PopUpFilters({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +207,7 @@ Future<void> displayFilters(
 }
 
 class ButtonFilter extends StatelessWidget {
-  ButtonFilter({Key? key}) : super(key: key);
+  ButtonFilter({super.key});
   final IncidentController incidentController = Get.put(IncidentController());
 
   @override

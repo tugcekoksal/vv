@@ -15,8 +15,7 @@ class SwitchButton extends StatelessWidget {
   final bool isActive;
 
   const SwitchButton(
-      {Key? key, required this.textButton, required this.isActive})
-      : super(key: key);
+      {super.key, required this.textButton, required this.isActive});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class TopSwitch extends ConsumerWidget {
   final bool mapActive = true;
   final bool listActive = false;
 
-  const TopSwitch({Key? key}) : super(key: key);
+  const TopSwitch({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -99,11 +98,10 @@ class TopButton extends StatefulWidget {
   final Function actionFunction;
 
   const TopButton(
-      {Key? key,
+      {super.key,
       required this.isLoading,
       required this.actionFunction,
-      required this.iconButton})
-      : super(key: key);
+      required this.iconButton});
 
   @override
   State<TopButton> createState() => _TopButtonState();
@@ -155,7 +153,7 @@ class _TopButtonState extends State<TopButton> {
 
 // unused ??
 class TopOptions extends ConsumerWidget {
-  const TopOptions({Key? key}) : super(key: key);
+  const TopOptions({super.key});
 
   // Method to instantiate the filter's page
   Future<void> showFilters() async {
@@ -196,7 +194,7 @@ class TopOptions extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(children: const [TopSwitch()]),
+                  const Row(children: [TopSwitch()]),
                   Row(
                     children: [
                       TopButton(

@@ -8,7 +8,7 @@ import 'package:velyvelo/models/incident/incident_card_model.dart';
 class IncidentCard extends ConsumerWidget {
   final IncidentCardModel incident;
 
-  const IncidentCard({Key? key, required this.incident}) : super(key: key);
+  const IncidentCard({super.key, required this.incident});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +27,7 @@ class IncidentCard extends ConsumerWidget {
             children: [
               // first line top left
               Expanded(
-                child: Text(incident.clientName + " - " + incident.veloGroup,
+                child: Text("${incident.clientName} - ${incident.veloGroup}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
@@ -87,10 +87,9 @@ class IncidentCard extends ConsumerWidget {
                     width: 5,
                   ),
                   Text(
-                    (incident.interventionTime != 0
+                    '${incident.interventionTime != 0
                             ? incident.interventionTime.toString()
-                            : "moins d'1") +
-                        'h',
+                            : "moins d'1"}h',
                     style: const TextStyle(
                         color: global_styles.purple,
                         fontWeight: FontWeight.w700),

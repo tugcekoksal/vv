@@ -13,7 +13,7 @@ Future<File> urlToFile(String imageUrl) async {
   // Create the emplacement for the file
   Directory tempDir = await getTemporaryDirectory();
   String tempPath = tempDir.path;
-  File file = File(tempPath + (rng.nextInt(100)).toString() + '.png');
+  File file = File('$tempPath${rng.nextInt(100)}.png');
 
   // Get the image and writes the bytes
   http.Response response = await http.get(Uri.parse(imageUrl));

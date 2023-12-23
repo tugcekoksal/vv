@@ -21,8 +21,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 class IncidentsList extends StatelessWidget {
   final IncidentController incidentController;
 
-  const IncidentsList({Key? key, required this.incidentController})
-      : super(key: key);
+  const IncidentsList({super.key, required this.incidentController});
 
   showIncidentDetailPage(data) async {
     int incidentID = int.parse(data.incidentPk);
@@ -78,9 +77,9 @@ class BuildIncidentHistoricTile extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
 
   BuildIncidentHistoricTile({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +96,7 @@ class BuildIncidentHistoricTile extends StatelessWidget {
             children: [
               // first line top left
               Expanded(
-                child: Text(data.clientName + " - " + data.veloGroup,
+                child: Text("${data.clientName} - ${data.veloGroup}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: global_styles.purple,
@@ -157,10 +156,9 @@ class BuildIncidentHistoricTile extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    (data.interventionTime != 0
+                    '${data.interventionTime != 0
                             ? data.interventionTime.toString()
-                            : "moins d'1") +
-                        'h',
+                            : "moins d'1"}h',
                     style: const TextStyle(
                         color: global_styles.purple,
                         fontWeight: FontWeight.w700),

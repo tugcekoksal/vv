@@ -22,7 +22,7 @@ import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 var dropdownItemList = <String>["Rangé", "Utilisé", "Volé"];
 
 class IncidentDetail extends StatelessWidget {
-  IncidentDetail({Key? key, required this.incident}) : super(key: key);
+  IncidentDetail({super.key, required this.incident});
 
   final IncidentCardModel incident;
 
@@ -89,9 +89,9 @@ class IncidentDetail extends StatelessWidget {
                                   "Auto-entrepeneur"
                           ? GestureDetector(
                               onTap: () {
-                                final Uri _url = Uri.parse(
+                                final Uri url = Uri.parse(
                                     'https://calendly.com/velyvelo/rdv-atelier?email=${loginController.userTypeFetched.email}&first_name=${loginController.userTypeFetched.firstName}&last_name=${loginController.userTypeFetched.lastName}&a1=33${loginController.userTypeFetched.phone}&a2=${incidentController.currentReparation.value.numeroCadran}&a3=${incidentController.currentReparation.value.typeContrat}&a4=${incident.reparationNumber}&a5=${incident.incidentTypeReparation}');
-                                launchUrl(_url);
+                                launchUrl(url);
                               },
                               child: SizedBox(
                                   height: 30,

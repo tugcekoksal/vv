@@ -15,7 +15,7 @@ final incidentsProvider = ChangeNotifierProvider.autoDispose<IncidentsProvider>(
 
 class IncidentsProvider extends ChangeNotifier {
   String userToken = "";
-  View view = View.listClient;
+  IncidentsListView view = IncidentsListView.listClient;
   String title = "";
   String error = "";
   int index_client = 0;
@@ -55,7 +55,7 @@ class IncidentsProvider extends ChangeNotifier {
     incidentCards = [];
   }
 
-  void swapView(View newView) {
+  void swapView(IncidentsListView newView) {
     view = newView;
     title = titlePage[view]!;
     resetData();
@@ -81,7 +81,7 @@ class IncidentsProvider extends ChangeNotifier {
 
   void selectClient(int index) {
     selectedClient = clientCards[index];
-    view = View.listGroup;
+    view = IncidentsListView.listGroup;
     title = selectedClient.name;
     fetchListGroup();
     notifyListeners();
@@ -107,7 +107,7 @@ class IncidentsProvider extends ChangeNotifier {
 
   void selectGroup(int index) {
     selectedGroup = groupCards[index];
-    view = View.listIncident;
+    view = IncidentsListView.listIncident;
     title = selectedGroup.name;
     fetchListReparation();
     notifyListeners();
@@ -131,12 +131,12 @@ class IncidentsProvider extends ChangeNotifier {
   }
 }
 
-const Map<View, String> titlePage = {
-  View.listClient: "Incidents",
-  View.historicIncident: "Historique"
+const Map<IncidentsListView, String> titlePage = {
+  IncidentsListView.listClient: "Incidents",
+  IncidentsListView.historicIncident: "Historique"
 };
 
-enum View {
+enum IncidentsListView {
   listClient,
   listGroup,
   listIncident,

@@ -7,7 +7,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 class PopUpTitle extends StatelessWidget {
   final String text;
 
-  const PopUpTitle({Key? key, required this.text}) : super(key: key);
+  const PopUpTitle({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class PopUpTitle extends StatelessWidget {
 class PopUpSubTitle extends StatelessWidget {
   final String text;
 
-  const PopUpSubTitle({Key? key, required this.text}) : super(key: key);
+  const PopUpSubTitle({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

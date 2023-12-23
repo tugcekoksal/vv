@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:velyvelo/config/api_request.dart';
@@ -8,7 +7,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:http/http.dart' as http;
 
 class ConnexionStatus extends StatefulWidget {
-  const ConnexionStatus({Key? key}) : super(key: key);
+  const ConnexionStatus({super.key});
 
   @override
   State<ConnexionStatus> createState() => _ConnexionStatusState();
@@ -46,8 +45,7 @@ class _ConnexionStatusState extends State<ConnexionStatus> {
         await FunctionsQueue.execute();
         if (saveNbrRequests > 0) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(saveNbrRequests.toString() +
-                '  actions en mode hors ligne ont été envoyées au serveur'),
+            content: Text('$saveNbrRequests  actions en mode hors ligne ont été envoyées au serveur'),
             backgroundColor: global_styles.green,
           ));
         } else {

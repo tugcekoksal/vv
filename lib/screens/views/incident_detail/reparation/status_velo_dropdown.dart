@@ -9,8 +9,7 @@ class StatusVeloDropDown extends StatelessWidget {
   final bool disabled;
 
   const StatusVeloDropDown(
-      {Key? key, required this.incidentController, required this.disabled})
-      : super(key: key);
+      {super.key, required this.incidentController, required this.disabled});
 
   final IncidentController incidentController;
 

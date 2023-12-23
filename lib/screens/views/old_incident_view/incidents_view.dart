@@ -21,7 +21,7 @@ import 'package:velyvelo/screens/views/old_incident_view/incidents_list.dart';
 import 'package:velyvelo/screens/views/old_incident_view/incidents_list_info.dart';
 
 class IncidentsView extends StatelessWidget {
-  IncidentsView({Key? key}) : super(key: key);
+  IncidentsView({super.key});
 
   final IncidentController incidentController = Get.put(IncidentController());
   final LoginController loginController = Get.put(LoginController());

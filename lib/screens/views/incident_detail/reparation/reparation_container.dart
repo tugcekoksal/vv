@@ -22,18 +22,17 @@ class CommentaryModif extends StatelessWidget {
   final bool isTech;
 
   const CommentaryModif(
-      {Key? key,
+      {super.key,
       required this.disabled,
       required this.incidentController,
-      required this.isTech})
-      : super(key: key);
+      required this.isTech});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Commentaire " + (isTech ? "technicien" : "admin"),
+        Text("Commentaire ${isTech ? "technicien" : "admin"}",
             textAlign: TextAlign.left,
             style: const TextStyle(
                 color: global_styles.purple,
@@ -91,10 +90,9 @@ class ReparationContainer extends StatelessWidget {
   final IncidentController incidentController;
 
   const ReparationContainer(
-      {Key? key,
+      {super.key,
       required this.loginController,
-      required this.incidentController})
-      : super(key: key);
+      required this.incidentController});
 
   String commentaryOrEmpty(String text) {
     if (text == "") {
@@ -132,8 +130,7 @@ class ReparationContainer extends StatelessWidget {
                 const SizedBox(height: 25.0),
                 Text(
                     textAlign: TextAlign.left,
-                    "Commentaire " +
-                        (loginController.isTech.value ? "admin" : "technicien"),
+                    "Commentaire ${loginController.isTech.value ? "admin" : "technicien"}",
                     style: const TextStyle(
                         color: global_styles.purple,
                         fontSize: 17.0,

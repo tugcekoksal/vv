@@ -4,7 +4,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 class ListEmpty extends StatelessWidget {
   final String text;
 
-  const ListEmpty({Key? key, required this.text}) : super(key: key);
+  const ListEmpty({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

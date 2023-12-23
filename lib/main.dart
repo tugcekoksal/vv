@@ -15,9 +15,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 //NEW VERSION
 import 'package:flutter/services.dart';
 
-//SENTRY
-import 'package:sentry_flutter/sentry_flutter.dart';
-
 //FOR HTTP CALLS ANDROID
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -41,8 +38,6 @@ Future<void> commonSetUp() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-
 
   //FOR HTTP CALLS ANDROID
   HttpOverrides.global = MyHttpOverrides();

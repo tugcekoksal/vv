@@ -13,7 +13,7 @@ import 'package:velyvelo/controllers/navigation_controller.dart';
 import 'package:velyvelo/screens/home/connexion_status.dart';
 
 class LoginView extends StatelessWidget {
-  LoginView({Key? key}) : super(key: key);
+  LoginView({super.key});
 
   final LoginController loginController = Get.put(LoginController());
   final NavigationController navigationController =
@@ -172,14 +172,14 @@ class LoginView extends StatelessWidget {
               height: 100,
               left: 0,
               top: 0,
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+              child: const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
                               "Velyvelo",
                               style: TextStyle(
@@ -202,12 +202,11 @@ class BuildInputLogin extends StatefulWidget {
   final String keyLabel;
 
   const BuildInputLogin(
-      {Key? key,
+      {super.key,
       required this.keyLabel,
       required this.placeholder,
       required this.isPassword,
-      required this.onChanged})
-      : super(key: key);
+      required this.onChanged});
 
   @override
   _BuildInputLoginState createState() => _BuildInputLoginState();

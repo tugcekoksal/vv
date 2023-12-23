@@ -4,7 +4,7 @@ import 'package:velyvelo/models/incident/group_card_model.dart';
 class GroupCard extends StatelessWidget {
   final GroupCardModel group;
 
-  const GroupCard({Key? key, required this.group}) : super(key: key);
+  const GroupCard({super.key, required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class GroupCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  group.nbReparation.toString() + " incidents",
+                  "${group.nbReparation} incidents",
                   style: const TextStyle(fontSize: 12),
                 ),
               ]),
@@ -42,7 +42,7 @@ class GroupCard extends StatelessWidget {
             style: const TextStyle(fontSize: 12),
           ),
           Text(
-            group.nbVelo.toString() + " vélos à réparer",
+            "${group.nbVelo} vélos à réparer",
             style: const TextStyle(fontSize: 12),
           ),
         ]));

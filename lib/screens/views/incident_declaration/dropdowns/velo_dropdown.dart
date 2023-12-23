@@ -12,11 +12,10 @@ class VeloDropdown extends StatelessWidget {
   final IdAndName? velo;
 
   const VeloDropdown(
-      {Key? key,
+      {super.key,
       required this.loginController,
       required this.declarationController,
-      this.velo})
-      : super(key: key);
+      this.velo});
 
   @override
   Widget build(BuildContext context) {

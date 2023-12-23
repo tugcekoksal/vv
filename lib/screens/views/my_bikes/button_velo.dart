@@ -11,8 +11,7 @@ import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 class ButtonTypeMapElem extends ConsumerWidget {
   final WhichMapView whichView;
 
-  const ButtonTypeMapElem({Key? key, required this.whichView})
-      : super(key: key);
+  const ButtonTypeMapElem({super.key, required this.whichView});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

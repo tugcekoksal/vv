@@ -1,6 +1,5 @@
 // Vendor
 import 'dart:async';
-import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -167,7 +166,7 @@ class LoginController extends GetxController {
     try {
       token = await HttpService.loginUser(login.value, password.value);
     } catch (e) {
-      log.e("Error login: " + e.toString());
+      log.e("Error login: $e");
       error.value = e.toString();
       return;
     }
@@ -215,7 +214,7 @@ class LoginController extends GetxController {
     try {
       userTypeFetched = await HttpService.fetchTypeUser(userToken);
     } catch (e) {
-      log.e("Error fetch type user: " + e.toString());
+      log.e("Error fetch type user: $e");
       userTypeFetched = UserType(
         userType: prefs.getString("typeUser") ?? "",
         firstName: prefs.getString("firstName") ?? "",

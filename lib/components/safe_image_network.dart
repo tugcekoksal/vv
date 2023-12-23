@@ -8,8 +8,7 @@ class SafeImageNetwork extends StatelessWidget {
   final double? height;
 
   const SafeImageNetwork(
-      {Key? key, required this.url, this.fit, this.height, this.defaultImage})
-      : super(key: key);
+      {super.key, required this.url, this.fit, this.height, this.defaultImage});
 
   @override
   Widget build(BuildContext context) {

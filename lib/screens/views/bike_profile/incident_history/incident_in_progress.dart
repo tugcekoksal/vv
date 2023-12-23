@@ -13,7 +13,7 @@ import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_hi
 import 'package:flutter/cupertino.dart';
 
 class IncidentInProgress extends ConsumerWidget {
-  const IncidentInProgress({Key? key}) : super(key: key);
+  const IncidentInProgress({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

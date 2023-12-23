@@ -10,8 +10,7 @@ class IncidentStatusDropDown extends StatelessWidget {
   final IdAndName? status;
 
   const IncidentStatusDropDown(
-      {Key? key, required this.declarationController, this.status})
-      : super(key: key);
+      {super.key, required this.declarationController, this.status});
 
   @override
   Widget build(BuildContext context) {

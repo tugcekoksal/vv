@@ -10,7 +10,7 @@ import 'package:velyvelo/screens/views/incidents/components/group_card.dart';
 class ListGroup extends ConsumerWidget {
   final refreshController = RefreshController();
 
-  ListGroup({Key? key}) : super(key: key);
+  ListGroup({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +49,8 @@ class ListGroup extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GoBackButton(
-                          onTap: () => wProvider.swapView(View.listClient),
+                          onTap: () =>
+                              wProvider.swapView(IncidentsListView.listClient),
                         ),
                         ClientCard(
                             client: wProvider.selectedClient,

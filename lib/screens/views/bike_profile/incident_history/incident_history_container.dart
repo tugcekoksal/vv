@@ -10,7 +10,7 @@ import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_hi
 import 'package:velyvelo/screens/views/bike_profile/incident_history/incident_historic_card.dart';
 
 class IncidentHistoryContainer extends ConsumerWidget {
-  const IncidentHistoryContainer({Key? key}) : super(key: key);
+  const IncidentHistoryContainer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

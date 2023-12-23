@@ -13,7 +13,7 @@ class ButtonAccount extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
   String password = "";
 
-  ButtonAccount({Key? key}) : super(key: key);
+  ButtonAccount({super.key});
 
   Widget _buildDeconnexionDialog(BuildContext context) {
     return Scaffold(
@@ -59,9 +59,9 @@ class ButtonAccount extends StatelessWidget {
                                 border:
                                     Border.all(color: Colors.white, width: 1),
                                 borderRadius: BorderRadius.circular(25)),
-                            child: Column(
+                            child: const Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Icon(
                                     Icons.logout,
                                     size: 40,

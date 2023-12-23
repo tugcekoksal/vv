@@ -12,11 +12,10 @@ class ClientDropDown extends StatelessWidget {
   final IdAndName? client;
 
   const ClientDropDown(
-      {Key? key,
+      {super.key,
       required this.loginController,
       required this.declarationController,
-      this.client})
-      : super(key: key);
+      this.client});
 
   @override
   Widget build(BuildContext context) {

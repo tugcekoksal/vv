@@ -9,7 +9,7 @@ class DeclarationIncidentsContainer extends StatelessWidget {
   final IncidentDeclarationController declarationController =
       Get.put(IncidentDeclarationController());
 
-  DeclarationIncidentsContainer({Key? key}) : super(key: key);
+  DeclarationIncidentsContainer({super.key});
 
   showIncidentSendingFeedback(context, text, color) async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -11,7 +11,7 @@ import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/login_controller.dart';
 
 class IncidentsOverview extends StatelessWidget {
-  IncidentsOverview({Key? key, required this.setFilterTab}) : super(key: key);
+  IncidentsOverview({super.key, required this.setFilterTab});
 
   final Function setFilterTab;
   final IncidentController incidentController = Get.put(IncidentController());
@@ -86,11 +86,11 @@ class BuildStatus extends StatelessWidget {
   final Color backgroundColor;
 
   BuildStatus({
-    Key? key,
+    super.key,
     required this.numberOfTile,
     required this.title,
     required this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final IncidentController incidentController = Get.put(IncidentController());
 

@@ -12,8 +12,7 @@ import 'package:velyvelo/screens/views/bike_profile/bike_profile_view.dart';
 class InformationsContainer extends StatelessWidget {
   final IncidentController incidentController;
 
-  const InformationsContainer({Key? key, required this.incidentController})
-      : super(key: key);
+  const InformationsContainer({super.key, required this.incidentController});
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +49,8 @@ class InformationsContainer extends StatelessWidget {
                     const Icon(Icons.pedal_bike, color: global_styles.blue),
                     const SizedBox(width: 10),
                     Text(
-                      "page " +
-                          incidentController
-                              .incidentDetailValue.value.typeEquipement +
-                          " >>",
+                      "page ${incidentController
+                              .incidentDetailValue.value.typeEquipement} >>",
                       style: const TextStyle(
                           color: global_styles.blue,
                           fontWeight: FontWeight.bold),
@@ -87,9 +84,8 @@ class InformationsContainer extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                  text: incidentController
-                          .incidentDetailValue.value.typeEquipement +
-                      ' ',
+                  text: '${incidentController
+                          .incidentDetailValue.value.typeEquipement} ',
                   style: const TextStyle(
                       color: global_styles.greyText,
                       fontSize: 16.0,

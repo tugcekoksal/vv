@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 class LoadingBox extends StatelessWidget {
-  const LoadingBox({Key? key, required this.child}) : super(key: key);
+  const LoadingBox({super.key, required this.child});
 
   final Widget child;
 

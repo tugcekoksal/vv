@@ -9,8 +9,8 @@ import 'package:velyvelo/screens/views/bike_profile/bike_profile_view.dart';
 
 class BikeDetailScan extends StatelessWidget {
   const BikeDetailScan({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

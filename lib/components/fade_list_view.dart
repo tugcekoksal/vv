@@ -7,7 +7,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 class FadeListView extends StatelessWidget {
   final Widget child;
 
-  const FadeListView({Key? key, required this.child}) : super(key: key);
+  const FadeListView({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

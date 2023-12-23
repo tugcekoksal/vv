@@ -18,8 +18,7 @@ import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 class InputNumeroCadran extends StatelessWidget {
   final TextEditingController controller;
 
-  const InputNumeroCadran({Key? key, required this.controller})
-      : super(key: key);
+  const InputNumeroCadran({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class InputNumeroCadran extends StatelessWidget {
 }
 
 class HintScanQrCode extends StatelessWidget {
-  const HintScanQrCode({Key? key}) : super(key: key);
+  const HintScanQrCode({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +83,7 @@ class HintScanQrCode extends StatelessWidget {
 class ScanView extends ConsumerWidget {
   final TextEditingController controller = TextEditingController();
 
-  ScanView({Key? key}) : super(key: key);
+  ScanView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -95,7 +94,7 @@ class ScanView extends ConsumerWidget {
           SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              child: QRCodeScanner()),
+              child: const QRCodeScanner()),
           SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,

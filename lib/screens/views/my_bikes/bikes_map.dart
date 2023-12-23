@@ -91,7 +91,7 @@ class BikesMap extends ConsumerWidget {
   final PopupController popupController = PopupController();
   final log = logger(BikesMap);
 
-  BikesMap({Key? key}) : super(key: key);
+  BikesMap({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -116,148 +116,144 @@ class BikesMap extends ConsumerWidget {
           minZoom: 3,
           maxZoom: 21.0,
           interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-          plugins: [
-            MarkerClusterPlugin(),
-          ],
         ),
-        layers: [
-          TileLayerOptions(
-              opacity: 1,
+        children: [
+          TileLayer(
               urlTemplate: camera.streetView
                   ? streetsIntegrationUrl
                   : satteliteIntegrationUrl,
               minZoom: 3,
               maxZoom: 21,
-              updateInterval: 100,
               keepBuffer: 5,
-              tileFadeInDuration: 100,
-              tileFadeInStart: 0.5,
-              tileFadeInStartWhenOverride: 0.5,
-              additionalOptions: {
+              additionalOptions: const {
                 "accessToken": accesToken,
               }),
-          MarkerClusterLayerOptions(
-            maxClusterRadius: 120,
-            size: const Size(40, 40),
-            fitBoundsOptions: const FitBoundsOptions(
-              padding: EdgeInsets.all(50),
-            ),
-            markers: bikes.bikeMap.map((bike) {
-              return Marker(
-                  width: 35.0,
-                  height: 80.0,
-                  point:
-                      lat_long.LatLng(bike.latitude ?? 0, bike.longitude ?? 0),
-                  builder: (ctx) => Pin(status: bike.mapStatus ?? ""));
-            }).toList(),
-            polygonOptions: const PolygonOptions(
-                borderColor: Color.fromARGB(0, 255, 255, 255),
-                color: Color.fromARGB(0, 255, 255, 255),
-                borderStrokeWidth: 0),
-            builder: (context, markers) {
-              return Container(
-                height: 20,
-                width: 20,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: global_styles.purple, width: 2.0),
-                    borderRadius: BorderRadius.circular(20.0)),
-                alignment: Alignment.center,
-                child: Text(markers.length.toString(),
-                    style: const TextStyle(
-                        color: global_styles.purple,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0)),
-              );
-            },
-            popupOptions: PopupOptions(
-                popupController: popupController,
-                popupBuilder: (_, marker) {
-                  bikes.fetchPopupBike(marker);
-                  if (bikes.bikePopup == null) {
-                    return const SizedBox();
-                  }
-                  return ClipPath(
-                    clipper: PopUpClipper(),
-                    child: Container(
-                      width: 300,
-                      height: 170,
-                      padding: const EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12.0)),
-                      child: Stack(
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                bikes.bikePopup?.name ?? "Pas de nom de vélo",
-                                style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: global_styles.greyAddPhotos),
-                              ),
-                              RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  text: 'Dernière émission le \n',
+          MarkerClusterLayerWidget(
+            options: MarkerClusterLayerOptions(
+              maxClusterRadius: 120,
+              size: const Size(40, 40),
+              fitBoundsOptions: const FitBoundsOptions(
+                padding: EdgeInsets.all(50),
+              ),
+              markers: bikes.bikeMap.map((bike) {
+                return Marker(
+                    width: 35.0,
+                    height: 80.0,
+                    point: lat_long.LatLng(
+                        bike.latitude ?? 0, bike.longitude ?? 0),
+                    builder: (ctx) => Pin(status: bike.mapStatus ?? ""));
+              }).toList(),
+              polygonOptions: const PolygonOptions(
+                  borderColor: Color.fromARGB(0, 255, 255, 255),
+                  color: Color.fromARGB(0, 255, 255, 255),
+                  borderStrokeWidth: 0),
+              builder: (context, markers) {
+                return Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border:
+                          Border.all(color: global_styles.purple, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0)),
+                  alignment: Alignment.center,
+                  child: Text(markers.length.toString(),
+                      style: const TextStyle(
+                          color: global_styles.purple,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.0)),
+                );
+              },
+              popupOptions: PopupOptions(
+                  popupState: PopupState(),
+                  popupController: popupController,
+                  popupBuilder: (_, marker) {
+                    bikes.fetchPopupBike(marker);
+                    if (bikes.bikePopup == null) {
+                      return const SizedBox();
+                    }
+                    return ClipPath(
+                      clipper: PopUpClipper(),
+                      child: Container(
+                        width: 300,
+                        height: 170,
+                        padding: const EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12.0)),
+                        child: Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  bikes.bikePopup?.name ?? "Pas de nom de vélo",
                                   style: const TextStyle(
-                                      fontSize: 18.0, color: Colors.black),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: bikes.bikePopup?.timestamp ??
-                                            "Pas d'émission",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                  ],
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: global_styles.greyAddPhotos),
                                 ),
-                              ),
-                              const SizedBox(height: 10.0),
-                              GestureDetector(
-                                  // to change with actual popup bike id
-                                  onTap: () => goToBikeProfileFromMarker(
-                                      marker, ref.read(carteBikeProvider)),
-                                  child: Container(
-                                    width: double.infinity,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: global_styles.blue),
-                                        borderRadius:
-                                            BorderRadius.circular(5.0)),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0, vertical: 7.5),
-                                    child: Text(
-                                      "Voir le profil".toUpperCase(),
-                                      style: const TextStyle(
-                                          color: global_styles.blue,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  )),
-                            ],
-                          ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                ref.read(carteHubProvider).cleanPopup();
-                                popupController.togglePopup(marker);
-                              },
-                              child: const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: Icon(Icons.close)),
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: 'Dernière émission le \n',
+                                    style: const TextStyle(
+                                        fontSize: 18.0, color: Colors.black),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: bikes.bikePopup?.timestamp ??
+                                              "Pas d'émission",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                GestureDetector(
+                                    // to change with actual popup bike id
+                                    onTap: () => goToBikeProfileFromMarker(
+                                        marker, ref.read(carteBikeProvider)),
+                                    child: Container(
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: global_styles.blue),
+                                          borderRadius:
+                                              BorderRadius.circular(5.0)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0, vertical: 7.5),
+                                      child: Text(
+                                        "Voir le profil".toUpperCase(),
+                                        style: const TextStyle(
+                                            color: global_styles.blue,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    )),
+                              ],
                             ),
-                          )
-                        ],
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  ref.read(carteHubProvider).cleanPopup();
+                                  popupController.togglePopup(marker);
+                                },
+                                child: const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: Icon(Icons.close)),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
-          ),
+                    );
+                  }),
+            ),
+          )
         ],
       ),
     ]);

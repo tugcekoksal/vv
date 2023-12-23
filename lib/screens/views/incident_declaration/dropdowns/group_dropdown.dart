@@ -12,11 +12,10 @@ class GroupDropDown extends StatelessWidget {
   final IdAndName? group;
 
   const GroupDropDown(
-      {Key? key,
+      {super.key,
       required this.loginController,
       required this.declarationController,
-      this.group})
-      : super(key: key);
+      this.group});
 
   @override
   Widget build(BuildContext context) {

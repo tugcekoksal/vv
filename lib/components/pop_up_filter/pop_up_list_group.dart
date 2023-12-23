@@ -11,11 +11,10 @@ import 'package:velyvelo/controllers/map_provider/map_view_provider.dart';
 
 class BuildButtonGroup extends StatelessWidget {
   const BuildButtonGroup(
-      {Key? key,
+      {super.key,
       required this.label,
       required this.setFilters,
-      required this.isSelected})
-      : super(key: key);
+      required this.isSelected});
 
   final String label;
   final Function setFilters;
@@ -47,7 +46,7 @@ class BuildButtonGroup extends StatelessWidget {
 }
 
 class PopUpGroupBikeList extends ConsumerWidget {
-  const PopUpGroupBikeList({Key? key}) : super(key: key);
+  const PopUpGroupBikeList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -68,7 +67,7 @@ class PopUpGroupBikeList extends ConsumerWidget {
 }
 
 class PopUpGroupBikeMap extends ConsumerWidget {
-  const PopUpGroupBikeMap({Key? key}) : super(key: key);
+  const PopUpGroupBikeMap({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -91,7 +90,7 @@ class PopUpGroupBikeMap extends ConsumerWidget {
 class PopUpGroupList extends ConsumerWidget {
   final ScrollController scrollController = ScrollController();
 
-  PopUpGroupList({Key? key}) : super(key: key);
+  PopUpGroupList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

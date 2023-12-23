@@ -7,8 +7,7 @@ class ClientCard extends StatelessWidget {
   final ClientCardModel client;
   final bool isTech;
 
-  const ClientCard({Key? key, required this.client, required this.isTech})
-      : super(key: key);
+  const ClientCard({super.key, required this.client, required this.isTech});
 
   @override
   Widget build(BuildContext context) {

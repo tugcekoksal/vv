@@ -13,8 +13,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 class IncidentListError extends StatelessWidget {
   final IncidentController incidentController;
 
-  const IncidentListError({Key? key, required this.incidentController})
-      : super(key: key);
+  const IncidentListError({super.key, required this.incidentController});
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +39,16 @@ class IncidentListError extends StatelessWidget {
 class IncidentListEmpty extends StatelessWidget {
   final IncidentController incidentController;
 
-  const IncidentListEmpty({Key? key, required this.incidentController})
-      : super(key: key);
+  const IncidentListEmpty({super.key, required this.incidentController});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return const Expanded(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
+          children: [
             Icon(
               Icons.check_box_rounded,
               color: global_styles.green,
@@ -71,7 +69,7 @@ class IncidentListEmpty extends StatelessWidget {
 }
 
 class ListIncidentIsLoading extends StatelessWidget {
-  const ListIncidentIsLoading({Key? key}) : super(key: key);
+  const ListIncidentIsLoading({super.key});
 
   @override
   Widget build(BuildContext context) {

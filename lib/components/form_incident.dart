@@ -16,9 +16,9 @@ import 'package:velyvelo/screens/views/incident_detail/reparation/pick_image.dar
 
 class BuildFormIncident extends StatefulWidget {
   const BuildFormIncident({
-    Key? key,
+    super.key,
     required this.indexIncident,
-  }) : super(key: key);
+  });
 
   final int indexIncident;
 

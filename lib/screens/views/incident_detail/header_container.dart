@@ -14,7 +14,7 @@ class HeaderContainer extends StatelessWidget {
   final IncidentController incidentController = Get.put(IncidentController());
 
   final IncidentCardModel incident;
-  HeaderContainer({Key? key, required this.incident}) : super(key: key);
+  HeaderContainer({super.key, required this.incident});
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +106,9 @@ class HeaderContainer extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    (incident.interventionTime != 0
+                    '${incident.interventionTime != 0
                             ? incident.interventionTime.toString()
-                            : "moins d'1") +
-                        'h',
+                            : "moins d'1"}h',
                     style: const TextStyle(
                         color: global_styles.purple,
                         fontWeight: FontWeight.w700),

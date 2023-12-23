@@ -9,7 +9,7 @@ import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
 import 'package:velyvelo/screens/views/scan_view.dart';
 
 class ButtonScan extends StatelessWidget {
-  const ButtonScan({Key? key}) : super(key: key);
+  const ButtonScan({super.key});
 
   Future<void> displayScan() async {
     Get.to(() => Scaffold(

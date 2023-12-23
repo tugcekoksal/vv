@@ -5,7 +5,7 @@ import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
 import 'package:velyvelo/screens/home/title_app_bar.dart';
 
 class TitleIncidents extends ConsumerWidget {
-  const TitleIncidents({Key? key}) : super(key: key);
+  const TitleIncidents({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -14,8 +14,7 @@ class ReturnStyled extends StatelessWidget {
   final String text;
   final Widget? rightIcon;
 
-  const ReturnStyled({Key? key, required this.text, required this.rightIcon})
-      : super(key: key);
+  const ReturnStyled({super.key, required this.text, required this.rightIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +89,10 @@ class ReturnContainer extends StatelessWidget {
   final Widget? rightIcon;
 
   const ReturnContainer(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.rightIcon,
-      this.optionalFunction})
-      : super(key: key);
+      this.optionalFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +108,7 @@ class ReturnContainer extends StatelessWidget {
 class ReturnContainerToScan extends ConsumerWidget {
   final String text;
 
-  const ReturnContainerToScan({Key? key, required this.text}) : super(key: key);
+  const ReturnContainerToScan({super.key, required this.text});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -138,8 +136,7 @@ class ReturnBar extends StatelessWidget {
   final Widget? rightIcon;
 
   const ReturnBar(
-      {Key? key, required this.text, this.rightIcon, this.optionalFunction})
-      : super(key: key);
+      {super.key, required this.text, this.rightIcon, this.optionalFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +164,7 @@ class ReturnBar extends StatelessWidget {
 class ReturnBarScan extends StatelessWidget {
   final String text;
 
-  const ReturnBarScan({Key? key, required this.text}) : super(key: key);
+  const ReturnBarScan({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

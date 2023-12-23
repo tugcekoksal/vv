@@ -9,7 +9,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/bike_provider/bike_profile_provider.dart';
 
 class IncidentHistoryButton extends ConsumerWidget {
-  const IncidentHistoryButton({Key? key}) : super(key: key);
+  const IncidentHistoryButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

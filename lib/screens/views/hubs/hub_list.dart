@@ -15,7 +15,7 @@ import 'package:velyvelo/screens/views/my_bikes/bikes_list.dart';
 class PurpleText extends StatelessWidget {
   final String text;
 
-  const PurpleText({Key? key, required this.text}) : super(key: key);
+  const PurpleText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class PurpleText extends StatelessWidget {
 class HubCard extends ConsumerWidget {
   final int index;
 
-  const HubCard({Key? key, required this.index}) : super(key: key);
+  const HubCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -167,7 +167,7 @@ class HubCard extends ConsumerWidget {
 class HubsList extends ConsumerWidget {
   final refreshController = RefreshController();
 
-  HubsList({Key? key}) : super(key: key);
+  HubsList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -215,7 +215,7 @@ class HubsList extends ConsumerWidget {
 
 class HubsListView extends ConsumerWidget {
   final log = logger(HubsListView);
-  HubsListView({Key? key}) : super(key: key);
+  HubsListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -12,8 +12,7 @@ class PickImage extends StatelessWidget {
   final String text;
   final log = logger(PickImage);
 
-  PickImage({Key? key, required this.setItem, required this.text})
-      : super(key: key);
+  PickImage({super.key, required this.setItem, required this.text});
 
   Future<File?> pickImage(context) async {
     try {
@@ -28,12 +27,12 @@ class PickImage extends StatelessWidget {
                   Container(height: 300, width: 300, color: Colors.transparent),
             );
           });
-      final _currentImage = await ImagePicker()
+      final currentImage = await ImagePicker()
           .pickImage(source: ImageSource.camera, imageQuality: 80);
       Navigator.pop(context);
-      if (_currentImage == null) return null;
+      if (currentImage == null) return null;
 
-      final imageTemporary = File(_currentImage.path);
+      final imageTemporary = File(currentImage.path);
       return imageTemporary;
     } catch (e) {
       log.e(e.toString());
@@ -62,8 +61,8 @@ class PickImage extends StatelessWidget {
           decoration: const BoxDecoration(
             color: Colors.white,
           ),
-          child: Column(
-            children: const [
+          child: const Column(
+            children: [
               Icon(Icons.camera_alt_outlined,
                   color: global_styles.greyTextInput, size: 25.0),
               SizedBox(height: 10.0),

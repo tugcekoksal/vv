@@ -8,7 +8,7 @@ import 'package:velyvelo/components/pop_up_filter/pop_up_list_status.dart';
 import 'package:velyvelo/components/pop_up_filter/pop_up_titles.dart';
 
 class PopUpFilters extends StatelessWidget {
-  const PopUpFilters({Key? key}) : super(key: key);
+  const PopUpFilters({super.key});
 
   @override
   Widget build(BuildContext context) {

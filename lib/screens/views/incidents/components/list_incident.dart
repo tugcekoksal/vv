@@ -16,7 +16,7 @@ class ListIncident extends ConsumerWidget {
   final refreshController = RefreshController();
   final IncidentController incidentController = Get.put(IncidentController());
 
-  ListIncident({Key? key}) : super(key: key);
+  ListIncident({super.key});
 
   showIncidentDetailPage(IncidentCardModel incident) async {
     incidentController.currentIncidentId.value = int.parse(incident.incidentPk);

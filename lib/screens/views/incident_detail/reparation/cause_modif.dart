@@ -12,8 +12,7 @@ class CauseModif extends StatelessWidget {
   final bool disabled;
 
   const CauseModif(
-      {Key? key, required this.incidentController, required this.disabled})
-      : super(key: key);
+      {super.key, required this.incidentController, required this.disabled});
 
   @override
   Widget build(BuildContext context) {

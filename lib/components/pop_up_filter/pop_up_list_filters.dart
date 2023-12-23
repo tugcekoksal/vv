@@ -14,8 +14,7 @@ class BuildButtonSelectedFilter extends StatelessWidget {
   final Function setFilters;
 
   const BuildButtonSelectedFilter(
-      {Key? key, required this.text, required this.setFilters})
-      : super(key: key);
+      {super.key, required this.text, required this.setFilters});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class BuildButtonSelectedFilter extends StatelessWidget {
 }
 
 class PopUpFiltersBikeList extends ConsumerWidget {
-  const PopUpFiltersBikeList({Key? key}) : super(key: key);
+  const PopUpFiltersBikeList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -72,7 +71,7 @@ class PopUpFiltersBikeList extends ConsumerWidget {
 }
 
 class PopUpFiltersBikeMap extends ConsumerWidget {
-  const PopUpFiltersBikeMap({Key? key}) : super(key: key);
+  const PopUpFiltersBikeMap({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,7 +96,7 @@ class PopUpFiltersBikeMap extends ConsumerWidget {
 
 class PopUpListFilters extends ConsumerWidget {
   final ScrollController scrollController = ScrollController();
-  PopUpListFilters({Key? key}) : super(key: key);
+  PopUpListFilters({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

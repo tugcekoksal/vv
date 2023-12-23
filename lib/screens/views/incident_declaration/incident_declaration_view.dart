@@ -8,7 +8,7 @@ import 'package:velyvelo/screens/views/incident_detail/return_container.dart';
 class IncidentDeclaration extends StatelessWidget {
   final DeclarationInfoContainer? infoContainer;
 
-  const IncidentDeclaration({Key? key, this.infoContainer}) : super(key: key);
+  const IncidentDeclaration({super.key, this.infoContainer});
 
   @override
   Widget build(BuildContext context) {

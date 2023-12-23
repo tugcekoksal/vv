@@ -8,7 +8,7 @@ import 'package:velyvelo/controllers/carte_provider/carte_hub_provider.dart';
 
 class HubPopup extends StatelessWidget {
   final CarteHubProvider hubs;
-  const HubPopup({Key? key, required this.hubs}) : super(key: key);
+  const HubPopup({super.key, required this.hubs});
 
   @override
   Widget build(BuildContext context) {

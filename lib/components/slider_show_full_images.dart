@@ -13,11 +13,10 @@ class SliderShowFullImages extends StatefulWidget {
   final int current;
   final String mode;
   const SliderShowFullImages(
-      {Key? key,
+      {super.key,
       required this.listImagesModel,
       required this.current,
-      required this.mode})
-      : super(key: key);
+      required this.mode});
   @override
   _SliderShowFullImagesState createState() => _SliderShowFullImagesState();
 }
@@ -127,9 +126,9 @@ class _SliderShowFullImagesState extends State<SliderShowFullImages> {
                                   }
                               });
                     },
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           "Télécharger la photo",
                           style: TextStyle(

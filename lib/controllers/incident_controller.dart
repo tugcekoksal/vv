@@ -8,7 +8,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:velyvelo/config/api_request.dart';
 import 'package:velyvelo/config/caching_data.dart';
 import 'package:velyvelo/config/url_to_file.dart';
-import 'package:velyvelo/controllers/fetch_queue_controller.dart';
 
 // Controllers
 import 'package:velyvelo/controllers/login_controller.dart';
@@ -311,12 +310,10 @@ class IncidentController extends GetxController {
       isLoadingDetailIncident(true);
       IncidentDetailModel incidentByID =
           await HttpService.fetchIncidentById(id, userToken);
-      if (incidentByID != null) {
-        incidentDetailValue.value = incidentByID;
-        currentReparation.value.isBikeFunctional = incidentByID.isFunctional;
-        currentReparation.value.statusBike = incidentByID.actualStatus;
-      }
-      isLoadingDetailIncident(false);
+      incidentDetailValue.value = incidentByID;
+      currentReparation.value.isBikeFunctional = incidentByID.isFunctional;
+      currentReparation.value.statusBike = incidentByID.actualStatus;
+          isLoadingDetailIncident(false);
     } on SocketException {
       // TODO : handle when no internet
     } catch (e) {

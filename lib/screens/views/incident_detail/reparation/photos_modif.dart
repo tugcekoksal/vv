@@ -16,8 +16,7 @@ class PhotosModif extends StatelessWidget {
   final IncidentController incidentController;
   final bool disabled;
   const PhotosModif(
-      {Key? key, required this.incidentController, required this.disabled})
-      : super(key: key);
+      {super.key, required this.incidentController, required this.disabled});
 
   @override
   Widget build(BuildContext context) {

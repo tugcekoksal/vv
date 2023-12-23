@@ -7,8 +7,7 @@ import 'package:velyvelo/screens/views/my_bikes/top_options.dart';
 class ButtonSearchIncident extends StatelessWidget {
   final IncidentController incidentController;
 
-  const ButtonSearchIncident({Key? key, required this.incidentController})
-      : super(key: key);
+  const ButtonSearchIncident({super.key, required this.incidentController});
 
   @override
   Widget build(BuildContext context) {

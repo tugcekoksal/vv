@@ -9,7 +9,7 @@ class ListPastIncident extends StatelessWidget {
   final refreshController = RefreshController();
   final IncidentController incidentController = Get.put(IncidentController());
 
-  ListPastIncident({Key? key}) : super(key: key);
+  ListPastIncident({super.key});
 
   @override
   Widget build(BuildContext context) {

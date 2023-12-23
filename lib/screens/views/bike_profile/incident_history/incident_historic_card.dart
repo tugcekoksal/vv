@@ -12,8 +12,7 @@ class IncidentHistoricCard extends StatelessWidget {
   final bool isHistorique;
 
   const IncidentHistoricCard(
-      {Key? key, required this.data, required this.isHistorique})
-      : super(key: key);
+      {super.key, required this.data, required this.isHistorique});
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +58,9 @@ class IncidentHistoricCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    (data.interventionTime != 0
+                    '${data.interventionTime != 0
                             ? data.interventionTime.toString()
-                            : "moins d'1") +
-                        'h',
+                            : "moins d'1"}h',
                     style: const TextStyle(
                         color: global_styles.purple,
                         fontWeight: FontWeight.w700),

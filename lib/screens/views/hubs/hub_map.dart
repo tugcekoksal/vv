@@ -80,7 +80,7 @@ void onGeoChangeActualize(MapPosition position, bool hasGesture,
 
 class HubMap extends ConsumerWidget {
   final PopupController popupController = PopupController();
-  HubMap({Key? key}) : super(key: key);
+  HubMap({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -105,100 +105,100 @@ class HubMap extends ConsumerWidget {
           minZoom: 3,
           maxZoom: 21.0,
           interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-          plugins: [
-            MarkerClusterPlugin(),
-          ],
+          // plugins: [
+          //   MarkerClusterPlugin(),
+          // ],
         ),
-        layers: [
-          TileLayerOptions(
-              opacity: 1,
+        children: [
+          TileLayer(
               urlTemplate: camera.streetView
                   ? streetsIntegrationUrl
                   : satteliteIntegrationUrl,
               minZoom: 3,
               maxZoom: 21,
-              updateInterval: 100,
               keepBuffer: 5,
-              tileFadeInDuration: 100,
-              tileFadeInStart: 0.5,
-              tileFadeInStartWhenOverride: 0.5,
-              additionalOptions: {
+              additionalOptions: const {
                 "accessToken": accesToken,
               }),
-          MarkerClusterLayerOptions(
-            maxClusterRadius: 120,
-            size: const Size(40, 40),
-            fitBoundsOptions: const FitBoundsOptions(
-              padding: EdgeInsets.all(50),
-            ),
-            markers: hubs.hubMap.map((hub) {
-              return Marker(
-                  width: 35.0,
-                  height: 80.0,
-                  point: lat_long.LatLng(hub.latitude ?? 0, hub.longitude ?? 0),
-                  builder: (ctx) {
-                    return HubPin(hub: hub);
-                  });
-            }).toList(),
-            polygonOptions: const PolygonOptions(
-                borderColor: Color.fromARGB(0, 255, 255, 255),
-                color: Color.fromARGB(0, 255, 255, 255),
-                borderStrokeWidth: 0),
-            builder: (context, markers) {
-              return Container(
-                height: 20,
-                width: 20,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: global_styles.purple, width: 2.0),
-                    borderRadius: BorderRadius.circular(20.0)),
-                alignment: Alignment.center,
-                child: Text(markers.length.toString(),
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0)),
-              );
-            },
-            popupOptions: PopupOptions(
-                popupController: popupController,
-                popupBuilder: (_, marker) {
-                  hubs.fetchPopupHub(marker);
-                  if (hubs.hubPopup == null) {
-                    return const SizedBox();
-                  }
-                  return ClipPath(
-                    clipper: PopUpClipper(),
-                    child: Container(
-                      width: 300,
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      padding: const EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12.0)),
-                      child: Stack(
-                        children: [
-                          HubPopup(hubs: hubs),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                ref.read(carteHubProvider).cleanPopup();
-                                popupController.togglePopup(marker);
-                              },
-                              child: const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: Icon(Icons.close)),
-                            ),
-                          )
-                        ],
+          MarkerClusterLayerWidget(
+            options: MarkerClusterLayerOptions(
+              maxClusterRadius: 120,
+              size: const Size(40, 40),
+              fitBoundsOptions: const FitBoundsOptions(
+                padding: EdgeInsets.all(50),
+              ),
+              markers: hubs.hubMap.map((hub) {
+                return Marker(
+                    width: 35.0,
+                    height: 80.0,
+                    point:
+                        lat_long.LatLng(hub.latitude ?? 0, hub.longitude ?? 0),
+                    builder: (ctx) {
+                      return HubPin(hub: hub);
+                    });
+              }).toList(),
+              polygonOptions: const PolygonOptions(
+                  borderColor: Color.fromARGB(0, 255, 255, 255),
+                  color: Color.fromARGB(0, 255, 255, 255),
+                  borderStrokeWidth: 0),
+              builder: (context, markers) {
+                return Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border:
+                          Border.all(color: global_styles.purple, width: 2.0),
+                      borderRadius: BorderRadius.circular(20.0)),
+                  alignment: Alignment.center,
+                  child: Text(markers.length.toString(),
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.0)),
+                );
+              },
+              popupOptions: PopupOptions(
+                  popupState: PopupState(),
+                  popupController: popupController,
+                  popupBuilder: (_, marker) {
+                    hubs.fetchPopupHub(marker);
+                    if (hubs.hubPopup == null) {
+                      return const SizedBox();
+                    }
+                    return ClipPath(
+                      clipper: PopUpClipper(),
+                      child: Container(
+                        width: 300,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        padding: const EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12.0)),
+                        child: Stack(
+                          children: [
+                            HubPopup(hubs: hubs),
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  ref.read(carteHubProvider).cleanPopup();
+                                  popupController.togglePopup(marker);
+                                },
+                                child: const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: Icon(Icons.close)),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
-          ),
+                    );
+                  }),
+            ),
+          )
         ],
       ),
     ]);

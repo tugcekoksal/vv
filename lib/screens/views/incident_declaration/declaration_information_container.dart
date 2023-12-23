@@ -11,7 +11,7 @@ import 'package:velyvelo/screens/views/incident_declaration/dropdowns/velo_dropd
 
 class ErrorContainer extends StatelessWidget {
   final String text;
-  const ErrorContainer({Key? key, required this.text}) : super(key: key);
+  const ErrorContainer({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +38,7 @@ class DeclarationInformationContainer extends StatelessWidget {
       Get.put(IncidentDeclarationController());
 
   DeclarationInformationContainer(
-      {Key? key, this.client, this.group, this.velo})
-      : super(key: key);
+      {super.key, this.client, this.group, this.velo});
 
   @override
   Widget build(BuildContext context) {

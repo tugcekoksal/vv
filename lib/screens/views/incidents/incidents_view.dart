@@ -7,14 +7,12 @@ import 'package:get/get.dart';
 import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_controller.dart';
 import 'package:velyvelo/controllers/incident_provider/incidents_provider.dart';
-import 'package:velyvelo/controllers/login_controller.dart';
 import 'package:velyvelo/screens/home/connexion_status.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_incident.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_past_incidents.dart';
 import 'package:velyvelo/screens/views/incidents/components/top/app_bar_incidents.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_client.dart';
 import 'package:velyvelo/screens/views/incidents/components/list_group.dart';
-import 'package:velyvelo/screens/views/incidents/components/switch_incidents.dart';
 import 'package:velyvelo/screens/views/incidents/components/title_incidents.dart';
 import 'package:velyvelo/screens/views/my_bikes/button_search.dart';
 
@@ -22,8 +20,8 @@ class IncidentsView extends ConsumerWidget {
   final IncidentController incidentController = Get.put(IncidentController());
 
   IncidentsView({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,13 +33,13 @@ class IncidentsView extends ConsumerWidget {
           AppBarIncidents(),
           const TitleIncidents(),
           // const SwitchIncidents(),
-          wProvider.view == View.listClient
+          wProvider.view == IncidentsListView.listClient
               ? ListClient()
-              : wProvider.view == View.listGroup
+              : wProvider.view == IncidentsListView.listGroup
                   ? ListGroup()
-                  : wProvider.view == View.listIncident
+                  : wProvider.view == IncidentsListView.listIncident
                       ? ListIncident()
-                      : wProvider.view == View.historicIncident
+                      : wProvider.view == IncidentsListView.historicIncident
                           ? ListPastIncident()
                           : const SizedBox(),
           // Search bar

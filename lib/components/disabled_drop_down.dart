@@ -7,7 +7,7 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 import 'package:velyvelo/controllers/incident_declaration_controller.dart';
 
 class DisabledDropDown extends StatelessWidget {
-  DisabledDropDown({Key? key, required this.placeholder}) : super(key: key);
+  DisabledDropDown({super.key, required this.placeholder});
 
   final String placeholder;
   final IncidentDeclarationController incidentDeclarationController =

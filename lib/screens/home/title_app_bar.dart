@@ -15,8 +15,7 @@ class TitleAppBar extends StatelessWidget {
   final List<String> tabTitleUser = ["Mes incidents", "Mes vélos", "Mon vélo"];
 
   TitleAppBar(
-      {Key? key, required this.onTransparentBackground, required this.title})
-      : super(key: key);
+      {super.key, required this.onTransparentBackground, required this.title});
 
   @override
   Widget build(BuildContext context) {

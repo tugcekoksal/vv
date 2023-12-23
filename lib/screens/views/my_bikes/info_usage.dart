@@ -14,11 +14,10 @@ class InfoContainer extends StatelessWidget {
   final Widget child;
 
   const InfoContainer(
-      {Key? key,
+      {super.key,
       required this.isVisible,
       required this.colorBackground,
-      required this.child})
-      : super(key: key);
+      required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +43,10 @@ class InfoNotFound extends StatelessWidget {
   final Color color;
 
   const InfoNotFound(
-      {Key? key,
+      {super.key,
       required this.color,
       required this.text,
-      required this.isVisible})
-      : super(key: key);
+      required this.isVisible});
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +72,7 @@ class InfoLoading extends StatelessWidget {
   final String text;
   final bool isVisible;
 
-  const InfoLoading({Key? key, required this.text, required this.isVisible})
-      : super(key: key);
+  const InfoLoading({super.key, required this.text, required this.isVisible});
 
   @override
   Widget build(BuildContext context) {

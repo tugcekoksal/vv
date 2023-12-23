@@ -10,7 +10,7 @@ class DeclarationSendButton extends ConsumerWidget {
   final IncidentDeclarationController declarationController =
       Get.put(IncidentDeclarationController());
   final log = logger(DeclarationSendButton);
-  DeclarationSendButton({Key? key}) : super(key: key);
+  DeclarationSendButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

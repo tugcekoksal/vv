@@ -9,8 +9,7 @@ class SwitchStyle extends StatelessWidget {
   final String text;
   final bool isActive;
 
-  const SwitchStyle({Key? key, required this.text, required this.isActive})
-      : super(key: key);
+  const SwitchStyle({super.key, required this.text, required this.isActive});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class SwitchStyle extends StatelessWidget {
 }
 
 class SwitchIncidents extends ConsumerWidget {
-  const SwitchIncidents({Key? key}) : super(key: key);
+  const SwitchIncidents({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +50,7 @@ class SwitchIncidents extends ConsumerWidget {
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             GestureDetector(
                 onTap: () {
-                  rProvider.swapView(View.listClient);
+                  rProvider.swapView(IncidentsListView.listClient);
                 },
                 child: SizedBox(
                   height: 30,
@@ -61,13 +60,13 @@ class SwitchIncidents extends ConsumerWidget {
                         Expanded(
                             child: SwitchStyle(
                                 text: "Mes incidents",
-                                isActive:
-                                    wProvider.view != View.historicIncident))
+                                isActive: wProvider.view !=
+                                    IncidentsListView.historicIncident))
                       ]),
                 )),
             GestureDetector(
                 onTap: () {
-                  rProvider.swapView(View.historicIncident);
+                  rProvider.swapView(IncidentsListView.historicIncident);
                 },
                 child: SizedBox(
                     height: 30,
@@ -77,8 +76,8 @@ class SwitchIncidents extends ConsumerWidget {
                           Expanded(
                               child: SwitchStyle(
                                   text: "Historique des incidents",
-                                  isActive:
-                                      wProvider.view == View.historicIncident))
+                                  isActive: wProvider.view ==
+                                      IncidentsListView.historicIncident))
                         ]))),
           ]),
         ));
