@@ -1,4 +1,3 @@
-// Vendor
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 // Controllers
 import 'package:velyvelo/controllers/bike_provider/bike_profile_provider.dart';
 import 'package:velyvelo/controllers/bike_provider/qr_code_provider.dart';
-import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/views/bike_detail_scan.dart';
 
 showBikeDetailScanPage(int id, QrCodeProvider qrCode,
@@ -68,38 +66,35 @@ class RRectQrCodeClipper extends CustomClipper<Path> {
 }
 
 class QRCodeScanner extends ConsumerWidget {
-  QRCodeScanner({Key? key}) : super(key: key);
+  const QRCodeScanner({super.key});
 
   final snackBar = const SnackBar(
       content: Text('Vous n\'avez pas accès aux données de ce vélo.'),
       backgroundColor: Colors.red);
-  final log = logger(QRCodeScanner);
-  final MobileScannerController controller =
-      MobileScannerController(torchEnabled: false);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Stack(
-      children: [
-        Container(
-          color: Colors.white,
+    return Scaffold(
+      appBar: AppBar(title: const Text('Mobile Scanner')),
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: MobileScanner(
+            fit: BoxFit.fitHeight,
+            controller: MobileScannerController(
+                detectionSpeed: DetectionSpeed.normal, torchEnabled: false),
+            onDetect: (capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              for (final barcode in barcodes) {
+                if (barcode.rawValue != null) {
+                  barCodeFound(barcode, ref.read(qrCodeProvider),
+                      ref.watch(bikeProfileProvider), context);
+                }
+              }
+            },
+          ),
         ),
-        Center(
-            child: MobileScanner(
-          allowDuplicates: true,
-          fit: BoxFit.fitHeight,
-          controller: controller,
-          onDetect: (barcode, args) {
-            if (barcode.rawValue != null) {
-              barCodeFound(barcode, ref.read(qrCodeProvider),
-                  ref.watch(bikeProfileProvider), context);
-            } else {
-              log.e('Failed to scan Barcode');
-            }
-          },
-          // ),
-        )),
-      ],
+      ),
     );
   }
 }
