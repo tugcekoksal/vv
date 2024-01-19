@@ -7,12 +7,11 @@ import 'package:velyvelo/config/global_styles.dart' as global_styles;
 
 class DropDown extends StatelessWidget {
   const DropDown(
-      {Key? key,
+      {super.key,
       required this.placeholder,
       required this.dropdownItemList,
       required this.setItem,
-      this.index})
-      : super(key: key);
+      this.index});
 
   final String placeholder;
   final List<String> dropdownItemList;
@@ -24,7 +23,7 @@ class DropDown extends StatelessWidget {
     return Theme(
       data: ThemeData(
           textTheme: const TextTheme(
-        subtitle1: TextStyle(
+        titleMedium: TextStyle(
             color: global_styles.greyTextInput,
             fontSize: 16.0,
             fontWeight: FontWeight.w600,
@@ -89,32 +88,34 @@ class DropDown extends StatelessWidget {
               ),
             ),
           ),
-          dropdownSearchDecoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(
-                    color: global_styles.backgroundLightGrey, width: 3.0)),
-            border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(
-                    color: global_styles.backgroundLightGrey, width: 3.0)),
-            isDense: true,
-            contentPadding: const EdgeInsets.fromLTRB(15.0, 0.0, 2.0, 0.0),
-            focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(
-                    color: global_styles.backgroundLightGrey, width: 3.0)),
-            errorStyle: const TextStyle(
-                color: global_styles.purple,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600),
-            hintText: placeholder,
-            hintStyle: const TextStyle(
-                color: global_styles.greyTextInput,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600),
+          dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
+              enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(
+                      color: global_styles.backgroundLightGrey, width: 3.0)),
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(
+                      color: global_styles.backgroundLightGrey, width: 3.0)),
+              isDense: true,
+              contentPadding: const EdgeInsets.fromLTRB(15.0, 0.0, 2.0, 0.0),
+              focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderSide: BorderSide(
+                      color: global_styles.backgroundLightGrey, width: 3.0)),
+              errorStyle: const TextStyle(
+                  color: global_styles.purple,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600),
+              hintText: placeholder,
+              hintStyle: const TextStyle(
+                  color: global_styles.greyTextInput,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600),
+            ),
           ),
           items: dropdownItemList,
           onChanged: (value) {
