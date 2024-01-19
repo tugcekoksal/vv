@@ -13,49 +13,48 @@ dependencies:
     sdk: flutter
 
   # Map view
-  flutter_map: ^0.14.0
-  flutter_map_marker_cluster: ^0.4.4
+  flutter_map: ^4.0.0
+  flutter_map_marker_cluster: ^1.1.1
   latlong2: ^0.8.0
 
   # Services & State management
   http: ^0.13.4
   get: ^4.6.1
-  flutter_riverpod: ^1.0.0-dev.11
-  sentry_flutter: ^6.5.1
+  flutter_riverpod: ^2.4.9
   path_provider: ^2.0.8
   shared_preferences: ^2.0.13
   firebase_messaging: ^14.3.0
   url_launcher: ^6.0.20
   firebase_core: ^2.8.0
-  logger: ^1.1.0
+  logger: ^2.0.2+1
 
   # Flutter actions
   pull_to_refresh: ^2.0.0
-  image_picker: ^0.8.5+3
-  mobile_scanner: ^1.1.1
+  image_picker: ^1.0.5
+  mobile_scanner: ^3.5.5
 
   # Styles
   dotted_border: ^2.0.0+2
-  dropdown_search: ^4.0.1
+  dropdown_search: ^5.0.6
   cupertino_icons: ^1.0.2
   carousel_slider: ^4.0.0
-  colorful_safe_area: ^0.3.0
+  colorful_safe_area: ^1.0.0
     
   # Others
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   flutter_native_splash: ^2.0.2
-  new_version: ^0.3.1
   qr_flutter: ^4.0.0
-  camera: ^0.9.7+1
-  image_gallery_saver: ^1.7.1
+  camera: ^0.10.5+7
+  image_gallery_saver: ^2.0.3
   cached_network_image: ^3.2.1
+  upgrader: ^8.4.0
 
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
-  mocktail: ^0.2.0
+  flutter_lints: ^3.0.1
+  mocktail: ^1.0.2
 
 flutter_icons:
   android: "launcher_icon"
