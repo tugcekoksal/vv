@@ -16,18 +16,6 @@ import 'package:velyvelo/helpers/logger.dart';
 import 'package:velyvelo/screens/views/my_bikes/pin.dart';
 import 'package:velyvelo/screens/views/my_bikes/usefull.dart';
 
-// Parameters mapbox
-const streetsIntegrationUrl =
-    "https://api.mapbox.com/styles/v1/alexgrafenit/clnk7edj2000501qw894p9evg/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYWxleGlzLW1lcmNrIiwiYSI6ImNrenF3MGlrcDBldGgyd211YmQ5dWx4bXMifQ.DQkl2yEVn4jMmr-_WwBkdQ";
-const satteliteIntegrationUrl =
-    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYWxleGlzLW1lcmNrIiwiYSI6ImNrenF3MGlrcDBldGgyd211YmQ5dWx4bXMifQ.DQkl2yEVn4jMmr-_WwBkdQ";
-
-const accesToken =
-    "pk.eyJ1IjoiYWxleGlzLW1lcmNrIiwiYSI6ImNrenF3MGlrcDBldGgyd211YmQ5dWx4bXMifQ.DQkl2yEVn4jMmr-_WwBkdQ";
-
-const idSattelite = "mapbox.satellite";
-const idStreets = "mapbox.mapbox-streets-v8";
-
 class PopUpClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -119,15 +107,11 @@ class BikesMap extends ConsumerWidget {
         ),
         children: [
           TileLayer(
-              urlTemplate: camera.streetView
-                  ? streetsIntegrationUrl
-                  : satteliteIntegrationUrl,
-              minZoom: 3,
-              maxZoom: 21,
-              keepBuffer: 5,
-              additionalOptions: const {
-                "accessToken": accesToken,
-              }),
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            minZoom: 3,
+            maxZoom: 21,
+            keepBuffer: 5,
+          ),
           MarkerClusterLayerWidget(
             options: MarkerClusterLayerOptions(
               maxClusterRadius: 120,
