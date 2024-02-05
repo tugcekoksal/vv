@@ -1,7 +1,7 @@
 name: velyvelo
 description: VelyVelo is a French company that offers electric bike rental.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.4.0+18
+version: 2.4.1+19
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
