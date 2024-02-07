@@ -105,12 +105,13 @@ class ReparationContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget gotoWidget = SizedBox(height: 0, width: 0, key: keyWidget);
     incidentController.fetchPieceFromType();
-    bool disabled = loginController.isTech.value &&
+    bool disabled = loginController.userTypeFetched.userType == "Technicien" &&
         (incidentController.currentReparation.value.statusBike == "Terminé" ||
             incidentController.currentReparation.value.statusBike == "Clôturé");
     // incidentController.currentReparation.refresh();
     return Obx(() {
-      if (loginController.isAdminOrTech.value) {
+      if (loginController.userTypeFetched.userType == "Technicien" ||
+          loginController.userTypeFetched.userType == "Admin") {
         return Container(
             width: double.infinity,
             padding:
@@ -130,13 +131,13 @@ class ReparationContainer extends StatelessWidget {
                 const SizedBox(height: 25.0),
                 Text(
                     textAlign: TextAlign.left,
-                    "Commentaire ${loginController.isTech.value ? "admin" : "technicien"}",
+                    "Commentaire ${loginController.userTypeFetched.userType == "Technicien" ? "admin" : "technicien"}",
                     style: const TextStyle(
                         color: global_styles.purple,
                         fontSize: 17.0,
                         fontWeight: FontWeight.w600)),
                 const SizedBox(height: 25.0),
-                Text(loginController.isTech.value
+                Text(loginController.userTypeFetched.userType == "Technicien"
                     ? commentaryOrEmpty(incidentController
                         .currentReparation.value.commentaryAdmin.text)
                     : commentaryOrEmpty(incidentController
@@ -158,7 +159,8 @@ class ReparationContainer extends StatelessWidget {
                 CommentaryModif(
                   disabled: disabled,
                   incidentController: incidentController,
-                  isTech: loginController.isTech.value,
+                  isTech:
+                      loginController.userTypeFetched.userType == "Technicien",
                 ),
                 gotoWidget,
                 // Handler of is functionnal velo or status name of the velo

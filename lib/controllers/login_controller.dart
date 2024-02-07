@@ -40,7 +40,8 @@ class LoginController extends GetxController {
 
   var userType = "";
 
-  UserType userTypeFetched = UserType(userType: "", firstName: "", lastName: "", email: "");
+  UserType userTypeFetched =
+      UserType(userType: "", firstName: "", lastName: "", email: "");
 
   var userBikeID = 0.obs;
   var userBike = UserBikeModel(
@@ -111,49 +112,48 @@ class LoginController extends GetxController {
     }
   }
 
-  void saveUserDataToSharedPreferences(SharedPreferences sharedPreferences, Map<String, dynamic> userData) {
-  
-  userType = userData['user_type'];
+  void saveUserDataToSharedPreferences(
+      SharedPreferences sharedPreferences, Map<String, dynamic> userData) {
+    userType = userData['user_type'];
 
-  switch (userType) {
-    case "Client":
-      isClient(true);
-      break;
-      
-    case "Utilisateur":
-      isUser(true);
-      break;
-      
-    case "SuperUser":
-      isSuperUser(true);
-      break;
-      
-    case "Admin":
-      isAdminOrTech(true);
-      break;
+    switch (userType) {
+      case "Client":
+        isClient(true);
+        break;
 
-    case "Technicien":
-      isTech(true);
-      break;
-      
-    default:
-      isLogged.value = false;
-      return;
+      case "Utilisateur":
+        isUser(true);
+        break;
+
+      case "SuperUser":
+        isSuperUser(true);
+        break;
+
+      case "Admin":
+        isAdminOrTech(true);
+        break;
+
+      case "Technicien":
+        isTech(true);
+        break;
+
+      default:
+        isLogged.value = false;
+        return;
+    }
+
+    sharedPreferences.setString('typeUser', userType);
+    sharedPreferences.setString('first_name', userData['first_name']);
+    sharedPreferences.setString('last_name', userData['last_name']);
+    sharedPreferences.setString('email', userData['email']);
+    if (userData.containsKey('phone')) {
+      sharedPreferences.setString('phone', userData['phone']);
+    }
+
+    if (userData.containsKey('client_type')) {
+      sharedPreferences.setString('client_type', userData['client_type']);
+    }
   }
-  
-  sharedPreferences.setString('typeUser', userType);
-  sharedPreferences.setString('first_name', userData['first_name']);
-  sharedPreferences.setString('last_name', userData['last_name']);
-  sharedPreferences.setString('email', userData['email']);
-  if (userData.containsKey('phone')) {
-    sharedPreferences.setString('phone', userData['phone']);
-  }
-
-  if (userData.containsKey('client_type')) {
-    sharedPreferences.setString('client_type', userData['client_type']);
-  }
-}
-
 
   // Login the user with login and password
   Future loginUser() async {
@@ -220,8 +220,10 @@ class LoginController extends GetxController {
         firstName: prefs.getString("firstName") ?? "",
         lastName: prefs.getString("lastName") ?? "",
         email: prefs.getString("email") ?? "",
-        );
+      );
     }
+
+    saveUserDataToSharedPreferences(prefs, userTypeFetched.toJson());
 
     isLogged(true);
   }

@@ -104,7 +104,9 @@ class IncidentDetail extends StatelessWidget {
                       optionalFunction: () =>
                           incidentController.fetchAllIncidents(
                               incidentController.incidentsToFetch.value)),
-                  if (loginController.isAdminOrTech())
+                  if (loginController.userTypeFetched.userType ==
+                          "Technicien" ||
+                      loginController.userTypeFetched.userType == "Admin")
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
