@@ -44,10 +44,10 @@ import 'package:velyvelo/services/map/get_map_filters_service.dart';
 import 'package:velyvelo/services/hubs/fetch_hub_map.dart';
 
 class HttpService {
-  static String urlServer = "https://dms.velyvelo.com";
+  // static String urlServer = "https://dms.velyvelo.com";
   // static String urlServer = "https://velyvelo.grafenit-preprod.fr";
   // static String urlServer = "http://192.168.10.109:8000";
-  // static String urlServer = "http://localhost:8000";
+  static String urlServer = "http://localhost:8000";
 
   // Fetch all the group labels
   static Future addDeviceToken(String userToken) async {
